@@ -1,0 +1,2130 @@
+<html><font size=3 face="Verdana"><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:Verdana; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 03/02/2012</table><hr></br>
+<font size=1>Programa: FWMarkBrowse.PRW</font><a name="FWMarkBrowse"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWMarkBrowse</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto do tipo grid, botões laterais e uma coluna com a opção de marca e desmarca&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWMarkBrowse:Activate">FWMarkBrowse:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddBrwRelation">FWMarkBrowse:AddBrwRelation</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar a informacao de um browse  relacionado&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddButton">FWMarkBrowse:AddButton</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um botão na área lateral do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddFilter">FWMarkBrowse:AddFilter</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar um filtro na lista de opções de filtros do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddLegend">FWMarkBrowse:AddLegend</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar legendas no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddMarkColumns">FWMarkBrowse:AddMarkColumns</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar uma coluna com a opção de marca e desmarca&nbsp;<br><br>
+<a href="#FWMarkBrowse:AddStatusColumns">FWMarkBrowse:AddStatusColumns</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar uma coluna de status&nbsp;<br><br>
+<a href="#FWMarkBrowse:Alias">FWMarkBrowse:Alias</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o Alias utilizado no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:AllMark">FWMarkBrowse:AllMark</a></br>
+&nbsp;&nbsp;&nbsp;Realiza a marcação de todos os itens&nbsp;<br><br>
+<a href="#FWMarkBrowse:At">FWMarkBrowse:At</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a posição atual do registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:CanMark">FWMarkBrowse:CanMark</a></br>
+&nbsp;&nbsp;&nbsp;Avalia se a coluna pode ser marcada\desmarcada&nbsp;<br><br>
+<a href="#FWMarkBrowse:CheckSemaphore">FWMarkBrowse:CheckSemaphore</a></br>
+&nbsp;&nbsp;&nbsp;Avalia se o registro está marcado por outro usuário&nbsp;<br><br>
+<a href="#FWMarkBrowse:ClassName">FWMarkBrowse:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWMARKBROWSE)&nbsp;<br><br>
+<a href="#FWMarkBrowse:CleanFilter">FWMarkBrowse:CleanFilter</a></br>
+&nbsp;&nbsp;&nbsp;Realizada a limpeza dos filtros utilizados no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:Data">FWMarkBrowse:Data</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o objeto de dados no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DataArray">FWMarkBrowse:DataArray</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o dados apresentados no Browse é de Array&nbsp;<br><br>
+<a href="#FWMarkBrowse:DataQuery">FWMarkBrowse:DataQuery</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o dados apresentados no Browse é de Query&nbsp;<br><br>
+<a href="#FWMarkBrowse:DataTable">FWMarkBrowse:DataTable</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o dados apresentados no Browse é de Tabela&nbsp;<br><br>
+<a href="#FWMarkBrowse:DataText">FWMarkBrowse:DataText</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o dados apresentados no Browse é de Texto&nbsp;<br><br>
+<a href="#FWMarkBrowse:DeActivate">FWMarkBrowse:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de destruição da classe&nbsp;<br><br>
+<a href="#FWMarkBrowse:Disable">FWMarkBrowse:Disable</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableConfig">FWMarkBrowse:DisableConfig</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização das configurações do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableFilter">FWMarkBrowse:DisableFilter</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização do filtro no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableLocate">FWMarkBrowse:DisableLocate</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização do localizador de registro no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableReport">FWMarkBrowse:DisableReport</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a impressão das informações disponíveis no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableSaveConfig">FWMarkBrowse:DisableSaveConfig</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a gravação das configurações realizadas no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:DisableSeek">FWMarkBrowse:DisableSeek</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização da pesquisa no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:Enable">FWMarkBrowse:Enable</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:ForceQuitButton">FWMarkBrowse:ForceQuitButton</a></br>
+&nbsp;&nbsp;&nbsp;Forca a exibição SAIR para Browses não ancorados diretamente em alguns containers&nbsp;<br><br>
+<a href="#FWMarkBrowse:FWFilter">FWMarkBrowse:FWFilter</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o objeto FWFilter&nbsp;<br><br>
+<a href="#FWMarkBrowse:GetBrwRelation">FWMarkBrowse:GetBrwRelation</a></br>
+&nbsp;&nbsp;&nbsp;Retorna os browses relacionados da tabela &nbsp;<br><br>
+<a href="#FWMarkBrowse:GetFilterDefault">FWMarkBrowse:GetFilterDefault</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o filtro padrão do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:GetLeftJoin">FWMarkBrowse:GetLeftJoin</a></br>
+&nbsp;&nbsp;&nbsp;Retorna os JOINs da tabela &nbsp;<br><br>
+<a href="#FWMarkBrowse:GetOwner">FWMarkBrowse:GetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o container para criação do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:GetProfileID">FWMarkBrowse:GetProfileID</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o identificador do Browse utiliza na gravação das configurações&nbsp;no profile do usuário. Deve ser utilizado quando existir mais de um&nbsp;Browse na rotina.&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoBottom">FWMarkBrowse:GoBottom</a></br>
+&nbsp;&nbsp;&nbsp;Posiciona no último registro do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoDown">FWMarkBrowse:GoDown</a></br>
+&nbsp;&nbsp;&nbsp;Salta uma ou mais linhas para baixo do item posicionado&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoPgDown">FWMarkBrowse:GoPgDown</a></br>
+&nbsp;&nbsp;&nbsp;Salta uma página para baixo do item posicionado&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoPgUp">FWMarkBrowse:GoPgUp</a></br>
+&nbsp;&nbsp;&nbsp;Salta uma página para cima do item posicionado&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoTo">FWMarkBrowse:GoTo</a></br>
+&nbsp;&nbsp;&nbsp;Posiciona em um determinado registro do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoTop">FWMarkBrowse:GoTop</a></br>
+&nbsp;&nbsp;&nbsp;Posiciona no primeiro registro do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:GoUp">FWMarkBrowse:GoUp</a></br>
+&nbsp;&nbsp;&nbsp;Salta uma ou mais linhas para cima do item posicionado&nbsp;<br><br>
+<a href="#FWMarkBrowse:IsInvert">FWMarkBrowse:IsInvert</a></br>
+&nbsp;&nbsp;&nbsp;Indica se a marca deve ser considerada invertida.&nbsp;Obs.: Utilizada em casos como o de marcação de todos os registros.&nbsp;<br><br>
+<a href="#FWMarkBrowse:IsMark">FWMarkBrowse:IsMark</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o registro está marcado no browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:Mark">FWMarkBrowse:Mark</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a marca utilizada para identificar que o registro está marcado pelo usuário atual.&nbsp;<br><br>
+<a href="#FWMarkBrowse:MarkRec">FWMarkBrowse:MarkRec</a></br>
+&nbsp;&nbsp;&nbsp;Realiza a marcação ou desmarcação do registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:New">FWMarkBrowse:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWMarkBrowse:OnChange">FWMarkBrowse:OnChange</a></br>
+&nbsp;&nbsp;&nbsp;Executa o Code-Block, definido no método SetChange(bChange), para tratamentos após a mudança de uma linha no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:OpenSemaphore">FWMarkBrowse:OpenSemaphore</a></br>
+&nbsp;&nbsp;&nbsp;Realiza a abertura do arquivo de semaforo&nbsp;<br><br>
+<a href="#FWMarkBrowse:Refresh">FWMarkBrowse:Refresh</a></br>
+&nbsp;&nbsp;&nbsp;Executa a atualização das informações no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:Semaphore">FWMarkBrowse:Semaphore</a></br>
+&nbsp;&nbsp;&nbsp;Indica que o Browse utiliza controle de semaforo&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetAfterMark">FWMarkBrowse:SetAfterMark</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado após a marcação ou desmarcação do registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetAlias">FWMarkBrowse:SetAlias</a></br>
+&nbsp;&nbsp;&nbsp;Indica o alias da tabela que será utilizada no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetAllMark">FWMarkBrowse:SetAllMark</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado no clique do header da coluna de marca/desmarca&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetAmbiente">FWMarkBrowse:SetAmbiente</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da funcionalidade Ambiente no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetBackColor">FWMarkBrowse:SetBackColor</a></br>
+&nbsp;&nbsp;&nbsp;Indica a cor de fundo do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetBotFun">FWMarkBrowse:SetBotFun</a></br>
+&nbsp;&nbsp;&nbsp;Indica o limite inferior das informações no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetChange">FWMarkBrowse:SetChange</a></br>
+&nbsp;&nbsp;&nbsp;Indica a Code-Block executado após a mudança de uma linha&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetChgAll">FWMarkBrowse:SetChgAll</a></br>
+&nbsp;&nbsp;&nbsp;Indica se o usuário tem permissão para alterar registros de outras filiais&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetClrAlterRow">FWMarkBrowse:SetClrAlterRow</a></br>
+&nbsp;&nbsp;&nbsp;Indica a cor alternada do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetColumns">FWMarkBrowse:SetColumns</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coluna no Browse em tempo de execução&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetCustomMarkRec">FWMarkBrowse:SetCustomMarkRec</a></br>
+&nbsp;&nbsp;&nbsp;Permite o desenvolvedor controlar a marcação ou desmarcação do registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetDescription">FWMarkBrowse:SetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Indica a descrição do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetDoubleClick">FWMarkBrowse:SetDoubleClick</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado no duplo clique do item no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetFieldMark">FWMarkBrowse:SetFieldMark</a></br>
+&nbsp;&nbsp;&nbsp;Indica o campo que deverá ser atualizado com a marca no registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetFields">FWMarkBrowse:SetFields</a></br>
+&nbsp;&nbsp;&nbsp;Indica os campos que serão adicionados as colunas do Browse.&nbsp;Obs.: Para arquivo temporário, todos os campos informados serão utilizados como coluna e&nbsp;no caso de tabela de dados os campos informados serão adicionados as colunas padrão do Browse.&<br><br>
+<a href="#FWMarkBrowse:SetFilter">FWMarkBrowse:SetFilter</a></br>
+&nbsp;&nbsp;&nbsp;Indica o limite superior e inferior de um campo respeitando a classificação das informações atual.&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetFilterDefault">FWMarkBrowse:SetFilterDefault</a></br>
+&nbsp;&nbsp;&nbsp;Indica o filtro padrão do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetFontBrowse">FWMarkBrowse:SetFontBrowse</a></br>
+&nbsp;&nbsp;&nbsp;Indica a fonte do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetForeColor">FWMarkBrowse:SetForeColor</a></br>
+&nbsp;&nbsp;&nbsp;Indica a cor da fonte no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetIniWindow">FWMarkBrowse:SetIniWindow</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na inicialização da janela do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetInvert">FWMarkBrowse:SetInvert</a></br>
+&nbsp;&nbsp;&nbsp;Indica que a marca deve ser considerada invertida&nbsp;Obs.: Utilizada em casos como o de marcação de todos os registros&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetLineHeight">FWMarkBrowse:SetLineHeight</a></br>
+&nbsp;&nbsp;&nbsp;Indica a altura da linha no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetLocate">FWMarkBrowse:SetLocate</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do localizador de registros no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetMark">FWMarkBrowse:SetMark</a></br>
+&nbsp;&nbsp;&nbsp;Indica a marca a ser utilizada na marcação dos registros&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetMenuDef">FWMarkBrowse:SetMenuDef</a></br>
+&nbsp;&nbsp;&nbsp;Indica o programa que será utilizado para a carga do menu funcional&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetNumberLegend">FWMarkBrowse:SetNumberLegend</a></br>
+&nbsp;&nbsp;&nbsp;Indica que a legenda será representada por números&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetOwner">FWMarkBrowse:SetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Indica o container para criação do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetParam">FWMarkBrowse:SetParam</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado ao pressionar a tecla F12&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetProfileID">FWMarkBrowse:SetProfileID</a></br>
+&nbsp;&nbsp;&nbsp;Define o identificador do Browse utiliza na gravação das configurações&nbsp;no profile do usuário. Deve ser utilizado quando existir mais de um&nbsp;Browse na rotina.&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetSeeAll">FWMarkBrowse:SetSeeAll</a></br>
+&nbsp;&nbsp;&nbsp;Indica se o usuário tem permissão para visualizar registros de outras filiais&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetSeek">FWMarkBrowse:SetSeek</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da pesquisa de registros no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetSemaphore">FWMarkBrowse:SetSemaphore</a></br>
+&nbsp;&nbsp;&nbsp;Indica que o Browse utiliza controle de marcação exclusiva do registro pelo usuário&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetTemporary">FWMarkBrowse:SetTemporary</a></br>
+&nbsp;&nbsp;&nbsp;Indica que o Browse utiliza tabela temporária&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetTimer">FWMarkBrowse:SetTimer</a></br>
+&nbsp;&nbsp;&nbsp;Indica o tempo de atualização da janela do Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetTopFun">FWMarkBrowse:SetTopFun</a></br>
+&nbsp;&nbsp;&nbsp;Indica o limite superior das informações no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetUseFilter">FWMarkBrowse:SetUseFilter</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do filtro no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetValid">FWMarkBrowse:SetValid</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado para validar a marcação/desmarcação do registro&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetWalkThru">FWMarkBrowse:SetWalkThru</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;<br><br>
+<a href="#FWMarkBrowse:SetX3Tela">FWMarkBrowse:SetX3Tela</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar uma regra para apresentação dos campos no Browse&nbsp;Obs.: O conteúdo da string deve conter o caracter "|" que permite separar os indentificadores utilizados na regra de validação.&nbsp;<br><br>
+<a href="#FWMarkBrowse:Valid">FWMarkBrowse:Valid</a></br>
+&nbsp;&nbsp;&nbsp;Avalia se o registro pode ser marcado ou desmarcado&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWMarkBrowse:Activate"></a>FWMarkBrowse:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional - Default: ::GetOwner()]</font><br>Objeto proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddBrwRelation"></a>FWMarkBrowse:AddBrwRelation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar a informacao de um browse  relacionado&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oBrwRel :<td><br>Tipo: OBJECT<br>Browse que se deseja informar como relacionado
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>01/02/2011
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddButton"></a>FWMarkBrowse:AddButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um botão na área lateral do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTitle :<td><br>Tipo: CHARACTER<br>Título
+<tr valign=top><td Width=20><td Width=100><br>xAction :<td><br>Tipo: VARIANT<br>Ação do botão, podendo ser uma função ou Code-Block
+<tr valign=top><td Width=20><td Width=100><br>uParam1 :<td><br>Tipo: UNDEFINED<br>Reservado
+<tr valign=top><td Width=20><td Width=100><br>nOption :<td><br>Tipo: NUMERIC<br>Tipo de operação (1=Visualizar,2=Visualizar,3=Incluir,4=Alterae,5=Excluir,6=Alterar sem inclusão de novas linhas,7=Cópia e 8=Impressão da regra de negócios)
+<tr valign=top><td Width=20><td Width=100><br>nVerify :<td><br>Tipo: NUMERIC<br>Posição a ser validada no acesso de usuário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddFilter"></a>FWMarkBrowse:AddFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar um filtro na lista de opções de filtros do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFilter :<td><br>Tipo: CHARACTER<br>  Título do Filtro
+<tr valign=top><td Width=20><td Width=100><br>cExpAdvPL :<td><br>Tipo: CHARACTER<br>Expressão do filtro em formato AdvPL
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddLegend"></a>FWMarkBrowse:AddLegend</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar legendas no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>xCondition :<td><br>Tipo: VARIANT<br>Expressão AdvPL ou Code-Block com a regra da legenda
+<tr valign=top><td Width=20><td Width=100><br>cColor :<td><br>Tipo: CHARACTER<br>Cor que identifica a regra
+<tr valign=top><td Width=20><td Width=100><br>cTitle :<td><br>Tipo: CHARACTER<br>Título da legenda, utilizado na janela de visualização das legendas
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>26/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddMarkColumns"></a>FWMarkBrowse:AddMarkColumns</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar uma coluna com a opção de marca e desmarca&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bMark :<td><br>Tipo: BLOCK<br>       Code-Block com a regra e deverá retornar a imagem referente a marcado/desmarcado
+<tr valign=top><td Width=20><td Width=100><br>bLDblClick :<td><br>Tipo: BLOCK<br>  Code-Block com a execução do duplo clique na coluna
+<tr valign=top><td Width=20><td Width=100><br>bHeaderClick :<td><br>Tipo: BLOCK<br>Code-Block com a execução do clique no header da coluna
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>26/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AddStatusColumns"></a>FWMarkBrowse:AddStatusColumns</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar uma coluna de status&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bStatus :<td><br>Tipo: BLOCK<br>     Code-Block com a regra e deverá retornar a imagem referente ao status
+<tr valign=top><td Width=20><td Width=100><br>bLDblClick :<td><br>Tipo: BLOCK<br>  Code-Block com a execução do duplo clique na coluna
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Alias"></a>FWMarkBrowse:Alias</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o Alias utilizado no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER<br>Alias utilizado no Browse
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:AllMark"></a>FWMarkBrowse:AllMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realiza a marcação de todos os itens&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:At"></a>FWMarkBrowse:At</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a posição atual do registro&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAt :<td><br>Tipo: NUMERIC<br>Posição do registro
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:CanMark"></a>FWMarkBrowse:CanMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Avalia se a coluna pode ser marcada\desmarcada&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMark :<td><br>Tipo: CHARACTER<br>Indica marca utilizada no registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lReturn :<td><br>Tipo: LOGICAL<br>Indica se a coluna pode ser marcada/desmarcada
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:CheckSemaphore"></a>FWMarkBrowse:CheckSemaphore</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Avalia se o registro está marcado por outro usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lUnLock :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se deverá retirar a trava do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lReturn :<td><br>Tipo: LOGICAL<br>Indica que o registro está em uso por outro usuário
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:ClassName"></a>FWMarkBrowse:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWMARKBROWSE)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:CleanFilter"></a>FWMarkBrowse:CleanFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realizada a limpeza dos filtros utilizados no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Data"></a>FWMarkBrowse:Data</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o objeto de dados no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oData :<td><br>Tipo: OBJECT<br>Retorna o objeto de dados do Browse
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DataArray"></a>FWMarkBrowse:DataArray</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o dados apresentados no Browse é de Array&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDataArray :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza informações de um array
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DataQuery"></a>FWMarkBrowse:DataQuery</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o dados apresentados no Browse é de Query&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDataQuery :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza informações de uma Query
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DataTable"></a>FWMarkBrowse:DataTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o dados apresentados no Browse é de Tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDataTable :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza informações de uma Tabela
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DataText"></a>FWMarkBrowse:DataText</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o dados apresentados no Browse é de Texto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDataText :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza informações de um arquivo Texto
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DeActivate"></a>FWMarkBrowse:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de destruição da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Disable"></a>FWMarkBrowse:Disable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableConfig"></a>FWMarkBrowse:DisableConfig</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização das configurações do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableFilter"></a>FWMarkBrowse:DisableFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização do filtro no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/07/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableLocate"></a>FWMarkBrowse:DisableLocate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização do localizador de registro no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/07/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableReport"></a>FWMarkBrowse:DisableReport</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a impressão das informações disponíveis no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableSaveConfig"></a>FWMarkBrowse:DisableSaveConfig</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a gravação das configurações realizadas no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:DisableSeek"></a>FWMarkBrowse:DisableSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização da pesquisa no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/07/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Enable"></a>FWMarkBrowse:Enable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:ForceQuitButton"></a>FWMarkBrowse:ForceQuitButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Forca a exibição SAIR para Browses não ancorados diretamente em alguns containers&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSet :<td><br>Tipo: LOGICAL<br>Define se força ou nao a exibiçao do botão
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 P11
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/07/2011
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:FWFilter"></a>FWMarkBrowse:FWFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o objeto FWFilter&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFWFilter :<td><br>Tipo: OBJECT<br>Retorna o objeto FWFilter
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GetBrwRelation"></a>FWMarkBrowse:GetBrwRelation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna os browses relacionados da tabela &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 P11
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/08/2011
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GetFilterDefault"></a>FWMarkBrowse:GetFilterDefault</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o filtro padrão do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/06/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GetLeftJoin"></a>FWMarkBrowse:GetLeftJoin</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna os JOINs da tabela &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 P11
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/08/2011
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GetOwner"></a>FWMarkBrowse:GetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o container para criação do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT<br>Objeto container
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GetProfileID"></a>FWMarkBrowse:GetProfileID</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o identificador do Browse utiliza na gravação das configurações&nbsp;no profile do usuário. Deve ser utilizado quando existir mais de um&nbsp;Browse na rotina.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProfileID :<td><br>Tipo: CHARACTER<br>Identificador do Browse
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoBottom"></a>FWMarkBrowse:GoBottom</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Posiciona no último registro do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lCallRefresh :<td><br>Tipo: LOGICAL<br>Indica que foi chamado através do método Refresh()
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoDown"></a>FWMarkBrowse:GoDown</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salta uma ou mais linhas para baixo do item posicionado&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOffSet :<td><br>Tipo: NUMERIC<br>Indica a quantidade de linhas a serem saltadas
+<tr valign=top><td Width=20><td Width=100><br>lReport :<td><br>Tipo: LOGICAL<br>Indica se é impressão dos itens do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoPgDown"></a>FWMarkBrowse:GoPgDown</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salta uma página para baixo do item posicionado&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoPgUp"></a>FWMarkBrowse:GoPgUp</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salta uma página para cima do item posicionado&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoTo"></a>FWMarkBrowse:GoTo</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Posiciona em um determinado registro do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nGoto :<td><br>Tipo: NUMERIC<br>   Indica o item que deverá ser posicionado
+<tr valign=top><td Width=20><td Width=100><br>lRefresh :<td><br>Tipo: LOGICAL<br>Indica se deverá forçar a atualização do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoTop"></a>FWMarkBrowse:GoTop</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Posiciona no primeiro registro do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lForce :<td><br>Tipo: LOGICAL<br>Indica que deverá forçar o posicionamento
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:GoUp"></a>FWMarkBrowse:GoUp</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salta uma ou mais linhas para cima do item posicionado&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOffSet :<td><br>Tipo: NUMERIC<br>Indica a quantidade de linhas a serem saltadas
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:IsInvert"></a>FWMarkBrowse:IsInvert</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se a marca deve ser considerada invertida.&nbsp;Obs.: Utilizada em casos como o de marcação de todos os registros.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lInvert :<td><br>Tipo: LOGICAL<br>Indica se a marca deve ser considerada invertida
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:IsMark"></a>FWMarkBrowse:IsMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o registro está marcado no browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMark :<td><br>Tipo: CHARACTER<br>Marca do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Mark"></a>FWMarkBrowse:Mark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a marca utilizada para identificar que o registro está marcado pelo usuário atual.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMark :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ::cMark]</font><br>Marca do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMark :<td><br>Tipo: CHARACTER<br>Marca do registro
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:MarkRec"></a>FWMarkBrowse:MarkRec</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realiza a marcação ou desmarcação do registro&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:New"></a>FWMarkBrowse:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:OnChange"></a>FWMarkBrowse:OnChange</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa o Code-Block, definido no método SetChange(bChange), para tratamentos após a mudança de uma linha no Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:OpenSemaphore"></a>FWMarkBrowse:OpenSemaphore</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realiza a abertura do arquivo de semaforo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Refresh"></a>FWMarkBrowse:Refresh</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa a atualização das informações no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lGoTop :<td><br>Tipo: LOGICAL<br>Indica que deverá ser posicionado no primeiro registro do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Semaphore"></a>FWMarkBrowse:Semaphore</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que o Browse utiliza controle de semaforo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSemaphore :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza controle de semaforo
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetAfterMark"></a>FWMarkBrowse:SetAfterMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado após a marcação ou desmarcação do registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAfterMark :<td><br>Tipo: BLOCK<br>Code-Block executado após a marcação ou desmarcação do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetAlias"></a>FWMarkBrowse:SetAlias</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o alias da tabela que será utilizada no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER<br>Alias da tabela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetAllMark"></a>FWMarkBrowse:SetAllMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado no clique do header da coluna de marca/desmarca&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAllMark :<td><br>Tipo: BLOCK<br>Code-Block executado no clique do header da coluna de marca/desmarca
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetAmbiente"></a>FWMarkBrowse:SetAmbiente</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da funcionalidade Ambiente no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAmbiente :<td><br>Tipo: LOGICAL<br>Indica que será disponibilizado a opção Ambiente
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/09/2010
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetBackColor"></a>FWMarkBrowse:SetBackColor</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a cor de fundo do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nBackColor :<td><br>Tipo: NUMERIC<br>Cor de fundo do Browse.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Função RGB
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetBotFun"></a>FWMarkBrowse:SetBotFun</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o limite inferior das informações no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cBotFun :<td><br>Tipo: CHARACTER<br>Limite inferior. Ex.: "02"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetChange"></a>FWMarkBrowse:SetChange</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a Code-Block executado após a mudança de uma linha&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bChange :<td><br>Tipo: BLOCK<br>Code-Block executado após a mudança de uma linha
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetChgAll"></a>FWMarkBrowse:SetChgAll</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se o usuário tem permissão para alterar registros de outras filiais&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lChgAll :<td><br>Tipo: LOGICAL<br>Indica que o usuário tem permissão para alterar registros de outras filiais
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetClrAlterRow"></a>FWMarkBrowse:SetClrAlterRow</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a cor alternada do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nClrAlterRow :<td><br>Tipo: NUMERIC<br>Cor de alternada do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Função RGB
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetColumns"></a>FWMarkBrowse:SetColumns</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coluna no Browse em tempo de execução&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aColumns :<td><br>Tipo: ARRAY<br>Array contendo o objeto FWBrwColumn ou um array com a seguinte estrutura:
+<tr><td Width=20><td Width=20><td>[n][01] Título da coluna
+<tr><td Width=20><td Width=20><td>[n][02] Code-Block de carga dos dados
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n][04] Máscara
+<tr><td Width=20><td Width=20><td>[n][05] Alinhamento (0=Centralizado, 1=Esquerda ou 2=Direita)
+<tr><td Width=20><td Width=20><td>[n][06] Tamanho
+<tr><td Width=20><td Width=20><td>[n][07] Decimal
+<tr><td Width=20><td Width=20><td>[n][08] Indica se permite a edição
+<tr><td Width=20><td Width=20><td>[n][09] Code-Block de validação da coluna após a edição
+<tr><td Width=20><td Width=20><td>[n][10] Indica se exibe imagem
+<tr><td Width=20><td Width=20><td>[n][11] Code-Block de execução do duplo clique
+<tr><td Width=20><td Width=20><td>[n][12] Variável a ser utilizada na edição (ReadVar)
+<tr><td Width=20><td Width=20><td>[n][13] Code-Block de execução do clique no header
+<tr><td Width=20><td Width=20><td>[n][14] Indica se a coluna está deletada
+<tr><td Width=20><td Width=20><td>[n][15] Indica se a coluna será exibida nos detalhes do Browse
+<tr><td Width=20><td Width=20><td>[n][16] Opções de carga dos dados (Ex: 1=Sim, 2=Não)
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetCustomMarkRec"></a>FWMarkBrowse:SetCustomMarkRec</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite o desenvolvedor controlar a marcação ou desmarcação do registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bCustomMarkRec :<td><br>Tipo: BLOCK<br>Code-Block executado na marcação ou desmarcação do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetDescription"></a>FWMarkBrowse:SetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a descrição do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetDoubleClick"></a>FWMarkBrowse:SetDoubleClick</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado no duplo clique do item no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bLDblClick :<td><br>Tipo: BLOCK<br>Code-Block executado no duplo clique do item no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetFieldMark"></a>FWMarkBrowse:SetFieldMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o campo que deverá ser atualizado com a marca no registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFieldMark :<td><br>Tipo: CHARACTER<br>Campo que deverá ser atualizado com a marca no registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetFields"></a>FWMarkBrowse:SetFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica os campos que serão adicionados as colunas do Browse.&nbsp;Obs.: Para arquivo temporário, todos os campos informados serão utilizados como coluna e&nbsp;no caso de tabela de dados os campos informados serão adicionados as colunas padrão do Browse.&
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>TABELA DE DADOS
+<tr><td Width=20><td Width=20><td>[n][01] Título da coluna
+<tr><td Width=20><td Width=20><td>[n][02] Code-Block de carga dos dados
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n][04] Máscara
+<tr><td Width=20><td Width=20><td>[n][05] Alinhamento (0=Centralizado, 1=Esquerda ou 2=Direita)
+<tr><td Width=20><td Width=20><td>[n][06] Tamanho
+<tr><td Width=20><td Width=20><td>[n][07] Decimal
+<tr><td Width=20><td Width=20><td>[n][08] Indica se permite a edição
+<tr><td Width=20><td Width=20><td>[n][09] Code-Block de validação da coluna após a edição
+<tr><td Width=20><td Width=20><td>[n][10] Indica se exibe imagem
+<tr><td Width=20><td Width=20><td>[n][11] Code-Block de execução do duplo clique
+<tr><td Width=20><td Width=20><td>[n][12] Variável a ser utilizada na edição (ReadVar)
+<tr><td Width=20><td Width=20><td>[n][13] Code-Block de execução do clique no header
+<tr><td Width=20><td Width=20><td>[n][14] Indica se a coluna está deletada
+<tr><td Width=20><td Width=20><td>[n][15] Indica se a coluna será exibida nos detalhes do Browse
+<tr><td Width=20><td Width=20><td>[n][16] Opções de carga dos dados (Ex: 1=Sim, 2=Não)
+<tr><td Width=20><td Width=20><td>TABELA TEMPORÁRIA
+<tr><td Width=20><td Width=20><td>[n][01] Descrição do campo
+<tr><td Width=20><td Width=20><td>[n][02] Nome do campo
+<tr><td Width=20><td Width=20><td>[n][03] Tipo
+<tr><td Width=20><td Width=20><td>[n][04] Tamanho
+<tr><td Width=20><td Width=20><td>[n][05] Decimal
+<tr><td Width=20><td Width=20><td>[n][06] Picture
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetFilter"></a>FWMarkBrowse:SetFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o limite superior e inferior de um campo respeitando a classificação das informações atual.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cCpoFil :<td><br>Tipo: CHARACTER<br>Indica o campo a ser considerado o limite superior e inferior
+<tr valign=top><td Width=20><td Width=100><br>cTopFun :<td><br>Tipo: CHARACTER<br>Indica o limite superior
+<tr valign=top><td Width=20><td Width=100><br>cBotFun :<td><br>Tipo: CHARACTER<br>Indica o limite inferior
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetFilterDefault"></a>FWMarkBrowse:SetFilterDefault</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o filtro padrão do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFilterDefault :<td><br>Tipo: CHARACTER<br>Indica o filtro padrão do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetFontBrowse"></a>FWMarkBrowse:SetFontBrowse</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a fonte do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFont :<td><br>Tipo: OBJECT<br>Objeto TFont
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetForeColor"></a>FWMarkBrowse:SetForeColor</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a cor da fonte no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nForeColor :<td><br>Tipo: NUMERIC<br>Cor da fonte no Browse.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Função RGB
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetIniWindow"></a>FWMarkBrowse:SetIniWindow</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na inicialização da janela do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bIniWindow :<td><br>Tipo: BLOCK<br>Code-Block executado na inicialização da janela do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetInvert"></a>FWMarkBrowse:SetInvert</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que a marca deve ser considerada invertida&nbsp;Obs.: Utilizada em casos como o de marcação de todos os registros&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lInvert :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que a marca deve ser considerada invertida
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetLineHeight"></a>FWMarkBrowse:SetLineHeight</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a altura da linha no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nHeight :<td><br>Tipo: NUMERIC<br>Indica a altura da linha
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetLocate"></a>FWMarkBrowse:SetLocate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do localizador de registros no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lLocate :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza o localizador de registros
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetMark"></a>FWMarkBrowse:SetMark</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a marca a ser utilizada na marcação dos registros&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMark :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Marca a ser utilizada na marcação dos registros
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ::Alias()]</font><br>Alias da tabela
+<tr valign=top><td Width=20><td Width=100><br>cField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ::cFieldMark]</font><br>Campo que deve receber a marca
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetMenuDef"></a>FWMarkBrowse:SetMenuDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o programa que será utilizado para a carga do menu funcional&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cMenuDef :<td><br>Tipo: CHARACTER<br>Programa utilizado para a carga do menu funcional
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetNumberLegend"></a>FWMarkBrowse:SetNumberLegend</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que a legenda será representada por números&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lNumber :<td><br>Tipo: LOGICAL<br>Indica que a legenda será representada por números
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetOwner"></a>FWMarkBrowse:SetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o container para criação do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetParam"></a>FWMarkBrowse:SetParam</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado ao pressionar a tecla F12&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bParam :<td><br>Tipo: BLOCK<br>Code-Block executado ao pressionar a tecla F12
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetProfileID"></a>FWMarkBrowse:SetProfileID</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Define o identificador do Browse utiliza na gravação das configurações&nbsp;no profile do usuário. Deve ser utilizado quando existir mais de um&nbsp;Browse na rotina.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProfileID :<td><br>Tipo: CHARACTER<br>Identificador do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetSeeAll"></a>FWMarkBrowse:SetSeeAll</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se o usuário tem permissão para visualizar registros de outras filiais&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSeeAll :<td><br>Tipo: LOGICAL<br>Indica que o usuário tem permissão para visualizar registros de outras filiais
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetSeek"></a>FWMarkBrowse:SetSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da pesquisa de registros no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSeek :<td><br>Tipo: LOGICAL<br>Indica que será disponibiliza a opçãoo de pesquisa no Browse
+<tr valign=top><td Width=20><td Width=100><br>aOrder :<td><br>Tipo: ARRAY<br> Estrutura do array
+<tr><td Width=20><td Width=20><td>[n,1] Título da pesquisa
+<tr><td Width=20><td Width=20><td>[n,2,1] LookUp
+<tr><td Width=20><td Width=20><td>[n,2,2] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n,2,3] Tamanho
+<tr><td Width=20><td Width=20><td>[n,2,4] Decimal
+<tr><td Width=20><td Width=20><td>[n,2,5] Título do campo
+<tr><td Width=20><td Width=20><td>[n,2,6] Máscara
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetSemaphore"></a>FWMarkBrowse:SetSemaphore</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que o Browse utiliza controle de marcação exclusiva do registro pelo usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSemaphore :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica o uso de marcação exclusiva
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetTemporary"></a>FWMarkBrowse:SetTemporary</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que o Browse utiliza tabela temporária&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lTemporary :<td><br>Tipo: LOGICAL<br>Indica que o Browse utiliza tabela temporária
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetTimer"></a>FWMarkBrowse:SetTimer</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o tempo de atualização da janela do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bTimerAction :<td><br>Tipo: BLOCK<br>Code-Block executado na atualização da janela do Browse
+<tr valign=top><td Width=20><td Width=100><br>nInterval :<td><br>Tipo: NUMERIC<br>Intervalo de atualização da janela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetTopFun"></a>FWMarkBrowse:SetTopFun</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o limite superior das informações no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTopFun :<td><br>Tipo: CHARACTER<br>Limite superior. Ex.: "01"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetUseFilter"></a>FWMarkBrowse:SetUseFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do filtro no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lFilter :<td><br>Tipo: LOGICAL<br>Indica que será disponibiliza a opção de filtro no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetValid"></a>FWMarkBrowse:SetValid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado para validar a marcação/desmarcação do registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bValid :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: { || .T. }]</font><br>Code-Block executado para validar a marcação/desmarcação do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetWalkThru"></a>FWMarkBrowse:SetWalkThru</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lWalkThru :<td><br>Tipo: LOGICAL<br>Indica que será disponibilizado a opção Walk-Thru
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:SetX3Tela"></a>FWMarkBrowse:SetX3Tela</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar uma regra para apresentação dos campos no Browse&nbsp;Obs.: O conteúdo da string deve conter o caracter "|" que permite separar os indentificadores utilizados na regra de validação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTela :<td><br>Tipo: CHARACTER<br>Indica a regra para apresentação dos campos no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMarkBrowse:Valid"></a>FWMarkBrowse:Valid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Avalia se o registro pode ser marcado ou desmarcado&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lReturn :<td><br>Tipo: LOGICAL<br>Indica se o registro pode ser marcado ou desmarcado
+</table></br><hr></br>
