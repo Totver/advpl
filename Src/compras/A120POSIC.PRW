@@ -526,13 +526,13 @@ If !Empty(cNumDoc)
 				
 				If cTipoDoc == "SC" .AND. !((lExAprov .AND. !lResid) .OR. !lExAprov)
 					If (cAliasSCR)->(FieldPos("C1_RESIDUO"))>0 .AND. !Empty((cAliasSCR)->C1_RESIDUO)
-						If !(STR0102 $ cStatus)
+						If !("STR0102" $ cStatus)
 							cStatus	:= "STR0102" + cStatus //"Elim.Resíduo/" + Status
 						Endif
 						cSituaca 	:= "STR0102" + cSituaca //"Elim.Resíduo/" + Situação
 					EndIf
 				ElseIf cTipoDoc $ "IP|PC" .AND. (cAliasSCR)->(FieldPos("C7_RESIDUO"))>0 .AND. !Empty((cAliasSCR)->C7_RESIDUO)
-						If !(STR0102 $ cStatus)
+						If !("STR0102" $ cStatus)
 							cStatus	:= "STR0102" + cStatus //"Elim.Resíduo/" + Status
 						Endif
 						cSituaca 	:= "STR0102" + cSituaca //"Elim.Resíduo/" + Situação 
@@ -562,7 +562,7 @@ If !Empty(cNumDoc)
 			@ 015,007 SAY cTitDoc OF oDlg FONT oBold PIXEL SIZE 046,009 // "Pedido" / "Contrato" / "Nota Fiscal"
 			@ 014,041 MSGET cNumDoc PICTURE "" WHEN .F. PIXEL SIZE 150,009 OF oDlg FONT oBold
 	        If cTipoDoc <> "NF"
-				@ 015,095 SAY Iif(cTipoDoc=="SC",STR0105,OemToAnsi(STR0013)) OF oDlg PIXEL SIZE 045,009 FONT oBold //105 -> "Solicitante " 013->"Comprador"
+				@ 015,095 SAY Iif(cTipoDoc=="SC","STR0105","STR0013") OF oDlg PIXEL SIZE 045,009 FONT oBold //105 -> "Solicitante " 013->"Comprador"
 				@ 014,138 MSGET cComprador PICTURE "" WHEN .F. of oDlg PIXEL SIZE 103,009 FONT oBold
 	        EndIF
 	   	Else
@@ -599,3 +599,31 @@ dbSelectArea(cAlias)
 RestArea(aArea)
 
 Return NIL
+
+
+Static Function MtVerTipcom(cNum,cTipo)
+
+Local lRet			:= .F.
+Local cQuery   		:= ""
+Local cAliasTmp		:= ""
+Local lPosCrTipo    := SCR->(FieldPos("CR_TIPCOM")) > 0
+
+IF lPosCrTipo
+	cAliasTmp		:= GetNextAlias()
+
+	cQuery := " SELECT count(CR_TIPCOM) QTD "
+	cQuery += " FROM "+RetSqlName("SCR")+" SCR" 
+	cQuery += "		WHERE  "
+	cQuery += "			SCR.CR_FILIAL= '"+xFilial("SCR")+"' AND " 
+	cQuery += "			SCR.CR_NUM = '"+cNum+"' AND "
+	cQuery += "			SCR.CR_TIPO = '"+cTipo+"' AND "
+	cQuery += "			SCR.CR_TIPCOM <> ' ' "
+
+	cQuery := ChangeQuery(cQuery)
+	dbUseArea(.T.,"TOPCONN",TcGenQry(,,cQuery),cAliasTmp)
+
+	lRet := (cAliasTmp)->(QTD) > 0
+	(cAliasTmp)->(DbCloseArea())
+Endif
+
+Return lRet
