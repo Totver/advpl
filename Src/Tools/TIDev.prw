@@ -3,21 +3,21 @@
 Static __nHeight   := NIL
 Static __nWidth    := NIL
 Static __cSeqTmp   := "000"
-Static __aQryBrw   := Array(5)
-Static __aAliasExp := Array(5)
-Static __aAliasTst := Array(5)
-Static __aDicBrw   := Array(5)
-Static __aNewBrw   := Array(5)
-Static __aDicTst   := Array(5)
+Static __aQryBrw   := {}
+Static __aAliasExp := {}
+Static __aAliasTst := {}
+Static __aDicBrw   := {}
+Static __aNewBrw   := {}
+Static __aDicTst   := {}
 
-Static __abTelQry   := Array(5)
+Static __abTelQry   := {}
 Static __bTelRpo  
 Static __bTelExp  
 Static __bTelErro  
 
 Static __lReadOnly := .T.
 Static __lDeleON   := .T.
-Static __aHstQry   := {{}, {}, {}, {}, {}}
+Static __aHstQry   := {}
 Static __aHstCmd   := {}
 Static __aHstBase  := {}
 Static __aHstHtm   := {}
@@ -50,7 +50,7 @@ Return Paramixb[5]
 
 
 User Function TIDev()
-            
+
     If Type("OMAINWND") != "O"
         TIDevMan()
     Else 
@@ -71,6 +71,7 @@ Static Function TIDevMan()
     Private oMsgIt4
     Private oMsgIt5
     Private oMsgIt6
+    Private oMsgIt7
     Private oSelWnd
     Private oMainWnd
     Private oFont
@@ -111,7 +112,7 @@ Static Function TIDevMan()
     //
     
     
-    DEFINE WINDOW oMainWnd FROM 0,0 TO 1000, 1000 TITLE "TIDev - Ferramenta de desenvolvimento"
+    DEFINE WINDOW oMainWnd FROM 0,0 TO 1000, 1000 TITLE "TIDev - Ferramenta de desenvolvimento" 
         oMainWnd:oFont := oFont
         oMainWnd:SetColor(CLR_BLACK,CLR_WHITE)
         oMainWnd:nClrText := 0
@@ -129,6 +130,7 @@ Static Function TIDevMan()
         DEFINE MSGITEM oMsgIt4 of oMsgBar PROMPT __cNome SIZE 200
         DEFINE MSGITEM oMsgIt5 of oMsgBar PROMPT UsrRetName(__cUserId) SIZE 200
         DEFINE MSGITEM oMsgIt6 of oMsgBar PROMPT __cUserId SIZE 100
+        DEFINE MSGITEM oMsgIt7 of oMsgBar PROMPT PegaIP() SIZE 100
 
     ACTIVATE WINDOW oMainWnd MAXIMIZED 
     
@@ -175,10 +177,10 @@ Static Function Tela(oDlg)
     Local aFolder  := {'Query','Tabelas', 'RPO', 'Linha de Comando','Html', 'Arquivos',"Monitor","Serviço","Erro"}
     Local oFol 
     
-    Local aFolQry  := {"Query #1", "Query #2", "Query #3", "Query #4", "Query #5"}
+    Local aFolQry  := {}
     Local oFolQry 
 
-    Local aFolDic  := {"Tabela #1", "Tabela #2", "Tabela #3", "Tabela #4", "Tabela #5"}
+    Local aFolDic  := {}
     Local oFolDic
 
     Local nSF
@@ -201,18 +203,26 @@ Static Function Tela(oDlg)
     //--Folder Query
     oFolQry := TFolder():New(, , aFolQry, aFolQry, oFol:aDialogs[1], , , , .T., .F.)
     oFolQry:Align := CONTROL_ALIGN_ALLCLIENT
-    oFolQry:bSetOption:= {|n| SetFolQry(n, oFol), .T.}
+    oFolQry:bSetOption:= {|n| SetFolQry(n, oFolQry)}
+    
+
     For nSF := 1 to 5 
-        FolderQry(oFolQry:aDialogs[nSF], nSF)
+        NewFolQry(oFolQry)
     Next
+    SetFolQry(1, oFolQry, .f.)      
+    oFolQry:nOption := 1 
 
     //--Folder Dicionario
     oFolDic := TFolder():New(, , aFolDic, aFolDic, oFol:aDialogs[2], , , , .T., .F.)
     oFolDic:Align := CONTROL_ALIGN_ALLCLIENT
+    oFolDic:bSetOption:= {|n| SetFolDic(n, oFolDic)}
   
     For nSF := 1 to 5 
-        FolderDic(oFolDic:aDialogs[nSF], nSF)
+        NewFolDic(oFolDic)
     Next
+    SetFolDic(1, oFolDic)
+    oFolDic:nOption := 1 
+
 
     FolderRpo(oFol:aDialogs[3])        //--Folder Inspeção de Funções/Comandos
     FolderCmd(oFol:aDialogs[4])        //--Folder Comandos
@@ -247,11 +257,34 @@ Static Function SetFolder(nFolder, oFol, oFolQry)
    
 Return
 
-Static Function SetFolQry(nFolder, oFol)
 
-    Eval(__abTelQry[nFolder])    
+Static Function SetFolQry(nFolder, oFolQry, lAtuSize)
+    Local nOption := oFolQry:nOption
+    Default lAtuSize := .t.
 
-Return
+    If lAtuSize 
+        Eval(__abTelQry[nFolder])    
+    EndIf 
+
+    oFolQry:aDialogs[nOption]:cCaption := "query #" + Alltrim(Str(nOption))
+    oFolQry:aDialogs[nFolder]:cCaption := "*** QUERY #" +  Alltrim(Str(nFolder)) + " ***"
+
+
+Return .t. 
+
+Static Function SetFolDic(nFolder, oFolDic)
+    Local nOption := oFolDic:nOption
+    Local cTitAnt := ""
+    Local cTitAtu := ""
+
+    cTitAnt := oFolDic:aDialogs[nOption]:cCaption
+    cTitAnt := Alltrim(StrTran(cTitAnt, "*", ""))
+    oFolDic:aDialogs[nOption]:cCaption := lower(cTitAnt)
+
+    cTitAtu := oFolDic:aDialogs[nFolder]:cCaption
+    oFolDic:aDialogs[nFolder]:cCaption := "*** " + Alltrim(Upper(cTitAtu)) + " ***"
+
+Return .t.
 
 Static Function GetEmps()
     Local aAux    := FWLoadSM0()
@@ -269,11 +302,9 @@ Return
 
 Static Function SelEmp(cEmp, cFil, oWnd, lLogin)
     Local oModal
-    Local oCbxEmp
     Local oFont
-    Local cEmpAtu			:= ""
+    
     Local lOk				:= .F.
-    Local aCbxEmp			:= {}
     Local npB
     Local npT
     Local lRet
@@ -284,8 +315,16 @@ Static Function SelEmp(cEmp, cFil, oWnd, lLogin)
     Local cFilEmp   := ""
     Local cNomEmp   := ""
     Local cNomFil   := ""
-    Local cRemType  := cValToChar(GetRemoteType())
-        
+    Local cLibVer   := ""
+    Local nRemType  := GetRemoteType(@cLibVer)
+	Local lWebSC    := "HTML" $ cLibVer
+    Local lType     := (nRemType==1 .Or. nRemType==5)//
+    Local aEmpAtu   := {}
+    Local aEmpAux   := {}
+    Local aFilAtu   := {}
+    Local oEmp 
+    Local oFil 
+ 
     Default lLogin  := .t.
 
     oFont := TFont():New('Arial',, -11, .T., .T.)
@@ -298,21 +337,33 @@ Static Function SelEmp(cEmp, cFil, oWnd, lLogin)
         __nWidth  := oMainWnd:nWidth - 30
     EndIf 
 
-    If IsLogin() .AND. cRemType $ "0*1*2" //Windows, Linux ou MacOS
+    If IsLogin() .AND. lType .AND. !lWebSC//Windows, Linux ou MacOS
         Final("Uso permitido apenas pelo cofre de senhas!") 
     EndIf
 
     If lLogin .And. IsLogin()
         Login(cEmp, cFil, oWnd)
     EndIf 
-
+    
+    
     For nx := 1 to len(aAux)
 		cCodEmp := aAux[nx, 1]
 		cFilEmp := aAux[nx, 2]
         cNomEmp := aAux[nx, 6]
         cNomFil := aAux[nx, 7]
-        Aadd(aCbxEmp, cCodEmp + '/' + cFilEmp + ' - ' + Alltrim(cNomEmp) + ' / ' + cNomFil)
+        
+        aadd(aFilAtu, cFilEmp + " - " + Alltrim(cNomFil)) 
+
+        If nx == len(aAux) .or. cCodEmp <> aAux[nx + 1, 1]
+            aadd(aEmpAtu, cCodEmp + " - " + Alltrim(cNomEmp) )
+            aadd(aEmpAux, aClone(aFilAtu)) 
+            aFilAtu := {} 
+        EndIf 
 	Next 
+
+    cEmpAtu := aClone(aEmpAtu[1]) 
+    aFilAtu := aClone(aEmpAux[1])
+    cFilAtu := aFilAtu[1]
 
     oModal  := FWDialogModal():New()       
     oModal:SetEscClose(.f.)
@@ -322,17 +373,20 @@ Static Function SelEmp(cEmp, cFil, oWnd, lLogin)
     oModal:AddButton("OK"      , {|| lOk := .T. , oModal:DeActivate()}     , "OK",,.T.,.F.,.T.,)
 	oModal:AddButton("Cancelar", {|| lOk := .F., oModal:DeActivate()}     , "Cancelar",,.T.,.F.,.T.,)
 
-    @ 010,005 Say "Empresa:" PIXEL of oModal:getPanelMain()  FONT oFont 
-    @ 018,005 MSCOMBOBOX oCbxEmp VAR cEmpAtu ITEMS aCbxEmp SIZE 190,10 OF oModal:getPanelMain() PIXEL
+    @ 010,005 Say "Grupo:" PIXEL of oModal:getPanelMain()  FONT oFont 
+    @ 018,005 MSCOMBOBOX oEmp VAR cEmpAtu ITEMS aEmpAtu SIZE 190,10 OF oModal:getPanelMain() PIXEL VALID MudaFilial(oEmp, oFil, aEmpAux) 
     
+    @ 030,005 Say "Filial:" PIXEL of oModal:getPanelMain()  FONT oFont 
+    @ 038,005 MSCOMBOBOX oFil VAR cFilAtu ITEMS aFilAtu SIZE 190,10 OF oModal:getPanelMain() PIXEL
+
     oModal:Activate()
 		
     If lOk
-        npB     := at("/", cEmpAtu)
-        cEmp    := Left(cEmpAtu, npB - 1)
-        cEmpAtu := Subs(cEmpAtu, npB + 1)
-        npT     := at("-", cEmpAtu)
-        cFil    := Left(cEmpAtu, npT - 2)
+        npB     := at("-", cEmpAtu)
+        cEmp    := Left(cEmpAtu, npB - 2)
+
+        npT     := at("-", cFilAtu)
+        cFil    := Left(cFilAtu, npT - 2)
         
         RpcClearEnv()
         RpcSetType(3)
@@ -355,11 +409,22 @@ Static Function SelEmp(cEmp, cFil, oWnd, lLogin)
 
 Return lOk
 
+Static Function MudaFilial(oEmp, oFil, aEmpAux) 
+    Local np := oEmp:nAt 
+    Local aFil := aClone(aEmpAux[np])
+
+    oFil:SetItems(aFil)
+    oFil:nAt := 1
+    oFil:Refresh()
+
+Return .t.
+
 Static Function IsLogin()
     Local cEnvServer:= GetEnvServer() 
     Local cServerIP := PegaIP()
 
     
+
     If (Upper(cEnvServer) == "#TOTVS12" .or. Upper(cEnvServer) == "#TOTVS12_MI")
         Return .t. 
     EndIf 
@@ -414,13 +479,13 @@ Static Function VldLogin(cUser, cSenha, cUserID)
     cSenha    := Alltrim(cSenha)
     nRetPsw   := PswAdmin(cUser, cSenha)
 
-    If nRetPsw == 0 .and. ! cUser $ "ATENDCONSULTA,SYSTEM"   //usuario admin
+    If nRetPsw == 0 .and. ! Upper(cUser) $ "ATENDCONSULTA,SYSTEM,SP01\P12.SYSTEM"   //usuario admin
         lRet     := .T.
         __lAdmin := .T.
     Elseif nRetPsw == 2  //senha invalida 
         FWAlertWarning("Senha e/ou usuario invalidos!")
         lRet:= .F.
-    Elseif nRetPsw == 1 .or. cUser == "ATENDCONSULTA" .Or. cUser == "SYSTEM"  // usuario não admin
+    Elseif nRetPsw == 1 .or. cUser == "ATENDCONSULTA" .Or. cUser == "SYSTEM" .Or. Upper(cUser) == "SP01\P12.SYSTEM" // usuario não admin
         FWAlertWarning('O usuário não é admin!')
         lRet        := .F.
     Endif
@@ -453,7 +518,7 @@ Static Function InitEmp(oTMsgItem)
         Return  
     EndIf 
 
-    For np:= 1 to 5
+    For np:= 1 to len(__aAliasExp)
         cAliasExqr := __aAliasExp[np]
         cAliasTst  := __aAliasTst[np]
 
@@ -470,7 +535,9 @@ Static Function InitEmp(oTMsgItem)
         If Select(cAliasTst) > 0
             (cAliasTst)->(DbCloseArea())
         EndIf
+    Next 
 
+    For np:= 1 to len(__aDicTst)
         //fechando os browses da tabelas
         cAliasTst  := __aDicTst[np]
         If ValType(__aDicBrw[np])=='O'
@@ -483,7 +550,7 @@ Static Function InitEmp(oTMsgItem)
             (cAliasTst)->(DbCloseArea())
         EndIf
     Next 
-    
+
 
     If !SelEmp(@cEmpNew, @cFilNew, , .F.)
         Return .F.
@@ -492,7 +559,7 @@ Static Function InitEmp(oTMsgItem)
     __cInterNet := Nil
     lmshelpauto := .F.
 
-   TIDesMon( "### TOTVS TI DEVELOPER ###" )
+    TIDesMon( "### TOTVS TI DEVELOPER ###" )
     oTMsgItem:SetText("Empresa: " + cEmpAnt + " Filial: " + cFilAnt)
     oTMsgItem:Refresh()
 
@@ -506,7 +573,35 @@ Aba de query
 
 */
 
-Static Function FolderQry(oDlg, np)
+Static Function NewFolQry(oFolQry) 
+    Local nSF := len(oFolQry:aDialogs)
+    Local cTitulo := ""
+    Local nOption := oFolQry:nOption
+
+
+    nSF++
+    If len(oFolQry:aDialogs) > 0
+        oFolQry:aDialogs[nOption]:cCaption := "query #" + Alltrim(Str(nOption))
+    EndIf 
+    
+    //cTitulo := "*** QUERY #" + Alltrim(Str(nSF)) + " ***"
+    cTitulo := "*** QUERY #" +  Alltrim(Str(nSF)) + " ***"
+    oFolQry:AddItem(cTitulo, .t.  )
+    
+    oFolQry:aDialogs[nSF]:cCaption := cTitulo
+
+    aadd(__abTelQry , {|| .T.})
+    aadd(__aHstQry  , ""  )
+    aadd(__aQryBrw  , NIL )
+    aadd(__aAliasExp, NIL )
+    aadd(__aAliasTST, NIL )
+
+    FolderQry(oFolQry:aDialogs[nSF], nSF, oFolQry)  
+    
+
+Return 
+
+Static Function FolderQry(oDlg, np, oFolQry)
     Local oPS
     Local oBPS1
     Local oBPS2
@@ -564,7 +659,7 @@ Static Function FolderQry(oDlg, np)
             oPSLB:SetCoors(TRect():New(0, 0, 30, __nWidth))
             oPSLB:Align :=CONTROL_ALIGN_TOP
 
-                oBPS1  := THButton():New(002, 002, "Executar"   , oPSLB, {|| QryRun(@cMemoL, oPIL, np, oMsg)   }, 50, 10, oFontB, "Executa as linhas com macro") 
+                oBPS1  := THButton():New(002, 002, "Executar"   , oPSLB, {|| QryRun(@cMemoL, oPIL, np, oMsg)  }, 50, 10, oFontB, "Executa a query ") 
                 oBPS2  := THButton():New(002, 052, "Abrir"      , oPSLB, {|| FileLoad(@cMemoL)                }, 40, 10, oFontB, "Abrir arquivo sql") 
                 oBPS3  := THButton():New(002, 092, "Salvar"     , oPSLB, {|| FileSave(cMemoL)                 }, 40, 10, oFontB, "Salvar arquivo sql") 
                 oBPS4  := THButton():New(002, 132, "ChangeQuery", oPSLB, {|| cMemoL := ChangeQuery(cMemoL)    }, 60, 10, oFontB, "Aplicar Change Query") 
@@ -572,7 +667,8 @@ Static Function FolderQry(oDlg, np)
                 oBPS6  := THButton():New(002, 252, "Format"     , oPSLB, {|| cMemoL := FormatSql(cMemoL)      }, 40, 10, oFontB, "Formatar Query") 
                 oBPS7  := THButton():New(002, 292, "Histórico"  , oPSLB, {|| MenuQuery(@cMemoL, oBPS7, np)    }, 50, 10, oFontB, "Lista com o histórico") 
                 oBPS8  := THButton():New(002, 332, "Limpar"     , oPSLB, {|| cMemoL := ""                     }, 50, 10, oFontB, "Limpa memo da query") 
-                                
+                oBPS8  := THButton():New(002, 372, "+"          , oPSLB, {|| NewFolQry(oFolQry)               }, 50, 10, oFontB, "Nova aba para query") 
+
             oMemoL := tMultiget():new(,, bSETGET(cMemoL), oPSL)
             oMemoL:Align := CONTROL_ALIGN_ALLCLIENT
             oMemoL:oFont:=oFont
@@ -600,9 +696,6 @@ Static Function FolderQry(oDlg, np)
             oMemoR2:Align := CONTROL_ALIGN_ALLCLIENT
             oMemoR2:oFont:=oFont
 
-    
-
-
         @ 000,000 BUTTON oSV PROMPT "*" SIZE 4,4 OF oPS PIXEL
         oSV:cToolTip := "Habilita e desabilita Advpl-SQL " // sql sandro
         oSV:bLClicked := {|| oPSR:lVisibleControl := !oPSR:lVisibleControl }
@@ -617,18 +710,16 @@ Static Function FolderQry(oDlg, np)
         oPIB:SetCoors(TRect():New(0, 0, 30, __nWidth))
         oPIB:Align :=CONTROL_ALIGN_TOP
             oBPI1  := THButton():New(002, 002, "CSV"         ,oPIB, {|| ExportCSV(nP, oMsg)      }, 40, 10, oFontB, "Salva query no formato CSV") 
-            oBPI2  := THButton():New(002, 042, "XML"         ,oPIB, {|| ExportXml(nP, oMsg)      }, 40, 10, oFontB, "Salva query utilizando FWMSEXCEL formato XML") 
+            oBPI2  := THButton():New(002, 042, "XML"         ,oPIB, {|| ExportXml(nP, oMsg)      }, 40, 10, oFontB, "Salva query utilizando FWMsExcelEx formato XML") 
             oBPI3  := THButton():New(002, 082, "Excel"       ,oPIB, {|| ExportExcel(nP, oMsg)    }, 40, 10, oFontB, "Salva query utilizando TIExcel formato XLS (DBF4)")
             If __lAdmin  
                 oBPI4  := THButton():New(002, 122, "Exec Macro"  ,oPIB, {|| ExecRotQry(np, cMemoL)           }, 40, 10, oFontB, "Executa a macro para cada linha do browse") 
             EndIf 
             oBPI5  := THButton():New(002, 162, "Count"       ,oPIB, {|| CountQuery(cMemoL, oMsg) }, 40, 10, oFontB, "Retorna a quantidade de linhas da query") 
-            
 
         oPIL:= TPanelCss():New(,,, oPI)
         oPIL:SetCoors(TRect():New(0, 0, 30, __nWidth))
         oPIL:Align :=CONTROL_ALIGN_ALLCLIENT
-
 
         oPIM:= TPanelCss():New(,,, oPI)
         oPIM:SetCoors(TRect():New(0, 0, 30, __nWidth))
@@ -646,6 +737,8 @@ Static Function FolderQry(oDlg, np)
 
 Return 
 
+
+
 Static Function AtuFolQry(oPI, oPSR)
     oMainWnd:ReadClientCoors()
 
@@ -654,6 +747,9 @@ Static Function AtuFolQry(oPI, oPSR)
 
     oPI:SetCoors(TRect():New(0, 0, __nHeight * 0.6, __nWidth))
     oPSR:SetCoors(TRect():New(0, 0, __nHeight * 0.6, __nWidth * 0.5 ))
+
+    //oObject:SetColor(CLR_BLACK,CLR_WHITE)
+    oPI:oParent:SetColor(CLR_RED,CLR_WHITE)
 
 Return 
 
@@ -997,17 +1093,17 @@ Static Function MenuQuery(cCMD, oOwner, np)
     Local cSufix  := ""
     default np := 1
 
-    cSufix := "query" + Str(np, 1)
+    cSufix := "query" 
     
-    LeHst(__aHstQry[np], cSufix)
+    LeHst(__aHstQry, cSufix)
 
     oMenu := tMenu():new(0, 0, 0, 0, .T., , oOwner)
-    oMenu:Add(tMenuItem():new(oMenu, "Excluir"         , , , , {|| If(FWAlertYesNo("Confirma a exclusão?")            , (GrvHst(__aHstQry[np], cSufix, cCMD, .F., .T. ), .t. ), .t.) }, , , , , , , , , .T.))
-    oMenu:Add(tMenuItem():new(oMenu, "Limpar Histórico", , , , {|| If(FWAlertYesNo("Confirma a limpeza do histórico?"), (GrvHst(__aHstQry[np], cSufix, ""  , .T., .F. ), .t. ), .t.) }, , , , , , , , , .T.))
+    oMenu:Add(tMenuItem():new(oMenu, "Excluir"         , , , , {|| If(FWAlertYesNo("Confirma a exclusão?")            , (GrvHst(__aHstQry, cSufix, cCMD, .F., .T. ), .t. ), .t.) }, , , , , , , , , .T.))
+    oMenu:Add(tMenuItem():new(oMenu, "Limpar Histórico", , , , {|| If(FWAlertYesNo("Confirma a limpeza do histórico?"), (GrvHst(__aHstQry, cSufix, ""  , .T., .F. ), .t. ), .t.) }, , , , , , , , , .T.))
 
-    For nX := Len(__aHstQry[np]) To 1 Step -1
-        cAux := cValToChar(nX)+ ". " + Left( Alltrim (__aHstQry[np, nX]), 120)
-        bBlock:=&('{|| cCMD:= __aHstQry[' + Str(np) +'][' + str(nX) + ']}')
+    For nX := Len(__aHstQry) To 1 Step -1
+        cAux := cValToChar(nX)+ ". " + Left( Alltrim (__aHstQry[nX]), 120)
+        bBlock:=&('{|| cCMD:= __aHstQry[' + str(nX) + ']}')
         oMenu:Add(tMenuItem():new(, cAux, , , , bBlock, , , , , , , , , .T.))
     Next
     oMenu:Activate(NIL, 21, oOwner)
@@ -1191,7 +1287,7 @@ Static Function PQryRun(cQuery, oPSR, np, oMsg)
     Local aEstruAux := {}
     Local cAliasExqr := __aAliasExp[np]
     Local cAliasTst  := __aAliasTst[np]
-    Local cSufix := "query" + Str(np, 1)
+    Local cSufix := "query" 
     Local oFont := TFont():New('Arial',, -11, .T., .T.)
 
     Local cCampo := ""
@@ -1234,7 +1330,7 @@ Static Function PQryRun(cQuery, oPSR, np, oMsg)
         
     EndIf
 
-    GrvHst(__aHstQry[np], cSufix, cQuery)
+    GrvHst(__aHstQry, cSufix, cQuery)
 
     aArea := GetArea()
     If Valtype(__aQryBrw[np])=='O'
@@ -1369,6 +1465,7 @@ Static Function PQryRun(cQuery, oPSR, np, oMsg)
             __aQryBrw[np]:Align      := CONTROL_ALIGN_ALLCLIENT
             __aQryBrw[np]:bLDblClick := {|| AltReg(__aQryBrw[np], cAliasExqr, .t.) }
             __aQryBrw[np]:bChange    := {|| AtuQry(__aQryBrw[np]) }
+            
 
         EndIf
 
@@ -1427,7 +1524,7 @@ Static Function LimpaQry()
     Local cAliasExqr
     Local cDir := "system\tidev\"
      
-    For np:= 1 to 5
+    For np:= 1 to len(__aAliasExp)
         cAliasExqr := __aAliasExp[np]
 
         //fechando os browsers da querys
@@ -1622,7 +1719,10 @@ Static Function GrvCabCSV(cArquivo)
     Local nx    := 0
 
     For nx:= 1 to nFields
-        cCab +=  aFields[nx, 1] + ";"
+        cCab +=  aFields[nx, 1] 
+        If nx < nFields
+            cCab += ";"
+        EndIf
     Next
     GrvArq(cArquivo, cCab)
 Return 
@@ -1648,7 +1748,10 @@ Static Function GrvLinCSV(cArquivo)
         Else
             cLinha += cValToChar(FieldGet(nx))
         EndIf
-        cLinha += ";"
+
+        If nx < nFields
+            cLinha += ";"
+        EndIf
     Next
     GrvArq(cArquivo, cLinha)
 
@@ -1690,7 +1793,7 @@ Static Function ExportXml(np, oMsg)
 
     nSec1 := Seconds()
 
-    oExcel:= FWMSEXCEL():New()
+    oExcel:= FWMsExcelEx():New()
     
     Processa({|| oExcel := ProcXml(oExcel, cAliasTst)},,,.T.)
     
@@ -2004,7 +2107,35 @@ Return
 Aba de dicionario
 #################################################################################################################################
 */
-Static Function FolderDic(oDlg, np) 
+
+Static Function NewFolDic(oFolDic) 
+    Local nSF := len(oFolDic:aDialogs)
+    Local cTitulo := ""
+    Local nOption := oFolDic:nOption
+
+
+    nSF++
+    If len(oFolDic:aDialogs) > 0
+        cTitulo := oFolDic:aDialogs[nOption]:cCaption
+        cTitulo := Alltrim(StrTran(cTitulo, "*", ""))
+        oFolDic:aDialogs[nOption]:cCaption := lower(cTitulo)
+    EndIf 
+    
+    cTitulo := "*** TABELA #" +  Alltrim(Str(nSF)) + " ***"
+    oFolDic:AddItem(cTitulo, .t. )
+    
+    oFolDic:aDialogs[nSF]:cCaption := cTitulo
+
+    aadd(__aDicBrw, NIL )
+    aadd(__aNewBrw, NIL )
+    aadd(__aDicTst, NIL )
+
+    FolderDic(oFolDic:aDialogs[nSF], nSF, oFolDic)  
+    
+
+Return
+
+Static Function FolderDic(oDlg, np, oFolDic) 
     Local cAliasDic := Space(20)
 
     Local oDeleOn
@@ -2039,7 +2170,7 @@ Static Function FolderDic(oDlg, np)
         @ 005, 105 MSCOMBOBOX oIndice VAR cIndice ITEMS aIndice SIZE 235,10 OF oP1 PIXEL VALID MudaOrdem(cAliasDic, oIndice, np, @cPesquisa) 
         
         
-        THButton():New(020, 005, "Fechar"      , oP1, {|| CloseTab(@cAliasDic, np, oIndice) }, 20, 10, oFontB, "Fecha tabela") 
+        THButton():New(020, 005, "Fechar"      , oP1, {|| CloseTab(@cAliasDic, oP2, np, oIndice) }, 20, 10, oFontB, "Fecha tabela") 
         THButton():New(020, 070, "Pesquisa"    , oP1, {|| }, 30, 10, oFontB, "Para empresa compartilhada, não informar a filial!!!") 
         @ 020, 105 GET cPesquisa   of oP1 SIZE 235, 09 PIXEL VALID Posiciona(cAliasDic, cPesquisa, np )  PICTURE "@!"  when oIndice:nat > 1
         
@@ -2072,6 +2203,9 @@ Static Function FolderDic(oDlg, np)
             THButton():New(020, 670, "Exec Macro" , oP1, {|| ExecRot(cAliasDic,  np)  }, 40, 10, oFontB, "Executa a macro para cada linha do browse") 
             THButton():New(005, 730, "Sync SX3  " , oP1, {|| SincSX3(cAliasDic,  np)  }, 40, 10, oFontB, "Altera estrutura da tabela conforme estrutura do dicionario SX3") 
             THButton():New(020, 730, "Drop Index" , oP1, {|| DropInd(cAliasDic,  np)  }, 40, 10, oFontB, "Apaga os indices") 
+            THButton():New(005, 770, "+"          , oP1, {|| NewFolDic(oFolDic)       }, 50, 10, oFontB, "Nova aba para tabela")             
+        Else 
+            THButton():New(005, 670, "+"          , oP1, {|| NewFolDic(oFolDic)       }, 50, 10, oFontB, "Nova aba para tabela")             
         EndIf 
         
 
@@ -2238,6 +2372,8 @@ Static Function DicBrowse(cAliasDic, oP2, np, oIndice, oMsg, oMsg2, lBut, lReorg
         oIndice:Refresh()
     EndIf 
 
+    oP2:oParent:cCaption := "*** " + Alltrim(cNomTab) + " ***"
+
     aStruct  := (cAliasTst)->(dbStruct())
 
     __aDicBrw[np] := MsBrGetDBase():New(1, 1, __DlgWidth(oP2)-1, __DlgHeight(oP2) - 1,,,, oP2,,,,,,,,,,,, .F., cAliasTst, .T.,, .F.,,,)
@@ -2302,8 +2438,10 @@ Static Function DicBrowse(cAliasDic, oP2, np, oIndice, oMsg, oMsg2, lBut, lReorg
     __aDicBrw[np]:SetBlkBackColor({|| If((cAliasTst)->(Deleted()),CLR_LIGHTGRAY,CLR_WHITE)})
     __aDicBrw[np]:Refresh()
     __aDicBrw[np]:SetFocus()
-
+    
     (cAliasTst)->(AtuMsg(__aDicBrw[np], oMsg, oMsg2))
+    
+    
 
 Return .T. 
 
@@ -2376,7 +2514,7 @@ Static Function Posiciona(cAlias, cPesquisa, np)
     EndIf
 Return
 
-Static Function CloseTab(cAliasDic, np, oIndice)
+Static Function CloseTab(cAliasDic, oP2, np, oIndice)
     Local cAliasTst  := __aDicTst[np]
     
     If ValType(__aDicBrw[np])=='O'
@@ -2390,6 +2528,8 @@ Static Function CloseTab(cAliasDic, np, oIndice)
     EndIf
     cAliasDic := Space(20)
     oIndice:nat := 1
+
+    oP2:oParent:cCaption := "*** TABELA #" + Alltrim(Str(np)) + " ***"
 
 Return 
 
@@ -3691,7 +3831,7 @@ Static Function ExportTab(cAliasDic, np)
         cComando := "GrvLinCSV() "
 
     ElseIf cFormato == "XML"
-        __Export := FWMSEXCEL():New()
+        __Export := FWMsExcelEx():New()
         (cAliasTst)->(CabXml(__Export))
         cComando := "LinXml() "
 
@@ -8269,6 +8409,7 @@ Static Function GrvHst(aHist, ctipo, cMemo, lExcAll, lExcItem)
     DEFAULT lExcAll  := .F.
     DEFAULT lExcitem := .F.
 
+
     If cTipo == "base" .and. ! lExcAll
         cTitulo := Alltrim(MemoLine(cMemo, 254, 1))
         If left(cTitulo, 2) != "//"
@@ -8280,7 +8421,7 @@ Static Function GrvHst(aHist, ctipo, cMemo, lExcAll, lExcItem)
     If lExcAll
         aHist := {}
     ElseIf lExcitem  //Alltrim(cMemo)  == "#APAGARITEM#" 
-        nPos := aScan(aHist, {|x| x == cMemo})
+        nPos := aScan(aHist, {|x| Alltrim(LimpaTxt(x)) == Alltrim(LimpaTxt(cMemo))})
         If ! Empty(nPos)
             aDel(aHist,nPos)
             Asize(aHist, len(aHist) - 1)
@@ -8290,7 +8431,7 @@ Static Function GrvHst(aHist, ctipo, cMemo, lExcAll, lExcItem)
             aDel(aHist, 1)
             aHist[Len(aHist)] := cMemo
         Else 
-            nPos := aScan(aHist, {|x| x == cMemo})
+            nPos := aScan(aHist, {|x| Alltrim(LimpaTxt(x)) == Alltrim(LimpaTxt(cMemo))})
             If Empty(nPos)
                 aAdd(aHist, cMemo)
             Else
@@ -8304,6 +8445,18 @@ Static Function GrvHst(aHist, ctipo, cMemo, lExcAll, lExcItem)
     MemoWrit(cFile, cConteudo )
 
 Return 
+
+Static Function LimpaTxt(cTexto)
+
+    cTexto := StrTran(cTexto, chr(13), "")
+    cTexto := StrTran(cTexto, chr(10), "")
+    cTexto := StrTran(cTexto, chr(07), "")
+
+    While At("  ", cTexto) > 0
+        cTexto := StrTran(cTexto, "  ", " ")
+    End 
+
+Return cTexto
 
 Static Function PegaNome(cTitulo)
  
@@ -8735,5 +8888,3 @@ FWGetSx5()
 XMLFormat(cMsg)
 FWCutOff()  // retira crlf e tab
 */
-
-
