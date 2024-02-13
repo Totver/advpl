@@ -1,0 +1,472 @@
+Group 
+   Version=3.0
+   ProjectsCount=14
+   Project SigaLoja
+      FoldersCount=1
+      Folder Relatorios
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Merc050.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Boleto.prw
+              Deleted=0
+         End
+      End
+   End
+   Project SigaEst
+      FoldersCount=3
+      Folder Cadastros
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Ifinc02_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Crialoc_AP5.prx
+              Deleted=0
+         End
+      End
+      Folder Relatorios
+         FilesCount=4
+         File \Siga\Ap5\IxbPad\Matr225_Ap5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Transfprd_Ap5.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Codbar_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\etiqueta.prw
+              Deleted=0
+         End
+      End
+      Folder Miscelanea
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\TranAut.Prx
+              Deleted=0
+         End
+      End
+   End
+   Project Cadastros
+      FoldersCount=3
+      Folder SigaFin
+         FilesCount=10
+         File \Siga\Ap5\IxbPad\Desenvolvido\Telefone.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\mBrowse.Prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Modelo3\Facfi02_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Rdmod2.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Resttr01.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Resttr02.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Resttr03.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Grupo.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Rddemo2.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Rddemo.prw
+              Deleted=0
+         End
+      End
+      Folder SigaEst
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Modelo2\Dm1_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Modelo2\Dm11_AP5.prw
+              Deleted=0
+         End
+      End
+      Folder SigaCom
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Sxb\Ecoma04p.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Sxb\Rcoma04.prw
+              Deleted=0
+         End
+      End
+   End
+   Project Genericos
+      FoldersCount=8
+      Folder Integracao
+         FilesCount=3
+         File \Siga\Ap5\IxbPad\Desenvolvido\IntegraExcell.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\TesteEXC.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\prjr240.prw
+              Deleted=0
+         End
+      End
+      Folder Exemplos
+         FilesCount=18
+         File \Siga\Ap5\IxbPad\Desenvolvido\Rddemo.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\CarregaServer.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\TestaFuncao.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\LogoTipo.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\CallDll.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\BrowseC.Prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\IndRegua.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Email.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\MostraSay.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Srglaser.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\G_RIP110.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\VerSenha.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Teste.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\C_placa_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Compila.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Agenda.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\uMainLogo.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Nfexamp.prx
+              Deleted=0
+         End
+      End
+      Folder Importacao
+         FilesCount=4
+         File \Siga\Ap5\IxbPad\Desenvolvido\LerTexto.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Il0003_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Impfor2_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Ml_se1.prw
+              Deleted=0
+         End
+      End
+      Folder Exportacao
+         FilesCount=4
+         File \Siga\Ap5\IxbPad\Desenvolvido\rfate11.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\GeraSa1.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Restm01.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\FATA001_AP5.PRW
+              Deleted=0
+         End
+      End
+      Folder Ajustes em Base
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\ClearDt.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\AtuSc9.Prw
+              Deleted=0
+         End
+      End
+      Folder Impressao
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Paralela.Prw
+              Deleted=0
+         End
+      End
+      Folder Web
+         FilesCount=5
+         File \Siga\Ap5\IxbPad\Desenvolvido\AdvplAsp\Consld01.aph
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\AdvplAsp\Consld.aph
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\AdvplAsp\WebRel.Aph
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\AdvplAsp\WebDemo.aph
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\AdvplAsp\WebDemo.Prw
+              Deleted=0
+         End
+      End
+      Folder Rpc
+         FilesCount=3
+         File \Siga\Ap5\IxbPad\Desenvolvido\Ambiente.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\CarOutEnv.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\GrvOutEnv.Prw
+              Deleted=0
+         End
+      End
+   End
+   Project Gatilhos
+      FoldersCount=4
+      Folder SigaLoja
+         FilesCount=3
+         File \Siga\Ap5\IxbPad\Desenvolvido\Vsaldo_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Pesqpro_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\TelaEmp.Prw
+              Deleted=0
+         End
+      End
+      Folder SigaFat
+         FilesCount=3
+         File \Siga\Ap5\IxbPad\Desenvolvido\Selent_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Selsai_AP5.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\mogfat04.PRW
+              Deleted=0
+         End
+      End
+      Folder SigaCom
+         FilesCount=3
+         File \Siga\Ap5\IxbPad\Desenvolvido\Ver_cc_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Mtv001_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Ver_cd_AP5.prx
+              Deleted=0
+         End
+      End
+      Folder SigaFin
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\TelaEmp.Prw
+              Deleted=0
+         End
+      End
+   End
+   Project Pontos de Entrada
+      FoldersCount=2
+      Folder Fontes
+         FilesCount=7
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaGenerico.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaFin.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaCom.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaFat.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaCon.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaLoja.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PontoDeEntradaSigaEst.PRW
+              Deleted=0
+         End
+      End
+      Folder SigaFin
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\F380reco.prw
+              Deleted=0
+         End
+      End
+   End
+   Project SigaFat
+      FoldersCount=3
+      Folder Relatorios
+         FilesCount=5
+         File \Siga\Ap5\IxbPad\Desenvolvido\LogoTipo.prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Or02_ap5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\PROPOSTA_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\dup_err.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Dupli_Ap5.Prx
+              Deleted=0
+         End
+      End
+      Folder Cadastros
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\RepPed.prw
+              Deleted=0
+         End
+      End
+      Folder Notas Fiscais
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Nfiscal.prw
+              Deleted=0
+         End
+      End
+   End
+   Project Validação de Usuário
+      FoldersCount=2
+      Folder SigaFin
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\E1_Cliente.PRW
+              Deleted=0
+         End
+      End
+      Folder Cadastros
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\AVldInsc.Prw
+              Deleted=0
+         End
+      End
+   End
+   Project SigaCom
+      FoldersCount=2
+      Folder Cadastros
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Mata110_AP5.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\JFAprov_AP5.PRX
+              Deleted=0
+         End
+      End
+      Folder Relatorios
+         FilesCount=4
+         File \Siga\Ap5\IxbPad\Desenvolvido\Pedcomp.prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\viam03_AP5.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Com002.Prx
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\com999_AP5.prx
+              Deleted=0
+         End
+      End
+   End
+   Project Rdmake's Lancamentos Padrao
+      FoldersCount=1
+      Folder SigaFin
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Conta.Prw
+              Deleted=0
+         End
+      End
+   End
+   Project Customizacao
+      FoldersCount=3
+      Folder SigaLoja
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Lojc060_Ap5.prw
+              Deleted=0
+         End
+      End
+      Folder Cadastros
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Modelo3\Facfi02_AP5.prx
+              Deleted=0
+         End
+      End
+      Folder Relatorios
+         FilesCount=4
+         File \Siga\Ap5\IxbPad\Desenvolvido\RelCesDi.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\RelTermo.PRW
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\DANA87_AP5.PRX
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\DANA98_AP5.PRX
+              Deleted=0
+         End
+      End
+   End
+   Project SigaFin
+      FoldersCount=1
+      Folder Relatorios
+         FilesCount=2
+         File \Siga\Ap5\IxbPad\Desenvolvido\Finr190.Prw
+              Deleted=0
+         End
+         File \Siga\Ap5\IxbPad\Desenvolvido\Finr510.Prw
+              Deleted=0
+         End
+      End
+   End
+   Project SigaFis
+      FoldersCount=1
+      Folder Relatorios
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Matriss_AP5.prx
+              Deleted=0
+         End
+      End
+   End
+   Project SigaCon
+      FoldersCount=1
+      Folder Relatorios
+         FilesCount=1
+         File \Siga\Ap5\IxbPad\Desenvolvido\Conr120.Prw
+              Deleted=0
+         End
+      End
+   End
+End

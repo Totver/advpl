@@ -1,0 +1,648 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: ProtheusFunctionMVC.prx</font><a name="FormModelField"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FormModelField</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece um array com a estrutura de metadado dos campos da tabela em referência. &nbsp;Os dados são obtidos da tabela SX3 e a mesma deve estar posicionada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<font size=1>Programa: ProtheusFunctionMVC.prx</font><a name="FormStruTable"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FormStruTable</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece um array com a estrutura de metadado da tabela em referência. Os dados são obtidos das tabelas&nbsp;SX2,SX3,SX7,SIX e SXA do dicionário de dados do Microsiga Protheus.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAliasSX2 :<td><br>Tipo: CHARACTER<br> Alias da tabela
+<tr valign=top><td Width=20><td Width=100><br>bSX3 :<td><br>Tipo: BLOCK<br>      Code-block de avaliacao do dicionário de dados <font color=blue>[Optional]</font>
+<tr valign=top><td Width=20><td Width=100><br>lViewUsado :<td><br>Tipo: LOGICAL<br>Indica que deverá considerar os campos que não estão marcados como usado no dicionário de dados. Utilizado somente para o tipo 2-Browse
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result aRetorno Array com a seguinte estrutura
+<tr><td Width=20><td><td>[01] Array com a definição dos campos que serão utilizado pela FWFormModelStruct - Model
+<tr><td Width=20><td><td>[01][01] ExpC:Titulo
+<tr><td Width=20><td><td>[01][02] ExpC:Tooltip
+<tr><td Width=20><td><td>[01][03] ExpC:IdField
+<tr><td Width=20><td><td>[01][04] ExpC:Tipo
+<tr><td Width=20><td><td>[01][05] ExpN:Tamanho
+<tr><td Width=20><td><td>[01][06] ExpN:Decimal
+<tr><td Width=20><td><td>[01][07] ExpB:Valid
+<tr><td Width=20><td><td>[01][08] ExpB:When
+<tr><td Width=20><td><td>[01][09] ExpA:Lista de valores ( Combo )
+<tr><td Width=20><td><td>[01][10] ExpL:Obrigatório?
+<tr><td Width=20><td><td>[01][11] ExpC:Inicializador padrão
+<tr><td Width=20><td><td>[01][12] ExpL:Campo chave?
+<tr><td Width=20><td><td>[01][13] ExpL:Campo atualizavel?
+<tr><td Width=20><td><td>[01][14] ExpL:Campo virtual?
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[02]Array com a definição dos gatilhos que serão utilizado pela FWFormModelStruct
+<tr><td Width=20><td><td>[02][01] ExpC:IdField Origem
+<tr><td Width=20><td><td>[02][02] ExpC:IdField Alvo
+<tr><td Width=20><td><td>[02][03] ExpB:When
+<tr><td Width=20><td><td>[02][04] ExpB:Execução
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[03]Array com a definição dos campos que serão utilizado pela FWFormModelStruct - View
+<tr><td Width=20><td><td>[03][01] ExpC:IdField
+<tr><td Width=20><td><td>[03][02] ExpC:Ordem
+<tr><td Width=20><td><td>[03][03] ExpC:Titulo
+<tr><td Width=20><td><td>[03][04] ExpC:Descricao
+<tr><td Width=20><td><td>[03][05] ExpA:Help/Solução
+<tr><td Width=20><td><td>[03][06] ExpC:COMBO, GET ou CHECK?
+<tr><td Width=20><td><td>[03][07] ExpC:Picture
+<tr><td Width=20><td><td>[03][08] ExpB:PictureVar
+<tr><td Width=20><td><td>[03][09] ExpC:LookUp(F3)
+<tr><td Width=20><td><td>[03][10] ExpL:Editável?
+<tr><td Width=20><td><td>[03][11] ExpC:Folder
+<tr><td Width=20><td><td>[03][12] ExpC:Group
+<tr><td Width=20><td><td>[03][13] ExpA:Lista de valores - ComboBox
+<tr><td Width=20><td><td>[03][14] ExpN:Tamanho mãximo do Combo
+<tr><td Width=20><td><td>[03][15] ExpC:Inicializador padrão do Browse
+<tr><td Width=20><td><td>[03][16] ExpL:Virtual?
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[04] Array com a definição dos folders
+<tr><td Width=20><td><td>[04][01] ExpC:Folder
+<tr><td Width=20><td><td>[04][02] ExpC:Descrição do Folder
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[05] Array com a definição dos Group
+<tr><td Width=20><td><td>[05][01] ExpC:Group
+<tr><td Width=20><td><td>[05][02] ExpC:Descrição do Group
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[06] Array com a definicao da Tabela
+<tr><td Width=20><td><td>[06][01] ExpA: PrimaryKey
+<tr><td Width=20><td><td>[06][02] ExpC: Descrição
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>[07] Array com a definição dos indices
+<tr><td Width=20><td><td>[07][01] ExpN: Ordem numérica
+<tr><td Width=20><td><td>[07][02] ExpC: Ordem no metadado
+<tr><td Width=20><td><td>[07][03] ExpC: Chave do indice
+<tr><td Width=20><td><td>[07][04] ExpC: Descrição do indice
+<tr><td Width=20><td><td>[07][05] ExpC: LookUp
+<tr><td Width=20><td><td>[07][06] ExpC: NickName
+<tr><td Width=20><td><td>[07][07] ExpL: Ativo?
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<font size=1>Programa: ProtheusFunctionMVC.prx</font><a name="FormStruTrigger"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FormStruTrigger</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece um array com a estrutura de metadado dos triggers da tabela em referência. &nbsp;Os dados são obtidos da tabela SX3 e a mesma deve estar posicionada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<font size=1>Programa: ProtheusFunctionMVC.prx</font><a name="FormViewField"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FormViewField</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece um array com a estrutura de metadado de visualizacao da tabela em referência. &nbsp;Os dados são obtidos da tabela SX3 e a mesma deve estar posicionada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<font size=1>Programa: ProtheusFunctionMVC.prx</font><a name="FormViewFolder"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FormViewFolder</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece um array com a estrutura de metadado de visualizacao dos folders da tabela em referência. &nbsp;Os dados são obtidos da tabela SXA e a mesma deve estar posicionada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function FormLoadField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza a carga dos dados do modelo de ediçao em formulário de campos&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oField :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormModelField
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result aLoad Array contendo os dados carregados na seguinte estrutura:
+<tr><td Width=20><td><td>[1] valor 1
+<tr><td Width=20><td><td>[2] valor 2
+<tr><td Width=20><td><td>[3] valor 3
+<tr><td Width=20><td><td>A posição do array com os dados é a mesma da estrutura de dados do objeto.
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>04/11/2008
+</table></br><hr></br>
+<b><font size=4>Function FormLoadGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza a carga dos dados do modelo de ediçao em formulário de grid&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oGrid :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormModelGrid
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result aLoad Array contendo os dados carregados na seguinte estrutura:
+<tr><td Width=20><td><td>[n]    Linha do Grid
+<tr><td Width=20><td><td>[n][1] Id do registro (RecNo)
+<tr><td Width=20><td><td>[n][2] Array com os dados é a mesma da estrutura de dados do objeto.
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>19/11/2008
+</table></br><hr></br>
+<b><font size=4>Function FWCloseCpo</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função restaura a chamada das rotinas de validacao, trigger e inicialização do metadado do sistema Microsiga &nbsp;Protheus. A FWCloseCpo é utilizada em conjunto com a FWInitCpo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormFields ou FWFormGrid
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Id do campo que será atualizado
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor do campo que será atualizado
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Indica que o campo foi atualizado com sucesso
+<tr valign=top><td Width=20><td Width=100><br>lNoHelp :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se a operação não necessita de mensagem de erro
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result lRetorno O retorno é o valor informando no parametro lRetorno
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWCloseTrg</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função restaura a chamada das rotinas de trigger do metadado do sistema Microsiga Protheus.&nbsp;A FWCloseTrg é utilizada em conjunto com a FWInitTrg.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>     Objeto do tipo FWFormFields ou FWFormGrid
+<tr valign=top><td Width=20><td Width=100><br>cOrigem :<td><br>Tipo: CHARACTER<br> Identificaçao do campo de origem que deverá ser preparado
+<tr valign=top><td Width=20><td Width=100><br>cTarget :<td><br>Tipo: CHARACTER<br> Identificaçao do campo alvo que deverá ser preparado
+<tr valign=top><td Width=20><td Width=100><br>xRetorno :<td><br>Tipo: VARIANT<br>Valor retornado pelo gatilho
+<tr valign=top><td Width=20><td Width=100><br>bErro :<td><br>Tipo: BLOCK<br>   Bloco de codigo de tratamento de erro armazenado na função FWInitTrg
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result xRetorno Valor retornado pelo gatilho
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWFormAfter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza os tratamentos necessários as validacoes do tipo After dos formulário de edição do &nbsp;Microsiga Protheus.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>   Objeto do tipo FWFormModel
+<tr valign=top><td Width=20><td Width=100><br>bBloco :<td><br>Tipo: BLOCK<br>Bloco de código de validação
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result Retorno do bloco de código informado no parametro bBlock
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>18/03/2009
+</table></br><hr></br>
+<b><font size=4>Function FWFormBefore</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza os tratamentos necessários as validacoes do tipo Before dos formulário de edição do &nbsp;Microsiga Protheus.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>   Objeto do tipo FWFormModel
+<tr valign=top><td Width=20><td Width=100><br>bBlock :<td><br>Tipo: BLOCK<br>Bloco de código de validação
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result Retorno do bloco de código informado no parametro bBlock
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>18/03/2009
+</table></br><hr></br>
+<b><font size=4>Function FWFormCancel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza os tratamentos necessários ao cancelamento dos formulários de edição do Microsiga Protheus.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormModel
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>03/03/2009
+</table></br><hr></br>
+<b><font size=4>Function FWFormCanDel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza as validacoes de chave estrangeira necessárias para a confirmação de exclusão nos formulários de&nbsp;edição do Microsiga Protheus. A analise da chave estrangeira é realizada em niveis onde o primeiro elemento do modelo &nbsp;e posteri
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormModel
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result lRetorno Indica que a exclusão pode ser realizada
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4>Function FWFormCommit</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza os tratamentos necessários a gravação dos formulários de edição do Microsiga Protheus. A gravacao &nbsp;é realizada em niveis onde o primeiro elemento do modelo e posteriormente seus filhos são gravados. O &nbsp;controle de transação é
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormModel
+<tr valign=top><td Width=20><td Width=100><br>bBefore :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br>Bloco de código que será executado antes da gravação de cada linha das tabelas que compoem o formulário
+<tr><td Width=20><td><td>de edição. O bloco de código recebe como parametro o objeto do model, o ID do formulário que esta sendo
+<tr><td Width=20><td><td>gravado e o Alias.
+<tr><td Width=20><td><td>Exemplo: {|oModel,cID,cAlias| teste(oModel,cID,cAlias)}
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAfter :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br>Bloco de código que será executado apos da gravação de cada linha das tabelas que compoem o formulário
+<tr><td Width=20><td><td>de edição. O bloco de código recebe como parametro o objeto do model, o ID do formulário que esta sendo
+<tr><td Width=20><td><td>gravado e o Alias.
+<tr><td Width=20><td><td>Exemplo: {|oModel,cID,cAlias| teste(oModel,cID,cAlias)}
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAfterSTTS :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br>Bloco de código que será executado ao final da transacao. O bloco de código recebe como parametro
+<tr><td Width=20><td><td>o objeto do model.
+<tr><td Width=20><td><td>Exemplo: {|oModel| teste(oModel)}
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result lRetorno Indica se a transação foi bem realizada corretamente
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4>Function FWFormEAI</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função realiza os tratamentos necessários para a gravação dos formulário de edição do Microsiga Protheus quando&nbsp;utiliza-se a integração com o EAI.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>    XML da transação no padrão MVC.
+<tr valign=top><td Width=20><td Width=100><br>cError :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>  Texto de erro a ser retornado em caso de erro.
+<tr valign=top><td Width=20><td Width=100><br>cWarning :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Texto de advertencia a ser retornado em caso de problemas.
+<tr valign=top><td Width=20><td Width=100><br>cProgram :<td><br>Tipo: CHARACTER<br>Nome do programa que cont´m a função 'ModelDef'.
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result lRetorno Indica se a transação foi bem realizada corretamente
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/06/2009
+</table></br><hr></br>
+<b><font size=4>Function FWFormStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função fornece o objeto com as estruturas de metadado do dicionário de dados, utilizadas pelas classes Model e&nbsp;View.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nType :<td><br>Tipo: NUMERIC<br>     Tipo de estrutura ( 1-Model ; 2-View ; 3-Browse)
+<tr valign=top><td Width=20><td Width=100><br>cAliasSX2 :<td><br>Tipo: CHARACTER<br> Alias da tabela
+<tr valign=top><td Width=20><td Width=100><br>bSX3 :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>      Code-block de avaliacao do dicionário de dados
+<tr valign=top><td Width=20><td Width=100><br>lViewUsado :<td><br>Tipo: LOGICAL<br>Indica que deverá considerar os campos que não estão marcados como usado no dicionário de dados. Utilizado somente para o tipo 2-Browse
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result oStruct Estrutura da classe
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWInitCpo</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função prepara a chamada das rotinas de validacao, trigger e inicialização do metadado do sistema Microsiga &nbsp;Protheus, onde É realizado as seguintes operações:&nbsp;	- Atribuição do objeto do tipo FwFormModel ativo&nbsp;	- Tratamento do ReadVar&
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormFields ou FWFormGrid
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificaçao do campo que deverá ser preparado para edição
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor do campo que deverá ser preparado para edição
+<tr><td Width=20><td><td>
+<tr><td Width=20><td><td>@result oSet Objeto do tipo Model ativo
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWInitTrg</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função prepara a chamada das rotinas de trigger do metadado do sistema Microsiga Protheus, onde É realizado &nbsp;as seguintes operações:&nbsp;	- Atribuição do objeto do tipo FwFormModel ativo&nbsp;	- Criação/atribuição das variáveis do tipo private
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormFields ou FWFormGrid
+<tr valign=top><td Width=20><td Width=100><br>cOrigem :<td><br>Tipo: CHARACTER<br>Identificaçao do campo de origem que deverá ser preparado
+<tr valign=top><td Width=20><td Width=100><br>cTarget :<td><br>Tipo: CHARACTER<br>Identificaçao do campo alvo que deverá ser preparado
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWLoadModel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Funcao de retorna o objeto FWFormModel de um determinado programa-fonte&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProgram :<td><br>Tipo: CHARACTER<br>Nome do programa-fonte
+<tr><td Width=20><td><td>@result oObjeto do tipo FWFormModel
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>19/01/2008
+</table></br><hr></br>
+<b><font size=4>Function FWLoadView</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Funcao de retorna o objeto FWFormView de um determinado programa-fonte&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProgram :<td><br>Tipo: CHARACTER<br>Nome do programa-fonte
+<tr><td Width=20><td><td>@result oObjeto do tipo FWFormView
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>19/01/2008
+</table></br><hr></br>
+<b><font size=4>Function FWModelActive</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função especifica ou fornece o objeto da classe FWFormModel ativo, no momento ,para ser utilizado nas regras &nbsp;de validacao do sistema Microsiga Protheus.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSet :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto do tipo FWFormModel que deverá ser considerado como ativo
+<tr><td Width=20><td><td>@result oSet Objeto do tipo Model ativo
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>
+<b><font size=4>Function FWPreLookUp</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Função de preparação da chamada de um LookUp&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFW :<td><br>Tipo: OBJECT<br>Objeto do tipo FWFormFields ou FWFormGrid
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificaçao do campo que deverá ser preparado
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/01/2009
+</table></br><hr></br>
+<b><font size=4>Function SetCompP10</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta função configura o sistema para trabalhar em modo de compatibilidade com o Framework 1.0, utilizado até o &nbsp;Microsiga Protheus 10.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSet :<td><br>Tipo: LOGICAL - <font color=blue>[Optional]</font><br>Indica se o modo de compatibilidade deve ser ativado (.T.) ou desativado (.F.)
+<tr><td Width=20><td><td>@result lSet Indica se o modo de compatibilidade foi ativado  (.T.) ou desativado (.F.)
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>31/10/2008
+</table></br><hr></br>

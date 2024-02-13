@@ -1,0 +1,838 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFormFieldsModel.prx</font><a name="FWFormFieldsModel"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFormFieldsModel</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto com o modelo de edição FormFields.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFormFieldsModel:Activate">FWFormFieldsModel:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWFormFieldsModel:AddRulesPost">FWFormFieldsModel:AddRulesPost</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma relação de dependência entre a referência de origem e destino, provocando uma reavaliação do destino em caso de atualização da origem.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:AddRulesPre">FWFormFieldsModel:AddRulesPre</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma relação de dependência entre campos do formulário, impedindo a atribuição de valor caso os campos de dependëncia náo tenham valor atribuido.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:ClassName">FWFormFieldsModel:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWFormFieldsModel:DeActivate">FWFormFieldsModel:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de destruição da classe&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetData">FWFormFieldsModel:GetData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetDescription">FWFormFieldsModel:GetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um texto com a descrição do objetivo do modelo&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetId">FWFormFieldsModel:GetId</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o Id do objeto&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetIdField">FWFormFieldsModel:GetIdField</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o valor da folha de dados de um campo do objeto&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetModel">FWFormFieldsModel:GetModel</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o objeto modelo com o modelo de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetOwner">FWFormFieldsModel:GetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o objeto owner do modelo de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetPrimaryKey()">FWFormFieldsModel:GetPrimaryKey()</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a Primary Key do formulário de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetRelation()">FWFormFieldsModel:GetRelation()</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o critério de relacionamento entre as entidades do formulário de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetRules">FWFormFieldsModel:GetRules</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a estrutura com a relação de dependência entre a referência de partida e destino.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetStruct">FWFormFieldsModel:GetStruct</a></br>
+&nbsp;&nbsp;&nbsp;Recupera o objeto com a estrutura de dados &nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetValue">FWFormFieldsModel:GetValue</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o valor da folha de dados de um campo do objeto&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetWhenFields">FWFormFieldsModel:GetWhenFields</a></br>
+&nbsp;&nbsp;&nbsp;Retorna os campos que precisao ser avaliados no when.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetXMLData">FWFormFieldsModel:GetXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo em XML&nbsp;<br><br>
+<a href="#FWFormFieldsModel:GetXMLSchema">FWFormFieldsModel:GetXMLSchema</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com o schema do modelo de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:LoadValue">FWFormFieldsModel:LoadValue</a></br>
+&nbsp;&nbsp;&nbsp;Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha&nbsp;<br><br>
+<a href="#FWFormFieldsModel:LoadXMLData">FWFormFieldsModel:LoadXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Carrega o modelo com base na folha de dados em XML&nbsp;<br><br>
+<a href="#FWFormFieldsModel:LoadXMLPk">FWFormFieldsModel:LoadXMLPk</a></br>
+&nbsp;&nbsp;&nbsp;Indentifica a chave primária do modelo de dados&nbsp;<br><br>
+<a href="#FWFormFieldsModel:New">FWFormFieldsModel:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFormFieldsModel:RenewPk">FWFormFieldsModel:RenewPk</a></br>
+&nbsp;&nbsp;&nbsp;Reinicializa os valores dos campos da Primary Key, utilizando os inicializadores padrão.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:ReportDef">FWFormFieldsModel:ReportDef</a></br>
+&nbsp;&nbsp;&nbsp;Complementa o objeto do modelo com as definicoes de impressão ( ReportDef )&nbsp;<br><br>
+<a href="#FWFormFieldsModel:ReportPrint">FWFormFieldsModel:ReportPrint</a></br>
+&nbsp;&nbsp;&nbsp;Imprime as seções do modelo definidas pela ReportDef&nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetDescription">FWFormFieldsModel:SetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Atribui ao modelo um texto com a descrição do objetivo do mesmo.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetLoad">FWFormFieldsModel:SetLoad</a></br>
+&nbsp;&nbsp;&nbsp;Code-Block de carga dos dados do formulário de edição. &nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetPost">FWFormFieldsModel:SetPost</a></br>
+&nbsp;&nbsp;&nbsp;Configura o code-block de validação do formulário de edição&nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetPre">FWFormFieldsModel:SetPre</a></br>
+&nbsp;&nbsp;&nbsp;Code-Block de pré-edição do formulário de edição. Indica se a edição esta liberada&nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetRules">FWFormFieldsModel:SetRules</a></br>
+&nbsp;&nbsp;&nbsp;Reavalia a relação de dependência entre a referência de origem e destino, apos a atualização da origem.&nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetStruct">FWFormFieldsModel:SetStruct</a></br>
+&nbsp;&nbsp;&nbsp;Configura o objeto com a estrutura de dados &nbsp;<br><br>
+<a href="#FWFormFieldsModel:SetValue">FWFormFieldsModel:SetValue</a></br>
+&nbsp;&nbsp;&nbsp;Atribui um valor a folha de dados do objeto&nbsp;<br><br>
+<a href="#FWFormFieldsModel:VldData">FWFormFieldsModel:VldData</a></br>
+&nbsp;&nbsp;&nbsp;Valida a folha de dados do objeto&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFormFieldsModel:Activate"></a>FWFormFieldsModel:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:AddRulesPost"></a>FWFormFieldsModel:AddRulesPost</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma relação de dependência entre a referência de origem e destino, provocando uma reavaliação do destino em caso de atualização da origem.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo de origem no modelo
+<tr valign=top><td Width=20><td Width=100><br>oIdTarget :<td><br>Tipo: OBJECT<br>Identificador do modelo de destino
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldTarget :<td><br>Tipo: CHARACTER<br>Identificador do campo do modelo de destino
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:AddRulesPre"></a>FWFormFieldsModel:AddRulesPre</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma relação de dependência entre campos do formulário, impedindo a atribuição de valor caso os campos de dependëncia náo tenham valor atribuido.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo de origem no modelo
+<tr valign=top><td Width=20><td Width=100><br>oIdRule :<td><br>Tipo: OBJECT<br>Identificador do modelo dependente
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldRule :<td><br>Tipo: CHARACTER<br>Identificador do campo do modelo dependente
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:ClassName"></a>FWFormFieldsModel:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:DeActivate"></a>FWFormFieldsModel:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de destruição da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetData"></a>FWFormFieldsModel:GetData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aData :<td><br>Tipo: ARRAY<br>Estrutura com os dados do objeto
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetDescription"></a>FWFormFieldsModel:GetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um texto com a descrição do objetivo do modelo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetId"></a>FWFormFieldsModel:GetId</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o Id do objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>04/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Id :<td><br>Tipo: ARRAY<br>Id do objeto
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetIdField"></a>FWFormFieldsModel:GetIdField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o valor da folha de dados de um campo do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetModel"></a>FWFormFieldsModel:GetModel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o objeto modelo com o modelo de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObjeto :<td><br>Tipo: OBJECT<br>Objeto modelo
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetOwner"></a>FWFormFieldsModel:GetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o objeto owner do modelo de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObjeto :<td><br>Tipo: OBJECT<br>Objeto owner modelo
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetPrimaryKey()"></a>FWFormFieldsModel:GetPrimaryKey()</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a Primary Key do formulário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetRelation()"></a>FWFormFieldsModel:GetRelation()</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o critério de relacionamento entre as entidades do formulário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetRules"></a>FWFormFieldsModel:GetRules</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a estrutura com a relação de dependência entre a referência de partida e destino.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetStruct"></a>FWFormFieldsModel:GetStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Recupera o objeto com a estrutura de dados &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/12/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetValue"></a>FWFormFieldsModel:GetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o valor da folha de dados de um campo do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetWhenFields"></a>FWFormFieldsModel:GetWhenFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna os campos que precisao ser avaliados no when.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>15/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetXMLData"></a>FWFormFieldsModel:GetXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo em XML&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDetail :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se o xml gerado deve incluir as tags de detalhamento dos dados.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML com do modelo e os dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:GetXMLSchema"></a>FWFormFieldsModel:GetXMLSchema</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com o schema do modelo de dados&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aTypes :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Utilizado internamente para registrar os tipos de dados no modelo principal
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>22/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXSD :<td><br>Tipo: CHARACTER<br>Schema ( XSD ) do modelo de dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:LoadValue"></a>FWFormFieldsModel:LoadValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso SetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAtribuido :<td><br>Tipo: LOGICAL<br>Indica que o valor foi atribuido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:LoadXMLData"></a>FWFormFieldsModel:LoadXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega o modelo com base na folha de dados em XML&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oXML :<td><br>Tipo: OBJECT<br>XML com os dados do modelo
+<tr><td Width=20><td Width=20><td>@result lLoad Indica se o modelo foi carregado
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:LoadXMLPk"></a>FWFormFieldsModel:LoadXMLPk</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indentifica a chave primária do modelo de dados&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oXML :<td><br>Tipo: OBJECT<br>XML com os dados do modelo
+<tr><td Width=20><td Width=20><td>@result aResult Array com os dados da Primary Key
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:New"></a>FWFormFieldsModel:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto proprietário
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto modelo
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:RenewPk"></a>FWFormFieldsModel:RenewPk</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Reinicializa os valores dos campos da Primary Key, utilizando os inicializadores padrão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:ReportDef"></a>FWFormFieldsModel:ReportDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Complementa o objeto do modelo com as definicoes de impressão ( ReportDef )&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oReport :<td><br>Tipo: OBJECT<br>Objeto com as definições de impressão
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:ReportPrint"></a>FWFormFieldsModel:ReportPrint</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Imprime as seções do modelo definidas pela ReportDef&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetDescription"></a>FWFormFieldsModel:SetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui ao modelo um texto com a descrição do objetivo do mesmo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do objetivo do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetLoad"></a>FWFormFieldsModel:SetLoad</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Code-Block de carga dos dados do formulário de edição. &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK<br>Code-Block de carga do formulário de edição.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>04/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetPost"></a>FWFormFieldsModel:SetPost</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o code-block de validação do formulário de edição&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de validação do formulário de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetPre"></a>FWFormFieldsModel:SetPre</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Code-Block de pré-edição do formulário de edição. Indica se a edição esta liberada&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pré-edição do formulário de edição.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetRules"></a>FWFormFieldsModel:SetRules</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Reavalia a relação de dependência entre a referência de origem e destino, apos a atualização da origem.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr valign=top><td Width=20><td Width=100><br>lForce :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Força a atualizacao do valor
+<tr valign=top><td Width=20><td Width=100><br>oOrigem :<td><br>Tipo: OBJECT<br>Objeto do modelo de origem
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso SetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lValido :<td><br>Tipo: LOGICAL<br>Indica que o valor esta valido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetStruct"></a>FWFormFieldsModel:SetStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o objeto com a estrutura de dados &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFormModelStruct :<td><br>Tipo: OBJECT<br>Objeto com a estrutura de dados.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:SetValue"></a>FWFormFieldsModel:SetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui um valor a folha de dados do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr valign=top><td Width=20><td Width=100><br>lForce :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Força a atualizacao do valor
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>29/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso CanSetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAtribuido :<td><br>Tipo: LOGICAL<br>Indica que o valor foi atribuido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormFieldsModel:VldData"></a>FWFormFieldsModel:VldData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Valida a folha de dados do objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>01/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Folha de dados valida
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>

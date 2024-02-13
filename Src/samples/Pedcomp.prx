@@ -1,0 +1,675 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 27/06/00
+#IFNDEF WINDOWS
+ #define PSAY SAY
+#Endif
+
+User Function Pedcomp()        // incluido pelo assistente de conversao do AP5 IDE em 27/06/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("WNREL,CDESC1,CDESC2,CDESC3,NBASEIPI,CSTRING")
+SetPrvt("TAMANHO,TITULO,ARETURN,NOMEPROG,NLASTKEY,NBEGIN")
+SetPrvt("ALINHA,ADRIVER,CPERG,LEND,MV_PAR08,NREEM")
+SetPrvt("LIMITE,LI,NTOTNOTA,NTOTGER,NTOTIPI,NDESCPROD")
+SetPrvt("NTOTAL,NUMPED,NORDEM,COBS01,COBS02,COBS03")
+SetPrvt("COBS04,CREBITEM,CVAR,CDESC,NLINREF,CDESCRI")
+SetPrvt("NLINHA,MV_PAR06,BBLOCO,BBLOCO1,BBLOCO2,NK,NY,")
+SetPrvt("NTOTDESC,CMENSAGEM,COBS,NX,NTOTGERAL,CLIBERADOR")
+SetPrvt("NPOSICAO,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 27/06/00 ==>  #define PSAY SAY
+#Endif
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ MATR110  ³ Autor ³ Wagner Xavier         ³ Data ³ 05.09.91 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao do Pedido de Compras                               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ OBS      ³ Programa trans.p/ RDMAKE em 06/01/97 por Fabricio C.David  ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+wnrel    := "MATR110"
+cDesc1   := "Emissao dos pedidos de compras ou autorizacoes de entrega"
+cDesc2   := "cadastradados e que ainda nao foram impressos"
+cDesc3   := " "
+nBaseIPI := ""
+cString  := "SC7"
+tamanho  := "P"
+titulo   := "Emissao dos Pedidos de Compras ou Autorizacoes de Entrega"
+aReturn  := { "Zebrado", 1,"Administracao", 2, 2, 1, "",0 }
+nomeprog := "MATR110"                                                                                      
+nLastKey := 0
+nBegin   := 0
+aLinha   := { }
+aDriver  := ReadDriver()
+cPerg    := "MTR110"
+lEnd     := .F.
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros                         ³
+//³ mv_par01               Do Pedido                             ³
+//³ mv_par02               Ate o Pedido                          ³
+//³ mv_par03               A partir da data de emissao           ³
+//³ mv_par04               Ate a data de emissao                 ³
+//³ mv_par05               Somente os Novos                      ³
+//³ mv_par06               Campo Descricao do Produto            ³
+//³ mv_par07               Unidade de Medida:Primaria ou Secund. ³
+//³ mv_par08               Imprime ? Pedido Compra ou Aut. Entreg³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+pergunte("MTR110",.F.)
+
+mv_par08 := 1
+
+wnrel:=SetPrint(cString,wnrel,cPerg,@Titulo,cDesc1,cDesc2,cDesc3,.F.)
+
+If nLastKey == 27
+	Return
+Endif
+
+SetDefault(aReturn,cString)
+
+If nLastKey == 27
+	Return
+Endif
+
+If mv_par08 == 1
+	#IFDEF WINDOWS
+          RptStatus({||C110PC()})// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==>           RptStatus({||Execute(C110PC)})
+	#ELSE
+          C110PC()
+	#ENDIF
+endif
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ C110PC   ³ Autor ³ Cristina M. Ogura     ³ Data ³ 09.11.95 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Chamada do Relatorio                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function C110PC
+Static Function C110PC()
+
+nReem:=""
+
+limite   := 130
+li       := 80
+nTotNota := 0
+nTotGer  := 0
+nTotIpi  := 0
+nDescProd:= 0
+nTotal   := 0
+NumPed   := Space(6)
+
+dbSelectArea("SC7")
+dbSetOrder(1)
+Set SoftSeek On
+dbSeek( xFilial()+mv_par01 )
+Set SoftSeek Off
+
+SetRegua(RecCount())
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Faz manualmente porque nao chama a funcao Cabec()                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+#IFNDEF WINDOWS
+  @ 0,0 Say AvalImp(Limite+2)
+#ENDIF
+
+While C7_FILIAL = xFilial() .And. C7_NUM >= mv_par01 .And. C7_NUM <= mv_par02 .And. !Eof()
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Cria as variaveis para armazenar os valores do pedido        ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	nTotNota := 0
+	nTotal   := 0
+	nTotGer  := 0
+	nTotIpi  := 0
+	nDescProd:= 0
+	nOrdem   := 1
+	nReem    := 0
+	cObs01   := " "
+	cObs02   := " "
+	cObs03   := " "
+	cObs04   := " "
+        CREBITEM := SC7->C7_ITEM
+ 
+
+	If C7_EMITIDO == "S" .And. mv_par05 == 1
+		dbSkip()
+		Loop
+	Endif
+	
+	If (SC7->C7_EMISSAO < mv_par03) .Or. (SC7->C7_EMISSAO > mv_par04)
+		dbSkip()
+		Loop
+	Endif
+	
+	If SC7->C7_TIPO != 1
+		dbSkip()
+		Loop
+	EndIf
+	
+		@ 001,000 PSAY &(aDriver[1])
+	
+	ImpCabec()
+	nTotNota :=nTotNota+1
+	nTotNota := SC7->C7_FRETE
+	nReem    := SC7->C7_QTDREEM + 1
+
+        While C7_FILIAL == xFilial() .And. C7_NUM==NUMPED .AND. C7_ITEM == CREBITEM
+                    #IFNDEF WINDOWS
+                        If LastKey() == 286    //ALT_A
+                           lEnd := .t.
+                        EndIf
+                    #ENDIF
+         
+                    If lEnd
+			@PROW()+1,001 PSAY "CANCELADO PELO OPERADOR"
+			Goto Bottom
+			Exit
+                    Endif
+		
+                    IncRegua()
+                    //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                    //³ Verifica se havera salto de formulario                       ³
+                    //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                    If li > 56
+			nOrdem:=nOrdem + 1
+			ImpRodape()
+			ImpCabec()
+                    Endif
+                    li:=li+1
+                    @ li,001 PSAY "|"
+                    @ li,002 PSAY C7_ITEM           Picture PesqPict("SC7","c7_item")
+                    @ li,005 PSAY "|"
+                    @ li,006 PSAY C7_PRODUTO        Picture PesqPict("SC7","c7_produto")
+                    //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                    //³ Pesquisa Descricao do Produto                                ³
+                    //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                    ImpProd()
+                    nDescProd:= CalcDesc(SC7->C7_TOTAL,SC7->C7_DESC1,SC7->C7_DESC2,SC7->C7_DESC3)
+                    nBaseIPI := SC7->C7_TOTAL - IIF(SC7->C7_IPIBRUT=="L",nDescProd,0)
+                   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+                   //³ Inicializacao da Observacao do Pedido.                       ³
+                   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+                  If SC7->C7_ITEM < "05"
+			cVar:="cObs"+SC7->C7_ITEM
+			Eval(MemVarBlock(cVar),SC7->C7_OBS)
+                   Endif
+                 DBSkip()
+	End
+	Skip-1
+	If li>38
+		nOrdem:=nOrdem+1
+		ImpRodape()
+		ImpCabec()
+	End
+	
+	FinalPed()
+	Skip
+End
+
+dbSelectArea("SC7")
+//DBSetFilter()
+dbSetOrder(1)
+
+dbSelectArea("SX3")
+dbSetOrder(1)
+
+Set device to Screen
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Se em disco, desvia para Spool                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If aReturn[5] == 1    // Se Saida para disco, ativa SPOOL
+	Set Printer TO
+	Commit
+	ourspool(wnrel)
+Endif
+
+MS_FLUSH()
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpProd  ³ Autor ³ Wagner Xavier         ³ Data ³          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Pesquisar e imprimir  dados Cadastrais do Produto.         ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ ImpProd(Void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function ImpProd
+Static Function ImpProd()
+cDesc:=""
+nLinRef := 1
+nBegin := 0
+cDescri := ""
+nLinha:=0
+
+If Empty(mv_par06)
+	mv_par06 := "B1_DESC"
+EndIf
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Impressao da descricao generica do Produto.                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If AllTrim(mv_par06) == "B1_DESC"
+	dbSelectArea("SB1")
+	dbSetOrder(1)
+	dbSeek( xFilial()+SC7->C7_PRODUTO )
+	cDescri := Alltrim(SB1->B1_DESC)
+	dbSelectArea("SC7")
+EndIf
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Impressao da descricao cientifica do Produto.                ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If AllTrim(mv_par06) == "B5_CEME"
+	dbSelectArea("SB5")
+	dbSetOrder(1)
+	dbSeek( xFilial()+SC7->C7_PRODUTO )
+	If Found()
+		cDescri := Alltrim(B5_CEME)
+	EndIf
+	dbSelectArea("SC7")
+EndIf
+
+dbSelectArea("SC7")
+If AllTrim(mv_par06) == "C7_DESCRI"
+	cDescri := Alltrim(SC7->C7_DESCRI)
+EndIf
+
+dbSelectArea("SA5")
+dbSetOrder(1)
+dbSeek(xFilial()+SC7->C7_FORNECE+SC7->C7_LOJA+SC7->C7_PRODUTO)
+If Found() .And. !Empty(A5_CODPRF)
+	cDescri := cDescri + " ("+Alltrim(A5_CODPRF)+")"
+EndIf
+dbSelectArea("SC7")
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Imprime da descricao selecionada                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+nLinha:= MLCount(cDescri,30)
+
+@ li,021 PSAY "|"
+@ li,022 PSAY MemoLine(cDescri,30,1)
+
+ImpCampos()
+For nBegin := 2 To nLinha
+	li:=li+1
+	@ li,001 PSAY "|"
+	@ li,005 PSAY "|"
+	@ li,021 PSAY "|"
+	@ li,022 PSAY Memoline(cDescri,30,nBegin)
+	@ li,053 PSAY "|"
+	@ li,056 PSAY "|"
+	@ li,070 PSAY "|"
+	@ li,085 PSAY "|"
+	If mv_par08 == 1
+		@ li,089 PSAY "|"
+		@ li,106 PSAY "|"
+		@ li,115 PSAY "|"
+		@ li,125 PSAY "|"
+		@ li,132 PSAY "|"
+	Else
+		@ li,102 PSAY "|"
+		@ li,111 PSAY "|"
+		@ li,132 PSAY "|"
+	EndIf
+Next nBegin
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpCampos³ Autor ³ Wagner Xavier         ³ Data ³          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Imprimir dados Complementares do Produto no Pedido.        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ ImpCampos(Void)                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function ImpCampos
+Static Function ImpCampos()
+ny:=1
+bBloco :={|ny| iif(ny==1,"SC7->C7_UM",iif(!Empty(SC7->C7_SEGUM),"SC7->C7_SEGUM","SC7->C7_UM"))}
+bBloco1:={|ny| iif(ny==1,"SC7->C7_QUANT",iif(!Empty(SC7->C7_QTSEGUM),"SC7->C7_QTSEGUM","SC7->C7_QUANT"))}
+bBloco2:={|ny| iif(ny==1,"SC7->C7_PRECO",iif(!Empty(SC7->C7_QTSEGUM),"SC7->C7_TOTAL/SC7->C7_QTSEGUM","SC7->C7_PRECO"))}
+
+@ li,053 PSAY "|"                                                                                                        
+@ li,054 PSAY Eval(bBloco,mv_par07)     Picture PesqPict("SC7","C7_UM")
+@ li,054 PSAY Eval(bBloco,mv_par07)     Picture PesqPict("SC7","C7_UM")
+@ li,056 PSAY "|"
+dbSelectArea("SC7")
+//@ li,057 PSAY &Eval(bBloco1,mv_par07)    Picture PesqPictQt("C7_QUANT",13)
+@ li,070 PSAY "|"
+//@ li,071 PSAY &Eval(bBloco2,mv_par07)    Picture PesqPict("SC7","C7_PRECO",14)
+@ li,085 PSAY "|"
+
+If mv_par08 == 1
+	@ li,086 PSAY SC7->C7_IPI     				 Picture "99"
+	@ li,088 PSAY "%"
+	@ li,089 PSAY "|"
+	@ li,090 PSAY SC7->C7_TOTAL   				 Picture PesqPict("SC7","C7_TOTAL",16)
+	@ li,106 PSAY "|"
+	@ li,107 PSAY SC7->C7_DATPRF  				 Picture PesqPict("SC7","C7_DATPRF")
+	@ li,115 PSAY "|"
+	@ li,116 PSAY SC7->C7_CC      				 Picture PesqPict("SC7","C7_CC")
+	@ li,125 PSAY "|"
+	@ li,126 PSAY SC7->C7_NUMSC
+	@ li,132 PSAY "|"
+Else
+	@ li,086 PSAY SC7->C7_TOTAL   				 Picture PesqPict("SC7","C7_TOTAL",16)
+	@ li,102 PSAY "|"
+	@ li,103 PSAY SC7->C7_DATPRF  				 Picture PesqPict("SC7","C7_DATPRF")
+	@ li,111 PSAY "|"
+	@ li,132 PSAY "|"
+EndIf
+
+nTotNota:=nTotNota+SC7->C7_TOTAL
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ FinalPed ³ Autor ³ Wagner Xavier         ³ Data ³          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Imprime os dados complementares do Pedido de Compra        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ FinalPed(Void)                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function FinalPed
+Static Function FinalPed()
+
+nk := 1
+nTotDesc:= SC7->C7_VLDESC
+cMensagem:= Formula(C7_Msg)
+
+if !Empty(cMensagem)
+	li:=li+1
+	@ li,001 PSAY "|"
+	@ li,002 PSAY Padc(cMensagem,129)
+	@ li,132 PSAY "|"
+Endif
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,015 PSAY "D E S C O N T O S -->"
+@ li,037 PSAY C7_DESC1 Picture "999.99"
+@ li,046 PSAY C7_DESC2 Picture "999.99"
+@ li,055 PSAY C7_DESC3 Picture "999.99"
+If nTotDesc == 0.00
+	nTotDesc:= CalcDesc(nTotNota,SC7->C7_DESC1,SC7->C7_DESC2,SC7->C7_DESC3)
+EndIf
+@ li,068 PSAY nTotDesc Picture tm(nTotDesc,14)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+li:=li+1
+dbSelectArea("SE4")
+dbSeek(xFilial()+SC7->C7_COND)
+dbSelectArea("SC7")
+@ li,001 PSAY "|"
+@ li,003 PSAY "Condicao de Pagto "+SubStr(SE4->E4_COND,1,15)
+@ li,038 PSAY "|Data de Emissao|"
+@ li,056 PSAY "Total das Mercadorias : "
+@ li,094 PSAY nTotNota Picture tm(nTotNota,14)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,003 PSAY SubStr(SE4->E4_DESCRI,1,34)
+@ li,038 PSAY "|"
+@ li,043 PSAY SC7->C7_EMISSAO
+@ li,054 PSAY "|"
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",52)
+@ li,054 PSAY "|"
+@ li,055 PSAY Replicate("-",77)
+@ li,132 PSAY "|"
+li:=li+1
+dbSelectArea("SM4")
+Seek xFilial()+SC7->C7_REAJUST
+dbSelectArea("SC7")
+@ li,001 PSAY "|"
+@ li,003 PSAY "Reajuste :"
+@ li,014 PSAY SC7->C7_REAJUST Picture PesqPict("SC7","c7_reajust")
+@ li,018 PSAY SM4->M4_DESCR
+@ li,054 PSAY "| IPI   :"
+@ li,094 PSAY nTotIpi         Picture tm(nTotIpi,14)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",52)
+@ li,054 PSAY "| Frete :"
+@ li,094 PSAY SC7->C7_FRETE   Picture tm(SC7->C7_FRETE,14)
+@ li,132 PSAY "|"
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Inicializar campos de Observacoes.                           ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If Empty(cObs02)
+	If Len(cObs01) > 50
+		cObs := cObs01
+		cObs01 := Substr(cObs,1,50)
+		For nX := 2 To 4
+			cVar  := "cObs"+StrZero(nX,2)
+			&cVar := Substr(cObs,(50*(nX-1))+1,50)
+		Next
+	EndIf
+Else
+	cObs01:= Substr(cObs01,1,IIf(Len(cObs01)<50,Len(cObs01),50))
+	cObs02:= Substr(cObs02,1,IIf(Len(cObs02)<50,Len(cObs01),50))
+	cObs03:= Substr(cObs03,1,IIf(Len(cObs03)<50,Len(cObs01),50))
+	cObs04:= Substr(cObs04,1,IIf(Len(cObs04)<50,Len(cObs01),50))
+EndIf
+
+li:=li+1
+@ li,001 PSAY "| Observacoes"
+@ li,054 PSAY "| Grupo :"
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,003 PSAY cObs01
+@ li,054 PSAY "|"+Replicate("-",77)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,003 PSAY cObs02
+@ li,054 PSAY "| Total Geral : "
+If nTotDesc == 0.00
+	nTotDesc:= CalcDesc(nTotNota,SC7->C7_DESC1,SC7->C7_DESC2,SC7->C7_DESC3)
+EndIf
+nTotGeral:=nTotNota+nTotIpi-nTotDesc
+@ li,094 PSAY nTotGeral      Picture tm(nTotGeral,14)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,003 PSAY cObs03
+@ li,054 PSAY "|"+Replicate("-",77)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,003 PSAY cObs04
+@ li,054 PSAY "| Obs. do Frete: "
+@ li,064 PSAY IF( SC7->C7_TPFRETE $ "F","FOB",IF(SC7->C7_TPFRETE $ "C","CIF"," " ))
+@ li,132 PSAY "|"
+li:=li+1
+cLiberador := ""
+nPosicao := 0
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|   NOTA: So aceitaremos a mercadoria se na sua Nota Fiscal constar o numero do nosso Pedido de Compras."
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpRodape³ Autor ³ Wagner Xavier         ³ Data ³          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Imprime o rodape do formulario e salta para a proxima folha³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ ImpRodape(Void)                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function ImpRodape
+Static Function ImpRodape()
+
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,070 PSAY "Continua ..."
+@ li,132 PSAY "|"
+li:=li+1
+@ li,001 PSAY "|"
+@ li,002 PSAY Replicate("-",limite)
+@ li,132 PSAY "|"
+li:=0
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpCabec ³ Autor ³ Wagner Xavier         ³ Data ³          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Imprime o Cabecalho do Pedido de Compra                    ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ ImpCabec(Void)                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatR110                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 27/06/00 ==> Function ImpCabec
+Static Function ImpCabec()
+
+@ 01,001 PSAY "|"
+@ 01,002 PSAY Replicate("-",limite)
+@ 01,132 PSAY "|"
+@ 02,001 PSAY chr(18)
+@ 02,001 PSAY "| P E D I D O  D E  C O M P R A S"
+@ 02,001 PSAY "| P E D I D O  D E  C O M P R A S"
+@ 02,050 PSAY SC7->C7_NUM      Picture PesqPict("SC7","c7_num")
+@ 02,050 PSAY SC7->C7_NUM      Picture PesqPict("SC7","c7_num")
+@ 02,080 PSAY "|"
+@ 03,001 PSAY "|"
+@ 03,080 PSAY "|"
+dbSelectArea("SA2")
+dbSeek(xFilial()+SC7->C7_FORNECE+SC7->C7_LOJA)
+@ 04,001 PSAY "|"
+@ 04,003 PSAY alltrim(SA2->A2_NOME)+" - "+SA2->A2_COD+" I.E.: "+SA2->A2_INSCR
+@ 04,003 PSAY alltrim(SA2->A2_NOME)+" - "+SA2->A2_COD+" I.E.: "+SA2->A2_INSCR
+@ 04,080 PSAY "|"
+@ 05,001 PSAY "|"
+@ 05,003 PSAY "CGC: "
+@ 05,003 PSAY "CGC: "
+@ 05,012 PSAY SA2->A2_CGC               Picture PesqPict("SA2","A2_CGC")
+@ 05,012 PSAY SA2->A2_CGC               Picture PesqPict("SA2","A2_CGC")
+@ 05,080 PSAY "|"
+@ 06,001 PSAY chr(15)
+@ 06,001 PSAY "|"
+@ 06,002 PSAY Replicate("-",limite)
+@ 06,132 PSAY "|"
+If mv_par08 == 1
+        @ 07,001 PSAY "|"
+        @ 07,002 PSAY "Itm|"
+        @ 07,009 PSAY "Codigo      "
+        @ 07,021 PSAY "|Descricao do Material"
+        @ 07,053 PSAY "|UM|  Quant."
+        @ 07,070 PSAY "|Valor Unitario|IPI|  Valor Total   |Entrega |  C.C.   | S.C. |"
+        @ 08,001 PSAY "|"
+        @ 08,002 PSAY Replicate("-",limite)
+        @ 08,132 PSAY "|"
+        dbSelectArea("SC7")
+	numPed:=SC7->C7_NUM
+        li:=08
+Else
+        @ 07,001 PSAY "|"
+        @ 07,002 PSAY "Itm|"
+        @ 07,009 PSAY "Codigo      "
+        @ 07,021 PSAY "|Descricao do Material"
+        @ 07,053 PSAY "|UM|  Quant."
+        @ 07,070 PSAY "|Valor Unitario|  Valor Total   |Entrega | Numero da OP  "
+        @ 07,132 PSAY "|"
+        @ 08,001 PSAY "|"
+        @ 08,002 PSAY Replicate("-",limite)
+        @ 08,132 PSAY "|"
+	dbSelectArea("SC7")
+	numPed:=SC7->C7_NUM
+        li:=08
+EndIf
+
+Return
+
+
+

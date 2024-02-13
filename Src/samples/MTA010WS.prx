@@ -1,0 +1,135 @@
+#Include "TOTVS.ch"
+#Include "RESTFUL.ch"
+#Include "TBICONN.ch"
+
+WSRESTFUL wsmata010 DESCRIPTION "REST web service for product   " SECURITY "MATA010"
+    WSDATA code        AS STRING
+    WSDATA description AS STRING
+
+    WSMETHOD GET    mt010all DESCRIPTION "Method to get all products informations" WSSYNTAX "/wsmata010/mt010all/{id}" PATH "mt010all"
+    WSMETHOD GET    mt010vis DESCRIPTION "Method to get product informations"      WSSYNTAX "/wsmata010/mt010vis/{id}" PATH "mt010vis"
+    // WSMETHOD POST   mt010inc DESCRIPTION "Method to include a new product"         WSSYNTAX "/wsmata010/mt010inc/{id}" PATH "mt010inc"
+    // WSMETHOD PUT    mt010alt DESCRIPTION "Method to change an existing product"    WSSYNTAX "/wsmata010/mt010alt/{id}" PATH "mt010alt"
+    // WSMETHOD DELETE mt010del DESCRIPTION "Method to exclude an existing product"   WSSYNTAX "/wsmata010/mata010del/{id}" PATH "mata010del"
+END WSRESTFUL
+
+WSMETHOD GET mt010all WSSERVICE wsmata010
+    Local lGet  := .F.
+    Local aArea := {}
+    Local cJSON := ""
+
+    ::SetContentType("application/json")
+
+    RPCSetEnv("99", "01", NIL, NIL, "COM", NIL, {"SB1", "SB5"})
+    	GetWsInfo("MATA010", 2, 1)
+
+		aArea := GetArea()
+
+        DbSelectArea("SB1")
+        DbSetOrder(1)
+        DbGoTop()
+
+        ::SetResponse("[")
+        While (EOF() == .F.)
+            cJSON += '{'
+            cJSON += '"code":"' + AllTrim(SB1->B1_COD) + '",'
+            cJSON += '"description":"' + AllTrim(SB1->B1_DESC) + '"' // SE ADICIONAR MAIS CAMPOS, INSIRA VIRGULA
+            // ADICIONE MAIS CAMPOS
+            cJSON += '}'
+            DbSkip()
+
+            If (EOF() == .F.)
+                cJSON += ","
+            EndIf
+        End
+        cJSON := NoAcento(cJSON)
+        ::SetResponse(cJSON + "]")
+
+        lGet := .T.
+
+        GetWsInfo("MATA010", 2, 0)
+
+        RestArea(aArea)
+    RPCClearEnv()
+Return (lGet)
+
+WSMETHOD GET mt010vis WSRECEIVE code WSSERVICE wsmata010
+    Local lGet  := .T.
+    Local aArea := {}
+    Local cJSON := ""
+
+    ::SetContentType("application/json")
+
+    RPCSetEnv("99", "01", NIL, NIL, "COM", NIL, {"SB1", "SB5"})
+    	GetWsInfo("MATA010", 2, 1)
+
+		aArea := GetArea()
+
+        If (Empty(::code) == .F.)
+            DbSelectArea("SB1")
+            DbSetOrder(1)
+            DbGoTop()
+
+            If (MsSeek(FwXFilial("SB1") + PadR(::code, TamSX3("B1_COD")[1])))
+                cJSON += '{'
+                cJSON += '"code":"' + AllTrim(SB1->B1_COD) + '",'
+                cJSON += '"description":"' + AllTrim(SB1->B1_DESC) + '"' // SE ADICIONAR MAIS CAMPOS, INSIRA VIRGULA
+                // ADICIONE MAIS CAMPOS
+                cJSON += '}'
+
+                ::SetResponse(cJSON)
+            Else
+                SetRestFault(404, "product " + ::code + " not found")
+            EndIf
+        Else
+            lGet := .F.
+            SetRestFault(400, "code parameter is mandatory")
+        EndIf
+
+        GetWsInfo("MATA010", 2, 0)
+
+        RestArea(aArea)
+    RPCClearEnv()
+Return (lGet)
+
+// WSMETHOD POST mt010inc WSRECEIVE code, description WSSERVICE wsmata010
+//     Local lPost := .T.
+// Return (lPost)
+
+// WSMETHOD PUT mt010alt WSRECEIVE code WSSERVICE wsmata010
+//     Local lPut := .T.
+// Return (lPut)
+
+// WSMETHOD DELETE mt010del WSRECEIVE code WSSERVICE wsmata010
+//     Local lDelete := .T.
+// Return (lDelete)
+
+Static Function GetWsInfo(cRoutine, nMethod, nInstant)
+    Local cMethod  := ""
+    Local cInstant := ""
+
+    Do Case
+        Case (nMethod == 2)
+            cMethod := "GET/VISUALIZE"
+        Case (nMethod == 3)
+            cMethod := "POST/INCLUDE"
+        Case (nMethod == 4)
+            cMethod := "PUT/UPDATE"
+        Case (nMethod == 5)
+            cMethod := "DELETE/EXCLUDE"
+    EndCase
+
+    Do Case
+        Case (nInstant == 0)
+            cInstant := "Ended"
+        Case (nInstant == 1)
+            cInstant = "Started"
+    EndCase
+
+    ConOut(Repl("-", 80))
+    ConOut(PadC("Routine: " + cRoutine, 80))
+    ConOut(PadC("Method: " + cMethod, 80))
+	ConOut(Repl("-", 80))
+    ConOut(PadC(cInstant + " at: " + Time(), 80))
+    ConOut(Repl("-", 80))
+Return (NIL)

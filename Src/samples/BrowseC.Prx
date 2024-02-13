@@ -1,0 +1,38 @@
+#IFDEF PROTHEUS
+
+#Include "RwMake.ch"
+User Function BrowseCor
+
+#ENDIF
+
+aCores := { { 'Recno() = 1    ', 'ENABLE'      },;  // Cores padroes do semaforo
+            { 'Recno() = 2    ', 'DISABLE'     },;  // Verde - ENABLE - Vermelho DISABLE
+            { 'Recno() = 3    ', 'BR_PRETO'    },;
+            { 'Recno() = 4    ', 'BR_AMARELO'  },;
+            { 'Recno() = 5    ', 'BR_VERDE'    },;
+            { 'Recno() = 6    ', 'BR_AZUL'     },;
+            { 'Recno() = 7    ', 'BR_CINZA'    },;
+            { 'Recno() = 8    ', 'BR_PINK'     },;
+            { 'Recno() = 9    ', 'BR_LARANJA'  },;
+            { 'Recno() = 10   ', 'BR_MARROM'   },;
+            { 'Recno() = 11   ', 'BR_VERMELHO' } }
+
+aRotina := { { "Pesquisar", "AxPesqui", 0 , 1 } }
+
+cCadastro := "Cadastro de Clientes - MultiCores"
+
+DbSelectArea("SA1")
+If .T.
+	Set Filter To A1_SALDUP <> 0
+Else
+	DbSetFilter({ || A1_SALDUP <> 0 }, "A1_SALDUP <> 0")
+Endif	
+DbGoTop()
+mBrowse(6, 1, 22, 75, "SA1",,,,,, aCores)
+
+#IFDEF PROTHEUS
+   Return(.T.)
+#ELSE
+   __Return(.T.)
+#ENDIF
+

@@ -1,0 +1,1028 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+#IFNDEF WINDOWS
+	#DEFINE PSAY SAY
+#ENDIF
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³ Programa  ³ FDTRAUT  ³ Pedro (Paiom - Campinas) ³ Data ³ 25/08/1999   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Descricao ³ Programa para transferir do local "01" para o local "06"  ³±±
+±±³           ³ todos produtos que estiverem com o vencimento menor que   ³±±
+±±³           ³ o vencimento minimo informado no SB1 (B1_FDVDMN)          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso       ³ Modulo Estoque                                            ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+User Function Fdtraut()        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("DDATAFEC,NRECNOSB8,NTOTB8,NFDVDMN,CPRODUTO,CCHAVPES")
+SetPrvt("NQTDTRAN,CCODORIG,CUMORIG,CLOCORIG,CLOCLZORIG,CCODDEST")
+SetPrvt("CUMDEST,CLOCDEST,CLOCLZDEST,CNUMLOTE,CLOTEDIGI,DDTVALID")
+SetPrvt("CNUMSERIE,NQUANT260,NQUANT260D,DEMIS260,CDOCTO,NSLORDSBF")
+SetPrvt("NSLRECSBF,NSLORDSB8,NSLRECSB8,CFILIAL,CNUMSEQ,ACM")
+SetPrvt("ACUSTO,NQUANTSEG,CARQTRAB,ACAMPOS,ATAM,CNREL")
+SetPrvt("CTITULO,CDESC1,CDESC2,CDESC3,ARETURN,CIMPNORM")
+SetPrvt("CIMPCOMP,CIMPON,CIMPOFF,CIMPRESET,CTAMANHO,M_PAG")
+SetPrvt("NLASTKEY,LCONTINUA,CPERG,NTIPO,CBCONT,CBTXT")
+SetPrvt("CABEC1,CABEC2,LI,NREG,LTIT,CDESCR")
+
+
+#IFDEF WINDOWS
+	@ 180,152 To 390,632 Dialog cJan01 Title "Transferencia Automatica"
+	@ 010,012 Say OemToAnsi("Este programa tem como objetivo transferir todos os produtos que estiverem para vencer")
+	@ 025,012 Say OemToAnsi("dentro do prazo informado no cadastro de produtos (Data Base do sistema + prazo infomado)")
+	@ 040,012 Say OemToAnsi("ATENCAO :  Se o prazo informado for igual a 0 (zero), nao sera transferido.")
+	@ 055,012 Say OemToAnsi("As transferencias ocorrerao do almoxarifado [01] para o [06], com a mesma localizacao")
+	@ 070,012 Say OemToAnsi("OBS.: Sera gerado um relatorio apresentando todos os produtos transferidos.")
+	@ 085,012 Button OemToAnsi("_Cancela")  Size 100,10 Action Close(cJan01)
+	@ 085,125 Button OemToAnsi("C_onfirma") Size 100,10 Action TranAut()// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==>    @ 085,125 Button OemToAnsi("C_onfirma") Size 100,10 Action Execute(TranAut)
+	Activate Dialog cJan01 Centered
+#ELSE
+	TranAut()
+	Return
+#ENDIF
+
+/*/
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³Fun‡Æo principal para transferˆncia                                         ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function TranAut
+Static Function TranAut()
+
+dDataFec := GetMV("MV_ULMES")
+
+If dDataFec >= dDataBase
+	Help ( " ", 1, "FECHTO" )
+Else
+	#IFDEF WINDOWS
+		Processa( {|| Transfer() } )// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> 	 Processa( {|| Execute(Transfer) } )
+		Processa( {|| ListaLog() } )// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> 	 Processa( {|| Execute(ListaLog) } )
+		Close(cJan01)
+	#ELSE
+		Transfer()
+		ListaLog()
+	#ENDIF
+EndIf
+
+Return
+
+/*/
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³Fun‡Æo para procurar no SB8 os lotes com o validade vencidade considerando  ³
+³o prazo informado no cadastro de produtos (SB1).                            ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function Transfer
+Static Function Transfer()
+
+FDCriaTrab()
+
+DbSelectArea("SB8")
+DbSetOrder(4)
+
+//Set SoftSeek On
+DbSeek(xFilial("SB8")+"01",.T.)
+//Set SoftSeek Off
+
+nRecnoSB8 := Recno()
+nTotB8    := 0
+
+While SB8->B8_FILIAL == xFilial() .and. SB8->B8_LOCAL == "01" .and. !Eof()
+	
+nTotB8 := nTotB8 + 1
+DbSkip()
+	
+EndDo //While SB8->B8_FILIAL == xFilial() .and. SB8->B8_LOCAL == "01" .and. !Eof()
+
+DbGoTo(nRecnoSB8)
+
+ProcRegua(nTotB8)
+
+Do While SB8->B8_FILIAL == xFilial() .and. SB8->B8_LOCAL == "01" .and. !Eof()
+	
+	IncProc()
+	
+	DbSelectArea("SB1")
+	DbSetOrder(1)
+	nFDVDMN := 0
+	
+	If DbSeek(xFilial("SB1")+SB8->B8_PRODUTO)
+      nFDVDMN := If(SB1->(FieldPos("B1_FDVDMN")) > 0, SB1->B1_FDVDMN, 9999)
+	EndIf //DbSeek(xFilial("SB1")+SB8->B8_PRODUTO)
+	
+	If nFDVDMN == 0
+		DbSelectArea("SB8")
+		cProduto := SB8->B8_PRODUTO
+		Do While SB8->B8_FILIAL  == xFilial() .and. ;
+			SB8->B8_LOCAL   == "01"      .and. ;
+			SB8->B8_PRODUTO == cProduto  .and. !Eof()
+			IncProc()
+			DbSkip()
+		EndDo
+		Loop
+	EndIf //nFDVDMN == 0
+	
+	DbSelectArea("SB8")
+	cProduto := SB8->B8_PRODUTO
+	Do While SB8->B8_FILIAL  == xFilial() .and. SB8->B8_LOCAL  == "01" .and. ;
+		SB8->B8_PRODUTO == cProduto  .and. !Eof()
+		
+		IncProc()
+		
+		If (SB8->B8_SALDO <= 0) .or. (SB8->B8_SALDO <= SB8->B8_EMPENHO)
+			DbSelectArea("SB8")
+			DbSkip()
+			Loop
+		EndIf
+		
+		If SB8->B8_DTVALID >= (dDataBase + nFDVDMN)
+			DbSelectArea("SB8")
+			DbSkip()
+			Loop
+		EndIf
+		
+		cChavPes := SB8->B8_PRODUTO+SB8->B8_LOCAL+SB8->B8_LOTECTL
+		DbSelectArea("SBF")
+		DbSetOrder(2)
+		If !DbSeek(xFilial("SBF")+cChavPes)
+			DbSelectArea("SB8")
+			DbSkip()
+			Loop
+		Else
+			
+			nQtdTran := SB8->B8_SALDO - SB8->B8_EMPENHO
+			
+			Do While SBF->BF_PRODUTO+SBF->BF_LOCAL+SBF->BF_LOTECTL == cChavPes ;
+				.and. nQtdTran > 0 .and. !Eof()
+				
+				If (SBF->BF_QUANT - SBF->BF_EMPENHO) >= nQtdTran
+					nQtdTran := 0
+				Else
+					nQtdTran := nQtdTran - (SBF->BF_QUANT - SBF->BF_EMPENHO)
+				EndIf //(SBF->BF_QUANT - SBF->BF_EMPENHO) >= nQtdTran
+				
+				cCodOrig   :=  SB8->B8_PRODUTO
+				cUmOrig    :=  SB1->B1_UM
+				cLocOrig   :=  SB8->B8_LOCAL
+				cLoclzOrig :=  SBF->BF_LOCALIZ
+				cCodDest   :=  SB8->B8_PRODUTO
+				cUmDest    :=  SB1->B1_UM
+				cLocDest   :=  "06"
+				cLoclzDest :=  AllTrim(SBF->BF_LOCALIZ)+" *RET*"
+				cNumLote   :=  SB8->B8_NUMLOTE
+				cLoteDigi  :=  SB8->B8_LOTECTL
+				dDtValid   :=  SB8->B8_DTVALID
+				cNumSerie  :=  SBF->BF_NUMSERI
+				nQuant260  :=  SBF->BF_QUANT - SBF->BF_EMPENHO
+				If SB1->B1_SEGUM <> Space(Len(SB1->B1_SEGUM))
+					If SB1->B1_TIPCONV == "M"
+						nQuant260D := (SBF->BF_QUANT - SBF->BF_EMPENHO)*SB1->B1_CONV
+					Else
+						nQuant260D := (SBF->BF_QUANT - SBF->BF_EMPENHO)/SB1->B1_CONV
+					EndIf
+				Else
+					nQuant260D := 0
+				EndiF
+				dEmis260   :=  dDataBase
+				cDocto     :=  "TR_AUT"
+				
+				DbSelectArea("SBE")
+				DbSetOrder(1)
+				If !DbSeek(xFilial("SBE")+"06"+cLoclzDest)
+					
+					If RecLock("SBE",.t.)
+						SBE->BE_FILIAL := xFilial()
+						SBE->BE_LOCAL  := "06"
+						SBE->BE_LOCALIZ:= cLoclzDest
+						MsUnLock()
+						
+                  DbSelectArea("FD1")
+                  RecLock("FD1",.T.)
+                  FD1->PRODUTO := "ZZZZZZZZZZZZZZZ"
+                  FD1->LOC_DES := "06"
+                  FD1->LCZ_DES := AllTrim(SBF->BF_LOCALIZ)+" *RET*"
+                  MsUnLock()
+					EndIf //RecLock("SBE",.t.)
+					
+				EndIf //!DbSeek(xFilial("SBE")+"06"cLoclzDest)
+				
+				
+				DbSelectArea("SBF")
+				nSlOrdSBF := IndexOrd()
+				nSlRecSBF := Recno()
+				
+				DbSelectArea("SB8")
+				nSlOrdSB8 := IndexOrd()
+				nSlRecSB8 := Recno()
+				
+				A260ProcTR()
+				
+				DbSelectArea("SB8")
+				DbSetOrder(nSlOrdSB8)
+				DbGoTo(nSlRecSB8)
+				
+				DbSelectArea("SBF")
+				DbSetOrder(nSlOrdSBF)
+				DbGoTo(nSlRecSBF)
+				
+				DbSelectArea("FD1")
+            RecLock("FD1",.T.)
+            FD1->PRODUTO := SB8->B8_PRODUTO
+            FD1->LOTE    := SB8->B8_LOTECTL
+            FD1->QUANT   := nQuant260
+            FD1->VENCIM  := dDtValid
+            FD1->LOC_ORI := SB8->B8_LOCAL
+            FD1->LCZ_ORI := SBF->BF_LOCALIZ
+            FD1->LOC_DES := "06"
+            FD1->LCZ_DES := AllTrim(SBF->BF_LOCALIZ)+" *RET*"
+            MsUnLock()
+				DbSelectArea("SBF")
+				DbSkip()
+				
+			EndDo //While SBF->BF_PRODUTO+SBF->BF_LOCAL+SBF->BF_LOTECTL+SBF->BF_NUMLOTE;
+			
+		EndIf //!DbSeek(xFilial("SBF")+cChavPes)
+		
+		DbSelectArea("SB8")
+		DbSkip()
+	EndDo //While SB8->B8_FILIAL  == xFilial() .and. SB8->B8_LOCAL  == "01" .and. ;
+	
+	DbSelectArea("SB8")
+EndDo //While SB8->B8_FILIAL == xFilial() .and. SB8->B8_LOCAL == "01" .and. !Eof()
+
+Return
+
+
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³A260Processa  ³ Eveli Morasco             ³ Data ³ 16/01/92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Processamento da inclusao                                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ A260Processa()                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MatA260                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function a260ProcTR
+Static Function a260ProcTR()
+
+cFilial := xFilial()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Posiciona produto e lote se usa rastro.    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dbSelectArea("SB1")
+dbSeek(xFilial()+cCodOrig)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Atualiza arquivo de saldos em estoque      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dbSelectArea("SB2")
+dbSeek(xFilial()+cCodOrig+cLocOrig)
+If EOF()
+	CriaSB2(cCodOrig,cLocOrig)
+EndIf
+//RecLock("SB2",.F.)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Pega o proximo numero sequencial de movimento      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+cNumSeq := ProxNum()
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ GERA MOV. INTERNOS ATRAVES DO SD3                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dbSelectArea("SD3")
+RecLock("SD3",.T.)
+SD3->D3_FILIAL  := cFilial
+SD3->D3_COD     := cCodOrig
+SD3->D3_QUANT   := nQuant260
+SD3->D3_CF      := "RE4"
+SD3->D3_CHAVE   := SubStr(D3_CF,2,1)+IIF(D3_CF=="DE4","9","0")
+SD3->D3_LOCAL   := cLocOrig
+SD3->D3_DOC     := cDocto
+SD3->D3_EMISSAO := dEmis260
+SD3->D3_UM      := cUmOrig
+SD3->D3_GRUPO   := SB1->B1_GRUPO
+SD3->D3_NUMSEQ  := cNumSeq
+SD3->D3_QTSEGUM := nQuant260D
+SD3->D3_SEGUM   := SB1->B1_SEGUM
+SD3->D3_TM      := "999"
+SD3->D3_TIPO    := SB1->B1_TIPO
+SD3->D3_CONTA   := SB1->B1_CONTA
+SD3->D3_USUARIO := SubStr(cUsuario,7,15)
+SD3->D3_NUMLOTE := IIf(Rastro(cCodOrig,"S"),cNumLote,CriaVar("D3_NUMLOTE"))
+SD3->D3_LOTECTL := IIf(Rastro(cCodOrig),cLoteDigi,CriaVar("D3_LOTECTL"))
+SD3->D3_DTVALID := IIf(Rastro(cCodOrig),dDtValid,CriaVar("D3_DTVALID"))
+SD3->D3_LOCALIZ := cLoclzOrig
+SD3->D3_NUMSERI := cNumSerie
+MsUnLock()
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Baixa Lotes                                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If Rastro(D3_COD)
+	if !(Substr(SD3->D3_COD,1,3) == "MOD")
+		BaixaLote("SD3",SD3->D3_NUMLOTE)
+	Endif
+Endif
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Pega os 15 custos medios atuais            ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+aCM := PegaCMAtu(SD3->D3_COD,SD3->D3_LOCAL)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Grava o custo da movimentacao              ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+aCusto := GravaCusD3(aCM)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Atualiza o saldo atual (VATU) com os dados do SD3     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+B2AtuComD3(aCusto)
+
+If cCodOrig != cCodDest
+	dbSelectArea("SB1")
+	dbSeek(xFilial()+cCodDest)
+	nQuantSeg := nQuant260 * B1_CONV
+Else
+	nQuantSeg := nQuant260D
+EndIf
+
+dbSelectArea("SB2")
+dbSeek(xFilial()+cCodDest+cLocDest)
+If EOF()
+	CriaSB2(cCodDest,cLocDest)
+EndIf
+//RecLock("SB2",.F.)
+
+dbSelectArea("SD3")
+RecLock("SD3",.T.)
+SD3->D3_FILIAL  := cFilial
+SD3->D3_COD     := cCodDest
+SD3->D3_QUANT   := nQuant260
+SD3->D3_CF      := "DE4"
+SD3->D3_CHAVE   := SubStr(D3_CF,2,1)+IIF(D3_CF=="DE4","9","0")
+SD3->D3_LOCAL   := cLocDest
+SD3->D3_DOC     := cDocto
+SD3->D3_EMISSAO := dEmis260
+SD3->D3_UM      := cUmDest
+SD3->D3_GRUPO   := SB1->B1_GRUPO
+SD3->D3_NUMSEQ  := cNumSeq
+SD3->D3_QTSEGUM := nQuantSeg
+SD3->D3_SEGUM   := SB1->B1_SEGUM
+SD3->D3_TM      := "499"
+SD3->D3_TIPO    := SB1->B1_TIPO
+SD3->D3_CONTA   := SB1->B1_CONTA
+SD3->D3_USUARIO := SubStr(cUsuario,7,15)
+SD3->D3_NUMLOTE := CriaVar("D3_NUMLOTE")
+SD3->D3_LOTECTL := IIf(Rastro(cCodDest),cLoteDigi,CriaVar("D3_LOTECTL"))
+SD3->D3_DTVALID := IIf(Rastro(cCodDest),dDtValid,CriaVar("D3_DTVALID"))
+SD3->D3_LOCALIZ := cLoclzDest
+SD3->D3_NUMSERI := cNumSerie
+MsUnLock()
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Baixa Lotes                                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+// Parametros da Cria Lote
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ CriaLote ³ Autor ³ Ary Medeiros          ³ Data ³ 02.07.93 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Cria lote para um produto                                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ ExpC1 = Alias de origem (de onde a funcao e' chamada)      ³±±
+±±³          ³ ExpC2 = Produto                                            ³±±
+±±³          ³ ExpC3 = Local                                              ³±±
+±±³          ³ ExpC4 = Lote                                               ³±±
+±±³          ³ ExpC5 = SubLote                                            ³±±
+±±³          ³ ExpC6 = Lote do Fornecedor                                 ³±±
+±±³          ³ ExpC7 = Cliente                                            ³±±
+±±³          ³ ExpC8 = Loja                                               ³±±
+±±³          ³ ExpC9 = Tipo do Movimento                                  ³±±
+±±³          ³ ExpC10= Origem do Lancamento                               ³±±
+±±³          ³ ExpC11= Chave do SB8                                       ³±±
+±±³          ³ ExpC12= Numero Sequencial                                  ³±±
+±±³          ³ ExpC13= Documento                                          ³±±
+±±³          ³ ExpC14= Serie do Documento                                 ³±±
+±±³          ³ ExpC15= Ordem de Producao                                  ³±±
+±±³          ³ ExpN1 = Quantidade                                         ³±±
+±±³          ³ ExpN2 = Quantidade 2a. UM                                  ³±±
+±±³          ³ ExpD1 = Data de Criacao do Lote                            ³±±
+±±³          ³ ExpD2 = Data de Validade do Lote                           ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄ´±±
+±±³Revisao   ³ Rodrigo de A. Sartorio                   ³ Data  ³ 23/02/99³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+* Function CriaLote(cAlias,cProduto,cLocal,cLoteCtl,cNumLote,cLoteFor,cCliFor,cLoja,cTm,cOrigLan,cChave,cNumSeq,cDoc,cSerie,cOp,nQuant,nQuant2UM,dData,dDtValid)
+
+// Parametros da Cria Lote
+
+if Rastro(D3_COD)
+	if !(Substr(SD3->D3_COD,1,3) == "MOD")
+		nQuant2UM := ConvUm(D3_COD, D3_QUANT,0,2)
+      CriaLote("SD3", cCodDest, D3_LOCAL, D3_LOTECTL, SB8->B8_NUMLOTE, "", "", "", SD3->D3_TM, SB8->B8_ORIGLAN, "", cNumSeq, cDocto, cNumSerie, "", SD3->D3_QUANT, nQuant2Um, SB8->B8_DATA, SB8->B8_DTVALID) // Adicionado do terceiro parametro em Diante
+		If Rastro(SD3->D3_COD,"S")
+			RecLock("SD3",.F.)
+			Replace D3_NUMLOTE With SB8->B8_NUMLOTE
+			MsUnLocK()
+		EndIf
+	Endif
+Endif
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Grava o custo da movimentacao              ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+aCusto := GravaCusD3(aCM)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Atualiza o saldo atual (VATU) com os dados do SD3     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+B2AtuComD3(aCusto)
+
+//End Transaction
+
+Return
+
+
+
+/*/
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³Fun‡Æo para montar arquivo de trabalho para gravar o log de transferencia,  ³
+³para posterior impressao.                                                   ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function FDCriaTrab
+Static Function FDCriaTrab()
+
+cArqTrab := ""
+aCampos  := {}
+aTam     := {}
+
+aTam := TamSX3("B8_PRODUTO")
+AADD(aCampos,{"PRODUTO"   ,"C" ,aTam[1],aTam[2]})
+aTam := TamSX3("B8_LOTECTL")
+AADD(aCampos,{"LOTE"      ,"C" ,aTam[1],aTam[2]})
+aTam := TamSX3("B8_SALDO")
+AADD(aCampos,{"QUANT"     ,"N" ,aTam[1],aTam[2]})
+aTam := TamSX3("B8_DTVALID")
+AADD(aCampos,{"VENCIM"    ,"D" ,aTam[1],aTam[2]})
+aTam := TamSX3("B8_LOCAL")
+AADD(aCampos,{"LOC_ORI"   ,"C" ,aTam[1],aTam[2]})
+aTam := TamSX3("BF_LOCALIZ")
+AADD(aCampos,{"LCZ_ORI"   ,"C" ,aTam[1],aTam[2]})
+aTam := TamSX3("B8_LOCAL")
+AADD(aCampos,{"LOC_DES"   ,"C" ,aTam[1],aTam[2]})
+aTam := TamSX3("BF_LOCALIZ")
+AADD(aCampos,{"LCZ_DES"   ,"C" ,aTam[1],aTam[2]})
+
+cArqTrab := CriaTrab(aCampos,.t.)
+
+Use &cArqTrab NEW Exclusive Alias FD1
+Index On PRODUTO + LOTE + DTOS(VENCIM) + LOC_ORI + LCZ_ORI To &cArqTrab
+
+dbGoTop()
+
+Return
+
+
+/*/
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                                                            ³
+³Fun‡Æo para imprimir o log gerado ap¢s as transferecias autom tica.         ³
+³                                                                            ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function ListaLog
+Static Function ListaLog()
+
+#IFNDEF WINDOWS
+	// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 31/07/00 ==>    #DEFINE PSAY SAY
+#ENDIF
+
+/*/
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ Define Variaveis                                                 ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+
+cNrel     := "FDTRAUT"
+cTitulo   := "LOG de Transferencia Automatica "
+cDesc1    := "Imprimi o log referente as transferencias automaticas   "
+cDesc2    := "realizadas para o Local [06]                            "
+cDesc3    := "   "
+aReturn   := { "A4       ", 1,"Administracao", 2, 2, 1,"",1 ,.T.}
+cImpNorm  := chr(18)            //impressora - normal
+cImpComp  := chr(15)            //             comprimido
+cImpOn    := chr(17)            //             on-line
+cImpOff   := chr(19)            //             off-line
+cImpReset := chr(27) + "@"      //             reset
+
+cTamanho  := "M"                //cabecalho  em 132 colunas
+m_pag     := 1
+nLastkey  := 0
+lContinua := .T.
+cPerg     := "FDNFAHT"
+nTipo     := 15
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Pergunta                                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//pergunte(cPerg,.t.)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Envia controle para a funcao SETPRINT                            ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If LastKey() == 27 .OR. nLastKey == 27
+	Return
+EndIf
+
+cNrel:=SetPrint("SB1",cNrel,cPerg,cTitulo,cDesc1,cDesc2,cDesc3,.F.,"",.T.,cTamanho)
+
+If nLastKey == 27
+   dbSelectArea("FD1")
+   dbCloseArea()
+	//fErase(cArqTrab+".DBF")
+	//fErase(cArqTrab+OrdBagExt())
+	Return
+EndIf
+
+SetDefault(aReturn, "FD1")
+
+If nLastKey == 27
+	Return
+EndIf
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Chama processos                                                   ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+#IFDEF WINDOWS
+	Processa( {|| Imprimir() } )// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==>    Processa( {|| Execute(Imprimir) } )
+#ELSE
+	Imprimir()
+#ENDIF
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Finaliza Programa                                                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+dbSelectArea("FD1")
+dbCloseArea()
+//fErase(&cArqTrab+".DBF")
+//fErase(&cArqTrab+OrdBagExt())
+
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> __Return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Fun‡Æo para selecionar e imprimir os dados                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function Imprimir
+Static Function Imprimir()
+
+cbcont := 0
+cbtxt  := Space(10)
+
+Cabec1 :="                                               ³           ³ VALIDADE ³                ³  *  O R I G E M  *  ³ * D E S T I N O *    ³"
+Cabec2 :="PRODUTO         DESCRI€ÇO                      ³ LOTE      ³ DO  LOTE ³   QUANTIDADE   ³LOCAL LOCALIZA€ÇO    ³ LOCAL LOCALIZA€ÇO    ³"
+
+//         10        20        30        40        50        60        70        80        90       100       110       120       130       140       150       160       170       180       190       200       220
+//0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+//                                               ³           ³ VALIDADE ³                ³  *  O R I G E M  *  ³ * D E S T I N O *    ³
+//PRODUTO         DESCRI€ÇO                      ³ LOTE      ³ DO  LOTE ³   QUANTIDADE   ³LOCAL LOCALIZA€ÇO    ³ LOCAL LOCALIZA€ÇO    ³
+//XXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ³ xxxxxxxxxx³ 99/99/99 ³ 9,999,999.9999 ³ XX   XXXXXXXXXXXXXXX³  XX   XXXXXXXXXXXXXXX³
+//
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Posiciona todos os indices necessarios                            ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+dbSelectArea("SB1")
+dbSetOrder(1)
+
+dbSelectArea("FD1")
+dbSetOrder(1)
+DbGoTop()
+
+cbcont := 0
+cbtxt  := Space(10)
+li     := 60
+nReg   := 0
+
+ProcRegua(LastRec())
+
+lTit := .T.
+li   := 60
+
+Do While !Eof()
+	
+	IncProc()
+	
+	DbSelectArea("SB1")
+   If DbSeek(xFilial("SB1")+FD1->PRODUTO)
+		cDescr := SB1->B1_DESC
+   Else
+      cDescr := "Descri‡Æo nÆo encontrada !"  //se nÆo achou a descri‡Æo, informa
+   EndIf
+	
+	DbSelectArea("FD1")
+	
+	IF li > 58
+		Cabec(cTitulo,Cabec1,Cabec2,cNrel,cTamanho,nTipo)
+	EndIF
+
+   If FD1->PRODUTO <> "ZZZZZZZZZZZZZZZ"
+		
+		@ li,000 PSAY FD1->PRODUTO
+		@ li,016 PSAY cDescr
+		@ li,047 PSAY "³"
+		@ li,049 PSAY FD1->LOTE
+		@ li,059 PSAY "³"
+		@ li,061 PSAY DTOC(FD1->VENCIM)
+		@ li,070 PSAY "³"
+	  //	@ li,072 PSAY Transform(FD1->QUANT, "99,999,999.9999")
+		@ li,087 PSAY "³"
+		@ li,089 PSAY FD1->LOC_ORI
+		@ li,094 PSAY FD1->LCZ_ORI
+		@ li,109 PSAY "³"
+		@ li,112 PSAY FD1->LOC_DES
+		@ li,117 PSAY FD1->LCZ_DES
+		@ li,132 PSAY "³"
+		li := li+1
+		
+   Else
+		
+		If lTit
+			
+			li := li+1
+			@ li,016 PSAY "LOCALIZA€åES CRIADAS NO ALMOXARIFADO (06) P/ ATENDER TRANSFERECNIA"
+			li := li+1
+			@ li,016 PSAY "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ"
+			li := li+2
+			lTit := .F.
+			
+		EndIf
+		
+		@ li,016 PSAY "LOCAL -> " + FD1->LOC_DES + ;
+		"   LOCALIZA€ÇO -> " + FD1->LCZ_DES
+		li := li+1
+		
+	EndIf //FD1->PRODUTO <> "ZZZZZZZZZZZZZZZ"
+	
+   DbSelectArea("FD1")
+	DbSkip()
+EndDo //While !Eof()
+
+// DbSelectArea("FD1")
+DbSelectArea("SB1")
+DbGoTop()
+
+If Eof()
+	
+	Cabec(cTitulo,Cabec1,Cabec2,cNrel,cTamanho,nTipo)
+	
+	li := 10
+	@ li,010 PSAY "NÇO FOI ENCONTRADO NENHUM PRODUTO A SER TRANSFERIDO, CONSIDERANDO O PRAZO INFORMADO NO CADASTRO DE PRODUTO !"
+	li := li+1
+	@ li,010 PSAY "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ"
+	
+EndIf //Eof()
+
+If li <> 80
+	Roda(cbcont,cbtxt,cTamanho)
+EndIf
+
+@ prow()+2,00 Say " "
+
+Set Device To Screen
+If lContinua
+	If aReturn[5] == 1           //relatorio em tela
+		Set Printer To
+		dbcommitAll()
+		ourspool(cNrel)
+	EndIf
+Endif
+
+MS_Flush()
+
+Return
+
+Static Function CriaLote(cAlias,cProduto,cLocal,cLoteCtl,cNumLote,cLoteFor,cCliFor,cLoja,cTm,cOrigLan,cChave,cNumSeq,cDoc,cSerie,cOp,nQuant,nQuant2UM,dData,dDtValid)
+Local nRegistro:=0
+Local aArea:=GetArea(),aAreaSB1:={}
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Preenche parametros nao recebidos pela funcao         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dData   := IF(dData == NIL .Or. !(ValType(dData) == "D") .Or. Empty(dData),dDataBase,dData)
+cChave  := IF(cChave == NIL,"",cChave)
+cLoteFor:= IF(cLoteFor == NIL,"",cLoteFor)
+
+// Descobre a data de validade
+If !(ValType(dDtValid) == "D") .Or. Empty(dDtValid)
+	dbSelectArea("SB1")
+	aAreaSB1:=GetArea()
+	dbSetOrder(1)
+	If dbSeek(xFilial()+cProduto)
+		dDtValid:=dData+SB1->B1_PRVALID
+	Else
+		dDtValid:=dData
+	EndIf
+	RestArea(aAreaSB1)
+EndIf
+
+// Descobre o sub-lote
+cNumLote := If(cNumLote == Nil,NextLote(cProduto,"S"),IF(Empty(cNumLote),NextLote(cProduto,"S"),cNumLote))
+// Descobre o lote
+cLoteCtl := If(Empty(cLoteCtl),NextLote(cProduto,"L",cNumLote),cLoteCtl)
+cLoteCtl := If(Empty(cLoteCtl),"AUTO"+cNumLote,cLoteCtl)
+
+Reclock(cAlias,.F.)
+Replace &(Substr(cAlias,2,2)+"_LOTECTL") With cLoteCtl
+If Rastro(cProduto,"S") .Or. cAlias == "SD5"
+	Replace &(Substr(cAlias,2,2)+"_NUMLOTE") With cNumLote
+EndIf
+MsUnlock()
+
+dbSelectArea("SB8")
+RecLock("SB8",.T.)
+Replace	B8_FILIAL  with cFilial,;
+	B8_NUMLOTE with cNumLote,;
+	B8_PRODUTO with cProduto,;
+	B8_LOCAL   with cLocal,;
+	B8_DATA    with dData,;
+	B8_DTVALID with dDtValid,;
+	B8_SALDO   with nQuant,;
+	B8_ORIGLAN with cOrigLan,;
+	B8_LOTEFOR with cLoteFor,;
+	B8_CHAVE   with cChave,;
+	B8_QTDORI  with nQuant,;
+	B8_LOTECTL with cLoteCtl
+MsUnlock()
+
+// Verifica se a data de validade pode ser utilizada
+nRegistro:=Recno()
+If dbSeek(xFilial()+cProduto+cLocal+cLoteCtl+IF(Rastro(cProduto,"S"),cNumLote,""))
+	If	dDtValid # SB8->B8_DTVALID
+		Help(" ",1,"A240DTVALI")
+		dDtValid:=SB8->B8_DTVALID
+		// Grava no registro o Lote e a Data de Validade
+		dbGoto(nRegistro)
+		RecLock("SB8",.F.)
+		Replace 	B8_DTVALID with dDtValid
+		MsUnlock()
+	EndIf
+EndIf
+
+If cAlias != "SD5"
+   GravaSD5(cAlias,cProduto,cLocal,cLoteCtl,cNumLote,cNumSeq,cDoc,cSerie,cOp,cTm,cCliFor,cLoja,cLoteFor,nQuant,nQuant2UM,dData,dDtValid)
+EndIf
+
+RestArea(aArea)
+
+Return NIL
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³GravaSD5  ³ Autor ³ Ary Medeiros          ³ Data ³ 02.07.93 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Faz a Baixa de lote  usando FIFO                           ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ ExpC1 = Alias Origem do Movimento                          ³±±
+±±³          ³ ExpC2 = Produto                                            ³±±
+±±³          ³ ExpC3 = Almoxarifado                                       ³±±
+±±³          ³ ExpC4 = Lote                                               ³±±
+±±³          ³ ExpC5 = Sub-Lote                                           ³±±
+±±³          ³ ExpC6 = Numero Sequencial                                  ³±±
+±±³          ³ ExpC7 = Documento                                          ³±±
+±±³          ³ ExpC8 = Serie do Documento                                 ³±±
+±±³          ³ ExpC9 = Ordem de Producao                                  ³±±
+±±³          ³ ExpC10= Tipo do Movimento                                  ³±±
+±±³          ³ ExpC11= Cliente/Fornecedor                                 ³±±
+±±³          ³ ExpC12= Loja                                               ³±±
+±±³          ³ ExpC13= Lote do Fornecedor                                 ³±±
+±±³          ³ ExpN1 = Quantidade                                         ³±±
+±±³          ³ ExpN2 = Quantidade 2a UM                                   ³±±
+±±³          ³ ExpD1 = Data                                               ³±±
+±±³          ³ ExpD2 = Data de Validade                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+Static Function GravaSD5(cAlias,cProduto,cLocal,cLoteCtl,cNumLote,cNumSeq,cDoc,cSerie,cOp,cTm,cCliFor,cLoja,cLoteFor,nQuant,nQuant2UM,dData,dDtValid)
+	Local aArea:=GetArea()
+	dbSelectArea("SD5")
+	Append Blank
+	Replace D5_FILIAL  with cFilial
+   Replace D5_NUMSEQ  with cNumSeq  // O Erro ocorre aqui na segunda chamada
+	Replace D5_PRODUTO with cProduto
+	Replace D5_LOCAL   with cLocal
+	Replace D5_DOC     with cDoc
+	Replace D5_SERIE   with cSerie
+	Replace D5_OP      with cOp
+	Replace D5_DATA    with dData
+	Replace D5_ORIGLAN with cTm
+	Replace D5_NUMLOTE with cNumLote
+	Replace D5_CLIFOR  with cCliFor
+	Replace D5_LOJA    with cLoja
+	Replace D5_QUANT   with nQuant
+	Replace D5_LOTEFOR with cLoteFor
+	Replace D5_LOTECTL with IF(!Empty(cLoteCtl),cLoteCtl,"AUTO"+cNumLote)
+	Replace D5_DTVALID with dDtValid
+	Replace D5_QTSEGUM With nQuant2UM
+	MsUnlock()
+	RestArea(aArea)
+	Return
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³BaixaLote ³ Autor ³ Ary Medeiros          ³ Data ³ 02.07.93 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Faz a Baixa de sub-lote usando FIFO                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ BaixaLote(ExpC1,ExpC2,ExpN1)                               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ ExpC1 = Alias Oigem da Movimentacao                        ³±±
+±±³          ³ ExpC2 = Sub-Lote                                           ³±±
+±±³          ³ ExpL1 = Flag que indica se baixa empenho (Producao)        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄ´±±
+±±³Revisao   ³ Rodrigo de A. Sartorio / Sergio Silveira ³ Data  ³ 22/10/97³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+Static Function BaixaLote(cAlias,cNumLote,lBaixaEmp)
+Local xAlias := Alias(),cProduto,cLocal, cCliFornec, cLoj, cDocto, cSer, cSequenc
+Local nBaixa:=0,nSaldo:=0,nQuant:=0,nEmpenho:=0
+Local nMultiplic := 1
+Local cSeek:="",cCompara:=""
+
+If (cAlias == "SD3" .And. SD3->D3_TM > "500") .Or. cAlias == "SD2" .Or. cAlias == "SCN"
+	nMultiplic := -1
+EndIf
+
+IF cAlias == "SD3"
+	cProduto := SD3->D3_COD
+	cLocal   := SD3->D3_LOCAL
+	cLoteCtl := SD3->D3_LOTECTL
+	nQuant   := SD3->D3_QUANT
+	If SD3->D3_CF == "DE3"
+		cLocal := GETMV("MV_LOCPROC")
+		nMultiplic := -1
+	Endif
+ElseIf cAlias == "SD2"
+	cProduto  := SD2->D2_COD
+	cLocal    := SD2->D2_LOCAL
+	cLoteCtl  := SD2->D2_LOTECTL
+	nQuant    := SD2->D2_QUANT
+	cDocto    := SD2->D2_DOC
+	cSer      := SD2->D2_SERIE
+	cCliFornec:= SD2->D2_CLIENTE
+	cLoj      := SD2->D2_LOJA
+	cSequenc  := SD2->D2_NUMSEQ
+ElseIf cAlias == "SD1"
+	cProduto  := SD1->D1_COD
+	cLocal    := SD1->D1_LOCAL
+	cLoteCtl  := SD1->D1_LOTECTL
+	nQuant    := SD1->D1_QUANT
+	cDocto    := SD1->D1_DOC
+	cSer      := SD1->D1_SERIE
+	cCliFornec:= SD1->D1_FORNECE
+	cLoj      := SD1->D1_LOJA
+	cSequenc  := SD1->D1_NUMSEQ
+ElseIf cAlias == "SCN" .And. cPaisLoc <> "BRA"
+	cProduto  := SCN->CN_PRODUTO
+	cLocal    := SCN->CN_LOCAL
+	cLoteCtl  := SCN->CN_LOTECTL
+	nQuant    := SCN->CN_QUANT
+	cDocto    := SCN->CN_REMITO
+	cSer      := SCN->CN_SERIE
+	cCliFornec:= SCN->CN_CLIENTE
+	cLoj      := SCN->CN_LOJA
+	cSequenc  := SCN->CN_NUMSEQ
+Endif
+
+lBaixaEmp:=IF(lBaixaEmp == NIL,.F.,lBaixaEmp)
+
+If Rastro(cProduto,"S")
+	cNumLote    := IF(cNumLote == Nil,Space(6),cNumLote)
+Else
+	cNumLote    := Space(6)
+EndIf
+
+IF Empty(cNumLote)
+	dbSelectArea("SB8")
+	If Rastro(cProduto,"S")
+		dbSetOrder(1)
+		cSeek:=xFilial()+cProduto+cLocal
+		cCompara:="SB8->B8_FILIAL+SB8->B8_PRODUTO+SB8->B8_LOCAL"
+		dbSeek(cSeek)
+
+		While nQuant > 0 .And. cSeek == &(cCompara)
+			nSaldo := SB8->B8_SALDO - SB8->B8_EMPENHO
+	   	    If nSaldo > 0
+	      	   nBaixa := IF(nSaldo >= nQuant,nQuant,nSaldo)
+	           GravaSD5(cAlias,SB8->B8_PRODUTO,SB8->B8_LOCAL,SB8->B8_LOTECTL,SB8->B8_NUMLOTE,cSequenc,cDocto,cSer,,SB8->B8_ORIGLAN,cCliFornec,cLoj,SB8->B8_LOTEFOR,nBaixa,,SB8->B8_DATA,SB8->B8_DTVALID)
+			   Reclock("SB8",.F.)
+			   Replace SB8->B8_SALDO With SB8->B8_SALDO - nBaixa
+			   nQuant -= nBaixa
+		    Endif
+		    dbSelectArea("SB8")
+		    dbSkip()
+		EndDo
+
+	Else
+
+		// Qdo for saida do estoque
+		If nMultiplic == -1
+			dbSetOrder(3)
+			If !Empty(cLoteCtl)
+				cSeek:=xFilial()+cProduto+cLocal+cLoteCtl
+				cCompara:="SB8->B8_FILIAL+SB8->B8_PRODUTO+SB8->B8_LOCAL+SB8->B8_LOTECTL"
+			Else
+				cSeek:=xFilial()+cProduto+cLocal
+				cCompara:="SB8->B8_FILIAL+SB8->B8_PRODUTO+SB8->B8_LOCAL"
+			EndIf
+
+			dbSeek(cSeek)
+			While nQuant > 0 .and. cSeek == &(cCompara)
+				nSaldo:=IF(lBaixaEmp,SB8->B8_EMPENHO,SB8->B8_SALDO - SB8->B8_EMPENHO)
+		   	If nSaldo > 0
+		      	nBaixa := IF(nSaldo >= nQuant,nQuant,nSaldo)
+				GravaSD5(cAlias,SB8->B8_PRODUTO,SB8->B8_LOCAL,SB8->B8_LOTECTL,SB8->B8_NUMLOTE,cSequenc,cDocto,cSer,,SB8->B8_ORIGLAN,cCliFornec,cLoj,SB8->B8_LOTEFOR,nBaixa,,SB8->B8_DATA,SB8->B8_DTVALID)
+				Reclock("SB8",.F.)
+				Replace SB8->B8_SALDO With SB8->B8_SALDO - nBaixa
+				If lBaixaEmp
+				   Replace SB8->B8_EMPENHO With SB8->B8_EMPENHO - nBaixa
+				EndIf
+				nQuant -= nBaixa
+			EndIf
+			dbSelectArea("SB8")
+			dbSkip()
+			EndDo
+		Else
+			// Qdo for devolucao p/ Lote
+			CriaLote("SD3",,NextLote(cProduto,"S"))
+		EndIf
+	EndIf
+Else
+	dbSelectArea("SB8")
+	dbSetOrder(2)
+	dbSeek(cFilial+cNumLote+cLoteCtl+cProduto+cLocal)
+	If Found()
+	    GravaSD5(cAlias,SB8->B8_PRODUTO,SB8->B8_LOCAL,SB8->B8_LOTECTL,SB8->B8_NUMLOTE,cSequenc,cDocto,cSer,,SB8->B8_ORIGLAN,cCliFornec,cLoj,SB8->B8_LOTEFOR,nBaixa,,SB8->B8_DATA,SB8->B8_DTVALID)
+		Reclock("SB8",.F.)
+		Replace SB8->B8_SALDO With SB8->B8_SALDO + (nQuant * nMultiplic)
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ OMB - 02/05/99 - Nao baixava empenho para Remito (ARG)       ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		If cPaisLoc <> "BRA"
+			If (cAlias == "SD2" .Or. cAlias == "SCN" .Or. cAlias == "SD3")
+				If lBaixaEmp
+					Replace SB8->B8_EMPENHO With B8_EMPENHO - nQuant
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+Endif
+dbSelectArea("SB8")
+dbSetOrder(1)
+dbSelectArea(xAlias)
+Return NIL

@@ -1,0 +1,864 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFormView.PRW</font><a name="FWFormView"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFormView</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto que tem como funcionalidade instanciar os objetos graficos que representaram o model. &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>06/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>FWFormModel
+</table>
+<b>Exemplo:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Static&nbsp;Function&nbsp;ViewDef()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;oView
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;oStructSA1
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Busca&nbsp;o&nbsp;Model&nbsp;da&nbsp;SA1
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;oModel&nbsp;:=&nbsp;FWLoadModel("MATA010_MVC")&nbsp;//Busca&nbsp;o&nbsp;Model&nbsp;da&nbsp;SA1
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Instancia&nbsp;o&nbsp;objeto
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView&nbsp;:=&nbsp;FWFormView():New()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Faz&nbsp;a&nbsp;carga&nbsp;dos&nbsp;campos&nbsp;do&nbsp;SA1&nbsp;do&nbsp;dicionario&nbsp;(Apenas&nbsp;Protheus)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oStructSA1&nbsp;:=&nbsp;FWFormStruct(2,"SA1")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//&nbsp;Set&nbsp;o&nbsp;Model&nbsp;que&nbsp;esse&nbsp;view&nbsp;ira&nbsp;ultilizar
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:SetModel(oModel)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Adiciona&nbsp;um&nbsp;Field(antiga&nbsp;Enchoice)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:AddField(&nbsp;"MATA010_SA1"&nbsp;,&nbsp;oStructSA1)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Cria&nbsp;um&nbsp;box&nbsp;Horizontal&nbsp;de&nbsp;100%&nbsp;do&nbsp;Owner
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:CreateHorizontalBox("CABEC",100)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//Mapeia&nbsp;a&nbsp;Field("MATA010_SA1")&nbsp;criada&nbsp;no&nbsp;Box("CABEC"&nbsp;criado
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:SetOwnerView(&nbsp;"MATA010_SA1","CABEC")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//HAbilita&nbsp;o&nbsp;ControlBar(Antiga&nbsp;EnchoiceBar)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//-------------------------------------------------------------------
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:EnableControlBar(.T.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Return&nbsp;oView
+</table>
+<b>Observação:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Como esse Objeto que podemos definir comportamentos da Interface gráfica, tais como:
+<tr><td Width=20><td><td>- Criar FormFields;
+<tr><td Width=20><td><td>- Criar FormGrids;
+<tr><td Width=20><td><td>- Habilitar/Desabilitar Barra de Botões;
+<tr><td Width=20><td><td>- Dividir o Container(Dialogos) que esse FormView esta em diversas partes;
+<tr><td Width=20><td><td>Quando utilizamos o FWBrowse na rotina, não implemtamos a passagem do Owner, pois é feita
+<tr><td Width=20><td><td>pelo FWBrowse, caso estamos criando o Owner no mesmo, devemos chamar o metódo SetOwner.
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFormView:Activate">FWFormView:Activate</a></br>
+&nbsp;&nbsp;&nbsp;		Inicializa o View. Chama em cascata todos os Activates dos views e container que estiverem nele.&nbsp;<br><br>
+<a href="#FWFormView:AddField">FWFormView:AddField</a></br>
+&nbsp;&nbsp;&nbsp;	Adiciona no nosso View um controle do tipo FormFields(antiga enchoice)&nbsp;<br><br>
+<a href="#FWFormView:AddGrid">FWFormView:AddGrid</a></br>
+&nbsp;&nbsp;&nbsp;	Adiciona um objeto gráfico do tipo Grid.&nbsp;<br><br>
+<a href="#FWFormView:addIncrementField">FWFormView:addIncrementField</a></br>
+&nbsp;&nbsp;&nbsp;		Adiciona um campo para ser AutoIncremntal num GRID&nbsp;<br><br>
+<a href="#FWFormView:addSheet">FWFormView:addSheet</a></br>
+&nbsp;&nbsp;&nbsp;	Adiciona uma aba dentro uma folder criada&nbsp;<br><br>
+<a href="#FWFormView:addUserButton">FWFormView:addUserButton</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona botons na Bar do Formulario&nbsp;<br><br>
+<a href="#FWFormView:CanDeleteLine">FWFormView:CanDeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita que se apague linhas&nbsp;<br><br>
+<a href="#FWFormView:CanInsertLine">FWFormView:CanInsertLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita a inserção de novas linhas&nbsp;<br><br>
+<a href="#FWFormView:CanUpdateLine">FWFormView:CanUpdateLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita a manutenção nas linhas &nbsp;<br><br>
+<a href="#FWFormView:createHorizontalBox">FWFormView:createHorizontalBox</a></br>
+&nbsp;&nbsp;&nbsp;		Cria um box horizontal dentro do container do view.NeceXssário para se dividir os a tela em diversas partes.&nbsp;<br><br>
+<a href="#FWFormView:createVerticalBox">FWFormView:createVerticalBox</a></br>
+&nbsp;&nbsp;&nbsp;		Cria um box Vertical dentro do container do view.Necessário para se dividir os a tela em diversas partes.&nbsp;		é necessário que se tenha um Horizontal como pai.&nbsp;<br><br>
+<a href="#FWFormView:DeActivate">FWFormView:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;	Propraga o DeActivate tanto do model quanto dos views.&nbsp;<br><br>
+<a href="#FWFormView:EnableControlBar">FWFormView:EnableControlBar</a></br>
+&nbsp;&nbsp;&nbsp;	Habilita o uso do ControlBar(Antiga EnchoiceBar)&nbsp;<br><br>
+<a href="#FWFormView:GetDescription">FWFormView:GetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um texto com a descrição do objetivo do View&nbsp;<br><br>
+<a href="#FWFormView:GetStruct">FWFormView:GetStruct</a></br>
+&nbsp;&nbsp;&nbsp;Recupera o objeto com a estrutura de dados. De um Model Especifico&nbsp;<br><br>
+<a href="#FWFormView:getValidMsg">FWFormView:getValidMsg</a></br>
+&nbsp;&nbsp;&nbsp;	Prepara um array com a mensagem de erro. &nbsp;<br><br>
+<a href="#FWFormView:IsValidGrid">FWFormView:IsValidGrid</a></br>
+&nbsp;&nbsp;&nbsp;Diz de o ID passado por paramentro é valid, e se o Objeto que ele refrencia é um GRID.&nbsp;Atenção esse metodo da ClassException(Derruba o remote) caso o segundo parametro estaja .T.&nbsp;<br><br>
+<a href="#FWFormView:MakeControlBar">FWFormView:MakeControlBar</a></br>
+&nbsp;&nbsp;&nbsp;	Constroi a ControlBar, é necessário que seja chamada no Activate do Owner&nbsp;<br><br>
+<a href="#FWFormView:New">FWFormView:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFormView:Refresh">FWFormView:Refresh</a></br>
+&nbsp;&nbsp;&nbsp;Chama o refresh dos componentes Visuais&nbsp;<br><br>
+<a href="#FWFormView:SetCursor">FWFormView:SetCursor</a></br>
+&nbsp;&nbsp;&nbsp;	Metodo de usado pela nova Mbrowse para setar qual o cursor que o view ira percorrer.&nbsp;<br><br>
+<a href="#FWFormView:SetDescription">FWFormView:SetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Atribui ao View um texto com a descrição do objetivo do mesmo.&nbsp;<br><br>
+<a href="#FWFormView:SetModel">FWFormView:SetModel</a></br>
+&nbsp;&nbsp;&nbsp;	Seta o relacionamento dao FWFormView para com o Model.&nbsp;<br><br>
+<a href="#FWFormView:SetNoDeleteLine">FWFormView:SetNoDeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber exclusão de linha&nbsp;<br><br>
+<a href="#FWFormView:SetNoInsertLine">FWFormView:SetNoInsertLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber inserção de linha.&nbsp;<br><br>
+<a href="#FWFormView:SetNoUpdateLine">FWFormView:SetNoUpdateLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber alteração nas linha.&nbsp;<br><br>
+<a href="#FWFormView:setOperation">FWFormView:setOperation</a></br>
+&nbsp;&nbsp;&nbsp;	Informa qual é o modo de operação para o View.&nbsp;<br><br>
+<a href="#FWFormView:SetOwner">FWFormView:SetOwner</a></br>
+&nbsp;&nbsp;&nbsp;	Seta o Owner (Dialog principal) onde todos outros objetos estaram.&nbsp;<br><br>
+<a href="#FWFormView:SetOwnerView">FWFormView:SetOwnerView</a></br>
+&nbsp;&nbsp;&nbsp;	Seta o Owner(Janela pai) de um FormField ou da FormGid anteriormente criado.&nbsp;<br><br>
+<a href="#FWFormView:SetTopLabelSpace">FWFormView:SetTopLabelSpace</a></br>
+&nbsp;&nbsp;&nbsp;		Detemina a Distancia entre o titulo e o Get da FormField.&nbsp;		Uso exclusivo em Objetos do tipo FormField&nbsp;<br><br>
+<a href="#FWFormView:setUseCursor">FWFormView:setUseCursor</a></br>
+&nbsp;&nbsp;&nbsp;Define se ira habilitar o uso do cursor(navegação em registros).&nbsp;<br><br>
+<a href="#FWFormView:ShiftBoxToFolder">FWFormView:ShiftBoxToFolder</a></br>
+&nbsp;&nbsp;&nbsp;	Transforma um Box numa Folder&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFormView:Activate"></a>FWFormView:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Inicializa o View. Chama em cascata todos os Activates dos views e container que estiverem nele.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lForceRepaint :<td><br>Tipo: LOGICAL<br>- Se .T. recria todos os paines de distribuiçãodo views.
+<tr><td Width=20><td Width=20><td>Cuidado ao usa-lo, pois em loop pode ocorrer perda de peformace.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>Vale lembrar aqui que o Model já deve ter sido setado(SetModel) e não pode ter sido ativado.
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:AddField"></a>FWFormView:AddField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona no nosso View um controle do tipo FormFields(antiga enchoice)&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFormModelID :<td><br>Tipo: CHARACTER<br>- Representa o ID criado no Model que essa FormField irá representar ou um ID novo, se passado
+<tr><td Width=20><td Width=20><td>esse novo ID é necessario passa o ID de Link no 3 parametro.
+</table>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oStruct :<td><br>Tipo: OBJECT<br>- Objeto do model a se associar a view.
+<tr valign=top><td Width=20><td Width=100><br>cLinkID :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>- Representa o ID criado no Model ,Só é necessári o caso estamos mundando o ID no View.
+<tr valign=top><td Width=20><td Width=100><br>bBloco :<td><br>Tipo: BLOCK<br>- Uso interno exclusivo.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:AddGrid"></a>FWFormView:AddGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um objeto gráfico do tipo Grid.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFormModelID :<td><br>Tipo: CHARACTER<br>- Representa o ID criado no Model que essa FormGrid irá representar ou um ID novo, se passado
+<tr><td Width=20><td Width=20><td>esse novo ID é necessario passa o ID de Link no 3 parametro.
+</table>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oStruct :<td><br>Tipo: OBJECT<br>- Objeto do model a se associar a view.
+<tr valign=top><td Width=20><td Width=100><br>cLinkID :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>- Representa o ID criado no Model ,Só é necessári o caso estamos mundando o ID no View.
+<tr valign=top><td Width=20><td Width=100><br>bBloco :<td><br>Tipo: BLOCK<br>- Uso interno exclusivo.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:addIncrementField"></a>FWFormView:addIncrementField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um campo para ser AutoIncremntal num GRID&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:addSheet"></a>FWFormView:addSheet</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma aba dentro uma folder criada&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDBOX :<td><br>Tipo: CHARACTER<br>   - Id do Box(que foi transformado em folder) a ser utilizado
+<tr valign=top><td Width=20><td Width=100><br>cTitulo :<td><br>Tipo: CHARACTER<br> - Titulo da Aba
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:addUserButton"></a>FWFormView:addUserButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona botons na Bar do Formulario&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTitle :<td><br>Tipo: CHARACTER<br>- Titulo do Botao
+<tr valign=top><td Width=20><td Width=100><br>cImagemName :<td><br>Tipo: CHARACTER<br>- Nome do resource compilado no RPO que será a imagem do botao
+<tr valign=top><td Width=20><td Width=100><br>bBloco :<td><br>Tipo: BLOCK<br>- Bloco de codigo que será execulta, esse bloco recebe o objeto oView. Ex.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/05/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oview&nbsp;:=&nbsp;FWFormView()...
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>bBlocoMagic&nbsp;:=&nbsp;{|oView|&nbsp;Myfunction(oView)}
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oView:AddUserBotton("Nome&nbsp;do&nbsp;Botao","MAGIC_BMP",bBlocoMagic)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:CanDeleteLine"></a>FWFormView:CanDeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita que se apague linhas&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View.
+<tr><td Width=20><td Width=20><td>@result lInsertLine
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:CanInsertLine"></a>FWFormView:CanInsertLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita a inserção de novas linhas&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View.
+<tr><td Width=20><td Width=20><td>@result lInsertLine
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:CanUpdateLine"></a>FWFormView:CanUpdateLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita a manutenção nas linhas &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View.
+<tr><td Width=20><td Width=20><td>@result lInsertLine
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:createHorizontalBox"></a>FWFormView:createHorizontalBox</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cria um box horizontal dentro do container do view.NeceXssário para se dividir os a tela em diversas partes.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:createVerticalBox"></a>FWFormView:createVerticalBox</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cria um box Vertical dentro do container do view.Necessário para se dividir os a tela em diversas partes.&nbsp;		é necessário que se tenha um Horizontal como pai.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:DeActivate"></a>FWFormView:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Propraga o DeActivate tanto do model quanto dos views.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lOnlyRefresh :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>- Se .T., tenta preservar os camponentes graficos, fazendo apenas um reload de valor.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:EnableControlBar"></a>FWFormView:EnableControlBar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita o uso do ControlBar(Antiga EnchoiceBar)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:GetDescription"></a>FWFormView:GetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um texto com a descrição do objetivo do View&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>31/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:GetStruct"></a>FWFormView:GetStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Recupera o objeto com a estrutura de dados. De um Model Especifico&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/12/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:getValidMsg"></a>FWFormView:getValidMsg</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Prepara um array com a mensagem de erro. &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>:<td><br>Tipo: CHARACTER<br>cIdView
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRet :<td><br>Tipo: ARRAY<br>- Array com 4 posições:
+<tr><td Width=20><td Width=20><td>[1] - ID da mensagem.
+<tr><td Width=20><td Width=20><td>[2] - Nome do campo.
+<tr><td Width=20><td Width=20><td>[3] - Mensagem de erro.
+<tr><td Width=20><td Width=20><td>[4] - Solução.
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:IsValidGrid"></a>FWFormView:IsValidGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Diz de o ID passado por paramentro é valid, e se o Objeto que ele refrencia é um GRID.&nbsp;Atenção esse metodo da ClassException(Derruba o remote) caso o segundo parametro estaja .T.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View que deve ser setado.
+<tr valign=top><td Width=20><td Width=100><br>lException :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>- Se verdadeiro derruba o remote com uma Exception.
+<tr valign=top><td Width=20><td Width=100><br>oObj :<td><br>Tipo: OBJECT<br>- Variavel que deve ser passada por referencia, para que se possa retornar o obj. (Caso se queira)
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:MakeControlBar"></a>FWFormView:MakeControlBar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Constroi a ControlBar, é necessário que seja chamada no Activate do Owner&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:New"></a>FWFormView:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:Refresh"></a>FWFormView:Refresh</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Chama o refresh dos componentes Visuais&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>01/06/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetCursor"></a>FWFormView:SetCursor</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Metodo de usado pela nova Mbrowse para setar qual o cursor que o view ira percorrer.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>A principio esse metódo é excluivo do FWBrowse
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetDescription"></a>FWFormView:SetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui ao View um texto com a descrição do objetivo do mesmo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do objetivo do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>31/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetModel"></a>FWFormView:SetModel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seta o relacionamento dao FWFormView para com o Model.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObj :<td><br>Tipo: OBJECT<br>- Objeto do model a se associar a view.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetNoDeleteLine"></a>FWFormView:SetNoDeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber exclusão de linha&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View que deve ser setado.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetNoInsertLine"></a>FWFormView:SetNoInsertLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber inserção de linha.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View que deve ser setado.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetNoUpdateLine"></a>FWFormView:SetNoUpdateLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber alteração nas linha.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDView :<td><br>Tipo: CHARACTER<br>- ID do View que deve ser setado.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:setOperation"></a>FWFormView:setOperation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa qual é o modo de operação para o View.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOpe :<td><br>Tipo: NUMERIC<br>- Se 3=Inclusão - 4 = Alteração 5 = Exclusão
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Pendencias:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Avaliar a possibilidade de fazer para cada Field/Grid
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>O setOperation vale para todos os Views. Não é possível setar cada Field/Grid em uma operação diferente.
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetOwner"></a>FWFormView:SetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seta o Owner (Dialog principal) onde todos outros objetos estaram.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT<br>- Objeto do tipo Dialog(tDialog, tWindow, tPanel) que será pai dos objetos graficos.
+<tr valign=top><td Width=20><td Width=100><br>lCloseOnOK :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>- Se .T. determina que ao se clicar em OK na ControlBar(se ela for usada) ira fechar o Owner. Por default é .F.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>Nao tem efeito caso você esteja usando esse FwFormView em um FWBrowse
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetOwnerView"></a>FWFormView:SetOwnerView</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seta o Owner(Janela pai) de um FormField ou da FormGid anteriormente criado.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFormModelID :<td><br>Tipo: CHARACTER<br>- Representa o ID dado ao Field/Grid pelo metodo addField/addGrid.
+<tr valign=top><td Width=20><td Width=100><br>cBoxID :<td><br>Tipo: CHARACTER<br> - Codigo do Box que onde será encaixado o componente.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>O segundo parametro é o codigo que foi criado por um CreateHorizontalBox ou CreateVerticalBox.
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:SetTopLabelSpace"></a>FWFormView:SetTopLabelSpace</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Detemina a Distancia entre o titulo e o Get da FormField.&nbsp;		Uso exclusivo em Objetos do tipo FormField&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:setUseCursor"></a>FWFormView:setUseCursor</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Define se ira habilitar o uso do cursor(navegação em registros).&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lValue :<td><br>Tipo: LOGICAL<br>Se .T. Habilita o uso, caso contrario não.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>Caso estamos usando a FWBrowse esse metódo não se aplica.
+</table></br><hr></br>
+<b><font size=4><a name="FWFormView:ShiftBoxToFolder"></a>FWFormView:ShiftBoxToFolder</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Transforma um Box numa Folder&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIDBOX :<td><br>Tipo: CHARACTER<br>   - Id do Box a ser transformado.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/02/2009
+</table></br><hr></br>

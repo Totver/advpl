@@ -1,0 +1,157 @@
+<html>
+<head>
+
+<% //Função para manutenção do ambiente %>
+<%= HTMLProcID(__nProcID) %>
+
+<title>ADVPL ASP DEMO</title>
+</head>
+
+<%
+	#define FIELD_CODDE  "FROM_CODE"
+	#define FIELD_CODATE "TO_CODE"
+	#define FIELD_LOCDE  "FROM_LOCAL"
+	#define FIELD_LOCATE "TO_LOCAL"
+
+	// Criação das variáveis com os parâmetros recebidos através
+	// do array __aProcParms
+	
+	Local cCodDe,cCodAte,cLocDe,cLocAte
+	Local nPos
+
+	nPos := aScan(__aProcParms,{|x| Upper(AllTrim(x[1])) == FIELD_CODDE })
+	If nPos != 0
+		cCodDe := __aProcParms[nPos,2]
+	Else
+		cCodDe := ""
+	Endif
+
+	nPos := aScan(__aProcParms,{|x| Upper(AllTrim(x[1])) == FIELD_CODATE })
+	If nPos != 0
+		cCodAte := __aProcParms[nPos,2]
+	Else
+		cCodAte := "ZZZZZZ"
+	Endif
+
+	nPos := aScan(__aProcParms,{|x| Upper(AllTrim(x[1])) == FIELD_LOCDE })
+	If nPos != 0
+		cLocDe := __aProcParms[nPos,2]
+	Else
+		cLocDe := ""
+	Endif
+	
+	nPos := aScan(__aProcParms,{|x| Upper(AllTrim(x[1])) == FIELD_LOCATE })
+	If nPos != 0
+		cLocAte := __aProcParms[nPos,2]
+	Else
+		cLocAte := "ZZ"
+	Endif	
+%>
+
+<body topmargin="0" leftmargin="0">
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td>
+      <h1 align="left">ADVPL ASP - Demo</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <hr size="5">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3 align="left"><u>Relatório de Produtos</u></h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="left"><b>Data de geração</b>: <%=Day(Date())%> de <%=MesExtenso(Date())%> de <%=Year(Date())%></td>
+  </tr>
+  <tr>
+    <td>
+      <hr>
+    </td>
+  </tr>
+</table>
+<div align="center">
+  <center>
+  
+  <% If Len(__aProcParms) > 0 %>
+  
+	  <table border="1" cellpadding="0" cellspacing="0" width="508" height="24">
+	    <tr>
+	      <th width="181" height="24" bgcolor="#008080" align="left"><font color="#FFFFFF"><b>Parâmetro</b></font></th>
+	      <th width="327" height="24" bgcolor="#008080" align="left"><font color="#FFFFFF"><b>Valor</b></font></th>
+	    </tr>
+	    
+	    <%
+	    	// "Impressão" dos parâmetros    	
+	    	Local i    	
+	    	For i := 1 To Len(__aProcParms)	
+	    %>
+	    		<tr>
+	      			<td width="181" height="24" bgcolor="#FFFFCC"><%= __aProcParms[i,1] %></td>
+	      			<td width="327" height="24" bgcolor="#FFFFCC"><%= __aProcParms[i,2] %></td>
+	    		</tr>
+	    		
+	    <% Next i %>
+	    
+	  </table>
+  
+  <% Else %>
+  
+  	  <b>Nenhum parâmetro informado.</b>
+  
+  <% Endif %>
+  
+  </center>
+</div>
+<p align="left">&nbsp;</p>
+
+<% 
+	// Abertura dos arquivos e posicionamento do ponteiro
+	If Select("SB2") == 0 .Or. Select("SB1") == 0
+		RpcSetEnv ( "99", "01", "", "","","", {"SB1","SB2"} )
+	Endif
+	dbSelectArea("SB1")
+	dbSetOrder(1)
+	dbSeek(xFilial("SB1")+cCodDe+cLocDe,.T.)
+%>
+
+<table border="1" cellpadding="0" width="100%" cellspacing="0">
+  <tr>
+    <th width="12%" align="left" bgcolor="#336699"><font color="#FFFFFF"><b>Código</b></font></th>
+    <th width="50%" align="left" bgcolor="#336699"><font color="#FFFFFF"><b>Descrição</b></font></th>
+    <th width="7%" align="left" bgcolor="#336699"><font color="#FFFFFF"><b>Local</b></font></th>
+    <th width="17%" align="left" bgcolor="#336699"><font color="#FFFFFF"><b>Quantidade
+      em Estoque</b></font></th>
+    <th width="14%" align="left" bgcolor="#336699"><font color="#FFFFFF"><b>Custo Médio</b></font></th>
+  </tr>
+  
+  <%
+  		While !EOF() .And. xFilial("SB1") == SB1->B1_FILIAL .And. SB1->B1_COD <= cCodAte;
+  			.And. SB1->B1_LOCPAD <= cLocAte
+  			
+  			SB2->(dbSetOrder(1))
+  			SB2->(dbSeek(xFilial("SB2")+SB1->B1_COD+SB1->B1_LOCPAD,.F.))
+  %>  
+  			<tr>
+    			<td width="12%" bgcolor="#FFFFCC"><%= HTMLAllTrim(SB1->B1_COD)    %></td>
+    			<td width="50%" bgcolor="#FFFFCC"><%= HTMLAllTrim(SB1->B1_DESC)   %></td>
+    			<td width="7%"  bgcolor="#FFFFCC"><%= HTMLAllTrim(SB2->B2_LOCAL)  %></td>
+    			<td width="17%" bgcolor="#FFFFCC"><%= SB2->B2_QATU                %></td>
+    			<td width="14%" bgcolor="#FFFFCC"><%= "R$" + Str(SB2->B2_CM1,8,2) %></td>
+  			</tr>
+  <%
+  			dbSkip()
+  		EndDo
+  %>
+  
+</table>
+
+</body>
+
+</html

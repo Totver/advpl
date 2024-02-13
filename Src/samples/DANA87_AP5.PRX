@@ -1,0 +1,261 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 07/11/00
+#IFNDEF WINDOWS
+ #DEFINE PSAY SAY
+#ENDIF
+
+User Function DANA87()        // incluido pelo assistente de conversao do AP5 IDE em 07/11/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("CALIASANT,CSAVCOR,NLI,CBCONT,CBTXT,NTG_FAT")
+SetPrvt("NTG_OUT,WNREL,TAMANHO,CARACTER,M_PAG,TITULO")
+SetPrvt("CDESC1,CDESC2,CDESC3,CSTRING,NTIPO,NLASTKEY")
+SetPrvt("NCNTIMPR,NOMEPROG,CPERG,ARETURN,CTITULO,CCABEC1")
+SetPrvt("CCABEC2,CSAVSCR1,CSAVCUR1,CSAVROW1,CSAVCOL1,CSAVCOR1")
+SetPrvt("CNTX,CCHAVE,CFILTRO,NTP_FAT,NTP_OUT,DDATAFAT")
+SetPrvt("NVALOR,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 07/11/00 ==>  #DEFINE PSAY SAY
+#ENDIF
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Funcao    ³ DANA87   ³ Autor ³ Wilson J. Santos      ³ Data ³ Set/99   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descricao ³ Relat¢rio de Pedidos Programados.                          ³±±
+±±³          ³                                                            ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define Todas as variaveis PRIVATE.                           ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+cAliasAnt	:= Alias()
+//cSavCor		:= SetColor()
+nLi			:= 100
+CbCont		:= 0
+CbTxt			:= Space( 10 )
+nTG_FAT		:= 0
+nTG_OUT		:= 0
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis  de controle da tela padrao SIGA relatorios      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+wnrel		:= "DANA87"
+Tamanho	:= "M"
+Caracter	:= 15
+m_pag		:= 1
+Titulo	:= "PEDIDOS PROGRAMADOS"
+cDesc1	:= "EmissÆo do relat¢rio de Pedidos Programados do PALMTOP"
+cDesc2	:= ""
+cDesc3	:= ""
+cString	:= "SC5"
+nTipo		:= 0
+nLastkey	:= 0
+nCntImpr	:= 0
+nomeprog	:= "DANA87"
+cPerg		:= "DANA87"
+aReturn	:= { "Branco", 1,"Administracao", 1, 2, 1, "",1 }
+cTitulo	:= "**  PEDIDOS PROGRAMADOS  **"
+cCabec1	:= "PEDIDO     CLIENTE      RAZAO SOCIAL                                 COND. PAGAMENTO          DATA  DE     DATA DE          TOTAL DO"
+cCabec2	:= "           REPRESENT                                                                          EMISSAO      FATURAM.           PEDIDO"
+
+/*
+
+PEDIDO     CLIENTE      RAZAO SOCIAL                                 COND. PAGAMENTO          DATA  DE     DATA DE          TOTAL DO
+           REPRESENT                                                                          EMISSAO      FATURAM.           PEDIDO
+XXXXXX     XXXXXX/XX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     XXX  XXXXXXXXXXXXXXX     XX/XX/XX     XX/XX/XX     9.999.999.99
+
+*/
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Salva a Integridade dos dados de Entrada.                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//cSavScr1	:= SaveScreen(3,0,24,79)
+//cSavCur1	:= SetCursor(0)
+//cSavRow1	:= ROW()
+//cSavCol1	:= COL()
+//cSavCor1	:= SetColor("bg+/b,,,")
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas                           ³
+//³ mv_par01 = Da  Data												D,08    ³
+//³ mv_par02 = At‚ Data												D,08    ³
+//³ mv_par03 = Do  Cliente											C,06    ³
+//³ mv_par04 = At‚ Cliente											C,06    ³
+//³ mv_par05 = Da  Loja												C,02    ³
+//³ mv_par06 = At‚ Loja												C,02    ³
+//³ mv_par07 = S¢ Pedidos em Aberto								N,01    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Pergunte( "DANA87" , .F. )
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Envia controle para a funcao SETPRINT                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+wnrel	:= SetPrint(cString,NomeProg,cPerg,titulo,cDesc1,cDesc2,cDesc3,.F.,"",.F.,Tamanho)
+If LastKey() == 27 .or. nLastKey == 27
+//   RestScreen(3,0,24,79,cSavScr1)
+   Return
+EndIf
+SetDefault(aReturn,cString)
+If LastKey() == 27 .or. nLastKey == 27
+//   RestScreen(3,0,24,79,cSavScr1)
+   Return
+EndIf
+
+#IFDEF WINDOWS
+   RptStatus({|| Relato87()},Titulo)// Substituido pelo assistente de conversao do AP5 IDE em 07/11/00 ==>    RptStatus({|| Execute(Relato87)},Titulo)
+   Return
+#ELSE
+   Relato87()
+#ENDIF
+
+// Substituido pelo assistente de conversao do AP5 IDE em 07/11/00 ==> Function Relato87
+Static Function Relato87()
+
+SA1->( DbSetOrder( 1 ) )
+SA3->( DbSetOrder( 1 ) )
+SC5->( DbSetOrder( 1 ) )
+SC6->( DbSetOrder( 1 ) )
+SE4->( DbSetOrder( 1 ) )
+SF4->( DbSetOrder( 1 ) )
+
+DbSelectArea( "SC5" )
+// SC5->( DbClearIndex() ) nao devo limpar os indices, indregua ja joga
+// o Indice temporario como ultimo
+
+cNTX		:= CriaTrab( NIL , .F. )
+cChave	:= "C5_FILIAL + C5_NUM"
+cFiltro	:= ""
+cFiltro	:= cFiltro + 'C5_CLIENTE >= "' + mv_par03 + '" .and. C5_CLIENTE <= "' + mv_par04 + '" .and. '
+cFiltro  := cFiltro + 'DtoS( C5_ENTREG ) >= "' + DtoS( mv_par01 ) + '" .and. DtoS( C5_ENTREG ) <= "' + DtoS( mv_par02 ) + '" .and. '
+cFiltro	:= cFiltro + 'C5_LOJACLI >= "' + mv_par05 + '" .and. C5_LOJACLI <= "' + mv_par06 + '" .and. '
+cFiltro	:= cFiltro + 'C5_TIPO == "N"' + If( mv_par07 == 1, " .And. Empty(C5_NOTA)", "")
+IndRegua( "SC5" , cNTX , cChave , , cFiltro  , "Indexando SC5" )
+DbSetOrder(RetIndex("SC5") + 1)
+
+SC5->( DbSeek( xFilial( "SC5" ) ) )
+
+SetRegua( SC5->( RecCount() ) )
+
+While !SC5->( Eof() ) .and. Lastkey() != 27 .and. LastKey() != 286
+   //InKey()
+
+	IncRegua()
+
+	If SC5->C5_ENTREG  < mv_par01 .or. SC5->C5_ENTREG  > mv_par02 .or. ;
+		SC5->C5_CLIENTE < mv_par03 .or. SC5->C5_CLIENTE > mv_par04 .or. ;
+		SC5->C5_LOJACLI < mv_par05 .or. SC5->C5_LOJACLI > mv_par06
+		SC5->( DbSkip() )
+		Loop
+	EndIf
+
+	nTP_FAT	:= 0
+	nTP_OUT	:= 0
+	dDataFAT	:= SC5->C5_EMISSAO
+
+	SA1->( DbSeek( xFilial( "SA1" ) + SC5->C5_CLIENTE + SC5->C5_LOJACLI ) )
+	SA3->( DbSeek( xFilial( "SA3" ) + SC5->C5_VEND1 ) )
+	SC6->( DbSeek( xFilial( "SC6" ) + SC5->C5_NUM ) )
+	SE4->( DbSeek( xFilial( "SE4" ) + SC5->C5_CONDPAG ) )
+
+	While !SC6->( Eof() ) .and. SC6->C6_FILIAL == xFilial( "SC6" ) .and. ;
+		SC6->C6_NUM == SC5->C5_NUM
+
+		If SC6->C6_ENTREG >= mv_par01 .and. SC6->C6_ENTREG <= mv_par02 .and. ;
+			SC6->C6_CLI    >= mv_par03 .and. SC6->C6_CLI    <= mv_par04 .and. ;
+			SC6->C6_LOJA   >= mv_par05 .and. SC6->C6_LOJA   <= mv_par06
+
+			SF4->( DbSeek( xFilial( "SF4" ) + SC6->C6_TES ) )
+
+			If mv_par07 == 1 .and. SC6->C6_QTDVEN > SC6->C6_QTDENT
+				nValor	:= Round( ( SC6->C6_QTDVEN - SC6->C6_QTDENT ) * SC6->C6_PRCVEN , 2 )
+				nTP_FAT	:= nTP_FAT + IIF( SF4->F4_DUPLIC == "S" , nValor , 0 )
+				nTP_OUT	:= nTP_OUT + IIF( SF4->F4_DUPLIC != "S" , nValor , 0 )
+			Else
+				nTP_FAT	:= nTP_FAT + IIF( SF4->F4_DUPLIC == "S" , SC6->C6_VALOR , 0 )
+				nTP_OUT	:= nTP_OUT + IIF( SF4->F4_DUPLIC != "S" , SC6->C6_VALOR , 0 )
+			EndIf
+			dDataFAT	:= SC6->C6_ENTREG
+		EndIf
+
+		SC6->( DbSkip() )
+	EndDo
+
+	If nTP_FAT #0 .or. nTP_OUT # 0
+
+		If nLi > 55
+			nLi	:= Cabec( cTitulo , cCabec1 , cCabec2 , NomeProg , Tamanho , Caracter )
+			nLi	:= nLi + 2
+		EndIf
+
+                @ nLI , 000 PSAY SC5->C5_NUM
+                @ nLI , 011 PSAY AllTrim( SC5->C5_CLIENTE ) + "/" + SC5->C5_LOJACLI + Space( 4 ) + SA1->A1_NOME
+                @ nLI , 069 PSAY SC5->C5_CONDPAG + Space( 02 ) + SE4->E4_DESCRI
+                @ nLI , 094 PSAY TransForm( SC5->C5_EMISSAO , "" )
+                @ nLI , 107 PSAY TransForm( dDataFAT , "" )
+                @ nLI , 120 PSAY TransForm( nTP_FAT , "@E 9,999,999.99" ) + " (V)"
+		nLI	:= nLI + 1
+                @ nLI , 011 PSAY SC5->C5_VEND1 + Space( 06 ) + SA3->A3_NOME
+                @ nLI , 120 PSAY IIF( nTP_OUT #0 , TransForm( nTP_OUT , "@E 9,999,999.99" ) + " (O)" , "" )
+
+		nLI		:= nLI		+ 1
+		nTG_FAT	:= nTG_FAT	+ nTP_FAT
+		nTG_OUT	:= nTG_OUT	+ nTP_OUT
+	EndIf
+
+	SC5->( DbSkip() )
+
+EndDo
+
+nLI	:= nLI + 1
+
+If nLi > 55
+	nLi	:= Cabec( cTitulo , cCabec1 , cCabec2 , NomeProg , Tamanho , Caracter )
+	nLi	:= nLi + 1
+EndIf
+
+If Lastkey() != 27 .and. LastKey() != 286
+        @ nLI , 000 PSAY Replicate( "-" , 132 )
+	nLI	:= nLI + 2
+
+        @ nLI , 000 PSAY PadL( "TOTAL GERAL -->>" , 115 )
+        @ nLI , 120 PSAY TransForm( nTG_FAT , "@E 9,999,999.99" ) + " (V)"
+	nLI	:= nLI + 1
+        @ nLI , 120 PSAY IIF( nTG_OUT #0 , TransForm( nTG_OUT , "@E 9,999,999.99" ) + " (O)" , "" )
+Else
+        @ nLi , 00 PSAY PadC( "***  RELATORIO CANCELADO PELO OPERADOR  ***" , 132 )
+EndIf
+
+Roda( CbCont , CbTxt , Tamanho )
+
+If aReturn[ 5 ] == 1
+	Set Device to Screen
+	Set Printer To 
+	OurSpool(wnrel)
+EndIf
+
+MS_FLUSH()
+
+DbSelectArea("SC5") // Alterei aqui procure sempre trabalhar desta forma
+RetIndex("SC5")     // primeiro selecione a area e so apos execute os
+                    // direto na area seleciona
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Retorna a Integridade dos Dados de Entrada.                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//SetColor( cSavCor )
+dbSelectArea( cAliasAnt )
+//RestScreen( 3 , 0 , 24 , 79 , cSavScr1 )
+Return

@@ -1,0 +1,193 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FwBrwRelation.prw</font><a name="FWBrwRelation"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWBrwRelation</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Classe de controle de relacionamento entre Browse's ( Protheus Browse ). &nbsp;A classe cria um cenário onde a movimentação em um determinado&nbsp;browse provoca o reposicionamento de outro, sem a necessidade codificacao. &nbsp;Seu uso é aconselhavel em i
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>22/10/2008
+</table>
+<b>Exemplo:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>DEFINE&nbsp;MSDIALOG&nbsp;oDlg&nbsp;TITLE&nbsp;"Múltiplos&nbsp;Microsiga&nbsp;Browse"&nbsp;FROM&nbsp;aCoors[1],aCoors[2]&nbsp;TO&nbsp;aCoors[3],aCoors[4]&nbsp;PIXEL
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer&nbsp;:=&nbsp;FWLayer():New()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:Init(oDlg,.F.,.T.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//--&nbsp;Microsiga&nbsp;Browse&nbsp;da&nbsp;esquerda
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:addLine("UP",50,.F.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddCollumn("LEFT",50,.T.,"UP")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddWindow("LEFT","oPanelLeft","Cadastro&nbsp;de&nbsp;Clientes",100,.F.,.T.,,"UP",{&nbsp;||&nbsp;})
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oPanelLeft&nbsp;:=&nbsp;oFWLayer:GetWinPanel("LEFT","oPanelLeft","UP")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>DEFINE&nbsp;FWMBROWSE&nbsp;oMBrowseLeft&nbsp;ALIAS&nbsp;"SA1"&nbsp;MENUDEF&nbsp;"MATA030_MVC"&nbsp;NO&nbsp;DETAILS&nbsp;PROFILEID&nbsp;"1"&nbsp;OF&nbsp;oPanelLeft
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>ACTIVATE&nbsp;FWMBROWSE&nbsp;oMBrowseLeft
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//oMBrowseLeft:bChange&nbsp;:=&nbsp;{||&nbsp;alert("oi")}
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//--&nbsp;Microsiga&nbsp;Browse&nbsp;da&nbsp;direita
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddCollumn("RIGHT",50,.T.,"UP")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddWindow("RIGHT","oPanelRight","Cadastro&nbsp;de&nbsp;Vendedores",100,.F.,.T.,,"UP",{&nbsp;||&nbsp;})
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oPanelRight&nbsp;:=&nbsp;oFWLayer:GetWinPanel("RIGHT","oPanelRight","UP")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>DEFINE&nbsp;FWMBROWSE&nbsp;oMBrowseRight&nbsp;ALIAS&nbsp;"SA3"&nbsp;MENUDEF&nbsp;"MATA040_MVC"&nbsp;NO&nbsp;DETAILS&nbsp;PROFILEID&nbsp;"2"&nbsp;OF&nbsp;oPanelRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>ACTIVATE&nbsp;FWMBROWSE&nbsp;oMBrowseRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//DEFINE&nbsp;FWBROWSE&nbsp;oMBrowseRight&nbsp;&nbsp;DATA&nbsp;QUERY&nbsp;ALIAS&nbsp;"TRBSA3"&nbsp;QUERY&nbsp;"SELECT&nbsp;*&nbsp;FROM&nbsp;SA3990&nbsp;WHERE&nbsp;D_E_L_E_T_='&nbsp;'&nbsp;ORDER&nbsp;BY&nbsp;A3_FILIAL,A3_COD"&nbsp;FILTER&nbsp;SEEK&nbsp;ORDER&nbsp;{{&nbsp;"Código"&nbsp;&nbsp;&nbsp;,&nbsp;{{"","C",15,0,"Código"&nbsp;&nbsp;&nbsp;,,}}&nbsp;}&nbsp;}&nbsp;OF&nbsp;oPanelRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//&nbsp;ADD&nbsp;COLUMN&nbsp;oColumn&nbsp;DATA&nbsp;{&nbsp;||&nbsp;&nbsp;A3_FILIAL&nbsp;&nbsp;}&nbsp;TITLE&nbsp;"Filial"&nbsp;&nbsp;&nbsp;&nbsp;SIZE&nbsp;15&nbsp;OF&nbsp;oMBrowseRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//&nbsp;ADD&nbsp;COLUMN&nbsp;oColumn&nbsp;DATA&nbsp;{&nbsp;||&nbsp;&nbsp;A3_COD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;TITLE&nbsp;"Código"&nbsp;&nbsp;&nbsp;&nbsp;SIZE&nbsp;15&nbsp;OF&nbsp;oMBrowseRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//&nbsp;ADD&nbsp;COLUMN&nbsp;oColumn&nbsp;DATA&nbsp;{&nbsp;||&nbsp;&nbsp;A3_NOME&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;TITLE&nbsp;"Nome"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIZE&nbsp;40&nbsp;OF&nbsp;oMBrowseRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//ACTIVATE&nbsp;FWBROWSE&nbsp;oMBrowseRight
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oRelation&nbsp;:=&nbsp;FWBrwRelation():New()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oRelation:AddRelation(oMBrowseLeft,oMBrowseRight,{{"A3_FILIAL","xFilial('SA3')"},{"A3_COD","A1_COD",">="}})
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oRelation:Activate()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>//--&nbsp;Microsiga&nbsp;Browse&nbsp;da&nbsp;inferior
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:addLine("DOWN",50,.F.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddCollumn("ALL",100,.T.,"DOWN")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oFWLayer:AddWindow("ALL","oPanelDown","Solicitação&nbsp;de&nbsp;Compras",100,.F.,.T.,,"DOWN",{&nbsp;||&nbsp;})
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oPanelDown&nbsp;:=&nbsp;oFWLayer:GetWinPanel("ALL","oPanelDown","DOWN")
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>DEFINE&nbsp;FWMBROWSE&nbsp;oMBrowseDown&nbsp;ALIAS&nbsp;"SC1"&nbsp;MENUDEF&nbsp;"MATA110_MVC"&nbsp;NO&nbsp;DETAILS&nbsp;PROFILEID&nbsp;"3"&nbsp;OF&nbsp;oPanelDown
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>ACTIVATE&nbsp;FWMBROWSE&nbsp;oMBrowseDown
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>ACTIVATE&nbsp;MSDIALOG&nbsp;oDlg
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Return
+</table>
+<b>Observação:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta classe captura o evento 'Change' do Protheus Browse, mas mantém
+<tr><td Width=20><td><td>sua execução.
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWBrwRelation:Activate">FWBrwRelation:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe. Quando a classe é ativada, os relacionamentos&nbsp;sao executados.&nbsp;<br><br>
+<a href="#FWBrwRelation:AddRelation">FWBrwRelation:AddRelation</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um critério de relacionamento entre os Browse do tipo tabela ( Query ou Alias ). &nbsp;A especificação do relacionamento entre os Browse´s, garante a carga dos dados nos eventos&nbsp;de mudança de linha sem a necessidade de codificacao.&nbsp;<br><br>
+<a href="#FWBrwRelation:DeActivate">FWBrwRelation:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de desativação da classe. &nbsp;Este método deve ser utilizado para reparametrizar os relacionamentos&nbsp;<br><br>
+<a href="#FWBrwRelation:DelRelation">FWBrwRelation:DelRelation</a></br>
+&nbsp;&nbsp;&nbsp;Remove os critérios de relacionamento entre os Browse do tipo tabela ( Query ou Alias ). &nbsp;<br><br>
+<a href="#FWBrwRelation:New">FWBrwRelation:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWBrwRelation:Activate"></a>FWBrwRelation:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe. Quando a classe é ativada, os relacionamentos&nbsp;sao executados.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/06/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Este método realiza algumas validações no preenchimento dos
+<tr><td Width=20><td Width=20><td>parametros de operação da classe, gerando uma exceção caso haja
+<tr><td Width=20><td Width=20><td>algum problema de configuração.
+</table></br><hr></br>
+<b><font size=4><a name="FWBrwRelation:AddRelation"></a>FWBrwRelation:AddRelation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um critério de relacionamento entre os Browse do tipo tabela ( Query ou Alias ). &nbsp;A especificação do relacionamento entre os Browse´s, garante a carga dos dados nos eventos&nbsp;de mudança de linha sem a necessidade de codificacao.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oBrwStart :<td><br>Tipo: OBJECT<br>Objeto do Browse de origem elo de destino do relacionamento
+<tr valign=top><td Width=20><td Width=100><br>oBrwTarget :<td><br>Tipo: OBJECT<br>Codigo do formulário do Modelo de destino do relacionamento
+<tr valign=top><td Width=20><td Width=100><br>aRelation :<td><br>Tipo: ARRAY<br>Estrutura de relacionamento
+<tr><td Width=20><td Width=20><td>[n][1] cIdField do Browse de destino
+<tr><td Width=20><td Width=20><td>[n][2] cIdField do Browse de origem ou expressao Advpl
+<tr><td Width=20><td Width=20><td>[n][3] cOperador Indica o tipo de operador (=,$,>,<,<=,>=)
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/06/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWBrwRelation:DeActivate"></a>FWBrwRelation:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de desativação da classe. &nbsp;Este método deve ser utilizado para reparametrizar os relacionamentos&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWBrwRelation:DelRelation"></a>FWBrwRelation:DelRelation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Remove os critérios de relacionamento entre os Browse do tipo tabela ( Query ou Alias ). &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oBrw :<td><br>Tipo: OBJECT<br>Objeto do Browse de origem elo de destino do relacionamento
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/06/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWBrwRelation:New"></a>FWBrwRelation:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/06/2009
+</table></br><hr></br>

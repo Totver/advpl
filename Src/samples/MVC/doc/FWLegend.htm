@@ -1,0 +1,215 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWLegend.PRW</font><a name="FWLegend"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWLegend</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto para a apresentação padronizada de legendas&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWLegend:Activate">FWLegend:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWLegend:Add">FWLegend:Add</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um item da legenda&nbsp;<br><br>
+<a href="#FWLegend:ClassName">FWLegend:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWLEGEND)&nbsp;<br><br>
+<a href="#FWLegend:DeActivate">FWLegend:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método destrutor da classe&nbsp;<br><br>
+<a href="#FWLegend:Execute">FWLegend:Execute</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a imagem da legenda de acordo com as regras definidas no método Add.&nbsp;<br><br>
+<a href="#FWLegend:New">FWLegend:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWLegend:SetNumber">FWLegend:SetNumber</a></br>
+&nbsp;&nbsp;&nbsp;Indica que a legenda será representada por números&nbsp;<br><br>
+<a href="#FWLegend:View">FWLegend:View</a></br>
+&nbsp;&nbsp;&nbsp;Exibe uma janela com as legendas.&nbsp;Obs.: Passando o mouse sobre as legendas serão apresentadas as regras.&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWLegend:Activate"></a>FWLegend:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:Add"></a>FWLegend:Add</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um item da legenda&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>xCondition :<td><br>Tipo: VARIANT<br>Expressão AdvPL ou Code-Block com a regra da legenda
+<tr valign=top><td Width=20><td Width=100><br>cColor :<td><br>Tipo: CHARACTER<br>    Cor que identifica a regra
+<tr valign=top><td Width=20><td Width=100><br>cTitle :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>    Título da legenda, utilizado na janela de visualização das legendas
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:ClassName"></a>FWLegend:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWLEGEND)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:DeActivate"></a>FWLegend:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método destrutor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:Execute"></a>FWLegend:Execute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a imagem da legenda de acordo com as regras definidas no método Add.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cImagem :<td><br>Tipo: CHARACTER<br>Imagem com a cor ou número que identifica a legenda
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:New"></a>FWLegend:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:SetNumber"></a>FWLegend:SetNumber</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que a legenda será representada por números&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lNumeric :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que a legenda será representada por números
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLegend:View"></a>FWLegend:View</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Exibe uma janela com as legendas.&nbsp;Obs.: Passando o mouse sobre as legendas serão apresentadas as regras.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function __FWLegend</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permitir a geração de patchs&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>

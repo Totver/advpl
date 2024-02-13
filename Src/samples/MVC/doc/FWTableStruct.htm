@@ -1,0 +1,319 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWTableStruct.PRX</font><a name="FWTableStruct"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWTableStruct</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto com a estrutura de uma tabela. Esta classe deve ser&nbsp;utilizada somente pelos programas de Framework e tem como objetivo&nbsp;simplificar o relacionamento com as outras equipes de framework da&nbsp;TOTVS&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>14/01/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWTableStruct:Activate">FWTableStruct:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;<br><br>
+<a href="#FWTableStruct:AddField">FWTableStruct:AddField</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um campo a estrutura da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:AddIndex">FWTableStruct:AddIndex</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um indice ao objeto da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:ClassName">FWTableStruct:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWTableStruct:DeActivate">FWTableStruct:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Dehabilita o uso da classe&nbsp;<br><br>
+<a href="#FWTableStruct:GetAlias">FWTableStruct:GetAlias</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o alias da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:GetField">FWTableStruct:GetField</a></br>
+&nbsp;&nbsp;&nbsp;Retorna os atributos de determinado campo&nbsp;<br><br>
+<a href="#FWTableStruct:GetFields">FWTableStruct:GetFields</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a estrutura da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:GetIndexes">FWTableStruct:GetIndexes</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a descricao dos indices da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:GetPrimaryKey">FWTableStruct:GetPrimaryKey</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a descricao da chave primaria da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:GetTableName">FWTableStruct:GetTableName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome fisico da tabela&nbsp;<br><br>
+<a href="#FWTableStruct:New">FWTableStruct:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWTableStruct:SetPrimaryKey">FWTableStruct:SetPrimaryKey</a></br>
+&nbsp;&nbsp;&nbsp;Atribui a chave primaria da tabela&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWTableStruct:Activate"></a>FWTableStruct:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:AddField"></a>FWTableStruct:AddField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um campo a estrutura da tabela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cField :<td><br>Tipo: CHARACTER<br>Nome do campo
+<tr valign=top><td Width=20><td Width=100><br>cType :<td><br>Tipo: CHARACTER<br>Tipo do campo
+<tr valign=top><td Width=20><td Width=100><br>nWidth :<td><br>Tipo: NUMERIC<br>Tamanho do campo
+<tr valign=top><td Width=20><td Width=100><br>nDecimal :<td><br>Tipo: NUMERIC<br>Numero de decimais do campo
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:AddIndex"></a>FWTableStruct:AddIndex</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um indice ao objeto da tabela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIndexName :<td><br>Tipo: CHARACTER<br>Nome fisico do indice
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Array de string do nome dos campos que compoem o indice
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:ClassName"></a>FWTableStruct:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:DeActivate"></a>FWTableStruct:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Dehabilita o uso da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetAlias"></a>FWTableStruct:GetAlias</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o alias da tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetField"></a>FWTableStruct:GetField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna os atributos de determinado campo&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cField :<td><br>Tipo: CHARACTER<br>Nome do campo
+<tr><td Width=20><td Width=20><td>@result Array com a seguinte estrutura {FieldName,FieldType,FieldWidth,FieldDec}. Caso o campo informado náo exista será retornado um Array vazio.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetFields"></a>FWTableStruct:GetFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a estrutura da tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetIndexes"></a>FWTableStruct:GetIndexes</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a descricao dos indices da tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetPrimaryKey"></a>FWTableStruct:GetPrimaryKey</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a descricao da chave primaria da tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:GetTableName"></a>FWTableStruct:GetTableName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome fisico da tabela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:New"></a>FWTableStruct:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTableName :<td><br>Tipo: CHARACTER<br>Nome fisico da tabela
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER<br>Alias do tabela
+<tr valign=top><td Width=20><td Width=100><br>cTableName :<td><br>Tipo: CHARACTER<br>Nome fisico da tabela
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableStruct:SetPrimaryKey"></a>FWTableStruct:SetPrimaryKey</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui a chave primaria da tabela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Array de string do nome dos campos que compoem a chave primaria
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function FWTblStr</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Função apenas para geração de patch&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>30/06/2009
+</table></br><hr></br>

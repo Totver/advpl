@@ -1,0 +1,1247 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFormGridModel.prx</font><a name="FWFormGridModel"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFormGridModel</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto com o modelo de edição FormGrid.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10/11/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFormGridModel:Activate">FWFormGridModel:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWFormGridModel:AddLine">FWFormGridModel:AddLine</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma linha no Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:AddRulesPost">FWFormGridModel:AddRulesPost</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma relação de dependência entre a referência de origem e destino, provocando uma reavaliação do destino em caso de atualização da origem.&nbsp;<br><br>
+<a href="#FWFormGridModel:AddRulesPre">FWFormGridModel:AddRulesPre</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma relação de dependência entre campos do formulário, impedindo a atribuição de valor caso os campos de dependëncia náo tenham valor atribuido.&nbsp;<br><br>
+<a href="#FWFormGridModel:CanDeleteLine">FWFormGridModel:CanDeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita que se apague linhas&nbsp;<br><br>
+<a href="#FWFormGridModel:CanInsertLine">FWFormGridModel:CanInsertLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita a inserção de novas linhas&nbsp;<br><br>
+<a href="#FWFormGridModel:CanUpdateLine">FWFormGridModel:CanUpdateLine</a></br>
+&nbsp;&nbsp;&nbsp;Informa se o grid aceita a manutenção nas linhas &nbsp;<br><br>
+<a href="#FWFormGridModel:ClassName">FWFormGridModel:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWFormGridModel:DeActivate">FWFormGridModel:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de destruição da classe&nbsp;<br><br>
+<a href="#FWFormGridModel:DeleteLine">FWFormGridModel:DeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;Deleta a linha atual no Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:GetData">FWFormGridModel:GetData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo&nbsp;<br><br>
+<a href="#FWFormGridModel:GetDescription">FWFormGridModel:GetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um texto com a descrição do objetivo do modelo&nbsp;<br><br>
+<a href="#FWFormGridModel:GetId">FWFormGridModel:GetId</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o Id do objeto&nbsp;<br><br>
+<a href="#FWFormGridModel:GetIdField">FWFormGridModel:GetIdField</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o Id do item da folha de dados de um campo do objeto&nbsp;<br><br>
+<a href="#FWFormGridModel:GetLine">FWFormGridModel:GetLine</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a linha do Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:GetMaxLine">FWFormGridModel:GetMaxLine</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o numero máximo de linhas do Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:GetModel">FWFormGridModel:GetModel</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o objeto modelo com o modelo de dados&nbsp;<br><br>
+<a href="#FWFormGridModel:GetOldData">FWFormGridModel:GetOldData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo do modelo de compatibilidade&nbsp;<br><br>
+<a href="#FWFormGridModel:GetOwner">FWFormGridModel:GetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o objeto owner do modelo de dados&nbsp;<br><br>
+<a href="#FWFormGridModel:GetRelation()">FWFormGridModel:GetRelation()</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o critério de relacionamento entre as entidades do formulário de dados&nbsp;<br><br>
+<a href="#FWFormGridModel:GetRules">FWFormGridModel:GetRules</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a estrutura com a relação de dependência entre a referência de partida e destino.&nbsp;<br><br>
+<a href="#FWFormGridModel:GetStruct">FWFormGridModel:GetStruct</a></br>
+&nbsp;&nbsp;&nbsp;Recupera o objeto com a estrutura de dados &nbsp;<br><br>
+<a href="#FWFormGridModel:GetValue">FWFormGridModel:GetValue</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o valor da folha de dados de um campo do objeto&nbsp;<br><br>
+<a href="#FWFormGridModel:GetXMLData">FWFormGridModel:GetXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo em XML&nbsp;<br><br>
+<a href="#FWFormGridModel:GetXMLSchema">FWFormGridModel:GetXMLSchema</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com o schema do modelo de dados&nbsp;<br><br>
+<a href="#FWFormGridModel:GoLine">FWFormGridModel:GoLine</a></br>
+&nbsp;&nbsp;&nbsp;Altera a linha do Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:InitLine">FWFormGridModel:InitLine</a></br>
+&nbsp;&nbsp;&nbsp;Inicializa uma linha no modelo de dados &nbsp;<br><br>
+<a href="#FWFormGridModel:IsDeleted">FWFormGridModel:IsDeleted</a></br>
+&nbsp;&nbsp;&nbsp;Fornece se a linha esta deletada&nbsp;<br><br>
+<a href="#FWFormGridModel:IsUpdated">FWFormGridModel:IsUpdated</a></br>
+&nbsp;&nbsp;&nbsp;Fornece se a linha recebeu valores&nbsp;<br><br>
+<a href="#FWFormGridModel:LoadValue">FWFormGridModel:LoadValue</a></br>
+&nbsp;&nbsp;&nbsp;Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha&nbsp;<br><br>
+<a href="#FWFormGridModel:LoadXMLData">FWFormGridModel:LoadXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Carrega o modelo com base na folha de dados em XML&nbsp;<br><br>
+<a href="#FWFormGridModel:New">FWFormGridModel:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFormGridModel:ReportDef">FWFormGridModel:ReportDef</a></br>
+&nbsp;&nbsp;&nbsp;Complementa o objeto do modelo com as definicoes de impressão ( ReportDef )&nbsp;<br><br>
+<a href="#FWFormGridModel:ReportPrint">FWFormGridModel:ReportPrint</a></br>
+&nbsp;&nbsp;&nbsp;Imprime as seções do modelo definidas pela ReportDef&nbsp;<br><br>
+<a href="#FWFormGridModel:SeekLine">FWFormGridModel:SeekLine</a></br>
+&nbsp;&nbsp;&nbsp;Pesquisa a linha que contem os dados informados como parametro&nbsp;<br><br>
+<a href="#FWFormGridModel:SetDescription">FWFormGridModel:SetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Atribui ao modelo um texto com a descrição do objetivo do mesmo.&nbsp;<br><br>
+<a href="#FWFormGridModel:SetLine">FWFormGridModel:SetLine</a></br>
+&nbsp;&nbsp;&nbsp;Altera a linha do Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:SetLoad">FWFormGridModel:SetLoad</a></br>
+&nbsp;&nbsp;&nbsp;Code-Block de carga dos dados do formulário de edição. &nbsp;<br><br>
+<a href="#FWFormGridModel:SetLPost">FWFormGridModel:SetLPost</a></br>
+&nbsp;&nbsp;&nbsp;Configura o code-block de validação da linha do grid de edição&nbsp;<br><br>
+<a href="#FWFormGridModel:SetLPre">FWFormGridModel:SetLPre</a></br>
+&nbsp;&nbsp;&nbsp;Configura o code-block de pré-edição da linha do grid de edição&nbsp;<br><br>
+<a href="#FWFormGridModel:SetNoDeleteLine">FWFormGridModel:SetNoDeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber exclusão de linha&nbsp;<br><br>
+<a href="#FWFormGridModel:SetNoInsertLine">FWFormGridModel:SetNoInsertLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber inserção de linha&nbsp;<br><br>
+<a href="#FWFormGridModel:SetNoUpdateLine">FWFormGridModel:SetNoUpdateLine</a></br>
+&nbsp;&nbsp;&nbsp;Especifica que o grid não pode receber alteração nas linha&nbsp;<br><br>
+<a href="#FWFormGridModel:SetPost">FWFormGridModel:SetPost</a></br>
+&nbsp;&nbsp;&nbsp;Configura o code-block de validação do grid de edição&nbsp;<br><br>
+<a href="#FWFormGridModel:SetPre">FWFormGridModel:SetPre</a></br>
+&nbsp;&nbsp;&nbsp;Code-Block de pré-edição do grid de edição. Indica se a edição esta liberada&nbsp;<br><br>
+<a href="#FWFormGridModel:SetRules">FWFormGridModel:SetRules</a></br>
+&nbsp;&nbsp;&nbsp;Reavalia a relação de dependência entre a referência de origem e destino, apos a atualização da origem.&nbsp;<br><br>
+<a href="#FWFormGridModel:SetStruct">FWFormGridModel:SetStruct</a></br>
+&nbsp;&nbsp;&nbsp;Configura o objeto com a estrutura de dados &nbsp;<br><br>
+<a href="#FWFormGridModel:SetUseOldGrid">FWFormGridModel:SetUseOldGrid</a></br>
+&nbsp;&nbsp;&nbsp;Indica que o formulário de edição deve trabalhar com acols/aheader. &nbsp;Este metodo é utilizado para compatibilizar com o Browse antigo do Protheus&nbsp;<br><br>
+<a href="#FWFormGridModel:SetValue">FWFormGridModel:SetValue</a></br>
+&nbsp;&nbsp;&nbsp;Atribui um valor a folha de dados do objeto&nbsp;<br><br>
+<a href="#FWFormGridModel:UnDeleteLine">FWFormGridModel:UnDeleteLine</a></br>
+&nbsp;&nbsp;&nbsp;UnDeleta a linha atual no Grid&nbsp;<br><br>
+<a href="#FWFormGridModel:VldData">FWFormGridModel:VldData</a></br>
+&nbsp;&nbsp;&nbsp;Valida a folha de dados do objeto&nbsp;<br><br>
+<a href="#FWFormGridModel:VldLineData">FWFormGridModel:VldLineData</a></br>
+&nbsp;&nbsp;&nbsp;Valida a linha da folha de dados do objeto&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFormGridModel:Activate"></a>FWFormGridModel:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:AddLine"></a>FWFormGridModel:AddLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma linha no Grid&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC<br>Indica a linha atual
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:AddRulesPost"></a>FWFormGridModel:AddRulesPost</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma relação de dependência entre a referência de origem e destino, provocando uma reavaliação do destino em caso de atualização da origem.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo de origem no modelo
+<tr valign=top><td Width=20><td Width=100><br>oIdTarget :<td><br>Tipo: OBJECT<br>Identificador do modelo de destino
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldTarget :<td><br>Tipo: CHARACTER<br>Identificador do campo do modelo de destino
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:AddRulesPre"></a>FWFormGridModel:AddRulesPre</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma relação de dependência entre campos do formulário, impedindo a atribuição de valor caso os campos de dependëncia náo tenham valor atribuido.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo de origem no modelo
+<tr valign=top><td Width=20><td Width=100><br>oIdRule :<td><br>Tipo: OBJECT<br>Identificador do modelo dependente
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldRule :<td><br>Tipo: CHARACTER<br>Identificador do campo do modelo dependente
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:CanDeleteLine"></a>FWFormGridModel:CanDeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita que se apague linhas&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:CanInsertLine"></a>FWFormGridModel:CanInsertLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita a inserção de novas linhas&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:CanUpdateLine"></a>FWFormGridModel:CanUpdateLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Informa se o grid aceita a manutenção nas linhas &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:ClassName"></a>FWFormGridModel:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:DeActivate"></a>FWFormGridModel:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de destruição da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:DeleteLine"></a>FWFormGridModel:DeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Deleta a linha atual no Grid&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetData"></a>FWFormGridModel:GetData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aData :<td><br>Tipo: ARRAY<br>Estrutura com os dados do objeto
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetDescription"></a>FWFormGridModel:GetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um texto com a descrição do objetivo do modelo&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetId"></a>FWFormGridModel:GetId</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o Id do objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Id :<td><br>Tipo: ARRAY<br>Id do objeto
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetIdField"></a>FWFormGridModel:GetIdField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o Id do item da folha de dados de um campo do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetLine"></a>FWFormGridModel:GetLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a linha do Grid&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC<br>Indica a linha atual
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetMaxLine"></a>FWFormGridModel:GetMaxLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o numero máximo de linhas do Grid&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>18/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetModel"></a>FWFormGridModel:GetModel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o objeto modelo com o modelo de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObjeto :<td><br>Tipo: OBJECT<br>Objeto modelo
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetOldData"></a>FWFormGridModel:GetOldData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo do modelo de compatibilidade&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aData :<td><br>Tipo: ARRAY<br>Array com a seguinte estrutura:
+<tr><td Width=20><td Width=20><td>[1] aHeader
+<tr><td Width=20><td Width=20><td>[2] aCols
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetOwner"></a>FWFormGridModel:GetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o objeto owner do modelo de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObjeto :<td><br>Tipo: OBJECT<br>Objeto owner modelo
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetRelation()"></a>FWFormGridModel:GetRelation()</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o critério de relacionamento entre as entidades do formulário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetRules"></a>FWFormGridModel:GetRules</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a estrutura com a relação de dependência entre a referência de partida e destino.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetStruct"></a>FWFormGridModel:GetStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Recupera o objeto com a estrutura de dados &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>05/12/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetValue"></a>FWFormGridModel:GetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o valor da folha de dados de um campo do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: ::nLine]</font><br>Numero da linha
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetXMLData"></a>FWFormGridModel:GetXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo em XML&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDetail :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se o xml gerado deve incluir as tags de detalhamento dos dados.
+<tr valign=top><td Width=20><td Width=100><br>lStruct :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica se o xml gerado deve incluir as tags de estrutura
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML com do modelo e os dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GetXMLSchema"></a>FWFormGridModel:GetXMLSchema</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com o schema do modelo de dados&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aTypes :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Utilizado internamente para registrar os tipos de dados no modelo principal
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>22/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXSD :<td><br>Tipo: CHARACTER<br>Schema ( XSD ) do modelo de dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:GoLine"></a>FWFormGridModel:GoLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Altera a linha do Grid&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Numero da linha do grid que será utilizado como DEFAULT
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC<br>Indica a linha atual
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:InitLine"></a>FWFormGridModel:InitLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Inicializa uma linha no modelo de dados &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:IsDeleted"></a>FWFormGridModel:IsDeleted</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece se a linha esta deletada&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: ::nLine]</font><br>Indica a linha a ser verificada
+<tr><td Width=20><td Width=20><td>@result lDeleted Indica se a linha esta deletada
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:IsUpdated"></a>FWFormGridModel:IsUpdated</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece se a linha recebeu valores&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: ::nLine]</font><br>Indica a linha a ser verificada
+<tr><td Width=20><td Width=20><td>@result lUpdated Indica se a linha foi atualizada
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>27/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:LoadValue"></a>FWFormGridModel:LoadValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso SetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAtribuido :<td><br>Tipo: LOGICAL<br>Indica que o valor foi atribuido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:LoadXMLData"></a>FWFormGridModel:LoadXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega o modelo com base na folha de dados em XML&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oXML :<td><br>Tipo: OBJECT<br>XML com os dados do modelo
+<tr><td Width=20><td Width=20><td>@result lLoad Indica se o modelo foi carregado
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:New"></a>FWFormGridModel:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto proprietário
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto modelo
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:ReportDef"></a>FWFormGridModel:ReportDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Complementa o objeto do modelo com as definicoes de impressão ( ReportDef )&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oReport :<td><br>Tipo: OBJECT<br>Objeto com as definições de impressão
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:ReportPrint"></a>FWFormGridModel:ReportPrint</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Imprime as seções do modelo definidas pela ReportDef&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SeekLine"></a>FWFormGridModel:SeekLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Pesquisa a linha que contem os dados informados como parametro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aBusca :<td><br>Tipo: ARRAY<br>Array com os dados de busca na seguinte estrutura
+<tr><td Width=20><td Width=20><td>[n][1] Id do campo
+<tr><td Width=20><td Width=20><td>[n][2] Conteudo
+<tr><td Width=20><td Width=20><td>@result lRetorno Indica se a linha foi encontrada
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetDescription"></a>FWFormGridModel:SetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui ao modelo um texto com a descrição do objetivo do mesmo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do objetivo do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetLine"></a>FWFormGridModel:SetLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Altera a linha do Grid&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Numero da linha do grid que será utilizado como DEFAULT
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC<br>Indica a linha atual
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetLoad"></a>FWFormGridModel:SetLoad</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Code-Block de carga dos dados do formulário de edição. &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK<br>Code-Block de carga do formulário de edição.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetLPost"></a>FWFormGridModel:SetLPost</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o code-block de validação da linha do grid de edição&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bLinePost :<td><br>Tipo: BLOCK<br>Code-Block de validação da linha do grid de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetLPre"></a>FWFormGridModel:SetLPre</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o code-block de pré-edição da linha do grid de edição&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bLinePre :<td><br>Tipo: BLOCK<br>Code-Block de pre-edição da linha do grid de edição. Indica se a edição esta liberada
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetNoDeleteLine"></a>FWFormGridModel:SetNoDeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber exclusão de linha&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetNoInsertLine"></a>FWFormGridModel:SetNoInsertLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber inserção de linha&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetNoUpdateLine"></a>FWFormGridModel:SetNoUpdateLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Especifica que o grid não pode receber alteração nas linha&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetPost"></a>FWFormGridModel:SetPost</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o code-block de validação do grid de edição&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de validação do grid de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetPre"></a>FWFormGridModel:SetPre</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Code-Block de pré-edição do grid de edição. Indica se a edição esta liberada&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pré-edição do grid de edição.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetRules"></a>FWFormGridModel:SetRules</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Reavalia a relação de dependência entre a referência de origem e destino, apos a atualização da origem.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr valign=top><td Width=20><td Width=100><br>lForce :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Força a atualizacao do valor
+<tr valign=top><td Width=20><td Width=100><br>oOrigem :<td><br>Tipo: OBJECT<br>Objeto do modelo de origem
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso SetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lValido :<td><br>Tipo: LOGICAL<br>Indica que o valor esta valido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetStruct"></a>FWFormGridModel:SetStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Configura o objeto com a estrutura de dados &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oFormModelStruct :<td><br>Tipo: OBJECT<br>Objeto com a estrutura de dados.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetUseOldGrid"></a>FWFormGridModel:SetUseOldGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que o formulário de edição deve trabalhar com acols/aheader. &nbsp;Este metodo é utilizado para compatibilizar com o Browse antigo do Protheus&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:SetValue"></a>FWFormGridModel:SetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui um valor a folha de dados do objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor a ser atribuido
+<tr valign=top><td Width=20><td Width=100><br>lForce :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Força a atualizacao do valor
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/11/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso CanSetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAtribuido :<td><br>Tipo: LOGICAL<br>Indica que o valor foi atribuido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:UnDeleteLine"></a>FWFormGridModel:UnDeleteLine</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>UnDeleta a linha atual no Grid&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:VldData"></a>FWFormGridModel:VldData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Valida a folha de dados do objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Indica que a folha de dados é valida
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormGridModel:VldLineData"></a>FWFormGridModel:VldLineData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Valida a linha da folha de dados do objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>11/11/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Indica que a linha da folha de dados é valida
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>

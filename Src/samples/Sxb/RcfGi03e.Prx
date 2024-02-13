@@ -1,0 +1,246 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 03/07/00
+
+User Function RCFGI03E()        // incluido pelo assistente de conversao do AP5 IDE em 03/07/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("NHDLSE1,_XCONT,NLENGHT,_NREAD,_CGCG,_CNOVO")
+SetPrvt("_CCLI,_CNUM,_CPAR,CCAMPO,ACAMPO,CREG")
+SetPrvt("NCAMPO,_CREAD,NTOTREC,_CCGC,_NII,_CERRO")
+SetPrvt("NRECINV,_DVENCREA,_NI,_CFILIAL,_CPORTADOR,_CSITUACAO")
+SetPrvt("NRECNOV,_CALIAS,_NINDEX,_NREG,_NFIM,")
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡Æo    ³ RCFGI03E ³ Autor ³ ROBERTO PUJOL         ³ Data ³ 02/08/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡Æo ³ Importacao de SE1                                          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ RCFGI03E                                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ Rotina de Importacao                                       ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+// Abre arquivo de Portador
+dbUseArea(.T.,,"DEPARA.DBF","DEP",.F.,.F.)
+IndRegua("DEP","DEP1","DE+PARA",,,"Selecionando Registros...")
+
+// Abre arquivo TXT
+nHdlSE1  := FOpen(cArqSE1,2)
+_xCont   := .T.
+nLenght  := FSeek(nHdlSE1,0,2)
+_nRead := 1024
+FSeek(nHdlSE1,0)
+ProcRegua(nLenght)
+While _xCont
+      _cGCG := _cNovo := _cCli := _cNum := _cPar := cCampo   := ""
+      aCampo   := {}
+      cReg     := " "
+      For nCampo := 1 to 11
+          IncProc()
+          _cRead := FRead(nHdlSE1,@cReg,1)
+          While Asc(cReg) <> 13 .and. _cRead == 1
+                If Asc(cReg) <> 12
+                   cCampo := cCampo + cReg
+                   IncProc("Importando arquivo de Contas a Receber")
+                End
+                _cRead := FRead(nHdlSE1,@cReg,1)
+          End
+          Aadd(aCampo, AllTrim(cCampo))
+          _cRead := FRead(nHdlSE1,@cReg,1)
+          IncProc()
+          cCampo := ""
+      Next
+      If _cRead <> Len(cReg)
+         _xCont := .F.
+         Loop
+      End
+
+      nTotRec := nTotRec + 1
+
+      //verifica CGC e CPF
+      _cCGC := aCampo[11]
+      _cNovo := ""
+      For _nII := 1 To Len(_cCGC)
+          If SubStr(_cCGC,_nII,1) $ "1234567890"
+             _cNovo := _cNovo + SubStr(_cCGC,_nII,1)
+          End
+      Next
+      If Len(_cNovo) == 15 .and. SubStr(_cNovo,1,1) == "0"
+         _cNovo := SubStr(_cNovo,2,14)
+      End
+
+      //Pesquisa o CGC do cliente
+      dbSelectArea("SA1")
+      dbSetOrder(3)             // FILIAL + CGC
+      dbSeek(XFilial() + _cNovo)
+      _cCli := SA1->A1_COD
+      If !Found()
+         // Se nao achou pesquisa o codigo
+         _cCli  := Str(Val(aCampo[04]))
+         dbSelectArea("SA1")
+         dbSetOrder(5)             // FILIAL + CODIGO MANSUR
+         dbSeek(XFilial() + _cCli)
+         _cCli := SA1->A1_COD
+         If !Found()
+            // Se nao achou grava em branco
+            _cErro := "O Cliente " + aCampo[04] +;
+            " do Titulo a Receber " + aCampo[01] +  "/" +aCampo[02]+" nao existe!"
+            GravaErro()
+            nRecInv := nRecInv + 1
+            // Loop nao faz loop grava com codigo em branco
+            _cCli := "      "
+         End
+      End
+
+      If Empty(aCampo[10]).or. Empty(aCampo[04]).or. Empty(aCampo[07]).or.;
+         Empty(aCampo[05]).or. Empty(aCampo[06]).or. Empty(aCampo[08])
+             _cErro := "Favor conferir os dados do Titulo a Receber " + ;
+             aCampo[01] + " " +aCampo[02]
+             GravaErro()
+             nRecInv := nRecInv + 1
+             Loop
+      End
+
+      _dVencRea := DataValida(CtoD(aCampo[06]))
+
+      _cNum := RTrim(LTrim(aCampo[01]))
+      For _nI := Len(_cNum) to 5
+          _cNum := "0" + _cNum
+      Next
+
+      _cPar := Alltrim(Str(Val(aCampo[02])))
+      If Val(_cPar) >9
+         If Val(_cPar) == 10
+            _cPar:="J"
+         ElseIf Val(_cPar) == 11
+            _cPar:="L"
+         ElseIf Val(_cPar) == 12
+            _cPar:="M"
+         EndIf
+      EndIf
+
+      _cFilial := IF(Len(AllTrim(aCampo[08]))==2, aCampo[08],"0"+ aCampo[08])
+      MinhaFilial()
+
+      _cPortador := "   "
+      _cSituacao := "1"
+      dbSelectArea("DEP")
+      dbSetOrder(1)
+      dbSeek(AllTrim(aCampo[3]))
+      If Found()
+         _cPortador := DEP->CAMPO // DEP->PARA
+         _cSituacao := DEP->SIT
+      End
+      dbSelectArea("SE1")
+      dbSetOrder(1)                                 // FILIAL+PREF+NUM+PARC
+      dbSeek(XFilial("SE1") + _cFilial + " " + _cNum+ _cPar)
+
+
+      If !Found()
+       RecLock("SE1",.T.)
+         nRecNov := nRecNov + 1
+         Replace E1_FILIAL  with _cFilial
+         Replace E1_PREFIXO with _cFilial + " "
+         Replace E1_CLIENTE with       _cCli
+         Replace E1_LOJA    with       SA1->A1_LOJA
+         Replace E1_NOMCLI  with       SA1->A1_NREDUZ
+         Replace E1_TIPO    with       "DP "
+         Replace E1_NATUREZ with       "01"
+         Replace E1_SALDO   with  Val( aCampo[10])
+         Replace E1_VLCRUZ  with  Val( aCampo[07])
+         Replace E1_VENCREA with _dVencRea
+
+         Replace E1_NUM     with       _cNum
+         Replace E1_PARCELA with       _cPar
+         Replace E1_PORTADO with       _cPortador
+         Replace E1_SITUACA with       _cSituacao
+         Replace E1_EMISSAO with CtoD(aCampo[05])
+         Replace E1_VENCTO  with CtoD(aCampo[06])
+         Replace E1_VALOR   with  Val( aCampo[07])
+         Replace E1_NUMBCO  with       aCampo[09]
+         Replace E1_MOEDA   with       1
+       MsUnLock()
+      Endif
+Enddo
+FClose(nHdlSE1)
+RETURN
+
+
+/***************************************************************************/
+/* FUNCAO GRAVAERRO  Grava o erro no arquivo de LOG                        */
+/***************************************************************************/
+// Substituido pelo assistente de conversao do AP5 IDE em 03/07/00 ==> FUNCTION GravaErro
+Static FUNCTION GravaErro()
+ _cAlias := Alias()
+ _nIndex := IndexOrd()
+ _nReg	:= Recno()
+ dbSelectArea("ERR")
+ dbGoBottom()
+ _nFim := chave
+ RecLock("ERR",.T.)
+   Replace chave with _nFim + 1
+   Replace erro  with _cErro
+ MsUnLock()
+ dbSelectArea(_cAlias)
+ dbSetOrder(_nIndex)
+ dbGoTo(_nReg)
+Return
+
+
+/***************************************************************************/
+/*  FUNCAO MINHA FILIAL - Retorna o valor correto da Filial convertido     */
+/***************************************************************************/
+// Substituido pelo assistente de conversao do AP5 IDE em 03/07/00 ==> Function MinhaFilial
+Static Function MinhaFilial()
+If _cFilial == "01"
+   _cFilial := "01"
+   Return
+ElseIf _cFilial == "02"
+   _cFilial := "31"
+   Return
+ElseIf _cFilial == "03"
+   _cFilial := "03"
+   Return
+ElseIf _cFilial == "04"
+   _cFilial := "04"
+   Return
+ElseIf _cFilial == "05"
+   _cFilial := "05"
+   Return
+ElseIf _cFilial == "06"
+   _cFilial := "06"
+   Return
+ElseIf _cFilial == "07"
+   _cFilial := "07"
+   Return
+ElseIf _cFilial == "08"
+   _cFilial := "08"
+   Return
+ElseIf _cFilial == "09"
+   _cFilial := "32"
+   Return
+ElseIf _cFilial == "10"
+   _cFilial := "09"
+   Return
+ElseIf _cFilial == "11"
+   _cFilial := "10"
+   Return
+ElseIf _cFilial == "13"
+   _cFilial := "12"
+   Return
+Else
+   _cFilial := "99"
+End
+Return

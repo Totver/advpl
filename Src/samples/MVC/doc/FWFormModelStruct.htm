@@ -1,0 +1,602 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFormModelStruct.prx</font><a name="FWFormModelStruct"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFormModelStruct</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Classe de controle das estruturas de metadado do dicionário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>20/10/2008
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFormModelStruct:Activate">FWFormModelStruct:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddField">FWFormModelStruct:AddField</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um campo a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddFolder">FWFormModelStruct:AddFolder</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um Folder a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddGroup">FWFormModelStruct:AddGroup</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um Group a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddIndex">FWFormModelStruct:AddIndex</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona os dados dos indices a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddTable">FWFormModelStruct:AddTable</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona os dados da tabela a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:AddTrigger">FWFormModelStruct:AddTrigger</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um trigger a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:ClassName">FWFormModelStruct:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWFORMMODELSTRUCT)&nbsp;<br><br>
+<a href="#FWFormModelStruct:DeActivate">FWFormModelStruct:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de desativação da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetFields">FWFormModelStruct:GetFields</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a coleção de campos da estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetFolders">FWFormModelStruct:GetFolders</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a coleção de folders da estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetGroups">FWFormModelStruct:GetGroups</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a coleção de Groups da estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetIndex">FWFormModelStruct:GetIndex</a></br>
+&nbsp;&nbsp;&nbsp;Fornece os dados dos indices da estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetTable">FWFormModelStruct:GetTable</a></br>
+&nbsp;&nbsp;&nbsp;Fornece os dados da tabela a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:GetTriggers">FWFormModelStruct:GetTriggers</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a coleção de triggers da estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:LoadFields">FWFormModelStruct:LoadFields</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coleção de campos a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:LoadFolders">FWFormModelStruct:LoadFolders</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coleção de folders a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:LoadGroups">FWFormModelStruct:LoadGroups</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coleção de Groups a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:LoadIndex">FWFormModelStruct:LoadIndex</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coleção de indices a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:LoadTriggers">FWFormModelStruct:LoadTriggers</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma coleção de triggers a estrutura de metadado da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:New">FWFormModelStruct:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFormModelStruct:RemoveField">FWFormModelStruct:RemoveField</a></br>
+&nbsp;&nbsp;&nbsp;Remove um campo a estrutura de metadado da classe&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFormModelStruct:Activate"></a>FWFormModelStruct:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddField"></a>FWFormModelStruct:AddField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um campo a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTitulo :<td><br>Tipo: CHARACTER<br> Titulo do campo
+<tr valign=top><td Width=20><td Width=100><br>cTooltip :<td><br>Tipo: CHARACTER<br>Tooltip do campo
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Id do Field
+<tr valign=top><td Width=20><td Width=100><br>cTipo :<td><br>Tipo: CHARACTER<br>   Tipo do campo
+<tr valign=top><td Width=20><td Width=100><br>nTamanho :<td><br>Tipo: NUMERIC<br>Tamanho do campo
+<tr valign=top><td Width=20><td Width=100><br>nDecimal :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Decimal do campo
+<tr valign=top><td Width=20><td Width=100><br>bValid :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br>  Code-block de validação do campo
+<tr valign=top><td Width=20><td Width=100><br>bWhen :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>   Code-block de validação when do campo
+<tr valign=top><td Width=20><td Width=100><br>aValues :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br> Lista de valores permitido do campo
+<tr valign=top><td Width=20><td Width=100><br>lObrigat :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se o campo tem preenchimento obrigatório
+<tr valign=top><td Width=20><td Width=100><br>bInit :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>   Code-block de inicializacao do campo
+<tr valign=top><td Width=20><td Width=100><br>lKey :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>    Indica se trata-se de um campo chave
+<tr valign=top><td Width=20><td Width=100><br>lNoUpd :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>  Indica se o campo pode receber valor em uma operação de update.
+<tr valign=top><td Width=20><td Width=100><br>lVirtual :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se o campo é virtual
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddFolder"></a>FWFormModelStruct:AddFolder</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um Folder a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdFolder :<td><br>Tipo: CHARACTER<br>Id do Folder
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do folder
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddGroup"></a>FWFormModelStruct:AddGroup</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um Group a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdGroup :<td><br>Tipo: CHARACTER<br>Id do Group
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do Group
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddIndex"></a>FWFormModelStruct:AddIndex</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona os dados dos indices a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOrdem :<td><br>Tipo: NUMERIC<br>Ordem do indice
+<tr valign=top><td Width=20><td Width=100><br>cOrdem :<td><br>Tipo: CHARACTER<br>ID
+<tr valign=top><td Width=20><td Width=100><br>cKey :<td><br>Tipo: CHARACTER<br>Chave do indice
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do indice
+<tr valign=top><td Width=20><td Width=100><br>cLookUp :<td><br>Tipo: CHARACTER<br>Expressão de lookUp dos campos de indice
+<tr valign=top><td Width=20><td Width=100><br>cNickName :<td><br>Tipo: CHARACTER<br>Nickname do indice
+<tr valign=top><td Width=20><td Width=100><br>lShow :<td><br>Tipo: LOGICAL<br>Indica se o indice pode ser utilizado pela interface
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddTable"></a>FWFormModelStruct:AddTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona os dados da tabela a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER<br>  Alias da tabela
+<tr valign=top><td Width=20><td Width=100><br>aPK :<td><br>Tipo: ARRAY - <font color=blue>[Optional]</font><br>     Array com os campos que correspondem a primary key
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição da tabela
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:AddTrigger"></a>FWFormModelStruct:AddTrigger</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um trigger a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Id do campo de origem
+<tr valign=top><td Width=20><td Width=100><br>cTargetIdField :<td><br>Tipo: CHARACTER<br>Id do campo de destino
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br>Bloco de codigo de validação da execução do gatilho
+<tr valign=top><td Width=20><td Width=100><br>bSetValue :<td><br>Tipo: BLOCK<br>Bloco de codigo de execução do gatilho
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:ClassName"></a>FWFormModelStruct:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWFORMMODELSTRUCT)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:DeActivate"></a>FWFormModelStruct:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de desativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetFields"></a>FWFormModelStruct:GetFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a coleção de campos da estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com a estrutura de metadado dos campos da classe
+<tr><td Width=20><td Width=20><td>[n] Array com os campos
+<tr><td Width=20><td Width=20><td>[n][01] ExpC:Titulo
+<tr><td Width=20><td Width=20><td>[n][02] ExpC:Tooltip
+<tr><td Width=20><td Width=20><td>[n][03] ExpC:IdField
+<tr><td Width=20><td Width=20><td>[n][04] ExpC:Tipo
+<tr><td Width=20><td Width=20><td>[n][05] ExpN:Tamanho
+<tr><td Width=20><td Width=20><td>[n][06] ExpN:Decimal
+<tr><td Width=20><td Width=20><td>[n][07] ExpB:Valid
+<tr><td Width=20><td Width=20><td>[n][08] ExpB:When
+<tr><td Width=20><td Width=20><td>[n][09] ExpA:Lista de valores ( Combo )
+<tr><td Width=20><td Width=20><td>[n][10] ExpL:Obrigatório?
+<tr><td Width=20><td Width=20><td>[n][11] ExpC:Inicializador padrão
+<tr><td Width=20><td Width=20><td>[n][12] ExpL:Campo chave?
+<tr><td Width=20><td Width=20><td>[n][13] ExpL:Campo atualizavel?
+<tr><td Width=20><td Width=20><td>[n][14] ExpL:Campo virtual?
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetFolders"></a>FWFormModelStruct:GetFolders</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a coleção de folders da estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com a estrutura de metadado dos folders da classe
+<tr><td Width=20><td Width=20><td>[n]Array com os folders
+<tr><td Width=20><td Width=20><td>[n][01] ExpC:Id do folder
+<tr><td Width=20><td Width=20><td>[n][02] ExpC:Description
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetGroups"></a>FWFormModelStruct:GetGroups</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a coleção de Groups da estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com a estrutura de metadado dos Groups da classe
+<tr><td Width=20><td Width=20><td>[n]Array com os groups
+<tr><td Width=20><td Width=20><td>[n][01] ExpC:Id do Group
+<tr><td Width=20><td Width=20><td>[n][02] ExpC:Description
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetIndex"></a>FWFormModelStruct:GetIndex</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece os dados dos indices da estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com a definição dos indices
+<tr><td Width=20><td Width=20><td>[01] ExpN: Ordem numérica
+<tr><td Width=20><td Width=20><td>[02] ExpC: Ordem no metadado
+<tr><td Width=20><td Width=20><td>[03] ExpC: Chave do indice
+<tr><td Width=20><td Width=20><td>[04] ExpC: Descrição do indice
+<tr><td Width=20><td Width=20><td>[05] ExpC: LookUp
+<tr><td Width=20><td Width=20><td>[06] ExpC: NickName
+<tr><td Width=20><td Width=20><td>[07] ExpL: Show?
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetTable"></a>FWFormModelStruct:GetTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece os dados da tabela a estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com os seguintes dados
+<tr><td Width=20><td Width=20><td>[01] Alias da tabela
+<tr><td Width=20><td Width=20><td>[02] PK - Array com os campos que correspondem a primary key
+<tr><td Width=20><td Width=20><td>[03] Descrição da tabela
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:GetTriggers"></a>FWFormModelStruct:GetTriggers</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a coleção de triggers da estrutura de metadado da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>Array com a estrutura de metadado dos triggers da classe
+<tr><td Width=20><td Width=20><td>[n]Array com os triggers
+<tr><td Width=20><td Width=20><td>[n][01] ExpC:IdField Origem
+<tr><td Width=20><td Width=20><td>[n][02] ExpC:IdField Alvo
+<tr><td Width=20><td Width=20><td>[n][03] ExpB:When
+<tr><td Width=20><td Width=20><td>[n][04] ExpB:Execução
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:LoadFields"></a>FWFormModelStruct:LoadFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coleção de campos a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Array com a estrutura de campos
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:LoadFolders"></a>FWFormModelStruct:LoadFolders</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coleção de folders a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFolders :<td><br>Tipo: ARRAY<br>Array com a estrutura de triggers
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:LoadGroups"></a>FWFormModelStruct:LoadGroups</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coleção de Groups a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aGroups :<td><br>Tipo: ARRAY<br>Array com a estrutura de triggers
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:LoadIndex"></a>FWFormModelStruct:LoadIndex</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coleção de indices a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aIndex :<td><br>Tipo: ARRAY<br>Array com a estrutura de indices na seguinte estrutura:
+<tr><td Width=20><td Width=20><td>[n][1] ordem númerica do indice
+<tr><td Width=20><td Width=20><td>[n][2] Ordem do indice no metadado
+<tr><td Width=20><td Width=20><td>[n][3] Chave do indice (ISAM)
+<tr><td Width=20><td Width=20><td>[n][4] Descrição dos indices
+<tr><td Width=20><td Width=20><td>[n][5] Id do LookUp
+<tr><td Width=20><td Width=20><td>[n][6] Apelido do indice
+<tr><td Width=20><td Width=20><td>[n][7] Indicador da participação da chave de indice na pesquisa
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:LoadTriggers"></a>FWFormModelStruct:LoadTriggers</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma coleção de triggers a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aTriggers :<td><br>Tipo: ARRAY<br>Array com a estrutura de triggers
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:New"></a>FWFormModelStruct:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModelStruct:RemoveField"></a>FWFormModelStruct:RemoveField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Remove um campo a estrutura de metadado da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Id do Field
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>20/10/2008
+</table></br><hr></br>

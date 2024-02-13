@@ -1,0 +1,250 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWTableDDL.prx</font><a name="FWTableDDL"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWTableDDL</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece metodos de manipulação da estrutura de dados de uma tabela. &nbsp;Esta classe deve ser utilizada somente pelos programas de Framework e &nbsp;tem como objetivo simplificar o relacionamento com as outras equipes &nbsp;de framework da TOTVS&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.1
+<tr><td Width=20><td><td>
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>14/01/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWTableDDL:Activate">FWTableDDL:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;<br><br>
+<a href="#FWTableDDL:AddDbAcess">FWTableDDL:AddDbAcess</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona a configuração de conexão com o DbAcess.&nbsp;<br><br>
+<a href="#FWTableDDL:AlterTable">FWTableDDL:AlterTable</a></br>
+&nbsp;&nbsp;&nbsp;Altera a tabela conforme definicao da nova estrutura&nbsp;<br><br>
+<a href="#FWTableDDL:ClassName">FWTableDDL:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWTableDDL:CreateTable">FWTableDDL:CreateTable</a></br>
+&nbsp;&nbsp;&nbsp;Cria a tabela conforme definicao de sua estrutura&nbsp;<br><br>
+<a href="#FWTableDDL:DeActivate">FWTableDDL:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita o uso da classe&nbsp;<br><br>
+<a href="#FWTableDDL:DropTable">FWTableDDL:DropTable</a></br>
+&nbsp;&nbsp;&nbsp;Elimina todos os registros de uma tabela.&nbsp;<br><br>
+<a href="#FWTableDDL:New">FWTableDDL:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWTableDDL:OpenTable">FWTableDDL:OpenTable</a></br>
+&nbsp;&nbsp;&nbsp;Realiza a abertura de uma tabela em modo ISAM&nbsp;<br><br>
+<a href="#FWTableDDL:PurgeTable">FWTableDDL:PurgeTable</a></br>
+&nbsp;&nbsp;&nbsp;Elimina todos os registros de uma tabela.&nbsp;<br><br>
+<a href="#FWTableDDL:SetTableStruct">FWTableDDL:SetTableStruct</a></br>
+&nbsp;&nbsp;&nbsp;Atribui o objeto com a estrutura da tabela&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWTableDDL:Activate"></a>FWTableDDL:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:AddDbAcess"></a>FWTableDDL:AddDbAcess</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona a configuração de conexão com o DbAcess.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:AlterTable"></a>FWTableDDL:AlterTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Altera a tabela conforme definicao da nova estrutura&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:ClassName"></a>FWTableDDL:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:CreateTable"></a>FWTableDDL:CreateTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cria a tabela conforme definicao de sua estrutura&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:DeActivate"></a>FWTableDDL:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita o uso da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:DropTable"></a>FWTableDDL:DropTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Elimina todos os registros de uma tabela.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTableName :<td><br>Tipo: CHARACTER<br>Nome da tabela
+<tr><td Width=20><td Width=20><td>@result Lógico, indica se a tabela foi eliminada
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:New"></a>FWTableDDL:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:OpenTable"></a>FWTableDDL:OpenTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realiza a abertura de uma tabela em modo ISAM&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:PurgeTable"></a>FWTableDDL:PurgeTable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Elimina todos os registros de uma tabela.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTableName :<td><br>Tipo: CHARACTER<br>Nome da tabela
+<tr><td Width=20><td Width=20><td>@result Lógico, indica se a tabela foi eliminada
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDDL:SetTableStruct"></a>FWTableDDL:SetTableStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui o objeto com a estrutura da tabela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oStruct :<td><br>Tipo: OBJECT<br>Objeto com a estrutura da tabela do tipo TableStruct
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>

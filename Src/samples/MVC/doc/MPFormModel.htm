@@ -1,0 +1,161 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: MPFormModel.prx</font><a name="MPFormModel"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe MPFormModel</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto com o modelo hierárquico dos campos de edição para o Microsiga Prothues. &nbsp;Esta classe é uma herança da classe modelo FWFormModel, utilizada apenas para facilitar o desenvolvimento&nbsp;do padrão MVC&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>22/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>FWFormCanDel,FWFormCommit,FWFormCancel,FormLoadField,FormLoadGrid
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#MPFormModel:AddFields">MPFormModel:AddFields</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um formulário de edição de campos ao modelo&nbsp;<br><br>
+<a href="#MPFormModel:AddGrid">MPFormModel:AddGrid</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um formulário de edição de grid ao modelo&nbsp;<br><br>
+<a href="#MPFormModel:DeActivate">MPFormModel:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de desativação da classe. Quando a classe é desativada, os dados&nbsp;do formulário de edição são perdidos e os metódos de parametrização&nbsp;são ligados.&nbsp;Este método deve ser utilizado para reparametrizar a classe ou para&nbsp;reinicializar<br><br>
+<a href="#MPFormModel:GetWhenFields">MPFormModel:GetWhenFields</a></br>
+&nbsp;&nbsp;&nbsp;Retorna array com os campos que precisam ser avaliados no When&nbsp;<br><br>
+<a href="#MPFormModel:New">MPFormModel:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="MPFormModel:AddFields"></a>MPFormModel:AddFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um formulário de edição de campos ao modelo&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>cOwner :<td><br>Tipo: CHARACTER<br>Identificador superior do modelo
+<tr valign=top><td Width=20><td Width=100><br>oModelStruct :<td><br>Tipo: OBJECT<br>Objeto com  a estrutura de dados
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pré-edição do formulário de edição. Indica se a edição esta liberada
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de validação do formulário de edição
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK<br>Code-Block de carga dos dados do formulário de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="MPFormModel:AddGrid"></a>MPFormModel:AddGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um formulário de edição de grid ao modelo&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>cOwner :<td><br>Tipo: CHARACTER<br>Identificador superior do modelo
+<tr valign=top><td Width=20><td Width=100><br>oModelStruct :<td><br>Tipo: OBJECT<br>Objeto com  a estrutura de dados
+<tr valign=top><td Width=20><td Width=100><br>bLinePre :<td><br>Tipo: BLOCK<br>Code-Block de pre-edição da linha do grid de edição. Indica se a edição esta liberada
+<tr valign=top><td Width=20><td Width=100><br>bLinePost :<td><br>Tipo: BLOCK<br>Code-Block de validação da linha do grid de edição
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pre-edição do grid de edição. Indica se a edição esta liberada
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de validação do grid de edição
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK<br>Code-Block de carga dos dados do formulário de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="MPFormModel:DeActivate"></a>MPFormModel:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de desativação da classe. Quando a classe é desativada, os dados&nbsp;do formulário de edição são perdidos e os metódos de parametrização&nbsp;são ligados.&nbsp;Este método deve ser utilizado para reparametrizar a classe ou para&nbsp;reinicializar
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="MPFormModel:GetWhenFields"></a>MPFormModel:GetWhenFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna array com os campos que precisam ser avaliados no When&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRet :<td><br>Tipo: ARRAY<br>Array unidimensional com os campos que precisam ser avaliados no When
+</table></br><hr></br>
+<b><font size=4><a name="MPFormModel:New"></a>MPFormModel:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pre-edição do formulário de edição. Indica se a edição esta liberada
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de validação do formulário de edição
+<tr valign=top><td Width=20><td Width=100><br>bCommit :<td><br>Tipo: BLOCK<br>Code-Block de persistência do formulário de edição
+<tr valign=top><td Width=20><td Width=100><br>bCancel :<td><br>Tipo: BLOCK<br>Code-Block de cancelamento do formulário de edição
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>

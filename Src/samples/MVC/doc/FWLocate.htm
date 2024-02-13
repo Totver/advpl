@@ -1,0 +1,569 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWLocate.PRW</font><a name="FWLocate"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWLocate</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto que permite a localização de textos nos objetos&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWLocate:Activate">FWLocate:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWLocate:At">FWLocate:At</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a posição do localizador no objeto&nbsp;return nAt Posição do localizador no objeto&nbsp;<br><br>
+<a href="#FWLocate:Bar">FWLocate:Bar</a></br>
+&nbsp;&nbsp;&nbsp;Cria o botão do localizador&nbsp;<br><br>
+<a href="#FWLocate:ClassName">FWLocate:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWLOCATE)&nbsp;<br><br>
+<a href="#FWLocate:DeActivate">FWLocate:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método destrutor da classe&nbsp;<br><br>
+<a href="#FWLocate:GetAction">FWLocate:GetAction</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o Code-Block executado na ação do botão "Localizar"&nbsp;<br><br>
+<a href="#FWLocate:GetAlign">FWLocate:GetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWLocate:GetLocate">FWLocate:GetLocate</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o texto a ser localizado no objeto&nbsp;<br><br>
+<a href="#FWLocate:GoNext">FWLocate:GoNext</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se a localização será realizada a partir do próximo registro &nbsp;<br><br>
+<a href="#FWLocate:Hide">FWLocate:Hide</a></br>
+&nbsp;&nbsp;&nbsp;Torna o localizador invisível&nbsp;<br><br>
+<a href="#FWLocate:LocateBar">FWLocate:LocateBar</a></br>
+&nbsp;&nbsp;&nbsp;Exibe as opções do localizador&nbsp;<br><br>
+<a href="#FWLocate:New">FWLocate:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWLocate:Sensitive">FWLocate:Sensitive</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se a localização sera case sensitive&nbsp;<br><br>
+<a href="#FWLocate:SetAction">FWLocate:SetAction</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na ação do botão "Localizar"&nbsp;<br><br>
+<a href="#FWLocate:SetAlign">FWLocate:SetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Indica o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWLocate:SetAt">FWLocate:SetAt</a></br>
+&nbsp;&nbsp;&nbsp;Indica a posição do localizador no objeto&nbsp;<br><br>
+<a href="#FWLocate:SetBorderColor">FWLocate:SetBorderColor</a></br>
+&nbsp;&nbsp;&nbsp;Indica a cor da borda da janela de localização&nbsp;<br><br>
+<a href="#FWLocate:SetButton">FWLocate:SetButton</a></br>
+&nbsp;&nbsp;&nbsp;Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;<br><br>
+<a href="#FWLocate:SetGoNext">FWLocate:SetGoNext</a></br>
+&nbsp;&nbsp;&nbsp;Indica se a localização será realizada a partir do próximo registro &nbsp;<br><br>
+<a href="#FWLocate:SetLocate">FWLocate:SetLocate</a></br>
+&nbsp;&nbsp;&nbsp;Indica o texto a ser localizado no objeto&nbsp;<br><br>
+<a href="#FWLocate:SetOwner">FWLocate:SetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Indica o container para criação do localizador&nbsp;<br><br>
+<a href="#FWLocate:SetSensitive">FWLocate:SetSensitive</a></br>
+&nbsp;&nbsp;&nbsp;Indica se a localização sera case sensitive&nbsp;<br><br>
+<a href="#FWLocate:Show">FWLocate:Show</a></br>
+&nbsp;&nbsp;&nbsp;Torna o localizador visível&nbsp;<br><br>
+<a href="#FWLocate:Visible">FWLocate:Visible</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o localizador está visível&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWLocate:Activate"></a>FWLocate:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:At"></a>FWLocate:At</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a posição do localizador no objeto&nbsp;return nAt Posição do localizador no objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:Bar"></a>FWLocate:Bar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cria o botão do localizador&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:ClassName"></a>FWLocate:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWLOCATE)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:DeActivate"></a>FWLocate:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método destrutor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:GetAction"></a>FWLocate:GetAction</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o Code-Block executado na ação do botão "Localizar"&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAction :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Localizar"
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:GetAlign"></a>FWLocate:GetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o alinhamento do componente na janela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC<br>Alinhamento do componente na janela
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:GetLocate"></a>FWLocate:GetLocate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o texto a ser localizado no objeto&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cLocate :<td><br>Tipo: CHARACTER<br>Texto a ser localizado
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:GoNext"></a>FWLocate:GoNext</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se a localização será realizada a partir do próximo registro &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lGoNext :<td><br>Tipo: LOGICAL<br>Indica se a localização será realizada a partir do próximo registro
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:Hide"></a>FWLocate:Hide</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o localizador invisível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:LocateBar"></a>FWLocate:LocateBar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Exibe as opções do localizador&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObject :<td><br>Tipo: OBJECT<br>   Objeto do tipo container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:New"></a>FWLocate:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:Sensitive"></a>FWLocate:Sensitive</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se a localização sera case sensitive&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSensitive :<td><br>Tipo: LOGICAL<br>Indica se a localização sera case sensitive
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetAction"></a>FWLocate:SetAction</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na ação do botão "Localizar"&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAction :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Localizar"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetAlign"></a>FWLocate:SetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o alinhamento do componente na janela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC<br>Alinhamento do componente na janela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetAt"></a>FWLocate:SetAt</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a posição do localizador no objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAt :<td><br>Tipo: NUMERIC<br>Posição do localizador no objeto
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetBorderColor"></a>FWLocate:SetBorderColor</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a cor da borda da janela de localização&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nBorderColor :<td><br>Tipo: NUMERIC<br>Indica a cor da borda da janela de localização
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetButton"></a>FWLocate:SetButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetGoNext"></a>FWLocate:SetGoNext</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se a localização será realizada a partir do próximo registro &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lGoNext :<td><br>Tipo: LOGICAL<br>Indica se a localização será realizada a partir do próximo registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetLocate"></a>FWLocate:SetLocate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o texto a ser localizado no objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cLocate :<td><br>Tipo: CHARACTER<br>Texto a ser localizado
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetOwner"></a>FWLocate:SetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o container para criação do localizador&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:SetSensitive"></a>FWLocate:SetSensitive</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se a localização sera case sensitive&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSensitive :<td><br>Tipo: LOGICAL<br>Indica se a localização sera case sensitive
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:Show"></a>FWLocate:Show</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o localizador visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWLocate:Visible"></a>FWLocate:Visible</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o localizador está visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lVisible :<td><br>Tipo: LOGICAL<br>Indica se o localizador está visível
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function __FWLocate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permitir a geração de patchs&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>

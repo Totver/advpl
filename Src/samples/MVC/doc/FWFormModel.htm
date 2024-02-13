@@ -1,0 +1,998 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFormModel.prx</font><a name="FWFormModel"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFormModel</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Classe principal de controle das regras de negócio ( model ) dos &nbsp;formulários de edição. Cria um modelo estruturado que pode ser&nbsp;baseado em formulário de edição por campo ou grid.&nbsp;Esta classe permite o encapsulamento das regras de negócio b
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>22/10/2008
+</table>
+<b>Observação:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Entende-se por formulário de edição toda interface, visual ou
+<tr><td Width=20><td><td>não, que captura ou exibi os dados ao usuário de um sistema. Na versão
+<tr><td Width=20><td><td>atual permite a composição de 'n' formulários de edição de campo e/ou grid's.
+<tr><td Width=20><td><td>Um formulário de edição por campos permite a operação em apenas
+<tr><td Width=20><td><td>uma linha da tabela (Master), enquando que formulário de edição
+<tr><td Width=20><td><td>por grid permite a operação em diversas linhas da tabela (Detail)
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFormModel:Activate">FWFormModel:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe. Quando a classe é ativada, os dados&nbsp;do formulário de edição são carregados e os metódos de parametrização&nbsp;são desligados.&nbsp;Este método deve ser utilizado para iniciar o preenchimento dos dados&nbsp;do formulário<br><br>
+<a href="#FWFormModel:AddFields">FWFormModel:AddFields</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona ao modelo uma estrutura de formulário de edição por campo. &nbsp;A estrutura do modelo de edição deve iniciar, obrigatoriamente, com um&nbsp;formulário de edição por campo.&nbsp;<br><br>
+<a href="#FWFormModel:AddGrid">FWFormModel:AddGrid</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona ao modelo uma estrutura de formulário de edição por grid. &nbsp;<br><br>
+<a href="#FWFormModel:AddRules">FWFormModel:AddRules</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma relação de dependência entre a referência alvo e a referência de origem, provocando uma reavaliação do valor atribuido &nbsp;a referência de origem.&nbsp;<br><br>
+<a href="#FWFormModel:CancelData">FWFormModel:CancelData</a></br>
+&nbsp;&nbsp;&nbsp;Cancela a folha de dados do objeto modelo. Da mesma forma como o método CommitData, este método apenas assegura que&nbsp;todos os procedimentos necessários ao cancelamento da gravação do objeto modelo foram cumpridos e invoca o code-block&nbsp;configurado<br><br>
+<a href="#FWFormModel:ClassName">FWFormModel:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWFormModel:CommitData">FWFormModel:CommitData</a></br>
+&nbsp;&nbsp;&nbsp;Grava a folha de dados do objeto modelo. A gravação somente é permitida se o objeto do modelo está valido.&nbsp;A gravação não é feita diretamente por esta classe, mas sim, pelo code-block informado no método new. Este método&nbsp;apenas assegura que todo<br><br>
+<a href="#FWFormModel:DeActivate">FWFormModel:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de desativação da classe. Quando a classe é desativada, os dados&nbsp;do formulário de edição são perdidos e os metódos de parametrização&nbsp;são ligados.&nbsp;Este método deve ser utilizado para reparametrizar a classe ou para&nbsp;reinicializar<br><br>
+<a href="#FWFormModel:GetChangeValue()">FWFormModel:GetChangeValue()</a></br>
+&nbsp;&nbsp;&nbsp;Recupera os Id´s que tiveram seu valores trocados na ultima atribuição de valor ( SetValue ou LoadValue )&nbsp;<br><br>
+<a href="#FWFormModel:GetDependency">FWFormModel:GetDependency</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a relacao de modelos que são dependentes (filhos) do modelo proprietário&nbsp;<br><br>
+<a href="#FWFormModel:GetDescription">FWFormModel:GetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um texto com o texto explicativo do objetivo do modelo, informado&nbsp;no método SetDescription.&nbsp;<br><br>
+<a href="#FWFormModel:GetErrorMessage">FWFormModel:GetErrorMessage</a></br>
+&nbsp;&nbsp;&nbsp;Fornece uma estrutrura com a pilha de erro &nbsp;<br><br>
+<a href="#FWFormModel:GetId">FWFormModel:GetId</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o Id do objeto informado na inicialização da classe.&nbsp;<br><br>
+<a href="#FWFormModel:GetIdField">FWFormModel:GetIdField</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o Id do item da folha de dados de um campo do modelo.&nbsp;<br><br>
+<a href="#FWFormModel:GetModel">FWFormModel:GetModel</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a estrutura de dados do modelo&nbsp;<br><br>
+<a href="#FWFormModel:GetOperation">FWFormModel:GetOperation</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o tipo de operacao de manipulacao de dados que foi configurado.&nbsp;<br><br>
+<a href="#FWFormModel:GetPrimaryKey()">FWFormModel:GetPrimaryKey()</a></br>
+&nbsp;&nbsp;&nbsp;Fornece a Primary Key do formulário de dados&nbsp;<br><br>
+<a href="#FWFormModel:GetValue">FWFormModel:GetValue</a></br>
+&nbsp;&nbsp;&nbsp;Recupera o valor da folha de dados do objeto.&nbsp;<br><br>
+<a href="#FWFormModel:GetXMLData">FWFormModel:GetXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com a folha de dados do modelo em XML, conforme o modo de operação especificado ( SetOperation ) e&nbsp;se o objeto esta ativado ( Activate ) ou não (deactivate). Quando o objeto esta desativado ou a operação é de inclusão&nbsp;uma folha<br><br>
+<a href="#FWFormModel:GetXMLSchema">FWFormModel:GetXMLSchema</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com o schema ( XSD ) do modelo de dados. Este método fornece a descrição dos elementos do XML, as&nbsp;validações em lista, as validações de tamanho e tipo de dados e os campos de preenchimento obrigatório.&nbsp;<br><br>
+<a href="#FWFormModel:LoadValue">FWFormModel:LoadValue</a></br>
+&nbsp;&nbsp;&nbsp;Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha de chamadas&nbsp;de função ( CallStack ). Diferentemente do metodo SetValue, este método não executa a validação do campo, mas fornece&nbsp;tod<br><br>
+<a href="#FWFormModel:LoadXMLData">FWFormModel:LoadXMLData</a></br>
+&nbsp;&nbsp;&nbsp;Carrega o modelo com base na folha de dados em XML. Este método pode ser utilizado para processar a validação e carga &nbsp;dos dados contidos no XML fornecido, porém não efetua a gravação dos dados&nbsp;<br><br>
+<a href="#FWFormModel:LoadXMLPk">FWFormModel:LoadXMLPk</a></br>
+&nbsp;&nbsp;&nbsp;Identifica a chave primária do modelo de dados. Este método pode ser utilizado para identificar e extrair os dados da&nbsp;chave primária contidas no XML fornecido como parametro.&nbsp;<br><br>
+<a href="#FWFormModel:New">FWFormModel:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFormModel:RenewPk">FWFormModel:RenewPk</a></br>
+&nbsp;&nbsp;&nbsp;Reinicializa os valores dos campos da Primary Key, utilizando os inicializadores padrão.&nbsp;É recomendado o uso deste método nas cópias de formulários de dados.&nbsp;<br><br>
+<a href="#FWFormModel:ReportDef">FWFormModel:ReportDef</a></br>
+&nbsp;&nbsp;&nbsp;Fornece um objeto com as definicoes de impressão do modelo ( ReportDef )&nbsp;<br><br>
+<a href="#FWFormModel:ReportPrint">FWFormModel:ReportPrint</a></br>
+&nbsp;&nbsp;&nbsp;Imprime as seções do modelo definidas pela ReportDef. Para a correta operação&nbsp;deste método é necessário que o registro de partida do modelo ( pai ) esteja&nbsp;corretamente posicionado.&nbsp;<br><br>
+<a href="#FWFormModel:SetDescription">FWFormModel:SetDescription</a></br>
+&nbsp;&nbsp;&nbsp;Atribui ao modelo um texto explicativo sobre o objetivo do formulário&nbsp;de edição.&nbsp;O objetivo é mostrado em diversos operações, tais como web services,&nbsp;relatórios e schemas (xsd).&nbsp;<br><br>
+<a href="#FWFormModel:SetErrorMessage">FWFormModel:SetErrorMessage</a></br>
+&nbsp;&nbsp;&nbsp;Atribui uma mensagem de erro ao modelo. Quando uma mensagem de erro é atribuida, ela somente pode ser retirada pelo &nbsp;evento que a provocou.&nbsp;O controle de mensagens de erro do modelo, permite identificar o Id´s do formulário e campo de origem do<br><br>
+<a href="#FWFormModel:SetOperation">FWFormModel:SetOperation</a></br>
+&nbsp;&nbsp;&nbsp;Indica ao modelo a operacao de manipulacao de dados que será realizada. A classe utiliza esta informação para&nbsp;definir como serão inicializadas as informações do modelo.&nbsp;<br><br>
+<a href="#FWFormModel:SetValue">FWFormModel:SetValue</a></br>
+&nbsp;&nbsp;&nbsp;Atribui um valor a folha de dados do objeto executando sua validação conforme o tipo de operação configurado ( SetOperation ).&nbsp;Caso o objeto não possa receber dados um erro pode ser gerado ( SetErrorMessage ) ou uma exceção de usuário ( queda do sist<br><br>
+<a href="#FWFormModel:VldData">FWFormModel:VldData</a></br>
+&nbsp;&nbsp;&nbsp;Valida toda a folha de dados do objeto modelo, assegurando que o mesmo possa ser gravado com toda a integridade de&nbsp;dados garantida. Este método verifica se todos os elementos da estrutura do modelo estão validos e executa o code-block&nbsp;de pos-val<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFormModel:Activate"></a>FWFormModel:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe. Quando a classe é ativada, os dados&nbsp;do formulário de edição são carregados e os metódos de parametrização&nbsp;são desligados.&nbsp;Este método deve ser utilizado para iniciar o preenchimento dos dados&nbsp;do formulário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Este método realiza algumas validações no preenchimento dos
+<tr><td Width=20><td Width=20><td>parametros de operação da classe, gerando uma exceção caso haja
+<tr><td Width=20><td Width=20><td>algum problema de configuração.
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:AddFields"></a>FWFormModel:AddFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona ao modelo uma estrutura de formulário de edição por campo. &nbsp;A estrutura do modelo de edição deve iniciar, obrigatoriamente, com um&nbsp;formulário de edição por campo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Identificador do modelo. O Id será solicitado em diversas operações com este formulário.
+<tr valign=top><td Width=20><td Width=100><br>cOwner :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador superior do modelo ( owner ).
+<tr valign=top><td Width=20><td Width=100><br>oModelStruct :<td><br>Tipo: OBJECT<br>Objeto com  a estrutura de dados do tipo FWFormModelStruct
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pré-validação do formulário de edição. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado em toda tentativa de atualização dos valores do formulário de edição. <font col
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de pós-validação do formulário de edição. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado após a atualização dos valores do formulário de edição. Caso o code-block reto
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>Code-Block de carga dos dados do formulário de edição. Espera-se um array com os dados que serão carregados pela classe. Este Code-Block será invocado no método activate desta classe.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>FWFormFieldModel,SetErrorMessage
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;Static&nbsp;Function&nbsp;Modeldef()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;Local&nbsp;oStructSA1&nbsp;:=&nbsp;Nil
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;Local&nbsp;oModel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:=&nbsp;Nil
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oModel:=&nbsp;FWFormModel():New("MATA030",Pre-Validacao,{||&nbsp;FWFormCanDel(oModel)}&nbsp;-&nbsp;Pos-Validacao,Commit,Cancel)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oModel:AddFields("MATA030_SA1",&nbsp;Nil&nbsp;,&nbsp;FWFormStruct(1,"SA1"),Pre-Validacao,Pos-Validacao,Carga)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;Return(oModel)
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Este método somente pode ser utilizado se o objeto estiver desativado
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:AddGrid"></a>FWFormModel:AddGrid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona ao modelo uma estrutura de formulário de edição por grid. &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Identificador do modelo. O Id será solicitado em diversas operações com este formulário.
+<tr valign=top><td Width=20><td Width=100><br>cOwner :<td><br>Tipo: CHARACTER<br>Identificador superior do modelo ( owner )
+<tr valign=top><td Width=20><td Width=100><br>oModelStruct :<td><br>Tipo: OBJECT<br>Objeto com  a estrutura de dados do tipo FWFormModelStruct
+<tr valign=top><td Width=20><td Width=100><br>bLinePre :<td><br>Tipo: BLOCK<br>Code-Block de pre-edição da linha do grid de edição. Espera-se um retorno lógico do code-block indicando que a edição da linha pode ser atualizada. Recebe como parametro o objeto da classe e o número da linha que será atualizada.  <font color=blu
+<tr valign=top><td Width=20><td Width=100><br>bLinePost :<td><br>Tipo: BLOCK<br>Code-Block de pós-validação da linha do grid de edição. Espera-se um retorno lógico do code-block indicando que a edição da linha está valida. Recebe como parametro o objeto da classe e o número da linha que será atualizada. Caso o code-block re
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK<br>Code-Block de pré-validação do formulário de edição. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado em toda tentativa de atualização dos valores do formulário de edição. <font col
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de pós-validação do formulário de edição. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado após a atualização dos valores do formulário de edição. Caso o code-block reto
+<tr valign=top><td Width=20><td Width=100><br>bLoad :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>Code-Block de carga dos dados do formulário de edição. Espera-se um array com os dados que serão carregados pela classe. Este Code-Block será invocado no método activate desta classe.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:AddRules"></a>FWFormModel:AddRules</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma relação de dependência entre a referência alvo e a referência de origem, provocando uma reavaliação do valor atribuido &nbsp;a referência de origem.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do modelo de origem
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo do modelo de origem
+<tr valign=top><td Width=20><td Width=100><br>cIdTarget :<td><br>Tipo: CHARACTER<br>Identificador do modelo alvo
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldTarget :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Identificador do campo do modelo alvo
+<tr valign=top><td Width=20><td Width=100><br>nType :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 3]</font><br>Identificador da operacao de relacionamento. Use 1 para Pre-validação, 2 para Pos-validação e 3 para ambos
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:CancelData"></a>FWFormModel:CancelData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cancela a folha de dados do objeto modelo. Da mesma forma como o método CommitData, este método apenas assegura que&nbsp;todos os procedimentos necessários ao cancelamento da gravação do objeto modelo foram cumpridos e invoca o code-block&nbsp;configurado
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/03/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>new
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br> Folha de dados cancelada
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:ClassName"></a>FWFormModel:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/10/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:CommitData"></a>FWFormModel:CommitData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Grava a folha de dados do objeto modelo. A gravação somente é permitida se o objeto do modelo está valido.&nbsp;A gravação não é feita diretamente por esta classe, mas sim, pelo code-block informado no método new. Este método&nbsp;apenas assegura que todo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>04/11/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>new
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br> Folha de dados gravada
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:DeActivate"></a>FWFormModel:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de desativação da classe. Quando a classe é desativada, os dados&nbsp;do formulário de edição são perdidos e os metódos de parametrização&nbsp;são ligados.&nbsp;Este método deve ser utilizado para reparametrizar a classe ou para&nbsp;reinicializar
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetChangeValue()"></a>FWFormModel:GetChangeValue()</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Recupera os Id´s que tiveram seu valores trocados na ultima atribuição de valor ( SetValue ou LoadValue )&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>18/12/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aRetorno :<td><br>Tipo: ARRAY<br>[n][1] Id do modelo
+<tr><td Width=20><td Width=20><td>[n][2] Id do campo
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetDependency"></a>FWFormModel:GetDependency</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a relacao de modelos que são dependentes (filhos) do modelo proprietário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Identificador do modelo de proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aModels :<td><br>Tipo: ARRAY<br>Estrutura do modelo
+<tr><td Width=20><td Width=20><td>[n][1] Tipo do objeto FIELD ou GRID
+<tr><td Width=20><td Width=20><td>[n][2] Id do objeto
+<tr><td Width=20><td Width=20><td>[n][3] Objeto do modelo
+<tr><td Width=20><td Width=20><td>[n][4] Array com a estrutura dos filhos no mesmo formato
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetDescription"></a>FWFormModel:GetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um texto com o texto explicativo do objetivo do modelo, informado&nbsp;no método SetDescription.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetDescription
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do objetivo do modelo
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetErrorMessage"></a>FWFormModel:GetErrorMessage</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece uma estrutrura com a pilha de erro &nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetErrorMessage
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aErrorMessage :<td><br>Tipo: ARRAY<br>Array com a estrutura a seguinte estrutura para tratamento de erro
+<tr><td Width=20><td Width=20><td>[1] Id do formulário de origem
+<tr><td Width=20><td Width=20><td>[2] Id do campo de origem
+<tr><td Width=20><td Width=20><td>[3] Id do formulário de erro
+<tr><td Width=20><td Width=20><td>[4] Id do campo de erro
+<tr><td Width=20><td Width=20><td>[5] Id do erro
+<tr><td Width=20><td Width=20><td>[6] mensagem do erro
+<tr><td Width=20><td Width=20><td>[7] mensagem da solução
+<tr><td Width=20><td Width=20><td>[8] Valor atribuido
+<tr><td Width=20><td Width=20><td>[9] Valor anterior
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetId"></a>FWFormModel:GetId</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o Id do objeto informado na inicialização da classe.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>04/11/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>new
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Id :<td><br>Tipo: ARRAY<br>Id do objeto
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetIdField"></a>FWFormModel:GetIdField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o Id do item da folha de dados de um campo do modelo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>oModel :<td><br>Tipo: OBJECT<br>Objeto do modelo que cotem a atributo
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/12/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetModel"></a>FWFormModel:GetModel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a estrutura de dados do modelo&nbsp;
+<tr><td Width=20><td Width=20><td>Fornce um Array com os ids de Todos os Models &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do objeto. Se náo informado todos seráo retornados
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>03/11/2008
+<tr><td Width=20><td Width=20><td>14/06/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oRetorno :<td><br>Tipo: OBJECT<br> Objeto do modelo
+<tr><td Width=20><td Width=20><td>
+</table>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aArray :<td><br>Tipo: ARRAY<br>Array uni dimensional que contém os Ids do models
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetOperation"></a>FWFormModel:GetOperation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o tipo de operacao de manipulacao de dados que foi configurado.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetOperation
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOperation :<td><br>Tipo: NUMERIC<br>Indica a operação que será realizada com o modelo, sendo:
+<tr><td Width=20><td Width=20><td>[1] View
+<tr><td Width=20><td Width=20><td>[3] Insert
+<tr><td Width=20><td Width=20><td>[4] Update
+<tr><td Width=20><td Width=20><td>[5] Delete
+<tr><td Width=20><td Width=20><td>[6] only Update
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetPrimaryKey()"></a>FWFormModel:GetPrimaryKey()</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece a Primary Key do formulário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetPrimaryKey
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetValue"></a>FWFormModel:GetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Recupera o valor da folha de dados do objeto.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdForm :<td><br>Tipo: CHARACTER<br>Codigo do formulário do Modelo
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/11/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>xRetorno :<td><br>Tipo: VARIANT<br>Conteudo do campo
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetXMLData"></a>FWFormModel:GetXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com a folha de dados do modelo em XML, conforme o modo de operação especificado ( SetOperation ) e&nbsp;se o objeto esta ativado ( Activate ) ou não (deactivate). Quando o objeto esta desativado ou a operação é de inclusão&nbsp;uma folha
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDetail :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica se o xml gerado deve incluir as tags de detalhamento dos dados. Aconselha-se a evitar o detalhamento
+<tr><td Width=20><td Width=20><td>dos dados, uma vez que eles estão contido no Schema do XML ( GetXMLSchema ).
+</table>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOperation :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: ::nOperation]</font><br>Indica a operação que será indicada na exportação do XML
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetOperation,GetXMLSchema
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML com do modelo e os dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:GetXMLSchema"></a>FWFormModel:GetXMLSchema</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com o schema ( XSD ) do modelo de dados. Este método fornece a descrição dos elementos do XML, as&nbsp;validações em lista, as validações de tamanho e tipo de dados e os campos de preenchimento obrigatório.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>22/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>GetXMLData
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXSD :<td><br>Tipo: CHARACTER<br>Schema ( XSD ) do modelo de dados
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:LoadValue"></a>FWFormModel:LoadValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega um valor a folha de dados do objeto. Este metodo somente pode ser utilizado quando há SetValue na pilha de chamadas&nbsp;de função ( CallStack ). Diferentemente do metodo SetValue, este método não executa a validação do campo, mas fornece&nbsp;tod
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdForm :<td><br>Tipo: CHARACTER<br>Codigo do formulário do Modelo que terá uma atribuicao
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT<br>Valor a ser atribuido
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso SetValue,CanSetValue
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Indica se o valor foi carregado
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:LoadXMLData"></a>FWFormModel:LoadXMLData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega o modelo com base na folha de dados em XML. Este método pode ser utilizado para processar a validação e carga &nbsp;dos dados contidos no XML fornecido, porém não efetua a gravação dos dados&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML com do modelo e os dados
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/02/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lLoad :<td><br>Tipo: LOGICAL<br>Indica se o modelo foi carregado com sucesso
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;::MODELXML&nbsp;:=&nbsp;oModel:LoadXMLData(::ModelXML)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;oModel:VldData()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oModel:CommitData()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::lOk&nbsp;:=&nbsp;.T.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;Else
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::lOk&nbsp;:=&nbsp;.F.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError&nbsp;:=&nbsp;oModel:GetErrorMessage()&nbsp;&nbsp;&nbsp;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetSoapFault(aError[MODEL_MSGERR_IDFORM]+":"+;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError[MODEL_MSGERR_IDFIELD]+":"+;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError[MODEL_MSGERR_IDFORMERR]+":"+;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError[MODEL_MSGERR_IDFIELDERR]+":"+;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError[MODEL_MSGERR_ID],;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aError[MODEL_MSGERR_MESSAGE]+"/"+aError[MODEL_MSGERR_SOLUCTION])
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lRetorno&nbsp;:=&nbsp;.F.
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;&nbsp;&nbsp;&nbsp;EndIf
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:LoadXMLPk"></a>FWFormModel:LoadXMLPk</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Identifica a chave primária do modelo de dados. Este método pode ser utilizado para identificar e extrair os dados da&nbsp;chave primária contidas no XML fornecido como parametro.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML com os dados do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>GetXMLSchema, GetXMLData
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aResult :<td><br>Tipo: ARRAY<br>Array com a seguinte estrutura:
+<tr><td Width=20><td Width=20><td>[1] Codigo da Operacao
+<tr><td Width=20><td Width=20><td>[2] Array com os dados da Primary Key
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:New"></a>FWFormModel:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>Identificador do modelo
+<tr valign=top><td Width=20><td Width=100><br>bPre :<td><br>Tipo: BLOCK - <font color=blue>[Optio<br>Code-Block de pré-validação do modelo. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado em toda tentativa de atualização dos valores do formulário de edição.
+<tr valign=top><td Width=20><td Width=100><br>bPost :<td><br>Tipo: BLOCK<br>Code-Block de pós-validação do modelo. Espera-se um retorno lógico do code-block que recebe como parametro o objeto desta classe. Este code-block é invocado após a atualização dos valores do formulário de edição. Caso o code-block retorne um valor l
+<tr valign=top><td Width=20><td Width=100><br>bCommit :<td><br>Tipo: BLOCK<br>Code-Block de persistência do formulário de edição invocado pelo método CommitData. O code-block recebe como parametro o objeto do modelo e deve realizar a gravação do formulário nas tabelas da aplicação.
+<tr valign=top><td Width=20><td Width=100><br>bCancel :<td><br>Tipo: BLOCK<br>Code-Block de cancelamento do formulário de edição invocado pelo método CancelData.  O code-block recebe como parametro o objeto do modelo.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>21/10/2008
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:RenewPk"></a>FWFormModel:RenewPk</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Reinicializa os valores dos campos da Primary Key, utilizando os inicializadores padrão.&nbsp;É recomendado o uso deste método nas cópias de formulários de dados.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>13/03/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetPrimaryKey
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:ReportDef"></a>FWFormModel:ReportDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece um objeto com as definicoes de impressão do modelo ( ReportDef )&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cPergunte :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do grupo de perguntas do relatório
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oReport :<td><br>Tipo: OBJECT<br>Objeto com as definições de impressão
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:ReportPrint"></a>FWFormModel:ReportPrint</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Imprime as seções do modelo definidas pela ReportDef. Para a correta operação&nbsp;deste método é necessário que o registro de partida do modelo ( pai ) esteja&nbsp;corretamente posicionado.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>lso ReportDef
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:SetDescription"></a>FWFormModel:SetDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui ao modelo um texto explicativo sobre o objetivo do formulário&nbsp;de edição.&nbsp;O objetivo é mostrado em diversos operações, tais como web services,&nbsp;relatórios e schemas (xsd).&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDescription :<td><br>Tipo: CHARACTER<br>Descrição do objetivo do modelo
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Este método somente pode ser utilizado se o objeto estiver desativado
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:SetErrorMessage"></a>FWFormModel:SetErrorMessage</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui uma mensagem de erro ao modelo. Quando uma mensagem de erro é atribuida, ela somente pode ser retirada pelo &nbsp;evento que a provocou.&nbsp;O controle de mensagens de erro do modelo, permite identificar o Id´s do formulário e campo de origem do
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdForm :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do formulário em validação
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do campo do formulário em validação
+<tr valign=top><td Width=20><td Width=100><br>cIdFormErr :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do formulário em que ocorreu o erro
+<tr valign=top><td Width=20><td Width=100><br>cIdFieldErr :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id do campo do formulário em que ocorreu o erro
+<tr valign=top><td Width=20><td Width=100><br>cId :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Id da mensagem de help
+<tr valign=top><td Width=20><td Width=100><br>cMessage :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Mensagem de erro
+<tr valign=top><td Width=20><td Width=100><br>cSoluction :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Mensagem de solução
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor especificado do campo
+<tr valign=top><td Width=20><td Width=100><br>xOldValue :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br>Valor anterior do campo
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/10/2008
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>indica que a mensagem de erro foi reinicializada
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:SetOperation"></a>FWFormModel:SetOperation</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica ao modelo a operacao de manipulacao de dados que será realizada. A classe utiliza esta informação para&nbsp;definir como serão inicializadas as informações do modelo.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOperation :<td><br>Tipo: NUMERIC<br>Indica a operação que será realizada com o modelo, sendo:
+<tr><td Width=20><td Width=20><td>[1] View
+<tr><td Width=20><td Width=20><td>[3] Insert
+<tr><td Width=20><td Width=20><td>[4] Update
+<tr><td Width=20><td Width=20><td>[5] Delete
+<tr><td Width=20><td Width=20><td>[6] only Update
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>07/02/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:SetValue"></a>FWFormModel:SetValue</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atribui um valor a folha de dados do objeto executando sua validação conforme o tipo de operação configurado ( SetOperation ).&nbsp;Caso o objeto não possa receber dados um erro pode ser gerado ( SetErrorMessage ) ou uma exceção de usuário ( queda do sist
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdForm :<td><br>Tipo: CHARACTER<br>Codigo do formulário do Modelo que terá uma atribuicao
+<tr valign=top><td Width=20><td Width=100><br>cIdField :<td><br>Tipo: CHARACTER<br>Codigo/Nome do atributo da folha de dados
+<tr valign=top><td Width=20><td Width=100><br>xValue :<td><br>Tipo: VARIANT<br>Valor a ser atribuido
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>CanSetValue,GetErrorMessage,SetErrorMessage
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br>Indica se o valor foi atribuido
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWFormModel:VldData"></a>FWFormModel:VldData</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Valida toda a folha de dados do objeto modelo, assegurando que o mesmo possa ser gravado com toda a integridade de&nbsp;dados garantida. Este método verifica se todos os elementos da estrutura do modelo estão validos e executa o code-block&nbsp;de pos-val
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/10/2008
+</table>
+<b>Veja também:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>SetErrorMessage, GetErrorMessage
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lRetorno :<td><br>Tipo: LOGICAL<br> Folha de dados valida
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>

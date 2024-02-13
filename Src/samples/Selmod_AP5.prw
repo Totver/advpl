@@ -1,0 +1,10 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 23/08/00
+
+User Function Selmod()        // incluido pelo assistente de conversao do AP5 IDE em 23/08/00
+
+DBSELECTAREA("SZ9")
+INDEX ON Z9_ENTRADA+Z9_ALIMENT+Z9_EXCITAD+Z9_SOFT+Z9_OPCIONA+Z9_POTENCI TO SZ9
+DBSEEK(TMP1->CK_ENTRADA+TMP1->CK_ALIMENT+TMP1->CK_EXCITAD+TMP1->CK_SOFT+TMP1->CK_OPCIONA+TMP1->CK_POTENCI)
+TMP1->CK_CODCOM:=SZ9->Z9_MODELO
+TMP1->CK_PRODUTO:=SZ9->Z9_EQUIPAM
+RETURN

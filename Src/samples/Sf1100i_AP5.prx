@@ -1,0 +1,81 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 29/06/00
+#IFNDEF WINDOWS
+#INCLUDE "INKEY.CH"
+#ENDIF
+
+User Function Sf1100i()        // incluido pelo assistente de conversao do AP5 IDE em 29/06/00
+
+   MsgBox ("executando SF1100I","Atencao","ALERT") // ZZ
+   
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("CTITULO,CTITGET,CGETID,NOPCA,ACRA,CSAVEMENUH")
+SetPrvt("IZ,CGETMV,CPREF,CSEEK,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 29/06/00 ==> #INCLUDE "INKEY.CH"
+#ENDIF
+// Variaveis da tela do Get
+cTitulo:=OemToAnsi("Identificador Titulos")
+cTitGet:=OemToAnsi("Identificador Titulo:")
+cGetId := Space(2) // Criavar("E2_CANID")
+nOpca:=3
+
+// Tela com Get
+#IFNDEF WINDOWS
+aCRA:={ "Confirma","Redigita","Abandona" }
+DrawAdvWindow(cTitulo,3,1,10,MaxCol()-1)
+SetColor("n/bg,bg+/n,,,n/bg")
+@ 05,05 Say cTitGet
+cSaveMenuh := SaveScreen(10,2,10,Maxcol()-1)
+Do While .T.
+	@ 05,27 Get cGetId Picture "@!" 
+	Read
+	nOpcA:=menuh(aCRA,10,2,"b/w,w+/n,r/w","CRA","Confirma dados da Leitura?",1)
+	If nOpca == 1 .Or. nOpca == 3
+		Exit
+	Else
+		RestScreen(10,2,10,Maxcol()-1,cSaveMenuh)
+	EndIf
+EndDo
+#ELSE
+@ 00,000 TO 170,300 DIALOG oDlg1 TITLE cTitulo
+@ 10,005 Say cTitGet
+@ 20,005 GET cGetId PICTURE "@!" 
+@ 40,030 BUTTON "_Ok" SIZE 35,15 ACTION Grava()
+@ 40,065 BUTTON "_Cancela" SIZE 35,15 ACTION Close(oDlg1)
+ACTIVATE DIALOG oDlg1 CENTER
+#ENDIF
+
+RETURN
+
+Static Function Grava
+
+// Grava tipo das duplicatas a pagar como provisorio
+// e identificador do titulo
+For iz:=1 to Len(aDupl)
+	dbSelectArea("SE2")
+	dbSetOrder(6)
+	// 6 E2_FILIAL+E2_FORNECE+E2_LOJA+E2_PREFIXO+E2_NUM+E2_PARCELA+E2_TIPO
+	cGetMv:=GetMV("mv_2dupref")
+	cPref:=&(cGetMv)
+	cPref:=cPref+Space(Len(SE2->E2_PREFIXO) - Len(cPref))
+	cSeek:=xFilial()+SA2->A2_COD+SA2->A2_LOJA+cPref+cNFiscal+Subs(aDupl[iz],13,1)
+        If dbSeek(cSeek) .AND. !EMPTY(cGetId)
+        	Reclock("SE2",.F.)
+		Replace E2_TIPO With "PR"
+		If nOpca == 1
+                     Replace E2_CANID With cGetId
+//                     Replace E2_CANID With SUBS(cGetId,28,8)+SPACE(36)
+		EndIf
+		MsUnlock()
+	EndIf
+Next iz
+
+Return(nil)        // incluido pelo assistente de conversao do AP5 IDE em 29/06/00
+

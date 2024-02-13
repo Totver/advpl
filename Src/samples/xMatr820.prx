@@ -1,0 +1,977 @@
+//#INCLUDE "MATR820.CH"
+#INCLUDE "PROTHEUS.CH"
+
+Static cAliasTop := ""
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ xMATR820 ³ Autor ³ Eduardo Fernandes     ³ Data ³ 21/06/11 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Ordens de Producao SMC                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ SMC		                                                  ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+*/
+User Function xMATR820(lJob, cOP)
+Local oReport  := NIL   
+Local cSession := GetPrinterSession()	
+
+Default lJob := .F.
+Default cOP  := ""
+
+//-- Verifica se o SH8 esta locado para atualizacao por outro processo                
+If !IsLockSH8()	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Interface de impressao - Tratamento para JOB - Eduardo 27/08/11.        ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	oReport:= ReportDef(lJob, cOP)   
+	If lJob
+		oReport:lPreview := .F. 
+		oReport:lParamReadOnly := .T.
+		oReport:cPrinterName:= GetProfString( cSession,"DEFAULT","",.T. )
+		oReport:Print(.F.,"",.T.)
+	ElseIf !oReport:PrintDialog()	
+		dbSelectArea("SH8")
+		dbClearFilter()
+		dbCloseArea()
+		Return Nil
+	EndIf	
+EndIf
+	
+Return NIL
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Programa  ³ReportDef ³ Autor ³Felipe Nunes Toledo    ³ Data ³27/09/06  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³A funcao estatica ReportDef devera ser criada para todos os ³±±
+±±³          ³relatorios que poderao ser agendados pelo usuario.          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³Nenhum                                                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³xMATR820                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+Static Function ReportDef(lJob, cOP)
+Local oReport
+Local oSection1, oSection2, Section3
+Local aOrdem	:= {"Por Numero","Por Produto","Por Centro de Custo","Por Prazo de Entrega"}
+Local cTitle	:= "Ordens de Producao"
+
+#IFDEF TOP
+	cAliasTop := GetNextAlias()
+#ELSE
+	cAliasTop := "SC2"
+#ENDIF
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao do componente de impressao                                      ³
+//³                                                                        ³
+//³TReport():New                                                           ³
+//³ExpC1 : Nome do relatorio                                               ³
+//³ExpC2 : Titulo                                                          ³
+//³ExpC3 : Pergunte                                                        ³
+//³ExpB4 : Bloco de codigo que sera executado na confirmacao da impressao  ³
+//³ExpC5 : Descricao                                                       ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:= TReport():New("xMATR820",cTitle,"MTR820", {|oReport| ReportPrint(oReport, cAliasTop, lJob, cOP)},OemToAnsi("Este programa ira imprimir a Rela‡„o das Ordens de Produ‡„o"),.T.) 
+oReport:HideParamPage()   // Desabilita a impressao da pagina de parametros.
+oReport:nFontBody	:= 10 // Define o tamanho da fonte.
+oReport:nLineHeight	:= 50 // Define a altura da linha.
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Adicionado por Eduardo em 21/06/11 			 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//metodos
+oReport:nEnvironment := 2
+oReport:nDevice := 2
+
+//Propriedades
+oReport:DisableOrientation()    
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas - MTR820                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros                         ³
+//³ mv_par01            // Da OP                                 ³
+//³ mv_par02            // Ate a OP                              ³
+//³ mv_par03            // Da data                               ³
+//³ mv_par04            // Ate a data                            ³
+//³ mv_par05            // Imprime roteiro de operacoes          ³
+//³ mv_par06            // Imprime codigo de barras              ³
+//³ mv_par07            // Imprime Nome Cientifico               ³
+//³ mv_par08            // Imprime Op Encerrada                  ³
+//³ mv_par09            // Impr. por Ordem de                    ³
+//³ mv_par10            // Impr. OP's Firmes, Previstas ou Ambas ³
+//³ mv_par11            // Impr. Item Negativo na Estrutura      ³
+//³ mv_par12            // Imprime Lote/Sub-Lote                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+AjustaSX1()
+Pergunte(oReport:GetParam(),.F.)
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao da secao utilizada pelo relatorio                               ³
+//³                                                                        ³
+//³TRSection():New                                                         ³
+//³ExpO1 : Objeto TReport que a secao pertence                             ³
+//³ExpC2 : Descricao da secao                                              ³
+//³ExpA3 : Array com as tabelas utilizadas pela secao. A primeira tabela   ³
+//³        sera considerada como principal para a secao.                   ³
+//³ExpA4 : Array com as Ordens do relatorio                                ³
+//³ExpL5 : Carrega campos do SX3 como celulas                              ³
+//³        Default : False                                                 ³
+//³ExpL6 : Carrega ordens do Sindex                                        ³
+//³        Default : False                                                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Sessao 1 (oSection1)                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection1 := TRSection():New(oReport,"Ordens de Produção",{"SC2","SB1","SC5","SA1"},aOrdem)
+oSection1:SetLineStyle() //Define a impressao da secao em linha
+oSection1:SetReadOnly()
+
+TRCell():New(oSection1,'C2_PRODUTO'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'B1_DESC' 	,'SB1',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'Emissao'   	,'SC2',"Emissão" ,PesqPict("SC2","C2_DATPRI"),TamSX3("C2_DATPRI")[1],/*lPixel*/,{|| dDataBase })
+TRCell():New(oSection1,'C5_CLIENTE'	,'SC5',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C5_LOJACLI'	,'SC5',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'A1_NOME'  	,'SA1',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'QtdeProd'	,'SC2',"Qtd. Prod." ,PesqPict("SC2","C2_QUANT"),TamSX3("C2_QUANT")[1],/*lPixel*/,{|| aSC2Sld(cAliasTop) })
+TRCell():New(oSection1,'C2_QUANT'	,'SC2',"Qtd. Orig." ,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'OpQuant'  	,'SC2',"Quantidade" ,PesqPict("SC2","C2_QUANT"),TamSX3("C2_QUANT")[1],/*lPixel*/,{|| (cAliasTop)->C2_QUANT - (cAliasTop)->C2_QUJE })
+TRCell():New(oSection1,'B1_UM'	 	,'SB1',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_CC'		,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_STATUS'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_DATPRI'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_DATPRF'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_DATAJI'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'C2_DATAJF'	,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection1,'RealIni'	,'SC2',"Real Ini   ." ,'@!',8,/*lPixel*/,{|| "__/__/__" })
+TRCell():New(oSection1,'RealFim'	,'SC2',"Real Fim  ."  ,'@!',8,/*lPixel*/,{|| "__/__/__" })
+TRCell():New(oSection1,'C2_OBS'		,'SC2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+
+oSection1:Cell('B1_DESC'  ):SetCellBreak()
+oSection1:Cell('Emissao'  ):SetCellBreak()
+oSection1:Cell('A1_NOME'  ):SetCellBreak()
+oSection1:Cell('C2_QUANT' ):SetCellBreak()
+oSection1:Cell('OpQuant'  ):SetCellBreak()
+oSection1:Cell('B1_UM'    ):SetCellBreak()
+oSection1:Cell('C2_CC'    ):SetCellBreak()
+oSection1:Cell('C2_STATUS'):SetCellBreak()
+oSection1:Cell('C2_DATPRF'):SetCellBreak()
+oSection1:Cell('C2_DATAJF'):SetCellBreak()
+oSection1:Cell('RealFim'  ):SetCellBreak()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Sessao 2 (oSection2)                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection2 := TRSection():New(oSection1,"Empenhos",{"SD4","SB1"},/*Ordem*/) 
+oSection2:SetHeaderBreak()
+oSection2:SetReadOnly()
+
+TRCell():New(oSection2,'D4_COD'	 	,'SD4',"Codigo"    ,PesqPict('SD4','D4_COD')    ,TamSX3('D4_COD')[1]+1    ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'B1_DESC' 	,'SB1',"PartNumber",PesqPict('SB1','B1_DESC')   ,30 ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+oSection2:Cell("B1_DESC"):SetLineBreak() 
+TRCell():New(oSection2,'D4_QTDEORI' ,'SD4',"Qtd. Orig." ,PesqPict('SD4','D4_QTDEORI') ,TamSX3('D4_QTDEORI')[1]  ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'D4_QUANT' 	,'SD4',"Saldo Emp." ,PesqPict('SD4','D4_QUANT')  ,TamSX3('D4_QUANT')[1]  ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'B1_UM'   	,'SB1',"UM"   		,PesqPict('SB1','B1_UM')     ,TamSX3('B1_UM')[1]     ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'D4_LOCAL'	,'SD4',"ARMAZ" 		,PesqPict('SD4','D4_LOCAL')  ,TamSX3('D4_LOCAL')[1]  ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'D4_TRT'  	,'SD4',/*Titulo*/	,PesqPict('SD4','D4_TRT')    ,TamSX3('D4_TRT')[1]    ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'D4_DATA'  	,'SD4',/*Titulo*/	,PesqPict('SD4','D4_DATA')   ,10 ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'B1_DESCSMC'	,'SB1',"Descr SMC"	,PesqPict('SB1','B1_DESCSMC'),50 ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+TRCell():New(oSection2,'D4_OP'  	,'SD4',/*Titulo*/,PesqPict('SD4','D4_OP')     ,TamSX3('D4_OP')[1]     ,/*lPixel*/,/*{|| code-block de impressao }*/,/*cAlign*/,/*lLineBreak*/,/*cHeaderAlign*/,/*lCellBreak*/,/*nColSpace*/,/*lAutoSize*/,/*nClrBack*/,/*nClrFore*/)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Sessao 3 (oSection3)                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection3 := TRSection():New(oSection1,"Operações",{"SG2","SH8","SH1","SH4"},/*Ordem*/) 
+oSection3:SetHeaderBreak()
+oSection3:SetReadOnly()
+
+TRCell():New(oSection3,'G2_RECURSO'	,'SG2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection3,'H1_DESCRI'	,'SH1',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection3,'G2_FERRAM'	,'SG2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection3,'H4_DESCRI'	,'SH4',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection3,'G2_OPERAC'	,'SG2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection3,'G2_DESCRI'	,'SG2',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+
+oSection3:Cell('H1_DESCRI'):HideHeader()
+oSection3:Cell('H4_DESCRI'):HideHeader()
+oSection3:Cell('G2_DESCRI'):HideHeader()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Sessao 4 (oSection4)                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection4 := TRSection():New(oSection3,"Tempo Rot. Oper.",{"SG2","SH8","SH1","SH4"},/*Ordem*/) 
+oSection4:SetLineStyle() //Define a impressao da secao em linha
+oSection4:SetReadOnly()
+
+TRCell():New(oSection4,'H8_DTINI'	,'SH8',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection4,'H8_HRINI'	,'SH8',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection4,'H8_DTFIM'	,'SH8',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection4,'H8_HRFIM'	,'SH8',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection4,'IniAloc'	,'SH8',"INICIO  REAL " ,'@!' , 24        ,/*lPixel*/,{|| " ____/ ____/____ ___:___" })
+TRCell():New(oSection4,'FimAloc'	,'SH8',"TERMINO REAL " ,'@!' , 24        ,/*lPixel*/,{|| " ____/ ____/____ ___:___" })
+TRCell():New(oSection4,'H8_QUANT'	,'SH8',/*Titulo*/,/*Picture*/,/*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection4,'QtdeProd'	,'SH8',"Quantidade Produzida",/*Picture*/, 12       ,/*lPixel*/,{|| Space(12) })
+TRCell():New(oSection4,'QtdPerda'	,'SH8',"Perdas"  ,/*Picture*/,/*Tamanho*/,/*lPixel*/,{|| Space(12) })
+
+oSection4:Cell('H8_HRFIM'):SetCellBreak()
+oSection4:Cell('FimAloc' ):SetCellBreak()
+
+oSection1:SetNoFilter({"SA1","SC5"})
+oSection2:SetNoFilter({"SD4","SB1","SB2","SC2"})
+oSection3:SetNoFilter({"SG2","SH8","SH1","SH4"})
+oSection4:SetNoFilter({"SG2","SH8","SH1","SH4"})
+
+Return(oReport)
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Programa  ³ReportPrint ³ Autor ³Felipe Nunes Toledo  ³ Data ³27/09/06  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³A funcao estatica ReportPrint devera ser criada para todos  ³±±
+±±³          ³os relatorios que poderao ser agendados pelo usuario.       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³Nenhum                                                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ExpO1: Objeto Report do Relatorio                           ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³MATR820                                                     ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+Static Function ReportPrint(oReport, cAliasTop, lJob, cOP)
+Local oSection1	:= oReport:Section(1)
+Local oSection2	:= oReport:Section(1):Section(1)
+Local oSection3	:= oReport:Section(1):Section(2)
+Local oSection4	:= oReport:Section(1):Section(2):Section(1)
+Local nOrdem    := oSection1:GetOrder()
+Local oBreak
+Local cIndex	:= ""
+Local cCondicao	:= ""
+Local cCode    	:= ""
+Local nCntFor   := 0
+Local nLinBar	:= 0
+Local cWhere01, cWhere02, cWhere03
+Local cOrderBy
+Local cCodeSY   := ""
+
+Private aArray	 := {}
+Private lItemNeg := GetMv("MV_NEGESTR") .And. mv_par11 == 1
+
+//Adicionado por Eduardo em 27/08/11 para automatizar impressao
+If lJob .And. !Empty(cOP)
+	MV_PAR01 := cOP
+	MV_PAR02 := cOP
+Endif
+
+// Definindo quebra para secao 2 e ocultando celula utilizada somente para quebra
+oBreak := TRBreak():New(oSection2,oSection2:Cell("D4_OP"),Nil,.F.)
+oSection2:Cell("D4_OP"):Disable()
+
+oSection2:Cell("D4_LOCAL"):SetSize(05)  
+oSection2:Cell("D4_LOCAL"):SetTitle("Armaz") 
+oSection2:Cell("B1_UM"):SetSize(03)  
+oSection2:Cell("B1_UM"):SetTitle("UM")
+oSection2:Cell("D4_TRT"):SetTitle("Trt")
+oSection2:Cell("D4_DATA"):SetTitle("Dt. Emp")
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Filtragem do relatorio                                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+#IFDEF TOP
+
+   	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Transforma parametros Range em expressao SQL                            ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	MakeSqlExpr(oReport:GetParam())
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Condicao Where para filtrar OP's                             ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	cWhere01 := "%'"+mv_par01+"'%"
+	cWhere02 := "%'"+mv_par02+"'%"
+	
+	cWhere03 := "%"
+	If mv_par08 == 2
+		cWhere03 += "AND SC2.C2_DATRF = ' '"
+	Endif
+	cWhere03 += "%"
+	
+	cOrderBy := "%"
+	If nOrdem == 4
+		cOrderBy += "SC2.C2_FILIAL, SC2.C2_DATPRF"
+	Else                                  
+		cOrderBy += SqlOrder(SC2->(IndexKey(nOrdem)))
+	EndIf
+	cOrderBy += "%"
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Query do relatorio da secao 1                                           ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	oSection1:BeginQuery()	
+	BeginSql Alias cAliasTop
+
+	SELECT SC2.C2_FILIAL, SC2.C2_NUM, SC2.C2_ITEM, SC2.C2_SEQUEN, SC2.C2_ITEMGRD, SC2.C2_DATPRF,
+	       SC2.C2_DATRF, SC2.C2_PRODUTO, SC2.C2_DESTINA, SC2.C2_PEDIDO, SC2.C2_ROTEIRO, SC2.C2_QUJE,
+	       SC2.C2_PERDA, SC2.C2_QUANT, SC2.C2_DATPRI, SC2.C2_CC, SC2.C2_DATAJI, SC2.C2_DATAJF,
+	       SC2.C2_STATUS, SC2.C2_OBS, SC2.C2_TPOP, SC2.C2_DESCPRO, SC2.C2_XROTEIR,
+	       SC2.R_E_C_N_O_  SC2RECNO
+	
+	FROM %table:SC2% SC2
+	
+	WHERE SC2.C2_FILIAL = %xFilial:SC2% AND
+		  SC2.C2_NUM || SC2.C2_ITEM || SC2.C2_SEQUEN || SC2.C2_ITEMGRD >= %Exp:cWhere01% AND
+		  SC2.C2_NUM || SC2.C2_ITEM || SC2.C2_SEQUEN || SC2.C2_ITEMGRD <= %Exp:cWhere02% AND
+	      SC2.C2_DATPRF BETWEEN %Exp:mv_par03% AND %Exp:mv_par04% AND
+		  SC2.%NotDel%
+		  %Exp:cWhere03%
+	
+	ORDER BY %Exp:cOrderby%
+	
+	EndSql
+	oSection1:EndQuery()
+	
+#ELSE
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Transforma parametros Range em expressao ADVPL                          ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	MakeAdvplExpr(oReport:GetParam())
+
+	dbSelectArea(cAliasTop)
+	
+	If nOrdem == 4
+		cIndex := "C2_FILIAL+DTOS(C2_DATPRF)"
+	Else
+		dbSetOrder(nOrdem)
+	EndIf
+
+	cCondicao := "C2_FILIAL=='"+xFilial("SC2")+"'"
+	cCondicao += ".And.C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD>='"+mv_par01+"'"
+	cCondicao += ".And.C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD<='"+mv_par02+"'"
+	cCondicao += ".And.DTOS(C2_DATPRF)>='"+DTOS(mv_par03)+"'"
+	cCondicao += ".And.DTOS(C2_DATPRF)<='"+DTOS(mv_par04)+"'"
+	If mv_par08 == 2
+		cCondicao += ".And.Empty(C2_DATRF)"
+	EndIf
+
+	oReport:Section(1):SetFilter(cCondicao,If(nOrdem==4,cIndex,IndexKey()))
+#ENDIF
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Posicionamento das tabelas³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+TRPosition():New(oSection1,"SB1",1,{|| xFilial("SB1")+(cAliasTop)->C2_PRODUTO })
+TRPosition():New(oSection1,"SC5",1,{|| xFilial("SC5")+(cAliasTop)->C2_PEDIDO })
+TRPosition():New(oSection1,"SA1",1,{|| xFilial("SA1")+SC5->C5_CLIENTE+SC5->C5_LOJACLI })
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Inicio da impressao do fluxo do relatorio                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:SetMeter(SC2->(LastRec()))
+oSection1:Init()
+oSection2:Init()
+oSection3:Init()
+oSection4:Init()
+
+dbSelectArea(cAliasTop)
+While !oReport:Cancel() .And. !(cAliasTop)->(Eof())
+	//-- Valida se a OP deve ser Impressa ou nao
+	If !MtrAValOP(mv_par10,"SC2",cAliasTop)
+		dbSkip()
+		Loop
+	EndIf    
+	
+	//Definindo a descricao do produto
+	MR820Desc(oReport, cAliasTop)
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Desabilitando celulas que nao deverao serem impressas   ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	If (cAliasTop)->C2_DESTINA <> "P"
+    	oSection1:Cell('C5_CLIENTE'):Disable()
+    	oSection1:Cell('C5_LOJACLI'):Disable()
+    	oSection1:Cell('A1_NOME'   ):Disable()
+ 	EndIf
+	If Empty((cAliasTop)->C2_STATUS)
+		oSection1:Cell("C2_STATUS"):SetValue("Normal")
+	EndIf
+	If (cAliasTop)->C2_QUJE + (cAliasTop)->C2_PERDA > 0
+		oSection1:Cell('OpQuant'):Disable()
+	Else
+		oSection1:Cell('QtdeProd'):Disable()
+		oSection1:Cell('C2_QUANT'):Disable()
+	Endif
+	If (Empty((cAliasTop)->C2_OBS))
+		oSection1:Cell('C2_OBS'):Disable()	
+	EndIf
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Definindo o titulo do Relatorio³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	oReport:SetTitle("O R D E M   D E   P R O D U C A O       NRO :"+(cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD) +" Apontamento: "+Iif(Empty((cAliasTop)->C2_XROTEIR)," Manual","Automatico"))
+
+	If mv_par06 == 1 
+		nLinBar := 0.95
+		
+		oReport:PrintText("")
+		For nCntFor := 1 to 5
+			oReport:SkipLine()
+		Next nCntFor
+
+		cCode := (cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD)
+
+		If oReport:lHeaderVisible .And. oReport:nEnvironment == 2
+			nLinBar += 1.2
+		EndIf
+		
+		If oReport:GetOrientation()== 1
+			nLinBar += 0.2
+		EndIf
+		//MSBAR3(cTypeBar,nRow,nCol,cCode,oPrint,lCheck,Color,lHorz,nWidth,nHeigth,lBanner,cFont,cMode,lPrint,nPFWidth,nPFHeigth,lCmtr2Pix)
+		MSBAR3("CODE128",nLinBar,0.5,Trim(cCode),@oReport:oPrint,Nil,Nil,Nil,Nil ,1.5 ,Nil,Nil,Nil,.F.)  
+        
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³Barcode p/ Valvula SY - Eduardo 23/06/11 ³ 
+		//³Regra p/ impressao BARCODE (inicia com	³ 		
+		//³SY/termina com *BR).			   			³ 				
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		cCodeSY := AllTrim((cAliasTop)->(C2_DESCPRO))
+		If Left(cCodeSY,2) == "SY" .And. Right(cCodeSY,3) == "*BR"
+			cCodeSY := StrZero((cAliasTop)->(C2_QUANT),4)+"$"+StrTran((cAliasTop)->(C2_DESCPRO),"*BR","")
+						
+			MSBAR3("CODE128",nLinBar,19,Trim(cCodeSY),@oReport:oPrint,Nil,Nil,Nil,Nil ,1.5 ,.T.,Nil,Nil,.F.)  
+			//MSBAR3("CODE3_9",nLinBar,17,AllTrim(cCodeSY),@oReport:oPrint,Nil,Nil,Nil,Nil ,1 ,.T.,Nil,Nil,.F.)  
+		Endif	
+	EndIf
+	
+	//Impressao da Section 1
+	oSection1:PrintLine()
+	oReport:IncMeter()
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³Habilitando celulas³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	If (cAliasTop)->C2_DESTINA <> "P"
+    	oSection1:Cell('C5_CLIENTE'):Enable()
+    	oSection1:Cell('C5_LOJACLI'):Enable()
+    	oSection1:Cell('A1_NOME'   ):Enable()
+ 	EndIf
+	If (cAliasTop)->C2_QUJE + (cAliasTop)->C2_PERDA > 0
+		oSection1:Cell('OpQuant'):Enable()
+	Else
+		oSection1:Cell('QtdeProd'):Enable()
+		oSection1:Cell('C2_QUANT'):Enable()
+	Endif
+	If (Empty((cAliasTop)->C2_OBS))
+		oSection1:Cell('C2_OBS'):Enable()	
+	EndIf
+	
+	//--- Inicio fluxo impressao secao 2
+	SB1->(dbSeek(xFilial("SB1")+(cAliasTop)->C2_PRODUTO))
+	
+	aArray := {}
+	MontStruc((cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD))
+	
+	If mv_par09 == 1
+		aSort( aArray,1,, { |x, y| (x[1]+x[8]) < (y[1]+y[8]) } )
+	Else
+		aSort( aArray,1,, { |x, y| (x[8]+x[1]) < (y[8]+y[1]) } )
+	ENDIF
+	                         
+	For nCntFor := 1 TO Len(aArray)
+
+	    SB1->(dbSetOrder(1))
+	    SB1->(MsSeek(xFilial("SB1")+aArray[nCntFor][1]))
+
+	    SD4->(dbSetOrder(2))
+	    SD4->(MsSeek(xFilial("SD4")+(cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD)+aArray[nCntFor][1]+aArray[nCntFor][6]))
+
+		oSection2:Cell("D4_COD"    ):SetValue(aArray[nCntFor][1])
+		oSection2:Cell("B1_DESC"   ):SetValue(aArray[nCntFor][2])
+		oSection2:Cell("D4_QTDEORI"):SetValue(aArray[nCntFor][9])
+		oSection2:Cell("D4_QUANT"  ):SetValue(aArray[nCntFor][5])
+		oSection2:Cell("B1_UM"     ):SetValue(aArray[nCntFor][4])
+		oSection2:Cell("D4_LOCAL"  ):SetValue(aArray[nCntFor][6])
+		oSection2:Cell("D4_TRT"    ):SetValue(aArray[nCntFor][7])
+		oSection2:Cell("D4_DATA"   ):SetValue(DtoC(aArray[nCntFor][10]))
+		oSection2:Cell("B1_DESCSMC"):SetValue(AllTrim(aArray[nCntFor][11]))
+	
+	    //Impressao da Section 2
+		oSection2:PrintLine()
+	Next nCntFor
+	
+	If mv_par05 == 1
+		Mr820Ope(oReport, cAliasTop) //Impressao da Section 3 e Section 4
+	EndIf
+
+	oReport:EndPage() //-- Salta Pagina
+	dbSelectArea(cAliasTop)
+	dbSkip()
+
+EndDo
+
+oSection4:Finish()
+oSection3:Finish()
+oSection2:Finish()
+oSection1:Finish()
+(cAliasTop)->(DbCloseArea())
+dbSelectArea("SH8")
+dbClearFilter()
+dbCloseArea()
+
+// Imprime ultima pagina APTO REFUGO/TESTES
+oReport:EndPage() //-- Salta Pagina 
+PagApto(oReport)
+
+Return Nil
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿±±
+±±|Funcao    |PagApto   ³ Autor ³ Eduardo Fernandes     ³ Data ³ 23/06/11 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±|Descricao |Imprime pagina com LAYOUT de apontamentos de Refugo, Datas, ³±±
+±±|			 |Testes e Qualidade.										  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±|Cliente   |SMC					                                      ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+Static Function PagApto(oReport) 
+Local nLin 	:= 50 
+Local cBmp	:= GetSrvProfString("StartPath","") + AllTrim(SuperGetMv("SMC_LOGO",.F.,"LGRL9901.BMP"))
+
+Local oFont1, oFont2, oFont3, oFont4, oFont5, oFont6, oFont7, oFont8, oFont9, oFont9N,oFont10 
+Local oBrush := TBrush():New("",CLR_LIGHTGRAY)
+
+//TFont():New( <cName>,<Width>,<nHeight>, <.from.>, <.bold.>, nEscapement,nWeight,.italic., <.underline.>,,,,,, <oDevice> )
+oFont1    := TFont():New( 'Arial'	, 08 , 08 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+oFont2    := TFont():New( 'Arial'	, 08 , 08 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont3    := TFont():New( 'Arial'	, 09 , 09 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+oFont4 	  := TFont():New( 'Arial'	, 09 , 09 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont5 	  := TFont():New( 'Arial'	, 10 , 10 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+oFont6 	  := TFont():New( 'Arial'	, 10 , 10 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont7 	  := TFont():New( 'Arial'	, 12 , 12 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont7N	  := TFont():New( 'Arial'	, 12 , 12 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+oFont8 	  := TFont():New( 'Arial'	, 12 , 12 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont9 	  := TFont():New( 'Arial'	, 16 , 16 , .T. , .F. , 5 , .T. , 5 , .F. , .F. )
+oFont9N	  := TFont():New( 'Arial'	, 16 , 16 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+oFont10	  := TFont():New( 'Arial'	, 20 , 20 , .T. , .T. , 5 , .T. , 5 , .F. , .F. )
+
+//Logo
+//oPrint:Line( nLin+0020 , 0020 , nLin+0020 , 3200  )//01
+oReport:SayBitmap( 0280 , 060 , cBmp , 0400 , 0120 )  
+
+oReport:Say(nLin+280, 2580, "OP ___________________________", oFont9N ,,,, 0  )
+oReport:Say(nLin+370, 240, "REFA-003 Acompanhamento de refugos, dimensionais e datas de entregas de Ordem de Produção", oFont7N ,,,, 0  )
+oReport:Say(nLin+390, 2670, "Data da Baixa ______/______/__________", oFont1 ,,,, 0  )
+
+//1. Linha
+oReport:Say(nLin+500, 180,  "Usinagem", oFont7 ,,,, 0  )
+oReport:Say(nLin+500, 600,  "Motivo / Operações:", oFont6 ,,,, 0  )
+oReport:Say(nLin+500, 1300, "A: Corte", oFont6 ,,,, 0  )
+oReport:Say(nLin+500, 2000, "B: Usinagem", oFont6 ,,,, 0  )
+oReport:Say(nLin+500, 2530, "Legenda: ", oFont5 ,,,, 0  )
+oReport:Say(nLin+500, 2730, "mm =      Barras", oFont6 ,,,, 0  )
+
+//2. Linha
+oReport:Say(nLin+550, 1300, "C: Polygon", oFont6 ,,,, 0  )
+oReport:Say(nLin+550, 2000, "D: Especial / Outros", oFont6 ,,,, 0  )
+oReport:Say(nLin+550, 2730, "unid. =   HalfFinished", oFont6 ,,,, 0  )
+
+//1. BOX
+oReport:Box(nLin+650,050,1340,2500)
+
+// Linhas Horizontais
+oReport:Line( nLin+0800 , 0050 , nLin+0800 , 2500  )//01
+oReport:Line( nLin+0870 , 0050 , nLin+0870 , 2500  )//02
+oReport:Line( nLin+0940 , 0050 , nLin+0940 , 2500  )//03
+oReport:Line( nLin+1010 , 0050 , nLin+1010 , 2500  )//04
+oReport:Line( nLin+1080 , 0050 , nLin+1080 , 2500  )//05
+oReport:Line( nLin+1150 , 0050 , nLin+1150 , 2500  )//06
+oReport:Line( nLin+1220 , 0050 , nLin+1220 , 2500  )//07      
+
+// Linhas Verticais
+oReport:FillRect({nLin+657,055,nLin+807,2497},oBrush) //cinza   
+oReport:Line( nLin+0650 , 0540 , nLin+1290 , 0540  )//01
+oReport:Line( nLin+0650 , 0940 , nLin+1290 , 0940  )//02
+oReport:Line( nLin+0650 , 1290 , nLin+1290 , 1290  )//03  
+oReport:Line( nLin+0650 , 1640 , nLin+1290 , 1640  )//04
+oReport:Line( nLin+0650 , 1990 , nLin+1290 , 1990  )//05
+oReport:Line( nLin+0650 , 2260 , nLin+1290 , 2260  )//06
+oReport:Line( nLin+0805 , 2340 , nLin+1290 , 2340  )//06
+
+//Cabecalho 
+oReport:Say( nLin+0720 , 0200 , "Componente"   			, oFont5 ,,,, 0  )
+oReport:Say( nLin+0700 , 0580 , "Total Peçcas Usinadas" , oFont5 ,,,, 0  )
+oReport:Say( nLin+0750 , 0600 , "(aprovadas) (Unid.)"  	, oFont5 ,,,, 0  )
+oReport:Say( nLin+0720 , 0980 , "Setup (mm / unid.)"	, oFont5 ,,,, 0  )
+oReport:Say( nLin+0700 , 1300 , "Total Peças Refugadas", oFont5 ,,,, 0  )
+oReport:Say( nLin+0750 , 1370 , "(mm / unid.)"			, oFont5 ,,,, 0  )
+oReport:Say( nLin+0700 , 1700 , "Scrap / Sobras"	    , oFont5 ,,,, 0  )
+oReport:Say( nLin+0750 , 1730 , "(mm / unid.)"			, oFont5 ,,,, 0  )
+oReport:Say( nLin+0720 , 2020 , "Motivo / Operação"		, oFont4 ,,,, 0  )   
+oReport:Say( nLin+0720 , 2300 , "Dimensional"	   		, oFont4 ,,,, 0  )   
+
+//Itens
+oReport:Say( nLin+0820 , 0260 , "Haste"   			, oFont6 ,,,, 0  )
+oReport:Say( nLin+0890 , 0265 , "Tubo"   			, oFont6 ,,,, 0  )
+oReport:Say( nLin+0960 , 0240 , "Tirante"  			, oFont6 ,,,, 0  )
+oReport:Say( nLin+1030 , 0160 , "Cabeçote Dianteiro", oFont6 ,,,, 0  )
+oReport:Say( nLin+1100 , 0160 , "Cabeçote Traseiro", oFont6 ,,,, 0  )
+oReport:Say( nLin+1170 , 0240 , "Êmbolo"			, oFont6 ,,,, 0  )
+oReport:Say( nLin+1240 , 0170 , "Trilho / Especial"	, oFont6 ,,,, 0  )
+oReport:Say( nLin+0820 , 2275 , "OK"   	, oFont6 ,,,, 0  )
+oReport:Say( nLin+0890 , 2275 , "OK"   	, oFont6 ,,,, 0  )
+oReport:Say( nLin+0960 , 2275 , "OK"  	, oFont6 ,,,, 0  )
+oReport:Say( nLin+1030 , 2275 , "OK"	, oFont6 ,,,, 0  )
+oReport:Say( nLin+1100 , 2275 , "OK"	, oFont6 ,,,, 0  )
+oReport:Say( nLin+1170 , 2275 , "OK"	, oFont6 ,,,, 0  )
+oReport:Say( nLin+1240 , 2275 , "OK"	, oFont6 ,,,, 0  )
+
+oReport:Say(nLin+1380, 060,  "Observações", oFont7 ,,,, 0  ) 
+oReport:Line(nLin+1460 , 420 , nLin+1460 , 2900)
+oReport:Line(nLin+1530 , 420 , nLin+1530 , 2900)
+oReport:Line(nLin+1600 , 420 , nLin+1600 , 2900)
+
+//4. Linha
+oReport:Say(nLin+1700, 180,  "Montagem", oFont7 ,,,, 0  )
+oReport:Say(nLin+1700, 600,  "Motivo / Operações:", oFont6 ,,,, 0  )
+oReport:Say(nLin+1700, 1300, "I: Lavagem / Separação", oFont6 ,,,, 0  )
+oReport:Say(nLin+1700, 2000, "L: Testes", oFont6 ,,,, 0  )
+
+//5. Linha
+oReport:Say(nLin+1750, 1300, "J: Pré-Montagem", oFont6 ,,,, 0  )
+oReport:Say(nLin+1750, 2000, "M: Acessórios / Finalização", oFont6 ,,,, 0  )  
+
+//5. Linha
+oReport:Say(nLin+1800, 1300, "K: Montagem", oFont6 ,,,, 0  )
+
+//2. BOX
+oReport:Box(nLin+1900,050,2100,2500)
+oReport:Line( nLin+1970 , 0050 , nLin+1970 , 2500  )//01   
+
+oReport:FillRect({nLin+1905,055,nLin+1970,2497},oBrush) //cinza   
+oReport:Line( nLin+1900 , 0540 , nLin+2043 , 0540  )//01
+oReport:Line( nLin+1900 , 0940 , nLin+2043 , 0940  )//02
+oReport:Line( nLin+1900 , 1290 , nLin+2043 , 1290  )//03  
+oReport:Line( nLin+1900 , 1640 , nLin+2043 , 1640  )//04
+oReport:Line( nLin+1900 , 1990 , nLin+2043 , 1990  )//05
+oReport:Line( nLin+1970 , 2260 , nLin+2043 , 2260  )//06 
+
+//Itens Box 2
+oReport:Say( nLin+1920 , 0200 , "Montagem"   			, oFont5 ,,,, 0  )
+oReport:Say( nLin+1920 , 0580 , "Total Peçcas Montadas" , oFont5 ,,,, 0  )
+oReport:Say( nLin+1920 , 1060 , "Setup"					, oFont5 ,,,, 0  )
+oReport:Say( nLin+1920 , 1305 , "Total Peças Refugadas (Unid.)", oFont2 ,,,, 0  )
+oReport:Say( nLin+1920 , 1700 , "Motivo / Operação"	    , oFont4 ,,,, 0  )
+oReport:Say( nLin+1920 , 2170 , "Dimensional"			, oFont4 ,,,, 0  )   
+
+//Itens
+oReport:Say( nLin+0820 , 0260 , "Haste"   			, oFont6 ,,,, 0  )
+
+Return 
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Programa  ³MR820Desc   ³ Autor ³Felipe Nunes Toledo  ³ Data ³28/09/06  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³Atribui a descricao do produto conforme opcao selecionada   ³±±
+±±³          ³no parametro mv_par07 (Descricao do Produto ?).             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³Nenhum                                                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ExpO1: Objeto Report do Relatorio                           ³±±
+±±³          ³ExpC1: Alias do arquivo Ordem de Producao                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³MATR820                                                     ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+Static Function MR820Desc(oReport, cAliasTop)
+Local oSection1 := oReport:Section(1)
+Local lSB1Desc 	:= .T.
+ 
+If mv_par07 == 1
+	SB5->(dbSetOrder(1))
+	If SB5->(dbSeek(xFilial("SB5")+(cAliasTop)->C2_PRODUTO) .And. !Empty(B5_CEME))
+		oSection1:Cell("B1_DESC"):GetFieldInfo("B5_CEME")
+		oSection1:Cell("B1_DESC"):SetValue(SB5->B5_CEME)
+		lSB1Desc := .F.		
+	EndIf
+ElseIf mv_par07 == 3
+	If (cAliasTop)->C2_DESTINA == "P"
+		SC6->(dbSetOrder(1))
+		If SC6->(dbSeek(xFilial("SC6")+(cAliasTop)->C2_PEDIDO+(cAliasTop)->C2_ITEM))
+			If !Empty(SC6->C6_DESCRI) .and. SC6->C6_PRODUTO == (cAliasTop)->C2_PRODUTO
+				oSection1:Cell("B1_DESC"):GetFieldInfo("C6_DESCRI")
+				oSection1:Cell("B1_DESC"):SetValue(SC6->C6_DESCRI)
+				lSB1Desc := .F.
+			EndIf
+		EndIf
+	EndIf
+EndIf
+
+If (mv_par07 <> 2) .And. lSB1Desc
+	SB1->(dbSetOrder(1))
+	If SB1->( dbSeek(xFilial("SB1")+(cAliasTop)->C2_PRODUTO) )
+		oSection1:Cell("B1_DESC"):GetFieldInfo("B1_DESC")
+		oSection1:Cell("B1_DESC"):SetValue(SB1->B1_DESC)
+	EndIf
+EndIf
+
+Return Nil
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³ Fun‡…o   ³ Mr820Ope ³ Autor ³ Felipe Nunes Toledo   ³ Data ³ 18/07/92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Descri‡…o³ Imprime Roteiro de Operacoes                               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Sintaxe  ³ Mr820Ope()                                                 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATR820                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+*/
+Static Function Mr820Ope(oReport, cAliasTop)
+Local oSection3 := oReport:Section(1):Section(2)
+Local oSection4	:= oReport:Section(1):Section(2):Section(1)
+Local oBreak
+Local cRoteiro	:= ""                 
+Local cSeekWhile:= ""
+Local lSH8 		:= .F.
+Local aArea   	:= GetArea()
+
+oBreak:= TRBreak():New(oSection3,oSection3:Cell("G2_RECURSO"),Nil,.F.)  
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica se imprime ROTEIRO da OP ou PADRAO do produto    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If !Empty((cAliasTop)->C2_ROTEIRO)
+	cRoteiro:=(cAliasTop)->C2_ROTEIRO
+Else
+	If !Empty(SB1->B1_OPERPAD)
+		cRoteiro:=SB1->B1_OPERPAD
+	Else
+		If a630SeekSG2(1,(cAliasTop)->C2_PRODUTO,xFilial("SG2")+(cAliasTop)->C2_PRODUTO+"01")
+			cRoteiro:="01"
+		EndIf
+	EndIf
+EndIf
+
+cSeekWhile := "SG2->(G2_FILIAL+G2_PRODUTO+G2_CODIGO)"
+If a630SeekSG2(1,(cAliasTop)->C2_PRODUTO,xFilial("SG2")+(cAliasTop)->C2_PRODUTO+cRoteiro,@cSeekWhile) 
+
+	While SG2->(!Eof()) .And. Eval(&cSeekWhile)
+		SH8->(dbSetOrder(1))
+		If SH8->(dbSeek(xFilial("SH8")+(cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD)+SG2->G2_OPERAC))
+			lSH8 := .T.
+		EndIf
+		
+		If lSH8
+			While SH8->(!Eof()) .And. SH8->(H8_FILIAL+H8_OP+H8_OPER) == xFilial("SH8")+(cAliasTop)->(C2_NUM+C2_ITEM+C2_SEQUEN+C2_ITEMGRD)+SG2->G2_OPERAC
+				SH1->(dbSeek(xFilial("SH1")+SH8->H8_RECURSO))
+				SH4->(dbSeek(xFilial("SH4")+SG2->G2_FERRAM))
+				
+				oSection3:Cell('G2_RECURSO'):SetValue(SH8->H8_RECURSO)
+				oSection3:Cell('H1_DESCRI' ):SetValue(SH1->H1_DESCRI)
+				oSection3:Cell('G2_FERRAM' ):SetValue(SG2->G2_FERRAM)
+				oSection3:Cell('H4_DESCRI' ):SetValue(SH4->H4_DESCRI)
+				oSection3:Cell('G2_OPERAC' ):SetValue(SG2->G2_OPERAC)
+				oSection3:Cell('G2_DESCRI' ):SetValue(SG2->G2_DESCRI)
+
+				oSection3:PrintLine()
+				oSection4:PrintLine()
+				oReport:ThinLine()
+				SH8->(dbSkip())
+			EndDo
+		Else
+			SH1->(dbSeek(xFilial("SH1")+SG2->G2_RECURSO))
+			SH4->(dbSeek(xFilial("SH4")+SG2->G2_FERRAM))
+		
+			oSection3:Cell('G2_RECURSO'):SetValue(SG2->G2_RECURSO)
+			oSection3:Cell('H1_DESCRI' ):SetValue(SH1->H1_DESCRI)
+			oSection3:Cell('G2_FERRAM' ):SetValue(SG2->G2_FERRAM)
+			oSection3:Cell('H4_DESCRI' ):SetValue(SH4->H4_DESCRI)
+			oSection3:Cell('G2_OPERAC' ):SetValue(SG2->G2_OPERAC)
+			oSection3:Cell('G2_DESCRI' ):SetValue(SG2->G2_DESCRI)
+			oSection3:PrintLine()
+			
+			oSection4:Cell('H8_DTINI'):Disable()
+			oSection4:Cell('H8_HRINI'):Disable()
+			oSection4:Cell('H8_DTFIM'):Disable()
+			oSection4:Cell('H8_HRFIM'):Disable()
+			oSection4:Cell('H8_QUANT'):SetValue(aSC2Sld(cAliasTop))
+			oSection4:PrintLine()
+			oReport:ThinLine()
+
+			oSection4:Cell('H8_DTINI'):Enable()
+			oSection4:Cell('H8_HRINI'):Enable()
+			oSection4:Cell('H8_DTFIM'):Enable()
+			oSection4:Cell('H8_HRFIM'):Enable()
+		Endif
+		SG2->(dbSkip())
+	EndDo
+Endif
+
+RestArea(aArea)
+Return Nil
+
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³ Fun‡…o   ³ AddAr820 ³ Autor ³ Paulo Boschetti       ³ Data ³ 07/07/92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Descri‡…o³ Adiciona um elemento ao Array                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Sintaxe  ³ AddAr820(ExpN1)                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ ExpN1 = Quantidade da estrutura                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATR820                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+*/
+Static Function AddAr820(nQuantItem)
+Local cDesc := SB1->B1_DESC
+Local cRoteiro:=""
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica se imprime nome cientifico do produto. Se Sim    ³
+//³ verifica se existe registro no SB5 e se nao esta vazio    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If mv_par07 == 1
+	dbSelectArea("SB5")
+	dbSeek(xFilial()+SB1->B1_COD)
+	If Found() .and. !Empty(B5_CEME)
+		cDesc := B5_CEME
+	EndIf
+ElseIf mv_par07 == 2
+	cDesc := SB1->B1_DESC
+Else
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Verifica se imprime descricao digitada ped.venda, se sim  ³
+	//³ verifica se existe registro no SC6 e se nao esta vazio    ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	If (cAliasTop)->C2_DESTINA == "P"
+		dbSelectArea("SC6")
+		dbSetOrder(1)
+		dbSeek(xFilial()+(cAliasTop)->C2_PEDIDO+(cAliasTop)->C2_ITEM)
+		If Found() .and. !Empty(C6_DESCRI) .and. C6_PRODUTO==SB1->B1_COD
+			cDesc := C6_DESCRI
+		ElseIf C6_PRODUTO # SB1->B1_COD
+			dbSelectArea("SB5")
+			dbSeek(xFilial()+SB1->B1_COD)
+			If Found() .and. !Empty(B5_CEME)
+				cDesc := B5_CEME
+			EndIf
+		EndIf
+	EndIf
+EndIf
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica se imprime ROTEIRO da OP ou PADRAO do produto    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If !Empty((cAliasTop)->C2_ROTEIRO)
+	cRoteiro:=(cAliasTop)->C2_ROTEIRO
+Else
+	If !Empty(SB1->B1_OPERPAD)
+		cRoteiro:=SB1->B1_OPERPAD
+	Else
+		dbSelectArea("SG2")
+		If dbSeek(xFilial()+(cAliasTop)->C2_PRODUTO+"01")
+			cRoteiro:="01"
+		EndIf
+	EndIf
+EndIf
+
+dbSelectArea("SB2")
+dbSeek(xFilial()+SB1->B1_COD+SD4->D4_LOCAL)
+dbSelectArea("SD4")
+AADD(aArray, {SB1->B1_COD,cDesc,SB1->B1_TIPO,SB1->B1_UM,nQuantItem,D4_LOCAL,D4_TRT,cRoteiro,D4_QTDEORI,D4_DATA,SB1->B1_DESCSMC } )
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³ Fun‡…o   ³ MontStruc³ Autor ³ Ary Medeiros          ³ Data ³ 19/10/93 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Descri‡…o³ Monta um array com a estrutura do produto                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Sintaxe  ³ MontStruc(ExpC1,ExpN1,ExpN2)                               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ ExpC1 = Codigo do produto a ser explodido                  ³±±
+±±³          ³ ExpN1 = Quantidade base a ser explodida                    ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATR820                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+Static Function MontStruc(cOp,nQuant)
+
+dbSelectArea("SD4")
+dbSetOrder(2)
+dbSeek(xFilial()+cOp)
+
+While !Eof() .And. D4_FILIAL+D4_OP == xFilial()+cOp
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Posiciona no produto desejado                           ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	dbSelectArea("SB1")
+	If dbSeek(xFilial()+SD4->D4_COD)
+		If SD4->D4_QUANT > 0 .Or. (lItemNeg .And. SD4->D4_QUANT < 0)
+			AddAr820(SD4->D4_QUANT)
+		EndIf
+	Endif
+	dbSelectArea("SD4")
+	dbSkip()
+Enddo
+
+dbSetOrder(1)
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Funcao    ³AjustaSX1 ³ Autor ³ Ricardo Berti         ³ Data ³21/02/2008³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³Cria pergunta para o grupo			                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATR820                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+Static Function AjustaSX1()
+
+Local aHelpPor := {	'Opcao para a impressao do produto com  ','rastreabilidade por Lote ou Sub-Lote.  '}
+Local aHelpEng := {	'Option to print the product with       ','trackability by Lot or Sub-lot.        '}
+Local aHelpSpa := {	'Opcion para la impresion del producto  ','con trazabilidad por Lote o Sublote.   '}
+
+PutSx1("MTR820","12","Imprime Lote/S.Lote ?","¿Imprime Lote/Subl. ?","Print Lot/Sublot ?",;
+"mv_chc","N",1,0,2,"C","","","","","mv_par12","Sim","Si","Yes","" ,"Nao","No","No","","","","","","","","","",;
+aHelpPor,aHelpEng,aHelpSpa) 
+
+Return

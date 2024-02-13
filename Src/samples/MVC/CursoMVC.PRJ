@@ -1,0 +1,71 @@
+Group Curso MVC
+   Version=7.0
+   VSSDB=
+   HasProperties=1
+   Properties
+      BeforeApply=
+      AfterApply=
+      Icon=
+      ID=
+      Version=
+      PalmName=
+      OutPut=
+   End
+   ProjectsCount=1
+   Project Fontes
+      FoldersCount=2
+      Folder Curso
+         VSSPath=Nova Pasta1
+         FilesCount=11
+         File \VER912\MVC\MULTIMBRW.PRW
+             Type=T
+         End
+         File \VER912\MVC\MVCModelTest.prw
+             Type=T
+         End
+         File \VER912\MVC\UPDCURSO.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP011_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP012_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP021_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP022_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP023_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP031_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMP032_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\COMPPONTOS.prw
+             Type=T
+         End
+      End
+      Folder Outros
+         VSSPath=Nova Pasta2
+         FilesCount=4
+         File \VER912\MVC\MATA030_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\MATA040_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\MATA110_MVC.prw
+             Type=T
+         End
+         File \VER912\MVC\MATA415_MVC.prx
+             Type=T
+         End
+      End
+   End
+End

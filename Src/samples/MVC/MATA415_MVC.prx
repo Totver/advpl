@@ -1,0 +1,336 @@
+#INCLUDE "FWMVCDEF.CH"
+#INCLUDE "FWMBROWSE.CH"
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} MATA415_MVC
+Orçamento de Vendas
+
+@author Eduardo Souza
+@since 02/03/2009
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Function MATA415_MVC()
+Local oMBrowse
+
+DEFINE FWMBROWSE oMBrowse ALIAS "SCJ"
+	//-------------------------------------------------------------------
+	// Adiciona legendas no Browse
+	//-------------------------------------------------------------------
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="A"' COLOR "GREEN"  TITLE "Orcamento em Aberto"  OF oMBrowse
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="B"' COLOR "RED"    TITLE "Orcamento Baixado"    OF oMBrowse
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="C"' COLOR "BLACK"  TITLE "Orcamento Cancelado"  OF oMBrowse
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="D"' COLOR "YELLOW" TITLE "Orcamento não Orcado" OF oMBrowse
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="E"' COLOR "BLUE"   TITLE "Orcamento aprovado"   OF oMBrowse
+	ADD LEGEND DATA 'SCJ->CJ_STATUS=="F"' COLOR "BROW"   TITLE "Orcamento bloqueado"  OF oMBrowse
+ACTIVATE  FWMBROWSE oMBrowse
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} MenuDef
+Menu Funcional
+
+@return aRotina - Estrutura
+			[n,1] Nome a aparecer no cabecalho
+			[n,2] Nome da Rotina associada
+			[n,3] Reservado
+			[n,4] Tipo de Transação a ser efetuada:
+				1 - Pesquisa e Posiciona em um Banco de Dados
+				2 - Simplesmente Mostra os Campos
+				3 - Inclui registros no Bancos de Dados
+				4 - Altera o registro corrente
+				5 - Remove o registro corrente do Banco de Dados
+				6 - Alteração sem inclusão de registros
+				7 - Cópia
+			[n,5] Nivel de acesso
+			[n,6] Habilita Menu Funcional
+
+@author Eduardo Souza
+@since 02/03/2009
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function MenuDef()
+Local aRotina := {}
+
+ADD OPTION aRotina TITLE "Pesquisar"  ACTION "PesqBrw"            OPERATION 1 ACCESS 0 DISABLE MENU
+ADD OPTION aRotina TITLE "Visualizar" ACTION "VIEWDEF.MATA415_MVC" OPERATION 2 ACCESS 0
+ADD OPTION aRotina TITLE "Incluir"    ACTION "VIEWDEF.MATA415_MVC" OPERATION 3 ACCESS 0
+ADD OPTION aRotina TITLE "Alterar"    ACTION "VIEWDEF.MATA415_MVC" OPERATION 4 ACCESS 143
+ADD OPTION aRotina TITLE "Excluir"    ACTION "VIEWDEF.MATA415_MVC" OPERATION 5 ACCESS 144
+ADD OPTION aRotina TITLE "Imprimir"   ACTION "VIEWDEF.MATA415_MVC" OPERATION 8 ACCESS 0
+
+Return aRotina
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} ViewDef
+Visualizador de dados da Solicitação de Compras
+
+@author Eduardo Souza
+@since 02/03/2009
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function ViewDef()
+Local oModel     := FWLoadModel("MATA415_MVC")
+Local oStructSCJ
+Local oStructSCK
+Local oStructSCL
+Local oView
+//-------------------------------------------------------------------
+// Estrutura do orçamento
+//-------------------------------------------------------------------
+oStructSCJ := FWFormStruct(2,"SCJ")
+
+oView := FWFormView():New()
+oView:SetUseCursor(.F.)
+oView:SetModel(oModel)
+oView:AddField("FATA415_SCJ",oStructSCJ)   
+oView:CreateHorizontalBox("CABEC",27)
+oView:SetOwnerView("FATA415_SCJ","CABEC")
+oView:EnableControlBar(.T.)
+
+//-------------------------------------------------------------------
+// Estrutura dos items do orçamento
+//-------------------------------------------------------------------
+oStructSCK := FWFormStruct(2,"SCK")
+oView:AddGrid("FATA415_SCK",oStructSCK)
+oView:AddIncrementField("FATA415_SCK","CK_ITEM")
+oView:CreateHorizontalBox("GRID1",53)
+oView:SetOwnerView("FATA415_SCK","GRID1")
+//-------------------------------------------------------------------
+// Estrutura dos sub-items do orçamento
+//-------------------------------------------------------------------
+oStructSCL := oStructSCK := FWFormStruct(2,"SCL")
+oView:AddGrid("FATA415_SCL",oStructSCL)
+oView:AddIncrementField("FATA415_SCL","CL_ITEM")
+oView:CreateHorizontalBox("GRID2",20)
+oView:SetOwnerView("FATA415_SCL","GRID2")
+
+Return oView
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} ModelDef
+Regras de negócios do Orçamento de Vendas
+
+@author Eduardo Riera
+@since 02/03/2009
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function ModelDef()
+
+Local oStructSCJ := Nil
+Local oStructSCK := Nil
+Local oStructSCL := Nil
+Local oModel     := Nil
+Local aStructSCJ := {}
+Local aStructSCK := {}
+Local aStructSCL := {}
+Local nX         := 0
+//-----------------------------------------
+//Le o dicionário de dados
+//-----------------------------------------
+aStructSCJ := FWFormStruct(3,"SCJ")
+aStructSCK := FWFormStruct(3,"SCK")
+aStructSCK[1][02][7] := {|A,B,C,D| FWINITCPO(A,B,C), LRETORNO := A093PROD().AND.EXISTCPO("SB1") .AND. A415PROD() ,FWCLOSECPO(A,B,C,LRETORNO),LRETORNO  }
+aStructSCK[2][01][4] := {|OFW| FWINITTRG(OFW,'CK_PRODUTO','CK_PRUNIT'),XRETORNO := (0),FWCLOSETRG(OFW,'CK_PRODUTO','CK_PRUNIT',XRETORNO) }
+aStructSCK[2][06][4] := {|OFW| FWINITTRG(OFW,'CK_PRODUTO','CK_DESCONT'),XRETORNO := (0),FWCLOSETRG(OFW,'CK_PRODUTO','CK_DESCONT',XRETORNO) }
+aStructSCK[2][08][4] := {|OFW| FWINITTRG(OFW,'CK_PRODUTO','CK_DESCONT'),XRETORNO := (0),FWCLOSETRG(OFW,'CK_PRODUTO','CK_DESCONT',XRETORNO) }
+aStructSCK[2][13][4] := {|OFW| FWINITTRG(OFW,'CK_PRODUTO','CK_DESCONT'),XRETORNO := (0),FWCLOSETRG(OFW,'CK_PRODUTO','CK_DESCONT',XRETORNO) }
+aStructSCL := FWFormStruct(3,"SCL")
+//-----------------------------------------
+//Monta a estrutura do formulário com base no dicionário de dados
+//-----------------------------------------
+oStructSCJ := FWFormModelStruct():New()
+oStructSCK := FWFormModelStruct():New()
+oStructSCL := FWFormModelStruct():New()
+oStructSCJ:LoadFields(aStructSCJ[FORM_STRUCT_TABLE_MODEL]/*campos*/,aStructSCJ[FORM_STRUCT_TABLE_TRIGGER]/*Gatilhos*/)
+oStructSCK:LoadFields(aStructSCK[FORM_STRUCT_TABLE_MODEL]/*campos*/,aStructSCK[FORM_STRUCT_TABLE_TRIGGER]/*Gatilhos*/)
+oStructSCL:LoadFields(aStructSCL[FORM_STRUCT_TABLE_MODEL]/*campos*/,aStructSCL[FORM_STRUCT_TABLE_TRIGGER]/*Gatilhos*/)
+//-----------------------------------------
+//Monta o modelo do formulário
+//-----------------------------------------
+oModel:= MPFormModel():New("FATA415",/*Pre-Validacao*/,/*Pos-Validacao*/,/*Commit*/,/*Cancel*/) 
+oModel:AddFields("FATA415_SCJ", Nil/*cOwner*/, oStructSCJ ,/*Pre-Validacao*/,/*Pos-Validacao*/,/*Carga*/)
+oModel:GetModel("FATA415_SCJ"):SetDescription("Orçamento")
+oModel:AddGrid("FATA415_SCK", "FATA415_SCJ"/*cOwner*/, oStructSCK ,/*bLinePre*/,{|x| Ft415Lok(x)}/*bLinePost*/,/*bPre*/,{|x| Ft415Tok(x)}/*bPost*/,/*bLoad*/)
+oModel:GetModel("FATA415_SCK"):SetDescription("Itens")
+oModel:AddGrid("FATA415_SCL", "FATA415_SCK"/*cOwner*/, oStructSCL ,/*bLinePre*/,{|| Ft415Lok2(x)}/*bLinePost*/,/*bPre*/,{|x| Ft415Tok2(x)}/*bPost*/,/*bLoad*/)
+//oModel:AddFields("FATA415_SCL", "FATA415_SCK"/*cOwner*/, oStructSCL ,/*Pre-Validacao*/,/*Pos-Validacao*/,/*Carga*/)
+oModel:GetModel("FATA415_SCL"):SetDescription("Sub-Itens")
+oModel:SetPrimaryKey({"CJ_NUM"})
+oModel:SetRelation("FATA415_SCK",{{"CK_FILIAL",'xFilial("SCK")'},{"CK_NUM","CJ_NUM"}},"CK_FILIAL+CK_NUM+CK_ITEM")
+oModel:SetRelation("FATA415_SCL",{{"CL_FILIAL",'xFilial("SCL")'},{"CL_NUM","SCJ->CJ_NUM"},{"CL_ITEMORC","CK_ITEM"}},"CL_FILIAL+CL_NUM+CL_ITEMORC")
+oModel:SetDescription("Orçamento de Vendas")
+
+oModel:AddRules("FATA415_SCJ","CJ_LOJA"   ,"FATA415_SCJ","CJ_CLIENTE")
+oModel:AddRules("FATA415_SCJ","CJ_NOMCLI" ,"FATA415_SCJ","CJ_CLIENTE",1)
+oModel:AddRules("FATA415_SCJ","CJ_NOMCLI" ,"FATA415_SCJ","CJ_LOJA",1)
+oModel:AddRules("FATA415_SCJ","CJ_COTCLI" ,"FATA415_SCJ","CJ_TIPO")
+oModel:AddRules("FATA415_SCJ","CJ_CONDPAG","FATA415_SCJ","CJ_EMISSAO",1)
+oModel:AddRules("FATA415_SCJ","CJ_TABELA" ,"FATA415_SCJ","CJ_EMISSAO",1)
+oModel:AddRules("FATA415_SCJ","CJ_TABELA" ,"FATA415_SCJ","CJ_CONDPAG",1)
+oModel:AddRules("FATA415_SCJ","CJ_LOJAENT","FATA415_SCJ","CJ_CLIENT")
+
+oModel:AddRules("FATA415_SCK","CK_PRODUTO","FATA415_SCJ","CJ_CLIENTE",1)
+oModel:AddRules("FATA415_SCK","CK_PRODUTO","FATA415_SCJ","CJ_LOJA",1)
+oModel:AddRules("FATA415_SCK","CK_FILENT" ,"FATA415_SCJ","CJ_FILENT",1)
+oModel:AddRules("FATA415_SCK","CK_FILVEN" ,"FATA415_SCJ","CJ_FILVEN",1)
+
+Return(oModel)
+
+Static Function Ft415Lok()
+Return(.T.)
+
+Static Function Ft415Lok2()
+Return(.T.)
+
+Static Function Ft415Tok()
+Return(.T.)
+
+Static Function Ft415Tok2()
+Return(.T.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+User Function MVCFT415()
+
+Local oModel
+Local oReport
+Local nX
+Local nY
+
+SET DELE ON
+
+If Select("SM0")==0
+	RpcSetEnv("99","01")
+EndIf
+dbSelectArea("SCJ")
+dbSetOrder(1)
+MsSeek(xFilial("SCJ"),.T.)
+dbSelectArea("SCK")
+dbSelectArea("SCL")
+SetCompP10(.T.)
+oModel := ModelDef()
+SCJ->(MsSeek(xFilial("SCJ"),.T.))
+If !SCJ->(Eof())
+	oModel:Activate()
+	ConOut("Teste de XML")
+	memowrit("MVCFT415.xml",oModel:GetXMLData())
+	oModel:DeActivate()	
+//	conout(memoread("MVCFT415.xml"))
+	If oModel:LoadXMLData(memoread("MVCFT415.xml"))
+		Alert("Fim do teste XML - Ok")
+	Else
+		Alert("Fim do teste XML - Erro")
+	EndIf
+	oModel:DeActivate()	
+EndIf	
+
+SCJ->(MsSeek(xFilial("SCJ"),.T.))
+If !SCJ->(Eof())
+	oModel:Activate()
+	ConOut("Teste de impressao")
+	oReport := oModel:ReportDef()
+	oReport:PrintDialog()
+	Alert("Fim da impressao")
+	oModel:DeActivate()	
+EndIf	
+SCJ->(MsSeek(xFilial("SCJ"),.T.))
+If !SCJ->(Eof())
+	ConOut("Teste de exclusão")
+	ConOut("Time Ini:"+Time())
+	oModel:SetOperation(MODEL_OPERATION_DELETE)
+	oModel:Activate()
+	ConOut("Time Commit:"+Time())
+	oModel:CommitData()
+	oModel:DeActivate()
+
+
+	SCJ->(MsSeek(xFilial("SCJ"),.T.))
+                   
+	If !SCJ->(Eof())
+		ConOut("Alteracao")
+		ConOut("Time Ini:"+Time())
+		SetCompP10(.T.)
+		oModel:SetOperation(MODEL_OPERATION_UPDATE)
+		oModel:Activate()
+		memowrit("MVCFT415.xml",oModel:GetXMLData())
+		oModel:SetValue("FATA415_SCJ","CJ_CONDPAG","002")
+		ConOut("Time Vld:"+Time())
+		If oModel:VldData()
+			ConOut("Time Commit:"+Time())
+			oModel:CommitData()
+		Else
+			VarInfo("",oModel:GetErrorMessage())
+		EndIf
+	EndIf
+EndIf
+ConOut("Inclusão")
+SetCompP10(.T.)
+oModel:DeActivate()
+oModel:SetOperation(MODEL_OPERATION_INSERT)
+oModel:Activate()
+oModel:SetValue("FATA415_SCJ","CJ_CLIENTE",'000001')
+oModel:SetValue("FATA415_SCJ","CJ_LOJA","01")
+oModel:SetValue("FATA415_SCJ","CJ_CLIENT","000001")
+oModel:SetValue("FATA415_SCJ","CJ_LOJAENT","01")
+oModel:SetValue("FATA415_SCJ","CJ_CONDPAG","001")
+For nX := 1 To 10
+	oModel:SetValue("FATA415_SCK","CK_ITEM",StrZero(nX,2))
+	oModel:SetValue("FATA415_SCK","CK_PRODUTO","PA001")
+	oModel:SetValue("FATA415_SCK","CK_QTDVEN",10)
+	oModel:SetValue("FATA415_SCK","CK_PRCVEN",10)
+	oModel:SetValue("FATA415_SCK","CK_VALOR",100)	
+	oModel:SetValue("FATA415_SCK","CK_TES","502")	
+	If Mod(nX,2)==0
+		For nY := 1 To 10
+			oModel:SetValue("FATA415_SCL","CL_ITEM",StrZero(nY,2))
+			oModel:SetValue("FATA415_SCL","CL_PRODUTO","PA002")
+			oModel:SetValue("FATA415_SCL","CL_QUANT",1)
+			If nY <> 10
+				oModel:GetModel("FATA415_SCL"):AddLine()
+			EndIf
+		Next nY
+	EndIf
+	If nX == 1
+		oAux := oModel:GetModel("FATA415_SCK")
+	EndIf
+	If nX <> 10
+		oAux:AddLine()
+	EndIf
+Next nX
+ConOut("Time Vld:"+Time())
+If oModel:VldData()
+	ConOut("Time Commit:"+Time())
+	oModel:CommitData()
+Else
+	VarInfo("",oModel:GetErrorMessage())
+EndIf
+oModel:DeActivate()
+oModel:Activate()
+SetCompP10(.F.)
+ConOut("Time Fim:"+Time())
+Return

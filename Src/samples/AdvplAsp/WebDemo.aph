@@ -1,0 +1,53 @@
+<html>
+
+<head>
+<title>Página de Teste</title>
+
+</head>
+
+<body>
+
+<h1><b>Página de Teste</b></h1>
+<hr>
+<p>Esta é uma página de teste de ADVPL ASP. Abaixo, deve aparecer uma tabela
+com o cadastro de clientes:</p>
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+
+<% Local cCod,cName %>
+	
+<%	
+	Private Luiz := 20
+	Public x,y,z
+	RPCSetEnv("01","01","","","TESTE",{"SA1"})
+	dbSelectArea("SA1")
+	dbGoTop()
+	
+	%>
+	
+	<TH>Código</TH>
+	<TH>Nome</TH>
+	
+	<%While !EOF() %>
+	
+		<%cCod  := SA1->A1_COD%>
+		<%cName := SA1->A1_NOME%>
+		
+		
+		<TR>
+		
+		<TD><%=cCod%></TD>
+		<TD><%=cName%></TD>
+		
+		</TR>
+		
+		<%
+	
+		dbSkip()
+	EndDo
+
+%>
+</table>
+
+</body>
+
+</html>

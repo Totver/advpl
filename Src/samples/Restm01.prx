@@ -1,0 +1,285 @@
+#include "rwmake.ch"        
+
+User Function RESTM01()        
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+
+
+
+
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("CPERG,ACRA,CSAVSCR1,CSAVCUR1,CSAVROW1,CSAVCOL1")
+SetPrvt("CSAVCOR1,CSAVEMENUH,NOPCA,_CNOMEARQ,_NATUALI,_ACAMPOS")
+SetPrvt("_CNOMTRB,_CINDEXTRB,_CCHAVETRB,_AAMBIENTE,")
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Programa  ³ RESTM01  ³ Autor ³ Expedito Mendonca Jr. ³ Data ³05/01/2000³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Rotina de geracao de arquivo texto de notas fiscais de     ³±±
+±±³          ³ entrada para integracao com o sistema MDC Estoque          ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ Especifico para o cliente Credicard Hall                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+SalvaAmbiente()
+cPerg    := "ESTM01"
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros:                                               ³
+//³ mv_par01                            // Da data de digitacao?                        ³
+//³ mv_par02                            // Ate a data de digitacao?                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+#IFNDEF WINDOWS
+
+	aCRA := { "Confirma","Parametros","Abandona" }
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Salva a Integridade dos dados de Entrada.                    ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	cSavScr1 := SaveScreen(3,0,24,79)
+	cSavCur1 := SetCursor(0)
+	cSavRow1 := ROW()
+	cSavCol1 := COL()
+	cSavCor1 := SetColor("bg+/b,,,")
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Monta Tela Padrao Advanced.                                  ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	DispBegin()
+	ScreenDraw("SMT250", 3, 0, 0, 0)
+	@ 03,01 Say " Integracao Siga Advanced - MDC - Notas Fiscais de Entrada" Color "b/w"
+	SetColor("b/bg")
+        @ 10,09 Say "Esta rotina ira' gerar um arquivo texto com os dados das"
+        @ 11,09 Say "notas fiscais de entrada de mercadoria para integracao  "
+	@ 12,09 Say "com o sistema MDC Estoque."
+	SetColor("n/w,,,")
+	@ 17,05 SAY Space(71)
+	DispEnd()
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Monta MenuH() p/ Confirma Redigita Abandona                  ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	While .T.
+		Pergunte(cPerg,.T.)     // Pergunta no SX1
+		cSaveMenuh := SaveScreen(17,00,17,79)
+		SetColor(cSavCor1)
+		nOpcA:=menuh(aCRA,17,05,"b/w,w+/n,r/w","CPA","",1)
+		RestScreen(17,00,17,79,cSaveMenuh)
+		If nOpcA == 3 .or. Lastkey() == 27
+			RestScreen(3,0,24,79,cSavScr1)
+			RestAmbiente()
+			Return
+		Elseif nOpcA == 1
+			Exit
+		Endif
+	End
+	GeraArquivo()
+#ELSE
+
+	Pergunte(cPerg)
+	@ 96,42 TO 323,505 DIALOG oDlg5 TITLE "Integracao Siga Advanced - MDC - Notas Fiscais de Entrada"
+	@ 8,10 TO 84,222
+	@ 91,139 BMPBUTTON TYPE 5 ACTION Pergunte(cPerg)
+	@ 91,168 BMPBUTTON TYPE 1 ACTION OkProc()
+	@ 91,196 BMPBUTTON TYPE 2 ACTION Close(oDlg5)
+//  @ 23,14 SAY OEMTOANSI("Esta rotina ira' gerar um arquivo texto com os dados das notas fiscais")
+//  @ 33,14 SAY OEMTOANSI("de entrada de mercadoria para integracao com o sistema MDC Estoque.")
+	//@ 33,14 SAY "   -Processa()  - Dispara Dialogo de Processamento"
+	//@ 43,14 SAY "   -ProcRegua() - Ajusta tamanho da regua"
+	//@ 53,14 SAY "   -IncProc() - Incrementa posicao da regua"
+	ACTIVATE DIALOG oDlg5
+	Return
+
+
+Static Function OkProc()
+	Close(oDlg5)
+	Processa( {|| GeraArquivo() } )
+
+#ENDIF
+RestAmbiente()
+Return .T.
+
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ GeraArqu ³ Autor ³ Expedito Mendonca Jr. ³ Data ³05/01/2000³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Processa os dados das notas fiscais de entrada e gera o    ³±±
+±±³                      ³ arquivo texto para integracao com o sistema MDC Estoque    ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ RESTM01                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+Static Function GeraArquivo()
+_cNomeArq:=GETMV("MV_PATHMDC")+"SIGA_MDC.ENT"
+If File(_cNomeArq)
+	#IFDEF WINDOWS
+		MsgBox ("Arquivo "+_cNomeArq+" ja existe. Nao e possivel executar esta rotina duas vezes consecutivas sem antes "+;
+		  "processar a rotina de importacao pelo sistema MDC Estoque","Atencao","STOP")
+	#ELSE
+		Alert ("Arquivo "+_cNomeArq+" ja existe. Nao e possivel executar esta rotina duas vezes consecutivas sem antes "+;
+		  "processar a rotina de importacao pelo sistema MDC Estoque")
+    #ENDIF
+	Return
+Endif
+
+_natuali:= 0 //quantidade de registros gerados
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cria arquivo de trabalho.                                                            ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+_aCampos:={     { "TRB_DTDIGIT" ,"C",10,0 },;
+			{ "TRB_DOC"             ,"C",13,0 },;
+			{ "TRB_FORNEC"  ,"C",03,0 },;
+			{ "TRB_EMPRESA" ,"C",02,0 },;
+			{ "TRB_LOCAL"   ,"C",02,0 },;
+			{ "TRB_COD"             ,"C",13,0 },;
+			{ "TRB_DESC"    ,"C",30,0 },;
+			{ "TRB_HORA"    ,"C",08,0 },;
+			{ "TRB_QUANT"   ,"C",09,0 },;
+			{ "TRB_VENC"    ,"C",10,0 },;
+			{ "TRB_VUNIT"   ,"C",08,0 },;
+			{ "TRB_TOTAL"   ,"C",08,0 }     }
+
+_cNomTRB  := CriaTrab(_aCampos)
+dbSelectArea(0)
+dbUseArea( .T.,,_cNomTRB,"TRB",.F. )
+dbSelectArea("TRB")
+Zap
+
+// Indexa arquivo vazio com a chave selecionada pela empresa MDC
+_cIndexTRB := CriaTrab(nil,.f.)
+_cChaveTRB := "DTOS(CTOD(TRB_DTDIGIT))+TRB_DOC"
+IndRegua("TRB",_cIndexTRB,_cChaveTRB,,,"Selecionando Registros...")
+#IFNDEF TOP
+	dbSetIndex(_cIndexTRB+OrdBagExt())
+#ENDIF
+dbSetOrder(1)
+
+dbSelectArea("SD1")
+dbSetOrder(6) // Filial+Data da digitacao+Numero sequencial da movimentacao
+dbSeek(xFilial("SD1")+dtos(mv_par01),.T.)
+
+SetRegua(reccount())
+Set Century On
+Do While D1_Filial==xFilial("SD1") .and. D1_DTDIGIT <= mv_par02 .and. !Eof()
+
+	IncRegua()                                   // Regua de Processamento
+
+	dbSelectArea("SF1") //Cabecalho de NF entrada
+	dbSetOrder(1)
+	dbSeek(xFilial("SF1")+SD1->D1_DOC+SD1->D1_SERIE+SD1->D1_FORNECE+SD1->D1_LOJA,.F.)
+	If !Found();Alert("Registro "+ str(sd1->(recno())) + " do arquivo sd1 (item da notas de entrada) Sem cabecalho");End
+
+    dbSelectArea("SB1") //Cadastro de produtos
+    dbSetOrder(1)
+    dbSeek(xFilial("SB1")+SD1->D1_COD)
+	If !Found();Alert("Registro "+ str(sd1->(recno())) + " do arquivo sd1 (item da notas de entrada) com produto nao cadastrado "+SD1->D1_COD);End
+
+	// verifica se este item ja foi processado ou se a nota fiscal eh diferente de "N"ormal
+	// ou o produto integra ou nao com o sistema MDC
+    dbSelectArea("SD1")
+    If SD1->D1_FLAGMDC .or. SF1->F1_TIPO <> "N" .or. SB1->B1_MDC<>"S"
+       dbSkip()
+       loop
+    Endif
+
+	dbSelectArea("TRB")
+    Reclock("TRB",.T.)
+    TRB->TRB_DTDIGIT    :=dtoc(SD1->D1_DTDIGIT)                 // data de digitacao
+	TRB->TRB_DOC            :=SD1->D1_DOC                                   // numero da nota fiscal
+	TRB->TRB_FORNEC         :="001"                                                 // codigo do fornecedor fixo conforme solicitacao do cliente
+
+    dbSelectArea("SX5")
+    dbSeek(xFilial("SX5")+"ZZ"+cEmpAnt+"/"+cFilAnt)     // localiza tabela de correspondencia entre as empresas
+	If !Found();Alert("Tabela ZZ Nao encontrada");End
+	dbSelectArea("TRB")
+	TRB->TRB_EMPRESA        :=left(SX5->X5_DESCRI,2)                // empresa
+
+	TRB->TRB_LOCAL          :=strzero(val(SD1->D1_LOCAL),2) // local (almoxarifado)
+	TRB->TRB_COD            :=left(SD1->D1_COD,13)                  // codigo do produto
+	TRB->TRB_DESC           :=left(SB1->B1_DESC,30)                 // descricao do produto
+	TRB->TRB_HORA           :=SD1->D1_HORADIG                               // hora da digitacao
+	TRB->TRB_QUANT          :=strtran(strzero(SD1->D1_QUANT,10,3),".","")   //quantidade do produto
+	TRB->TRB_VENC           :=dtoc(SD1->D1_DTDIGIT)                                                 //vencimento (data da digitacao conforme solicitacao do Sr. Barbosa da MDC)
+	TRB->TRB_VUNIT          :=strtran(strzero(SD1->D1_CUSTO/SD1->D1_QUANT,9,2),".","")    //valor unitario
+	TRB->TRB_TOTAL          :=strtran(strzero(SD1->D1_CUSTO,9,2),".","")    //valor total
+    MsUnlock()
+
+	_natuali := _natuali + 1                     // Contador de registros gerados
+
+	#IFDEF WINDOWS
+    #ELSE
+		DrawAdvWin("EXPORTANDO NOTAS DE ENTRADA",08,08,12,74)
+		@ 10,10 SAY "REGISTROS GERADOS ->"+AllTrim(Str(_natuali)) Color "b/bg"
+    #ENDIF
+
+    dbSelectArea("SD1")
+    reclock("SD1",.f.)
+    SD1->D1_FLAGMDC:=.T.
+    msunlock()
+
+	dbSkip()
+EndDo
+
+// gera o arquivo texto
+dbSelectArea("TRB")
+dbGoTop()
+copy to &_cNomeArq SDF
+
+dbCloseArea("TRB")
+ferase(_cNomTRB+".DBF")
+ferase(_cIndexTRB+OrdBagExt())
+
+Set Century Off
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ SalvaAmb ³ Autor ³ Expedito Mendonca Jr. ³ Data ³ 29/12/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Salva o ambiente atual                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ Generico                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+Static Function SalvaAmbiente()
+_aAmbiente:={Alias(),indexord(),recno()}
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ RestAmb  ³ Autor ³ Expedito Mendonca Jr. ³ Data ³ 29/12/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Restaura o ambiente salvo                                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ Generico                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+
+Static Function RestAmbiente()
+dbSelectArea(_aAmbiente[1])
+dbSetOrder(_aAmbiente[2])
+dbGoto(_aAmbiente[3])
+Return

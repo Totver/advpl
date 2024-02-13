@@ -1,0 +1,780 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFilter.PRW</font><a name="FWFilter"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFilter</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto que permite a inclusão, exclusão e execução de filtros nas rotinas&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFilter:Activate">FWFilter:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWFilter:ClassName">FWFilter:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWFILTER)&nbsp;<br><br>
+<a href="#FWFilter:CleanFilter">FWFilter:CleanFilter</a></br>
+&nbsp;&nbsp;&nbsp;Executa a limpeza de todos filtros adicionados pelo usuário&nbsp;<br><br>
+<a href="#FWFilter:DeActivate">FWFilter:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método destrutor da classe&nbsp;<br><br>
+<a href="#FWFilter:DisableAdd">FWFilter:DisableAdd</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a inclusão dos filtros pelo usuário&nbsp;<br><br>
+<a href="#FWFilter:DisableDel">FWFilter:DisableDel</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a exclusão dos filtros pelo usuário&nbsp;<br><br>
+<a href="#FWFilter:DisableExecute">FWFilter:DisableExecute</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a execusão dos filtros pelo usuário&nbsp;<br><br>
+<a href="#FWFilter:DisableSave">FWFilter:DisableSave</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a gravação dos filtros realizados pelo usuário.&nbsp;<br><br>
+<a href="#FWFilter:DisableValid">FWFilter:DisableValid</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a validação da condiçção de filtro informada pelo usuário.&nbsp;<br><br>
+<a href="#FWFilter:EditText">FWFilter:EditText</a></br>
+&nbsp;&nbsp;&nbsp;Permite a edição do texto do filtro&nbsp;<br><br>
+<a href="#FWFilter:ExecuteFilter">FWFilter:ExecuteFilter</a></br>
+&nbsp;&nbsp;&nbsp;Executa o Code-Block, definido no método SetExecute(bFilter), para aplicação dos filtros&nbsp;<br><br>
+<a href="#FWFilter:GetAlign">FWFilter:GetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWFilter:GetButton">FWFilter:GetButton</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;<br><br>
+<a href="#FWFilter:GetFilter">FWFilter:GetFilter</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a lista de filtros realizados&nbsp;<br><br>
+<a href="#FWFilter:GetFilterAdvPL">FWFilter:GetFilterAdvPL</a></br>
+&nbsp;&nbsp;&nbsp;Retorna um filtro da lista no formato AdvPL&nbsp;<br><br>
+<a href="#FWFilter:GetFilterParser">FWFilter:GetFilterParser</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o parser de um filtro da lista&nbsp;<br><br>
+<a href="#FWFilter:GetFilterSql">FWFilter:GetFilterSql</a></br>
+&nbsp;&nbsp;&nbsp;Retorna um filtro da lista no formato AdvPL&nbsp;<br><br>
+<a href="#FWFilter:GetLiteralFilter">FWFilter:GetLiteralFilter</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a descrição de um filtro da lista&nbsp;<br><br>
+<a href="#FWFilter:Hide">FWFilter:Hide</a></br>
+&nbsp;&nbsp;&nbsp;Torna o filtro invisível&nbsp;<br><br>
+<a href="#FWFilter:LoadFilter">FWFilter:LoadFilter</a></br>
+&nbsp;&nbsp;&nbsp;Carrega aos filtros gravados para o usuário&nbsp;<br><br>
+<a href="#FWFilter:New">FWFilter:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFilter:SaveFilter">FWFilter:SaveFilter</a></br>
+&nbsp;&nbsp;&nbsp;Salva os filtros de usuário utilizando a classe FWProfile&nbsp;<br><br>
+<a href="#FWFilter:SetAlign">FWFilter:SetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Indica o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWFilter:SetButton">FWFilter:SetButton</a></br>
+&nbsp;&nbsp;&nbsp;Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;<br><br>
+<a href="#FWFilter:SetCleanFilter">FWFilter:SetCleanFilter</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na ação do botão "Limpar"&nbsp;<br><br>
+<a href="#FWFilter:SetExecute">FWFilter:SetExecute</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na ação do botão "Executar"&nbsp;<br><br>
+<a href="#FWFilter:SetField">FWFilter:SetField</a></br>
+&nbsp;&nbsp;&nbsp;Indica os campos disponíveis para edição dos filtros&nbsp;<br><br>
+<a href="#FWFilter:SetOnStart">FWFilter:SetOnStart</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na criação do componente de filtro&nbsp;<br><br>
+<a href="#FWFilter:SetOwner">FWFilter:SetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Indica o container para criação do filtro&nbsp;<br><br>
+<a href="#FWFilter:SetSqlFilter">FWFilter:SetSqlFilter</a></br>
+&nbsp;&nbsp;&nbsp;Indica que deverá disponibilizar a expressão SQL do filtro&nbsp;<br><br>
+<a href="#FWFilter:Show">FWFilter:Show</a></br>
+&nbsp;&nbsp;&nbsp;Torna o filtro visível&nbsp;<br><br>
+<a href="#FWFilter:Valid">FWFilter:Valid</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se deverá realizar a validação do filtro informado pelo usuário&nbsp;<br><br>
+<a href="#FWFilter:Visible">FWFilter:Visible</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o filtro está visível&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFilter:Activate"></a>FWFilter:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional - Default: ::oOwner]</font><br>Objeto proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:ClassName"></a>FWFilter:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWFILTER)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:CleanFilter"></a>FWFilter:CleanFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa a limpeza de todos filtros adicionados pelo usuário&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DeActivate"></a>FWFilter:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método destrutor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DisableAdd"></a>FWFilter:DisableAdd</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a inclusão dos filtros pelo usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDisable :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que a inclusão dos filtros está indisponível
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DisableDel"></a>FWFilter:DisableDel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a exclusão dos filtros pelo usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDisable :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que a exclusão dos filtros está indisponível
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DisableExecute"></a>FWFilter:DisableExecute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a execusão dos filtros pelo usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lDisable :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que a execução dos filtros está indisponível
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DisableSave"></a>FWFilter:DisableSave</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a gravação dos filtros realizados pelo usuário.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:DisableValid"></a>FWFilter:DisableValid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a validação da condiçção de filtro informada pelo usuário.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/06/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:EditText"></a>FWFilter:EditText</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite a edição do texto do filtro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nPosFilter :<td><br>Tipo: NUMERIC<br>Indica a posição do item no array aFilter
+<tr valign=top><td Width=20><td Width=100><br>oCheck :<td><br>Tipo: OBJECT<br>Objeto TCheckbox utilizado para atualizar a descrição
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>30/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:ExecuteFilter"></a>FWFilter:ExecuteFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa o Code-Block, definido no método SetExecute(bFilter), para aplicação dos filtros&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetAlign"></a>FWFilter:GetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o alinhamento do componente na janela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC<br>Alinhamento do componente na janela
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetButton"></a>FWFilter:GetButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Indica :<td><br>Tipo: NUMERIC<br>se exibe o objeto através de um botão
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetFilter"></a>FWFilter:GetFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a lista de filtros realizados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aReturn :<td><br>Tipo: ARRAY<br>Lista de filtros
+<tr><td Width=20><td Width=20><td>[n,1] Expressão literal
+<tr><td Width=20><td Width=20><td>[n,2] Expressão no formato AdvPL
+<tr><td Width=20><td Width=20><td>[n,3] Expressão no formato SQL
+<tr><td Width=20><td Width=20><td>[n,4] Parser do filtro
+<tr><td Width=20><td Width=20><td>[n,4,n,1] String contendo o campo, operador ou expressão do filtro
+<tr><td Width=20><td Width=20><td>[n,4,n,2] Indica o tipo do parser (FIELD=Campo,OPERATOR=Operador e EXPRESSION=Expressão)
+<tr><td Width=20><td Width=20><td>[n,5] Marcado/Desmarcado
+<tr><td Width=20><td Width=20><td>[n,6] Indica que não poderá retirar a marca
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetFilterAdvPL"></a>FWFilter:GetFilterAdvPL</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna um filtro da lista no formato AdvPL&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nFilter :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 1]</font><br>Indica a posição do filtro na lista
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cReturn :<td><br>Tipo: CHARACTER<br>Expressão do filtro no formato AdvPL
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetFilterParser"></a>FWFilter:GetFilterParser</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o parser de um filtro da lista&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nFilter :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 1]</font><br>Indica a posição do filtro na lista
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aReturn :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n,1] String contendo o campo, operador ou expressão do filtro
+<tr><td Width=20><td Width=20><td>[n,2] Indica o tipo do parser (FIELD=Campo,OPERATOR=Operador e EXPRESSION=Expressão)
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetFilterSql"></a>FWFilter:GetFilterSql</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna um filtro da lista no formato AdvPL&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nFilter :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 1]</font><br>Indica a posição do filtro na lista
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cReturn :<td><br>Tipo: CHARACTER<br>Expressão do filtro no formato AdvPL
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:GetLiteralFilter"></a>FWFilter:GetLiteralFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a descrição de um filtro da lista&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nFilter :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 1]</font><br>Indica a posição do filtro na lista
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cReturn :<td><br>Tipo: CHARACTER<br>Descrição do filtro
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:Hide"></a>FWFilter:Hide</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o filtro invisível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:LoadFilter"></a>FWFilter:LoadFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega aos filtros gravados para o usuário&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:New"></a>FWFilter:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto proprietário
+<tr valign=top><td Width=20><td Width=100><br>bCanUse :<td><br>Tipo: BLOCK - <font color=blue>[Optional - Default: {|| .T.}]</font><br> Code-Block de habilitacao de uso
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto FWFilter
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SaveFilter"></a>FWFilter:SaveFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salva os filtros de usuário utilizando a classe FWProfile&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetAlign"></a>FWFilter:SetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o alinhamento do componente na janela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: CONTROL_ALIGN_TOP]</font><br>Alinhamento do componente na janela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetButton"></a>FWFilter:SetButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetCleanFilter"></a>FWFilter:SetCleanFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na ação do botão "Limpar"&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bCleanFilter :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Limpar"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetExecute"></a>FWFilter:SetExecute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na ação do botão "Executar"&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bFilter :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Executar"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetField"></a>FWFilter:SetField</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica os campos disponíveis para edição dos filtros&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n][01] Campo
+<tr><td Width=20><td Width=20><td>[n][02] Título
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dado
+<tr><td Width=20><td Width=20><td>[n][04] Tamanho
+<tr><td Width=20><td Width=20><td>[n][05] Decimal
+<tr><td Width=20><td Width=20><td>[n][06] Picture
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetOnStart"></a>FWFilter:SetOnStart</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na criação do componente de filtro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bOnStart :<td><br>Tipo: BLOCK<br>Code-Block executado na criação do componente de filtro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetOwner"></a>FWFilter:SetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o container para criação do filtro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:SetSqlFilter"></a>FWFilter:SetSqlFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que deverá disponibilizar a expressão SQL do filtro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSqlFilter :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que deverá disponibilizar a expressão SQL do filtro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:Show"></a>FWFilter:Show</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o filtro visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:Valid"></a>FWFilter:Valid</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se deverá realizar a validação do filtro informado pelo usuário&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/06/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lValid :<td><br>Tipo: LOGICAL<br>Indica se deverá realizar a validação do filtro informado pelo usuário
+</table></br><hr></br>
+<b><font size=4><a name="FWFilter:Visible"></a>FWFilter:Visible</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o filtro está visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lVisible :<td><br>Tipo: LOGICAL<br>Indica se o filtro está visível
+</table></br><hr></br>

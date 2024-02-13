@@ -1,0 +1,509 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 13/07/00
+#IFNDEF WINDOWS
+    #DEFINE PSAY SAY
+#ENDIF
+
+User Function Proposta()        // incluido pelo assistente de conversao do AP5 IDE em 13/07/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("WNREL,TAMANHO,TITULO,CDESC1,CDESC2,CDESC3")
+SetPrvt("NREGISTRO,CKEY,NINDEX,CINDEX,CCONDICAO,LEND")
+SetPrvt("CPERG,ARETURN,NOMEPROG,NLASTKEY,NBEGIN,ALINHA")
+SetPrvt("LI,LIMITE,LRODAPE,CPICTQTD,NTOTQTD,NTOTVAL,NTOTVAL2")
+SetPrvt("APEDCLI,CSTRING,CPEDIDO,_COBSERV,CHEADER,NPED")
+SetPrvt("CMOEDA,CCAMPO,CCOMIS,I,NIPI,NVIPI")
+SetPrvt("NBASEIPI,NVALBASE,LIPIBRUTO,NPERRET,CESTADO,TNORTE")
+SetPrvt("CESTCLI,CINSCRCLI,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 13/07/00 ==>     #DEFINE PSAY SAY
+#ENDIF
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ MATR730  ³ Autor ³ Claudinei M. Benzi    ³ Data ³ 05.11.92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao da Pr‚-Nota                                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ MATR730(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ OBS      ³ Prog.Transf. em RDMAKE por Fabricio C.David em 07/06/97    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define Variaveis                                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+wnrel            :=""
+tamanho          :="M"
+titulo           :="Emissao da Proposta Comercial"
+cDesc1           :="Emiss„o da Proposta Comercial com base nos orcamentos"
+cDesc2           :="intervalo informado na op‡„o Parƒmetros."
+cDesc3           :=" "
+nRegistro        := 0
+cKey             :=""
+nIndex           :=""
+cIndex           :=""//  && Variaveis para a criacao de Indices Temp.
+cCondicao        :=""
+lEnd             := .T.
+cPerg            :="ORCAME"
+aReturn          := { "Zebrado", 1,"Administracao", 2, 2, 1, "",0 }
+nomeprog         :="PROPOSTA"
+nLastKey         := 0
+nBegin           :=0
+aLinha           :={ }
+li               :=80
+limite           :=220
+lRodape          :=.F.
+cPictQtd         :=""
+nTotQtd          :=0
+nTotVal          :=0
+NTOTVAL2         :=0
+aPedCli          := {}
+wnrel            := "PROPOSTA"
+cString          := "SCK"
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+PergOr()
+pergunte(cPerg,.F.)
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros                        ³
+//³ mv_par01              Do Pedido                             ³
+//³ mv_par02              Ate o Pedido                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+wnrel:=SetPrint(cString,wnrel,cPerg,@Titulo,cDesc1,cDesc2,cDesc3,.F.)
+
+If nLastKey==27
+	Return
+Endif
+
+SetDefault(aReturn,cString)
+
+If nLastKey==27
+	Return
+Endif
+
+#IFDEF WINDOWS
+    RptStatus({||C730Imp()})// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==>     RptStatus({||Execute(C730Imp)})
+    Return
+// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==>     Function C730IMP
+Static Function C730IMP()
+#ENDIF
+
+dbSelectArea("SCJ")
+dbSetOrder(1)
+dbSeek(xFilial("SCJ")+mv_par01,.T.)
+
+SetRegua(RecCount())		// Total de Elementos da regua
+
+While !Eof() .And. xFilial("SCJ") == SCJ->CJ_FILIAL .And. SCJ->CJ_NUM <= mv_par02
+	
+	nTotQtd:=0
+	nTotVal:=0
+    NTOTVAL2:=0
+	cPedido := CJ_NUM
+    _cObserv:= ""
+//  dbSelectArea("SA3")
+//	dbSeek(xFilial()+SCJ->CJ_VENDE)
+	dbSelectArea("SE4")
+	dbSeek(xFilial()+SCJ->CJ_CONDPAG)
+	
+	dbSelectArea("SCK")
+	dbSeek(xFilial()+cPedido)
+	cPictQtd := PESQPICT("SCK","CK_QTDVEN",10)
+	nRegistro:= RECNO()
+	#IFNDEF WINDOWS
+	If LastKey() == 286    //ALT_A
+		lEnd := .t.
+		exit
+	End
+	#ENDIF
+	
+	IF LastKey() == 286
+		@Prow()+1,001 PSAY "CANCELADO PELO OPERADOR"
+		Exit
+	Endif
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Monta tabela de pedidos do cliente p/ o cabe‡alho            ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*
+	aPedCli:= {}
+	While !Eof() .And. CK_NUM == SCJ->CJ_NUM
+		IF !Empty(SC6->C6_PEDCLI) .and. Ascan(aPedCli,SC6->C6_PEDCLI) == 0
+			AAdd(aPedCli,SC6->C6_PEDCLI)
+		ENDIF
+		dbSkip()
+	Enddo
+	aSort(aPedCli)
+*/	
+	dbGoTo( nRegistro )
+	While !Eof() .And. CK_NUM == SCJ->CJ_NUM
+		#IFNDEF WINDOWS
+		If LastKey() == 286    //ALT_A
+			lEnd := .t.
+		End
+		#ENDIF
+		
+		IF LastKey()==27
+			@Prow()+1,001 PSAY "CANCELADO PELO OPERADOR"
+			Exit
+		Endif
+		
+        If li > 39
+            
+            //If lRodape
+            //    ImpRodape()
+            //    lRodape := .F.
+            //Endif
+            
+            If lRodape
+            	@ li,000 PSAY " V I D E  P R O X I M A "	
+            Endif
+            
+            li := 0
+            ImpCabec()
+        Endif
+
+		ImpItem()
+		dbSkip()
+		li:=li+1
+	Enddo
+     		
+	IF lRodape
+		ImpRodape()
+		lRodape:=.F.
+	Endif                
+
+	dbSelectArea("SCJ")
+	dbSkip()
+	
+	IncRegua()
+Enddo
+
+dbSelectArea("SCK")
+Set device to screen
+
+If aReturn[5] == 1
+	Set Printer To
+	dbCommitAll()
+	OurSpool(wnrel)
+Endif
+
+MS_FLUSH()
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpCabec ³ Autor ³ Claudinei M. Benzi    ³ Data ³ 05.11.92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao da Pr‚-Nota                                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpCabec(void)                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Matr730                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==> Function ImpCabec
+Static Function ImpCabec()
+
+lRodape     := .T.
+cHeader     :=""
+nPed        :=""
+cMoeda      :=""
+cCampo      :=""
+cComis      :=""
+cHeader     := "It   Codigo           Desc. do Material                      UM           Quant.               Valor Unit.  IPI(A INCLUIR) ICMS(INCLUSO)     Vl.Tot.C/IPI"
+//              123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+//                       1         2         3         4         5         6         7         8         9         0         1         2         3         4         5
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Posiciona registro no cliente do pedido                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+dbSelectArea("SA1")
+dbSeek(xFilial()+SCJ->CJ_CLIENTE+SCJ->CJ_LOJA)
+
+
+@ 01,000 PSAY Replicate("-",limite)
+@ 02,000 PSAY SM0->M0_NOMECOM
+@ 02,071 PSAY "| "+SA1->A1_COD+"/"+SA1->A1_LOJA+" "+SA1->A1_NOME
+@ 02,130 PSAY "| PROPOSTA COMERCIAL "
+@ 03,000 PSAY SM0->M0_ENDCOB + " " + Alltrim(SM0->M0_CIDCOB) +"-"+SM0->M0_ESTCOB + " " + Transform(SM0->M0_CEPENT,"@R 99999-999")
+@ 03,071 PSAY "| "+IF( !Empty(SA1->A1_ENDENT) .And. SA1->A1_ENDENT #SA1->A1_END,;
+SA1->A1_ENDENT, SA1->A1_END )
+@ 03,130 PSAY "|"
+@ 04,000 PSAY "FONE: " + SM0->M0_TEL
+@ 04,023 PSAY "FAX: " + SM0->M0_FAX
+@ 04,071 PSAY "| "+SA1->A1_CEP
+@ 04,083 PSAY Alltrim(Substr(SA1->A1_MUN,1,30))
+@ 04,124 PSAY Alltrim(SA1->A1_EST)
+@ 04,130 PSAY "| EMISSAO: "
+@ 04,141 PSAY SCJ->CJ_EMISSAO
+@ 05,000 PSAY "E-MAIL:"
+@ 05,009 PSAY "weidmuller@weidmuller.com.br"
+@ 05,071 PSAY "|"
+@ 05,073 PSAY "FONE: "+Alltrim(SA1->A1_TEL)
+@ 05,095 PSAY "FAX : "+Alltrim(SA1->A1_FAX)
+@ 05,130 PSAY "| WB - "+SCJ->CJ_NUM
+If SCJ->(FieldPos("CJ_VENDE")) > 0
+	@ 06,000 PSAY "VENDEDOR: " + SCJ->CJ_VENDE + " - " + SA3->A3_NOME
+Else	
+	@ 06,000 PSAY "VENDEDOR: 1 - " + SA3->A3_NOME
+Endif	
+@ 06,071 PSAY "|"
+@ 06,073 PSAY "NOME: "+MV_PAR11
+@ 06,102 PSAY "DEPTO: "+MV_PAR10
+@ 06,130 PSAY "|"
+
+li:= 6
+
+/*
+For nPed := 1 To Len(aPedCli)
+	@ li,041 PSAY "|"
+	@ li,100 PSAY "| S/PEDIDO  "+aPedCli[nPed]
+	li:=Li+1
+Next
+*/
+
+/*
+For i := 1 to 5
+	
+//	cCampo := "SCJ->CJ_VEND" + Str(i,1,0)
+//	cComis := "SCJ->CJ_COMIS" + Str(i,1,0)
+	
+	dbSelectArea("SX3")
+	dbSetOrder(2)
+	dbSeek(cCampo)
+	If !Eof()
+		Loop
+	Endif
+	
+	If !Empty(&cCampo)
+		dbSelectArea("SA3")
+		dbSeek(xFilial()+&cCampo)
+		If i == 1
+			@ li,000 PSAY "VENDEDOR.: "
+		EndIf
+		@ li,013 PSAY &cCampo + " - "+SA3->A3_NOME
+//		If i == 1
+//			@ li,065 PSAY "COMISSAO: "
+//		EndIf
+//		@ li,075 PSAY &cComis Picture "99.99"
+//		li:=li+1
+	Endif
+Next
+*/
+
+li:=li+1
+@ li,000 PSAY Replicate("-",limite)
+li:=li+1
+@ li,000 PSAY cHeader
+li:=li+1
+@ li,000 PSAY Replicate("-",limite)
+li:=li+1
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpItem  ³ Autor ³ Claudinei M. Benzi    ³ Data ³ 05.11.92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao da Pr‚-Nota                                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpItem(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Matr730                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==> Function ImpItem
+Static Function ImpItem()
+nIPI     :=0
+nVipi    :=0
+nBaseIPI :=100
+nValBase := 0
+lIpiBruto:=IIF(GETMV("MV_IPIBRUT")=="S",.T.,.F.)
+
+dbSelectArea("SB1")
+dbSeek(xFilial()+SCK->CK_PRODUTO)
+dbSelectArea("SF4")
+dbSeek(xFilial()+SCK->CK_TES)
+IF SF4->F4_IPI == "S"
+	nBaseIPI        := IIF(SF4->F4_BASEIPI > 0,SF4->F4_BASEIPI,100)
+	nIPI 		:= SB1->B1_IPI
+	nValBase	:= If(lIPIBruto .And. SCK->CK_PRUNIT > 0,SCK->CK_PRUNIT,SCK->CK_PRCVEN)*SCK->CK_QTDVEN
+	nVipi		:= nValBase * (nIPI/100)*(nBaseIPI/100)
+Endif
+
+
+@li,000 PSAY SCK->CK_ITEM
+@li,005 PSAY SCK->CK_PRODUTO
+@li,022 PSAY IIF(Empty(SCK->CK_DESCRI),SB1->B1_DESC,SCK->CK_DESCRI)
+@li,061 PSAY SCK->CK_UM
+@li,070 PSAY SCK->CK_QTDVEN     Picture cPictQtd
+@li,092 PSAY SCK->CK_PRCVEN     Picture PesqPict("SCK","CK_PRCVEN",12)
+@li,115 PSAY nIPI               Picture "99"
+a730VerIcm()
+@li,130 PSAY nPerRet Picture "99"
+@li,138 PSAY NoRound(SCK->CK_VALOR+nVIPI) Picture PesqPict("SCK","CK_VALOR",14)
+nTotVal := nTotVal + NoRound(SCK->CK_VALOR+nVipi)
+nTotVAL2:= nTotVal2 + NoRound(SCK->CK_VALOR)
+
+dbSelectArea("SCK")
+
+Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpRodape³ Autor ³ Claudinei M. Benzi    ³ Data ³ 05.11.92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao da Pr‚-Nota                                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpRoadpe(void)                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Matr730                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==> Function ImpRodape
+Static Function ImpRodape()
+li:=li+1
+@ li,000 PSAY Replicate("-",limite)
+li:=li+1
+@ li,000 PSAY " T O T A I S "
+@ li,110 PSAY "TOTAL COM IPI" 
+@ li,135 PSAY nTotVal    Picture PesqPict("SCK","CK_VALOR",17)
+li:=li+1
+@ li,110 PSAY "TOTAL SEM IPI" 
+@ li,135 PSAY nTotVal2 Picture PesqPict("SCK","CK_VALOR",17)
+
+@ 46,005 PSAY "Condicoes Comerciais : "
+@ 48,005 PSAY "Condicao de Pagamento: "
+@ 48,028 PSAY SCJ->CJ_CONDPAG+" - "+SE4->E4_DESCRI
+@ 49,005 PSAY "Prazo de Entrega:      "
+@ 49,028 PSAY Substr(MV_PAR03,1,80)
+@ 50,028 PSAY Substr(MV_PAR03,81,80)
+@ 51,005 PSAY "Validade da Proposta:  "
+@ 51,028 PSAY MV_PAR04
+@ 52,005 PSAY "Tipo de Frete:         "
+@ 52,028 PSAY Iif(MV_PAR05 == 1,"CIF","FOB")
+@ 54,005 PSAY "Observacoes:"
+@ 54,028 PSAY  MV_PAR07 
+@ 55,028 PSAY  MV_PAR08
+@ 56,028 PSAY  MV_PAR09
+@ 59,005 PSAY "Atenciosamente,"
+
+//DbSelectArea("SA3")
+//DbSeek(xFilial() + SCJ->CJ_ATENDE)
+@ 61,005 PSAY SA3->A3_NOME
+@ 62,005 PSAY "Departamento de " + MV_PAR06
+@ 63,005 PSAY "FONE : " + "(11) 5184-2484"
+@ 64,005 PSAY "FAX  : " + "(11) 5184-2483"
+@ 65,005 PSAY "Email : " + "weidmuller@weidmuller.com.br"
+
+li := 80
+
+Return
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³A730verIcm³ Autor ³ Claudinei M. Benzi    ³ Data ³ 11.02.92 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Rotina para verificar qual e o ICM do Estado               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ MATA460                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 13/07/00 ==> Function A730VerIcm
+Static Function A730VerIcm()
+
+nPerRet:=0                // Percentual de retorno
+cEstado:=GetMV("mv_estado")
+tNorte:=GetMV("MV_NORTE")
+cEstCli:= SA1->A1_EST
+cInscrCli:=SA1->A1_INSCR
+
+If SF4->F4_ICM == "S"
+	
+		If If(SCJ->(FieldPos("CJ_TIPOCLI")) > 0, SCJ->CJ_TIPOCLI == "F",;
+												 SA1->A1_TIPO == "F") .and. Empty(cInscrCli)
+			nPerRet := iif(SB1->B1_PICM>0,SB1->B1_PICM,GetMV("MV_ICMPAD"))
+		Elseif SB1->B1_PICM > 0 .And. cEstCli == cEstado
+			nPerRet := SB1->B1_PICM
+		Elseif cEstCli == cEstado
+			nPerRet := GetMV("MV_ICMPAD")
+		Elseif cEstCli $ tNorte .And. At(cEstado,tNorte) == 0
+			nPerRet := 7
+		Elseif If(SCJ->(FieldPos("CJ_TIPOCLI")) > 0, SCJ->CJ_TIPOCLI == "X",;
+  													 SA1->A1_TIPO == "X")
+			nPerRet := 13
+		Else
+			nPerRet := 12
+		Endif
+	
+Endif
+Return
+
+Static Function PergOr()
+_sAlias := Alias()
+dbSelectArea("SX1")
+dbSetOrder(1)
+cPerg := PADR(cPerg,6)
+aRegs:={}
+
+// Grupo/Ordem/Pergunta/Variavel/Tipo/Tamanho/Decimal/Presel/GSC/Valid/Var01/Def01/Cnt01/Var02/Def02/Cnt02/Var03/Def03/Cnt03/Var04/Def04/Cnt04/Var05/Def05/Cnt05
+aAdd(aRegs,{cPerg,"01","Do Orcamento       ?","mv_ch1","C",06,0,0,"G","","mv_par01","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"02","Ate o Orcamento    ?","mv_ch2","C",06,0,0,"G","","mv_par02","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"03","Prazo de Entrega   ?","mv_ch3","C",99,0,0,"G","","mv_par03","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"04","Valid. da Proposta ?","mv_ch4","C",70,0,0,"G","","mv_par04","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"05","Tipo do Frete      ?","mv_ch5","N",01,0,2,"C","","mv_par05","CIF","","","FOB","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"06","Departamento       ?","mv_ch6","C",30,0,0,"G","","mv_par06","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"07","Observacao1        ?","mv_ch7","C",99,0,0,"G","","mv_par07","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"08","Observacao2        ?","mv_ch8","C",99,0,0,"G","","mv_par08","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"09","Observacao3        ?","mv_ch9","C",99,0,0,"G","","mv_par09","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"10","Dpto do Cliente    ?","mv_cha","C",20,0,0,"G","","mv_par10","","","","","","","","","","","","","","",""})
+aAdd(aRegs,{cPerg,"11","Contato do Cliente ?","mv_chb","C",20,0,0,"G","","mv_par11","","","","","","","","","","","","","","",""})
+
+For i:=1 to Len(aRegs)
+    If !dbSeek(cPerg+aRegs[i,2])
+        RecLock("SX1",.T.)
+        For j:=1 to FCount()
+            If j <= Len(aRegs[i])
+                FieldPut(j,aRegs[i,j])
+            Endif
+        Next
+        MsUnlock()
+    Endif
+Next
+
+dbSelectArea(_sAlias)
+
+Return
+

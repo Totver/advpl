@@ -1,0 +1,212 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWTableDML.prx</font><a name="FWTableDML"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWTableDML</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece metodos de manipulação dos dados de uma tabela, tais como &nbsp;insert, update e deleted.&nbsp;Esta classe deve ser utilizada somente pelos programas de Framework e &nbsp;tem como objetivo simplificar o relacionamento com as outras equipes &nbsp;d
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>16/01/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWTableDML:Activate">FWTableDML:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;<br><br>
+<a href="#FWTableDML:AddTableStruct">FWTableDML:AddTableStruct</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona um objeto com a estrutura da tabela ao objeto&nbsp;<br><br>
+<a href="#FWTableDML:ClassName">FWTableDML:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Fornece o nome da classe&nbsp;<br><br>
+<a href="#FWTableDML:DeActivate">FWTableDML:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita o uso da classe&nbsp;<br><br>
+<a href="#FWTableDML:Execute">FWTableDML:Execute</a></br>
+&nbsp;&nbsp;&nbsp;Executa a query&nbsp;<br><br>
+<a href="#FWTableDML:Fetch">FWTableDML:Fetch</a></br>
+&nbsp;&nbsp;&nbsp;Move o cursor da query&nbsp;<br><br>
+<a href="#FWTableDML:New">FWTableDML:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWTableDML:Select">FWTableDML:Select</a></br>
+&nbsp;&nbsp;&nbsp;Prepara a instrucao select &nbsp;<br><br>
+<a href="#FWTableDML:Update">FWTableDML:Update</a></br>
+&nbsp;&nbsp;&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWTableDML:Activate"></a>FWTableDML:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita o uso da classe, indicando que esta configurada e pronto para uso&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:AddTableStruct"></a>FWTableDML:AddTableStruct</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona um objeto com a estrutura da tabela ao objeto&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oStruct :<td><br>Tipo: OBJECT<br>Objeto com a estrutura da tabela do tipo TableStruct
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:ClassName"></a>FWTableDML:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Fornece o nome da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>16/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:DeActivate"></a>FWTableDML:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita o uso da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:Execute"></a>FWTableDML:Execute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa a query&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:Fetch"></a>FWTableDML:Fetch</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Move o cursor da query&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nMove :<td><br>Tipo: NUMERIC<br>Numero de linhas que serão movidas
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:New"></a>FWTableDML:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>16/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:Select"></a>FWTableDML:Select</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Prepara a instrucao select &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cSelectList :<td><br>Tipo: CHARACTER<br>Lista do select que será realizado
+<tr valign=top><td Width=20><td Width=100><br>cFrom :<td><br>Tipo: CHARACTER<br>Lista de tabela que serão utilizadas
+<tr valign=top><td Width=20><td Width=100><br>cWhere :<td><br>Tipo: CHARACTER<br>Expressão where do SELECT que será executada
+<tr valign=top><td Width=20><td Width=100><br>cOrderBy :<td><br>Tipo: CHARACTER<br>Expressão Orderby do SELECT que será executado
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/01/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWTableDML:Update"></a>FWTableDML:Update</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera/Rodrigo Godinho
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.1
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/01/2009
+</table></br><hr></br>

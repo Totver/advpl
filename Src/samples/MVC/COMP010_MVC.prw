@@ -1,0 +1,24 @@
+#INCLUDE "FWMVCDEF.CH"
+#INCLUDE "PROTHEUS.CH"
+
+User Function COMP010_MVC()
+Local oBrowse
+
+NEW MODEL TYPE 1 DESCRIPTION "Cadastro de Interprete" BROWSE oBrowse MENUDEF "COMP010_MVC" MASTER "ZA0"
+
+Return(Nil)
+
+
+//-------------------------------------------------------------------
+Static Function MenuDef()
+Local aRotina := {}
+
+ADD OPTION aRotina TITLE "Pesquisar"  ACTION "PesqBrw"            OPERATION 1 ACCESS 0
+ADD OPTION aRotina TITLE "Visualizar" ACTION "VIEWDEF.COMP010_MVC" OPERATION 2 ACCESS 0
+ADD OPTION aRotina TITLE "Incluir"    ACTION "VIEWDEF.COMP010_MVC" OPERATION 3 ACCESS 0
+ADD OPTION aRotina TITLE "Alterar"    ACTION "VIEWDEF.COMP010_MVC" OPERATION 4 ACCESS 0
+ADD OPTION aRotina TITLE "Excluir"    ACTION "VIEWDEF.COMP010_MVC" OPERATION 5 ACCESS 0
+ADD OPTION aRotina TITLE "Copiar"     ACTION "VIEWDEF.COMP010_MVC" OPERATION 7 ACCESS 0
+ADD OPTION aRotina TITLE "Imprimir"   ACTION "VIEWDEF.COMP010_MVC" OPERATION 8 ACCESS 0
+
+Return aRotina

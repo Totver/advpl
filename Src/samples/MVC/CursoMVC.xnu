@@ -1,0 +1,171 @@
+<ApMenu>
+	<DocumentProperties>
+		<Module></Module>
+		<Version>10.1</Version>
+	</DocumentProperties>
+	<Menu Status="Enable">
+		<Title lang="pt">&Atualizações</Title>
+		<Title lang="es">&Actualizaciones</Title>
+		<Title lang="en">&Updates</Title>
+	</Menu>
+	<Menu Status="Enable">
+		<Title lang="pt">&Consultas</Title>
+		<Title lang="es">&Consultas</Title>
+		<Title lang="en">&Searches</Title>
+	</Menu>
+	<Menu Status="Enable">
+		<Title lang="pt">&Relatorios</Title>
+		<Title lang="es">&Informes</Title>
+		<Title lang="en">&Reports</Title>
+	</Menu>
+	<Menu Status="Enable">
+		<Title lang="pt">&Miscelanea</Title>
+		<Title lang="es">&Miscelanea</Title>
+		<Title lang="en">&Miscellaneous</Title>
+		<Menu Status="Enable">
+			<Title lang="pt">Curso</Title>
+			<Title lang="es">Curso</Title>
+			<Title lang="en">Curso</Title>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Compositor/Interprete</Title>
+				<Title lang="es">Compositor/Interprete</Title>
+				<Title lang="en">Compositor/Interprete</Title>
+				<Function>COMP011_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Compositor/Interprete 2</Title>
+				<Title lang="es">Compositor/Interprete 2</Title>
+				<Title lang="en">Compositor/Interprete 2</Title>
+				<Function>COMP012_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Músicas</Title>
+				<Title lang="es">Músicas</Title>
+				<Title lang="en">Músicas</Title>
+				<Function>COMP021_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Músicas 2</Title>
+				<Title lang="es">Músicas 2</Title>
+				<Title lang="en">Músicas 2</Title>
+				<Function>COMP022_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Álbuns</Title>
+				<Title lang="es">Álbuns</Title>
+				<Title lang="en">Álbuns</Title>
+				<Function>COMP023_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Import. Comp./Inter.</Title>
+				<Title lang="es">Import. Comp./Inter.</Title>
+				<Title lang="en">Import. Comp./Inter.</Title>
+				<Function>COMP031_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Import. Músicas</Title>
+				<Title lang="es">Import. Músicas</Title>
+				<Title lang="en">Import. Músicas</Title>
+				<Function>COMP032_MVC</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Mata030_mvc</Title>
+				<Title lang="es">Mata030_mvc</Title>
+				<Title lang="en">Mata030_mvc</Title>
+				<Function>MATA030_MVC</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Mata040_mvc</Title>
+				<Title lang="es">Mata040_mvc</Title>
+				<Title lang="en">Mata040_mvc</Title>
+				<Function>MATA040_MVC</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Mata110_mvc</Title>
+				<Title lang="es">Mata110_mvc</Title>
+				<Title lang="en">Mata110_mvc</Title>
+				<Function>MATA110_MVC</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Mata415_mvc</Title>
+				<Title lang="es">Mata415_mvc</Title>
+				<Title lang="en">Mata415_mvc</Title>
+				<Function>MATA415_MVC</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Omsa010_mvc</Title>
+				<Title lang="es">Omsa010_mvc</Title>
+				<Title lang="en">Omsa010_mvc</Title>
+				<Function>OMSA010_MVC</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Multimbrw</Title>
+				<Title lang="es">Multimbrw</Title>
+				<Title lang="en">Multimbrw</Title>
+				<Function>MULTIMBRW</Function>
+				<Type>01</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+			<MenuItem Status="Enable">
+				<Title lang="pt">Modeltest</Title>
+				<Title lang="es">Modeltest</Title>
+				<Title lang="en">Modeltest</Title>
+				<Function>MODELTEST</Function>
+				<Type>03</Type>
+				<Access>xxxxxxxxxx</Access>
+				<Module>76</Module>
+				<Owner>0</Owner>
+			</MenuItem>
+		</Menu>
+	</Menu>
+</ApMenu>

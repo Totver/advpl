@@ -1,0 +1,97 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 03/03/00
+
+User Function Datr021()        // incluido pelo assistente de conversao do AP5 IDE em 03/03/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("ASTRUCT,_CARQTRAB,CINDEXKEY,CSEEKTRB,")
+
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ DATR021  ³ Autor ³ Sergio Silveira       ³ Data ³ 29/08/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Efetua a consolidacao por loja + grupo ( sem periodo )     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ DATR021                                                    ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ Nenhum                                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³ Nenhum                                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ DATR020                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Criacao do arquivo de trabalho DADALTO ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+aStruct := {} 
+
+AAdd( aStruct, { "TR_FILIAL" , "C",  2, 0 } ) 
+AAdd( aStruct, { "TR_CLAS"   , "C",  4, 0 } ) 
+AAdd( aStruct, { "TR_VENDAS" , "N", 11, 0 } ) 
+AAdd( aStruct, { "TR_CMV"    , "N", 11, 0 } ) 
+AAdd( aStruct, { "TR_ESTOQUE", "N", 11, 0 } ) 
+
+AAdd( aStruct, { "TR_M2"     , "N", 11, 0 } ) 
+
+_cArqTrab := CriaTrab( aStruct, .T. ) 
+
+cIndexKey := "TR_FILIAL + TR_CLAS" 
+
+dbUseArea( .t., , _cArqTrab, "TRAB", .F., .F. ) 
+IndRegua( "TRAB", _cArqTrab, cIndexKey, , , "Criando indice de trabalho" ) 
+
+DbSelectArea("SZ4")
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Percorre SZ4 para consolidar ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+While !Eof() 
+
+	dbSelectArea("TRAB")
+	
+   cSeekTRB := SZ4->Z4_FILIAL + SZ4->Z4_CLAS
+	
+	If dbSeek( cSeekTRB )
+		RecLock( "TRAB", .F. ) 
+	Else
+		RecLock( "TRAB", .T. )  
+		TRAB->TR_FILIAL := SZ4->Z4_FILIAL 
+		TRAB->TR_CLAS   := SZ4->Z4_CLAS
+	EndIf
+	
+	TRAB->TR_VENDAS  := TRAB->TR_VENDAS  + SZ4->Z4_VENDAS
+	TRAB->TR_CMV     := TRAB->TR_CMV     + SZ4->Z4_CMV
+	TRAB->TR_ESTOQUE := TRAB->TR_ESTOQUE + SZ4->Z4_ESTOQUE
+	
+	MsUnLock() 
+	
+	dbSelectArea( "SZ3" ) 
+	dbSetOrder( 1 ) 
+   
+	If dbSeek( TRAB->TR_FILIAL + TRAB->TR_CLAS )
+		TRAB->TR_M2 := TRAB->TR_M2 + SZ3->Z3_M2 	
+	EndIf
+   
+	DbSelectArea("SZ4")
+	
+   dbSkip()
+   
+EndDo
+
+
+Return
+

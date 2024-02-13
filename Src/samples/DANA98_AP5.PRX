@@ -1,0 +1,1425 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 06/11/00
+#IFNDEF WINDOWS
+   #DEFINE PSAY SAY
+#EndIf
+
+User Function DANA98()        // incluido pelo assistente de conversao do AP5 IDE em 06/11/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("CALIASANT,DDATA,APAC,CSAVSCR1,CSAVCUR1,CSAVROW1")
+SetPrvt("CSAVCOL1,CSAVCOR1,CMENS,CSAVEMENUH,NOPCA,ADIRETORIO")
+SetPrvt("MV_PAR03,MV_PAR04,CBASE,CVENDEDOR,CARQTOT,CARQLIM")
+SetPrvt("CARQATU,NLCAB,CGRAVATOT,CGRAVALIM,LOK,CGRAVAATU")
+SetPrvt("AREPRES,NREP,ATABELAS,NTAB,CCAMPO,ATABELA")
+SetPrvt("CNTX,CCHAVE,CFILTRO,LVOLTA,CDBF,CCAMPO1")
+SetPrvt("CCAMPO2,CUSERLG,CUSUARIOI,DDATAINC,CUSUARIOA,DDATAALT")
+SetPrvt("DDATACOMP,NLC,NSALDO,LZEROU,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 06/11/00 ==>    #DEFINE PSAY SAY
+#EndIf
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Funcao    ³ DANA98   ³ Autor ³ Wilson J. Santos      ³ Data ³ Ago/99   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descricao ³ Gera‡Æo de (n) arquivos para atualiza‡Æo PALMTOP           ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+cAliasAnt	:= Alias()
+dData			:= Date()
+
+#IFNDEF WINDOWS
+   aPAC        := { "Parƒmetros" , "Abandona" , "Continua" }
+   cSavScr1    := SaveScreen(3,0,24,79)
+   cSavCur1    := SetCursor(0)
+   cSavRow1    := ROW()
+   cSavCol1    := COL()
+   cSavCor1    := SetColor("bg+/b,,,")
+#ENDIF
+
+#IFDEF WINDOWS
+  cmens:= OemtoAnsi("Carga PALMTOP")+chr(13)+chr(13)
+  cmens:= cmens+ OemToAnsi("O objetivo desta rotina ‚ a gera‡„o de (n) arquivos de atualiza‡„o")+chr(13)
+  cmens:= cmens+ OemToAnsi("do PALMTOP.                         ")+chr(13)
+  cmens:= cmens+ OemToAnsi("Data de atualiza‡„o : " + TransForm( Date() , "" ) )+chr(13)
+  cmens:= cmens+ OemToAnsi("Confirma ?")
+  if !MsgYesNo(cmens,OemToAnsi("ATEN€O"))
+    return
+  endif
+  if !pergunte("DANA98",.T.)
+     RETURN
+  ENDIF
+#ELSE
+  DrawAdvWindow( "Carga PALMTOP" , 10 , 05 , 17 , 76 )
+  @ 12, 08 Say "O objetivo desta rotina ‚ a gera‡„o de (n) arquivos de atualiza‡„o" Color "B/BG"
+  @ 13, 08 Say "do PALMTOP.                         " Color "B/BG"
+  @ 15, 08 Say "Data de atualiza‡„o : " + TransForm( Date() , "" )   Color "B/BG"
+  /*
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+  ³ mv_par01 - Diret¢rio de grava‡Æo                                           ³
+  ³ mv_par02 - Carga                            (Total/Atualiza‡äes/Sele‡Æo)   ³
+  ³ mv_par03 - Do  Representante                                               ³
+  ³ mv_par04 - At‚ Representante                                               ³
+  ³ mv_par05 - Elimina dados anteriores         (Sim/NÆo)                      ³
+  ³ mv_par06 - Tabela de Clientes               (Sim/NÆo)                      ³
+  ³ mv_par07 - Tabela de Condi‡Æo de Pagamento  (Sim/NÆo)                      ³
+  ³ mv_par08 - Tabela de Pre‡o                  (Sim/NÆo)                      ³
+  ³ mv_par09 - Tabela de T¡tulos                (Sim/NÆo)                      ³
+  ³ mv_par10 - Tabela de Produtos               (Sim/NÆo)                      ³
+  ³ mv_par11 - Tabela de Ramo de Atividade      (Sim/NÆo)                      ³
+  ³ mv_par12 - Tabela de Motivo de NÆo Venda    (Sim/NÆo)                      ³
+  ³ mv_par13 - Tabela de Transportadora         (Sim/NÆo)                      ³
+  ³ mv_par14 - Tabela de Pedidos em Aberto      (Sim/NÆo)                      ³
+  ³ mv_par15 - Tabela de Pedidos Faturados      (Sim/NÆo)                      ³
+  ³ mv_par16 - Tabela de Grupos                 (Sim/NÆo)                      ³
+  ³ mv_par17 - Tabela de Promo‡Æo               (Sim/NÆo)                      ³
+  ³ mv_par18 - Tabela de Parƒmetros             (Sim/NÆo)                      ³
+  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+  */
+  While .t.
+        Pergunte( "DANA98" , .T. )
+//	cSaveMenuh := SaveScreen( 17 , 00 , 17 , 79 )
+//	SetColor(cSavCor1)
+	nOpcA	:= Menuh( aPAC , 17 , 05 , "b/w,w+/n,r/w" , "PAC" , "" , 1 )
+//   RestScreen( 17 , 00 , 17 , 79 , cSaveMenuh )
+   If nOpcA == 1
+		Loop
+	ElseIf nOpcA == 2 .or. LastKey() == 27
+		DbSelectArea( cAliasAnt )
+  //		RestScreen( 03 , 00 , 24 , 79 , cSavScr1 )
+		Return
+	Else
+		Exit
+	EndIf
+  EndDo
+#ENDIF
+*ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+dbSelectArea("SA1") ; SA1->( DbSetOrder( 1 ) )
+dbSelectArea("SA3") ; SA3->( DbSetOrder( 1 ) )
+dbSelectArea("SA4") ; SA4->( DbSetOrder( 1 ) )
+dbSelectArea("SB1") ; SB1->( DbSetOrder( 1 ) )
+dbSelectArea("SB5") ; SB5->( DbSetOrder( 1 ) )
+dbSelectArea("SC5") ; SC5->( DbSetOrder( 2 ) )
+dbSelectArea("SC6") ; SC6->( DbSetOrder( 1 ) )
+dbSelectArea("SE1") ; SE1->( DbSetOrder( 2 ) )
+dbSelectArea("SE4") ; SE4->( DbSetOrder( 1 ) )
+dbSelectArea("SF2") ; SF2->( DbSetOrder( 1 ) )
+dbSelectArea("SF4") ; SF4->( DbSetOrder( 1 ) )
+dbSelectArea("SX5") ; SX5->( DbSetOrder( 1 ) )
+dbSelectArea("SZ7") ; SZ7->( DbSetOrder( 1 ) )
+dbSelectArea("SZ8") ; SZ8->( DbSetOrder( 1 ) )
+dbSelectArea("SZ9") ; SZ9->( DbSetOrder( 1 ) )
+*ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Dele‡Æo dos arquivos anteriores para nova gera‡Æo                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If mv_par02 == 1 .or. mv_par05 == 1
+	aDiretorio	:= Directory( AllTrim( mv_par01 ) + "*.TXT", "D" )
+	AEVAL( aDiretorio , { |aFiles| FErase( AllTrim( mv_par01 ) + aFiles[ 1 ] ) } )
+EndIf
+*ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+If mv_par02 == 1
+	mv_par03	:= Space( Len( SA3->A3_COD ) )
+	mv_par04	:= Replicate( "Z" , Len( SA3->A3_COD ) )
+EndIf
+*ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Clientes - SA1                                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+#IFDEF WINDOWS
+   Processa({|| Process98()})// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==>    Processa({|| Execute(Process98)})
+   Return
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==>    Function Process98
+Static Function Process98()
+#ENDIF
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+
+   DbSelectArea( "SA1" )
+   SA1->( DbSetOrder( 6 ) )
+
+	cBase		:= "A1"
+	SA1->( DbSeek( xFilial( "SA1" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SA1->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Clientes" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA1->( Eof() ) .and. SA1->A1_FILIAL == xFilial( "SA1" ) .and. ;
+		SA1->A1_VEND <= mv_par04
+		If SA1->A1_FLAGCLI == "D" .or. Empty( SA1->A1_VEND ) .or. ;
+			AllTrim( SA1->A1_VEND ) $ "087/088"
+         IncProc("Clientes")
+			SA1->( DbSkip() )
+			Loop
+		EndIf
+		cVendedor	:= SA1->A1_VEND
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+			cArqTOT		:= AllTrim( mv_par01 ) + "CLIENT" + StrZero( Val( SA1->A1_VEND ) , 2 ) + ".TXT"
+			cArqTOT		:= FCreate( cArqTOT )
+			cArqLIM		:= AllTrim( mv_par01 ) + "LIMITE" + StrZero( Val( SA1->A1_VEND ) , 2 ) + ".TXT"
+			cArqLIM		:= FCreate( cArqLIM )
+		EndIf
+		If mv_par02 == 2
+			cArqATU		:= AllTrim( mv_par01 ) + "ATUCLI" + StrZero( Val( SA1->A1_VEND ) , 2 ) + ".TXT"
+			cArqATU		:= FCreate( cArqATU )
+		EndIf
+		While !SA1->( Eof() ) .and. SA1->A1_FILIAL == xFilial( "SA1" ) .and. ;
+			SA1->A1_VEND == cVendedor
+         IncProc()
+			If SA1->A1_FLAGCLI == "D" .or. Empty( SA1->A1_VEND )
+				SA1->( DbSkip() )
+				Loop
+			EndIf
+			nLCAB			:= 0
+			If SA1->A1_LC > 0
+				ChkLCAB()
+			EndIf
+			If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+				cGravaTOT	:= ""
+				cGravaTOT	:= cGravaTOT + SA1->A1_COD + SA1->A1_LOJA
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_NOME , 40 )
+				cGravaTOT	:= cGravaTOT + IIF( Len( AllTrim( SA1->A1_CGC ) ) #14 , "F" , "J" )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_MUN , 15 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_EST
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_END , 40 )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_BAIRRO , 20 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_CGC
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_TEL , 15 )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_ATIVIDA , 5 )
+				cGravaTOT	:= cGravaTOT + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+				cGravaTOT	:= cGravaTOT + StrZero( Int( nLCAB * 100 ) , 8 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_CLIESP
+				cGravaTOT	:= cGravaTOT + SA1->A1_FLAGCLI
+				cGravaTOT	:= cGravaTOT + SA1->A1_COND
+				cGravaTOT	:= cGravaTOT + SA1->A1_CEP
+				cGravaTOT	:= cGravaTOT + SA1->A1_TABELA
+                                cGravaTOT       := cGravaTOT + SA1->A1_CLASSIF
+                                cGravaTOT       := cGravaTOT + Str(SA1->A1_FATORPR)
+                                cGravaTOT       := cGravaTOT + Chr(13) + Chr(10)
+				FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+				cGravaLIM	:= ""
+				cGravaLIM	:= cGravaLIM + SA1->A1_COD + SA1->A1_LOJA
+				cGravaLIM	:= cGravaLIM + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+				cGravaLIM	:= cGravaLIM + StrZero( Int( nLCAB * 100 ) , 8 )
+				cGravaLIM	:= cGravaLIM + SA1->A1_FLAGCLI
+   			cGravaLIM	:= cGravaLIM + Chr(13) + Chr(10)
+				FWrite( cArqLIM , cGravaLIM , Len(cGravaLIM ) )
+			EndIf
+			If mv_par02 == 2
+				lOk	:= .F.
+				ChkData()
+				If lOk
+					cGravaATU	:= ""
+					cGravaATU	:= cGravaATU + SA1->A1_COD + SA1->A1_LOJA
+					cGravaATU	:= cGravaATU + Left( SA1->A1_NOME , 40 )
+					cGravaATU	:= cGravaATU + IIF( Len( AllTrim( SA1->A1_CGC ) ) #14 , "F" , "J" )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_MUN , 15 )
+					cGravaATU	:= cGravaATU + SA1->A1_EST
+					cGravaATU	:= cGravaATU + Left( SA1->A1_END , 40 )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_BAIRRO , 20 )
+					cGravaATU	:= cGravaATU + SA1->A1_CGC
+					cGravaATU	:= cGravaATU + Left( SA1->A1_TEL , 15 )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_ATIVIDA , 5 )
+					cGravaATU	:= cGravaATU + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+					cGravaATU	:= cGravaATU + StrZero( Int( nLCAB * 100 ) , 8 )
+					cGravaATU	:= cGravaATU + SA1->A1_CLIESP
+					cGravaATU	:= cGravaATU + SA1->A1_FLAGCLI
+					cGravaATU	:= cGravaATU + SA1->A1_COND
+					cGravaATU	:= cGravaATU + SA1->A1_CEP
+					cGravaATU	:= cGravaATU + SA1->A1_TABELA
+                                        cGravaATU       := cGravaATU + SA1->A1_CLASSIF
+                                        cGravaATU       := cGravaATU + STR(SA1->A1_FATORPR)
+                                        cGravaATU       := cGravaATU + Chr(13) + Chr(10)
+					FWrite( cArqATU , cGravaATU , Len(cGravaATU ) )
+				EndIf
+			EndIf
+			SA1->( DbSkip() )
+		EndDo
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+			FClose( cArqTOT )
+			FClose( cArqLIM )
+		EndIf
+		If mv_Par02 == 2
+			FClose( cArqATU )
+		EndIf
+	EndDo
+	// ALBRA
+	aRepres	:= {}
+	If			mv_par02 == 1
+		aAdd( aRepres , "87" )
+		aAdd( aRepres , "88" )
+	ElseIf	mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+		If mv_par03 >= "087" .and. mv_par04 <= "087"
+			aAdd( aRepres , "87" )
+		EndIf
+		If mv_par03 >= "088" .and. mv_par04 <= "088"
+			aAdd( aRepres , "88" )
+		EndIf
+	EndIf
+	For nRep := 1 to Len( aRepres )
+		DbSelectArea( "SA1" )
+		SA1->( DbSetOrder( 1 ) )
+		cBase		:= "A1"
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+			cArqTOT		:= AllTrim( mv_par01 ) + "CLIENT" + aRepres[ nRep ] + ".TXT"
+			cArqTOT		:= FCreate( cArqTOT )
+			cArqLIM		:= AllTrim( mv_par01 ) + "LIMITE" + aRepres[ nRep ] + ".TXT"
+			cArqLIM		:= FCreate( cArqLIM )
+		EndIf
+		If mv_par02 == 2
+			cArqATU		:= AllTrim( mv_par01 ) + "ATUCLI" + aRepres[ nRep ] + ".TXT"
+			cArqATU		:= FCreate( cArqATU )
+		EndIf
+
+		SA1->( DbSeek( xFilial( "SA1" ) , .t. ) )
+
+      ProcRegua( SA1->( LastRec() ) )
+
+      #IFNDEF WINDOWS
+         @ 24 , 00 Say Space( 80 ) Color "BG"
+         @ 24 , 00 Say PadC( "Clientes" , 80 ) Color "GR+/BG"
+      #ENDIF
+
+		While !SA1->( Eof() ) .and. SA1->A1_FILIAL == xFilial( "SA1" )
+
+         IncProc("Clientes")
+
+			If SA1->A1_FLAGCLI == "D"
+				SA1->( DbSkip() )
+				Loop
+			EndIf
+
+			nLCAB			:= 0
+
+			If SA1->A1_LC > 0
+				ChkLCAB()
+			EndIf
+
+			If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+				cGravaTOT	:= ""
+				cGravaTOT	:= cGravaTOT + SA1->A1_COD + SA1->A1_LOJA
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_NOME , 40 )
+				cGravaTOT	:= cGravaTOT + IIF( Len( AllTrim( SA1->A1_CGC ) ) #14 , "F" , "J" )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_MUN , 15 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_EST
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_END , 40 )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_BAIRRO , 20 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_CGC
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_TEL , 15 )
+				cGravaTOT	:= cGravaTOT + Left( SA1->A1_ATIVIDA , 5 )
+				cGravaTOT	:= cGravaTOT + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+				cGravaTOT	:= cGravaTOT + StrZero( Int( nLCAB * 100 ) , 8 )
+				cGravaTOT	:= cGravaTOT + SA1->A1_CLIESP
+				cGravaTOT	:= cGravaTOT + SA1->A1_FLAGCLI
+				cGravaTOT	:= cGravaTOT + SA1->A1_COND
+				cGravaTOT	:= cGravaTOT + SA1->A1_CEP
+				cGravaTOT	:= cGravaTOT + SA1->A1_TABELA
+                                cGravaTOT       := cGravaTOT + SA1->A1_CLASSIF
+                                cGravaTOT       := cGravaTOT + STR(SA1->A1_FATORPR)
+  				cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+				FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+
+				cGravaLIM	:= ""
+				cGravaLIM	:= cGravaLIM + SA1->A1_COD + SA1->A1_LOJA
+				cGravaLIM	:= cGravaLIM + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+				cGravaLIM	:= cGravaLIM + StrZero( Int( nLCAB * 100 ) , 8 )
+				cGravaLIM	:= cGravaLIM + SA1->A1_FLAGCLI
+  				cGravaLIM	:= cGravaLIM + Chr(13) + Chr(10)
+				FWrite( cArqLIM , cGravaLIM , Len(cGravaLIM ) )
+
+			EndIf
+
+			If mv_par02 == 2
+
+				lOk	:= .F.
+
+				ChkData()
+
+				If lOk
+					cGravaATU	:= ""
+					cGravaATU	:= cGravaATU + SA1->A1_COD + SA1->A1_LOJA
+					cGravaATU	:= cGravaATU + Left( SA1->A1_NOME , 40 )
+					cGravaATU	:= cGravaATU + IIF( Len( AllTrim( SA1->A1_CGC ) ) #14 , "F" , "J" )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_MUN , 15 )
+					cGravaATU	:= cGravaATU + SA1->A1_EST
+					cGravaATU	:= cGravaATU + Left( SA1->A1_END , 40 )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_BAIRRO , 20 )
+					cGravaATU	:= cGravaATU + SA1->A1_CGC
+					cGravaATU	:= cGravaATU + Left( SA1->A1_TEL , 15 )
+					cGravaATU	:= cGravaATU + Left( SA1->A1_ATIVIDA , 5 )
+					cGravaATU	:= cGravaATU + StrZero( Int( SA1->A1_LC * 100 ) , 8 )
+					cGravaATU	:= cGravaATU + StrZero( Int( nLCAB * 100 ) , 8 )
+					cGravaATU	:= cGravaATU + SA1->A1_CLIESP
+					cGravaATU	:= cGravaATU + SA1->A1_FLAGCLI
+					cGravaATU	:= cGravaATU + SA1->A1_COND
+					cGravaATU	:= cGravaATU + SA1->A1_CEP
+					cGravaATU	:= cGravaATU + SA1->A1_TABELA
+                                        cGravaATU       := cGravaATU + SA1->A1_CLASSIF
+                                        cGravaATU       := cGravaATU + STR(SA1->A1_FATORPR)
+                                        cGravaATU   := cGravaATU + Chr(13) + Chr(10)
+					FWrite( cArqATU , cGravaATU , Len(cGravaATU ) )
+
+				EndIf
+
+			EndIf
+
+			SA1->( DbSkip() )
+
+		EndDo
+
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par06 == 1 )
+			FClose( cArqTOT )
+			FClose( cArqLIM )
+		EndIf
+
+		If mv_Par02 == 2
+			FClose( cArqATU )
+		EndIf
+
+	Next nRep
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Condi‡Æo de Pagamentos - SE4                                 ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par07 == 1 )
+
+	cArqTOT		:= AllTrim( mv_par01 ) + "CONDICAO" + ".TXT"
+	cArqTOT		:= FCreate( cArqTOT )
+
+	DbSelectArea( "SE4" )
+	SE4->( DbSeek( xFilial( "SE4" ) ) )
+
+   ProcRegua( SE4->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Condi‡„o de Pagamento" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SE4->( Eof() ) .and. SE4->E4_FILIAL == xFilial( "SE4" )
+
+      IncProc(OemToAnsi("Condi‡„o de Pagamento"))
+
+		If !SE4->E4_CPPE $ "PE"
+			SE4->( DbSkip() )
+			Loop
+		EndIf
+
+		cGravaTOT	:= ""
+                cGravaTOT       := cGravaTOT + SE4->E4_CODIGO
+                cGravaTOT       := cGravaTOT + Left( SE4->E4_DESCRI , 15 )
+                cGravaTOT       := cGravaTOT + SE4->E4_CPPE
+              // cGravaTOT       := cGravaTOT + StrZero( Int( SE4->E4_DESCONT * 100 ) , 4 )
+              // cGravaTOT       := cGravaTOT + SE4->E4_TABELA
+                cGravaTOT       := cGravaTOT + Str((((SE4->E4_ACRSFIN)/100)+1),6,4)
+                cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+		FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+		SE4->( DbSkip() )
+	EndDo
+
+	FClose( cArqTOT )
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Tabela de Pre‡os - SB5                                                   ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par08 == 1 )
+
+	DbSelectArea( "SB5" )
+	aTabelas		:= {}
+
+	For nTab := 1 to SB5->( FCount() )
+		cCampo	:= FieldName( nTab )
+		If Left( cCampo , 6 ) == "B5_PRV" .and. SubStr( cCampo , 7 ) >= "A" .and. ;
+			SubStr( cCampo , 7 ) <= "K"
+			aAdd( aTabelas , SubStr( cCampo , 7 , 1 ) )
+		EndIf
+	Next
+
+	cBase			:= "B5"
+
+	SB1->( DbSetOrder( 1 ) )
+
+	DbSelectArea( "SA3" )
+	SA3->( DbSetOrder( 1 ) )
+	SA3->( DbSeek( xFilial( "SA3" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SA3->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Tabela de Pre‡os" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA3->( Eof() ) .and. SA3->A3_FILIAL == xFilial( "SA3" ) .and. ;
+		SA3->A3_COD <= mv_par04
+
+      IncProc(OemToAnsi("Tabela de Pre‡os"))
+
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par10 == 1 )
+			cArqTOT		:= AllTrim( mv_par01 ) + "TABELA" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+			cArqTOT		:= FCreate( cArqTOT )
+		EndIf
+
+		If mv_par02 == 2
+			cArqATU		:= AllTrim( mv_par01 ) + "ATUTAB" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+			cArqATU		:= FCreate( cArqATU )
+		EndIf
+
+		// Qdo. Representante ALBRA apenas enviar produtos com preco na Tabela L
+		// Conforme Sr. Marcos Pico e Sr. Fabio (Acacia)
+		// Wilson - 29/11/99
+
+		If StrZero( Val( SA3->A3_COD ) , 2 ) $ "88/89"
+			aTabela	:= {}
+			aAdd( aTabelas , "L" )
+		EndIf
+
+		DbSelectArea( "SB5" )
+		SB5->( DbSetOrder( 1 ) )
+		SB5->( DbSeek( xFilial( "SB5" ) ) )
+
+		While !SB5->( Eof() ) .and. SB5->B5_FILIAL == xFilial( "SB5" )
+
+			SB1->( DbSeek( xFilial( "SB1" ) + SB5->B5_COD ) )
+
+			If SB1->( Eof() ) .or. !Upper( SB1->B1_TIPO ) $ "PA/MH/MR" .or. ;
+				SB1->B1_FLAGPRO $ "D"
+				SB5->( DbSkip() )
+				Loop
+			EndIf
+
+			For nTab	:= 1 to Len( aTabelas )
+				cCampo		:= "SB5->B5_PRV" + aTabelas[ nTab ]
+
+				If &cCampo <= 0
+					Loop
+				EndIf
+	
+				If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par08 == 1 )
+					cGravaTOT	:= ""
+					cGravaTOT	:= cGravaTOT + SB5->B5_COD
+					cGravaTOT	:= cGravaTOT + aTabelas[ nTab ]
+					cGravaTOT	:= cGravaTOT + StrZero( Int( &cCampo * 100 ) , 7 )
+			  		cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+					FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+				EndIf
+	
+				If mv_par02 == 2
+
+					lOk	:= .F.
+
+					ChkData()
+
+					If lOk
+						cGravaATU	:= ""
+						cGravaATU	:= cGravaATU + SB5->B5_COD
+						cGravaATU	:= cGravaATU + aTabelas[ nTab ]
+						cGravaATU	:= cGravaATU + StrZero( Int( &cCampo * 100 ) , 7 )
+		   			cGravaATU	:= cGravaATU + Chr(13) + Chr(10)
+						FWrite( cArqATU , cGravaATU , Len(cGravaATU ) )
+					EndIf
+				
+				EndIf
+
+			Next
+
+			SB5->( DbSkip() )
+
+		EndDo
+
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par08 == 1 )
+			FClose( cArqTOT )
+		EndIf
+
+		If mv_par02 == 2
+			FClose( cArqATU )
+		EndIf
+
+		DbSelectArea( "SA3" )
+		SA3->( DbSkip() )
+	EndDo
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ T¡tulos - SE1                                                            ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par09 == 1 )
+
+	DbSelectArea( "SE1" )
+
+// SE1->( DbClearIndex() ) nao devo limpar os indices, indregua ja joga
+// o Indice temporario como ultimo
+
+	cNTX		:= CriaTrab( NIL , .F. )
+	cChave	:= "E1_FILIAL + E1_VEND1 + E1_CLIENTE + E1_LOJA + E1_NUM + E1_PARCELA"
+	cFiltro	:= ""
+	cFiltro	:= cFiltro + "E1_FILIAL == xFilial( 'SE1' ) .and. !Empty( E1_VEND1 ) .and. "
+	cFiltro	:= cFiltro + "E1_SALDO > 0 .and. E1_VENCREA <= ( Date() + 5 )"
+	IndRegua( "SE1" , cNTX , cChave , , cFiltro  , "Indexando SE1" )
+   DbSetOrder(RetIndex("SE1") + 1)
+
+	DbSelectArea( "SE1" )
+	SE1->( DbSeek( xFilial( "SE1" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SE1->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "T¡tulos" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SE1->( Eof() ) .and. SE1->E1_FILIAL == xFilial( "SE1" ) .and. ;
+		SE1->E1_VEND1 <= mv_par04
+
+		If Empty( SE1->E1_VEND1 ) .or. SE1->E1_SALDO <= 0 .or. SE1->E1_VENCREA > ( Date() + 5 )
+         IncProc(OemToAnsi("T¡tulos"))
+			SE1->( DbSkip() )
+			Loop
+		EndIf
+
+		cVendedor	:= SE1->E1_VEND1
+
+		cArqTOT		:= AllTrim( mv_par01 ) + "DUPLIC" + StrZero( Val( SE1->E1_VEND1 ) , 2 ) + ".TXT"
+		cArqTOT		:= FCreate( cArqTOT )
+
+		While !SE1->( Eof() ) .and. SE1->E1_FILIAL == xFilial( "SE1" ) .and. ;
+			SE1->E1_VEND1 == cVendedor
+
+         IncProc()
+
+			If !Empty( SE1->E1_VEND1 ) .and. SE1->E1_SALDO > 0 .and. ;
+				SE1->E1_VENCREA <= ( Date() + 5 )
+
+				cGravaTOT	:= ""
+				cGravaTOT	:= cGravaTOT + SE1->E1_CLIENTE + SE1->E1_LOJA
+				cGravaTOT	:= cGravaTOT + StrZero( Int( Val( SE1->E1_NUM ) ) , 06 )
+				cGravaTOT	:= cGravaTOT + SE1->E1_PARCELA + Space( 01 )
+				cGravaTOT	:= cGravaTOT + StrZero( Day( SE1->E1_VENCREA ) , 2 ) +;
+													StrZero( Month( SE1->E1_VENCREA ) , 2 ) +;
+													StrZero( Year( SE1->E1_VENCREA ) , 4 )
+				cGravaTOT	:= cGravaTOT + StrZero( Int( SE1->E1_VALOR * 100 ) , 8 )
+				cGravaTOT	:= cGravaTOT + SE1->E1_TIPO
+				cGravaTOT	:= cGravaTOT + StrZero( Int( SE1->E1_VLCRUZ * 100 ) , 8 )
+   			cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+				FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+			EndIf
+
+			SE1->( DbSkip() )
+		EndDo
+
+		FClose( cArqTOT )
+
+	EndDo
+
+   DbSelectArea("SE1") // Alterei aqui procure sempre trabalhar desta forma
+   RetIndex("SE1")     // primeiro selecione a area e so apos execute os
+                       // direto na area seleciona
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Produtos - SB1                                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par10 == 1 )
+
+	DbSelectArea( "SB5" )
+	SB5->( DbSetOrder( 1 ) )
+	aTabelas		:= {}
+
+	For nTab := 1 to SB5->( FCount() )
+		cCampo	:= FieldName( nTab )
+		If Left( cCampo , 6 ) == "B5_PRV" .and. SubStr( cCampo , 7 ) >= "A" .and. ;
+			SubStr( cCampo , 7 ) <= "K"
+			aAdd( aTabelas , SubStr( cCampo , 7 , 1 ) )
+		EndIf
+	Next
+
+	cBase			:= "B1"
+
+	DbSelectArea( "SA3" )
+	SA3->( DbSetOrder( 1 ) )
+	SA3->( DbSeek( xFilial( "SA3" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SA3->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Produtos" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA3->( Eof() ) .and. SA3->A3_FILIAL == xFilial( "SA3" ) .and. ;
+		SA3->A3_COD <= mv_par04
+
+      IncProc("Produtos")
+
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par10 == 1 )
+			cArqTOT		:= AllTrim( mv_par01 ) + "PRODUT" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+			cArqTOT		:= FCreate( cArqTOT )
+		EndIf
+
+		If mv_par02 == 2
+			cArqATU		:= AllTrim( mv_par01 ) + "ATUPRO" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+			cArqATU		:= FCreate( cArqATU )
+		EndIf
+
+		// Qdo. Representante ALBRA apenas enviar produtos com preco na Tabela L
+		// Conforme Sr. Marcos Pico e Sr. Fabio (Acacia)
+		// Wilson - 29/11/99
+
+		If StrZero( Val( SA3->A3_COD ) , 2 ) $ "88/89"
+			aTabela	:= {}
+			aAdd( aTabelas , "L" )
+		EndIf
+
+		DbSelectArea( "SB1" )
+		SB1->( DbSetOrder( 1 ) )
+		SB1->( DbSeek( xFilial( "SB1" ) ) )
+
+		While !SB1->( Eof() ) .and. SB1->B1_FILIAL == xFilial( "SB1" )
+
+			SB5->( DbSeek( xFilial( "SB5" ) + SB1->B1_COD ) )
+
+			If !Upper( SB1->B1_TIPO ) $ "PA/MH/MR" .or. SB1->B1_FLAGPRO $ "D" .or. ;
+				SB5->( Eof() )
+				SB1->( DbSkip() )
+				Loop
+			EndIf
+
+			lVolta	:= .T.
+
+			For nTab	:= 1 to Len( aTabelas )
+				cCampo		:= "SB5->B5_PRV" + aTabelas[ nTab ]
+
+				If &cCampo > 0
+					lVolta	:= .F.
+					Exit
+				EndIf
+
+			Next
+
+			If lVolta
+				SB1->( DbSkip() )
+				Loop
+			EndIf		
+
+			If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par10 == 1 )
+				cGravaTOT	:= ""
+				cGravaTOT	:= cGravaTOT + SB1->B1_COD
+				cGravaTOT	:= cGravaTOT + Left( SB1->B1_DESC , 43 )
+				cGravaTOT	:= cGravaTOT + SB1->B1_UM
+				cGravaTOT	:= cGravaTOT + SB1->B1_GRUPO
+				cGravaTOT	:= cGravaTOT + StrZero( SB1->B1_QTDPCXA , 5 )
+				cGravaTOT	:= cGravaTOT + SB1->B1_FLAGPRO
+				cGravaTOT	:= cGravaTOT + StrZero( Int( SB1->B1_IPI * 100 ) , 4 )
+				cGravaTOT	:= cGravaTOT + Left( SB1->B1_CODBAR , 15 )
+                                cGravaTOT       := cGravaTOT + Str((SB1->B1_PRV1),7,2)
+			  	cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+				FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+			EndIf
+
+			If mv_par02 == 2
+
+				lOk	:= .F.
+
+				ChkData()
+
+				If lOk
+					cGravaATU	:= ""
+					cGravaATU	:= cGravaATU + SB1->B1_COD
+					cGravaATU	:= cGravaATU + Left( SB1->B1_DESC , 43 )
+					cGravaATU	:= cGravaATU + SB1->B1_UM
+					cGravaATU	:= cGravaATU + SB1->B1_GRUPO
+					cGravaATU	:= cGravaATU + StrZero( SB1->B1_QTDPCXA , 5 )
+					cGravaATU	:= cGravaATU + SB1->B1_FLAGPRO
+					cGravaATU	:= cGravaATU + StrZero( Int( SB1->B1_IPI * 100 ) , 4 )
+					cGravaTOT	:= cGravaTOT + Left( SB1->B1_CODBAR , 15 )
+                                        cGravaTOT       := cGravaTOT + Str((SB1->B1_PRV1),7,2)
+                                        cGravaATU       := cGravaATU + Chr(13) + Chr(10)
+					FWrite( cArqATU , cGravaATU , Len(cGravaATU ) )
+				EndIf
+
+			EndIf
+
+			SB1->( DbSkip() )
+
+		EndDo
+
+		If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par10 == 1 )
+			FClose( cArqTOT )
+		EndIf
+
+		If mv_par02 == 2
+			FClose( cArqATU )
+		EndIf
+
+		DbSelectArea( "SA3" )
+		SA3->( DbSkip() )
+	EndDo
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Ramo de Atividade - SX5 - Tabela 23                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par11 == 1 )
+
+	SX5->( DbSetOrder( 1 ) )
+
+	DbSelectArea( "SA3" )
+	SA3->( DbSetOrder( 1 ) )
+	SA3->( DbSeek( xFilial( "SA3" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SA3->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Ramo de Atividade" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA3->( Eof() ) .and. SA3->A3_FILIAL == xFilial( "SA3" ) .and. ;
+		SA3->A3_COD <= mv_par04
+
+      IncProc("Ramo de Atividade")
+
+		cArqTOT		:= AllTrim( mv_par01 ) + "ATIVID" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+		cArqTOT		:= FCreate( cArqTOT )
+
+		SX5->( DbSeek( xFilial( "SX5" ) + "23" ) )
+
+		While !SX5->( Eof() ) .and. SX5->X5_FILIAL == xFilial( "SX5" ) .and. ;
+			SX5->X5_TABELA == "23"
+
+			cGravaTOT	:= ""
+			cGravaTOT	:= cGravaTOT + Left( SX5->X5_CHAVE , 5 )
+			cGravaTOT	:= cGravaTOT + Upper( Left( SX5->X5_DESCRI , 25 ) )
+		  	cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+			FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+			SX5->( DbSkip() )
+		EndDo
+
+		SA3->( DbSkip() )
+
+		FClose( cArqTOT )
+
+	EndDo
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Motivos de NÆo Vendas - SX5 - Tabela 75                      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par12 == 1 )
+
+	cArqTOT		:= AllTrim( mv_par01 ) + "MOTIVO" + ".TXT"
+	cArqTOT		:= FCreate( cArqTOT )
+
+	DbSelectArea( "SX5" )
+	SX5->( DbSetOrder( 1 ) )
+	SX5->( DbSeek( xFilial( "SX5" ) + "75" ) )
+
+   ProcRegua( SX5->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Motivos de N„o de Vendas" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SX5->( Eof() ) .and. SX5->X5_FILIAL == xFilial( "SX5" ) .and. ;
+		SX5->X5_TABELA == "75"
+
+      IncProc(OemToAnsi("Motivos de N„o de Vendas"))
+
+		cGravaTOT	:= ""
+		cGravaTOT	:= cGravaTOT + Left( SX5->X5_CHAVE , 2 )
+		cGravaTOT	:= cGravaTOT + Upper( Left( SX5->X5_DESCRI , 20 ) )
+  		cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+		FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+		SX5->( DbSkip() )
+	EndDo
+
+	FClose( cArqTOT )
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Transportadoras - SA4                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par13 == 1 )
+
+	cArqTOT		:= AllTrim( mv_par01 ) + "TRANSPOR" + ".TXT"
+	cArqTOT		:= FCreate( cArqTOT )
+
+	DbSelectArea( "SA4" )
+	SA4->( DbSetOrder( 1 ) )
+	SA4->( DbSeek( xFilial( "SA4" ) ) )
+
+   ProcRegua( SA4->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Transportadoras" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA4->( Eof() ) .and. SA4->A4_FILIAL == xFilial( "SA4" )
+
+      IncProc("Transportadoras")
+
+		cGravaTOT	:= ""
+		cGravaTOT	:= cGravaTOT + Left( SA4->A4_COD , 4 )
+		cGravaTOT	:= cGravaTOT + Left( SA4->A4_NOME , 30 )
+  		cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+		FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+		SA4->( DbSkip() )
+
+	EndDo
+
+	FClose( cArqTOT )
+
+EndIf
+
+
+//ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Ötens de Pedidos em Aberto - SC6                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par14 == 1 )
+
+	SC6->( DbSetOrder( 1 ) )
+
+	DbSelectArea( "SC6" )
+	cDBF	:= CriaTrab( NIL , .F. )
+   Copy Stru to &cDBF
+
+	DbUseArea( .T. ,, cDBF , "TR" , .F. )
+	cNTX		:= CriaTrab( NIL , .F. )
+	cChave	:= "C6_NOTA + C6_NUM + C6_PRODUTO + C6_CLI + C6_LOJA"
+	IndRegua( "TR" , cNTX , cChave , , , "Indexando TR" )
+
+	DbSelectArea( "SC5" )
+
+// SC5->( DbClearIndex() ) nao devo limpar os indices, indregua ja joga
+// o Indice temporario como ultimo
+
+	cNTX		:= CriaTrab( NIL , .F. )
+	cChave	:= "C5_FILIAL + C5_VEND1 + C5_NUM + C5_CLIENTE + C5_LOJACLI"
+	cFiltro	:= ""
+	cFiltro	:= cFiltro + "C5_FILIAL == xFilial( 'SC5' ) .and. C5_PALMTOP == 'S' .and. "
+	cFiltro	:= cFiltro + "Empty( C5_NOTA )"
+	IndRegua( "SC5" , cNTX , cChave , , cFiltro , "Indexando SC5" )
+   DbSetOrder(RetIndex("SC5") + 1)
+
+	SC5->( DbSeek( xFilial( "SC5" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SC5->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Itens de Pedidos em Aberto" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SC5->( Eof() ) .and. SC5->C5_FILIAL == xFilial( "SC5" ) .and. ;
+		SC5->C5_VEND1 <= mv_par04
+
+      IncProc("Itens de Pedidos em Aberto")
+
+		If SC5->C5_PALMTOP != "S" .or. Empty( SC5->C5_VEND1 ) .or. ;
+			SC5->C5_VEND1 < mv_par03 .or. SC5->C5_VEND1 > mv_par04
+			SC5->( DbSkip() )
+			Loop
+		EndIf
+
+		SC6->( DbSeek( xFilial( "SC6" ) + SC5->C5_NUM ) )
+
+		While !SC6->( Eof() ) .and. SC6->C6_FILIAL == xFilial( "SC6" ) .and. ;
+			SC6->C6_NUM == SC5->C5_NUM
+
+			If SC6->C6_PALMTOP == "S" .and. SC6->C6_QTDENT > 0 .and. ;
+				SC6->C6_QTDENT < SC6->C6_QTDVEN
+
+				RecLock( "TR" , .T. )
+				TR->C6_NOTA		:= SC5->C5_VEND1
+				TR->C6_NUM		:= SC6->C6_NUM
+				TR->C6_PRODUTO	:= SC6->C6_PRODUTO
+				TR->C6_CLI		:= SC6->C6_CLI
+				TR->C6_LOJA		:= SC6->C6_LOJA
+				TR->C6_QTDENT	:= SC6->C6_QTDENT
+				TR->( MsUnLock() )
+			EndIf
+
+			SC6->( DbSkip() )
+		EndDo
+
+		DbSelectArea( "SC5" )
+		SC5->( DbSkip() )
+	EndDo
+
+   DbSelectArea("SC5") // Alterei aqui procure sempre trabalhar desta forma
+   RetIndex("SC5")     // primeiro selecione a area e so apos execute os
+                       // direto na area seleciona
+
+	DbSelectArea( "TR" )
+	TR->( DbGoTop() )
+
+   ProcRegua( TR->( LastRec() ) )
+
+	While !TR->( Eof() )
+
+		cVendedor	:= TR->C6_NOTA
+
+		cArqTOT		:= AllTrim( mv_par01 ) + "CORTES" + StrZero( Val( TR->C6_NOTA ) , 2 ) + ".TXT"
+		cArqTOT		:= FCreate( cArqTOT )
+
+		While !TR->( Eof() ) .and. TR->C6_NOTA == cVendedor
+
+         IncProc()
+
+			cGravaTOT	:= ""
+			cGravaTOT	:= cGravaTOT + TR->C6_NUM
+			cGravaTOT	:= cGravaTOT + TR->C6_PRODUTO
+			cGravaTOT	:= cGravaTOT + TR->C6_CLI + TR->C6_LOJA
+			cGravaTOT	:= cGravaTOT + StrZero( Int( TR->C6_QTDENT ) , 5 )
+  			cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+			FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+			TR->( DbSkip() )
+		EndDo
+
+		FClose( cArqTOT )
+
+	EndDo
+
+	TR->( DbCloseArea() )
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Ötens de Pedidos Faturados - SC6                                         ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. mv_par02 == 2 .or. ( mv_par02 == 3 .and. mv_par15 == 1 )
+
+	SC5->( DbSetOrder( 1 ) )
+
+	DbSelectArea( "SE1" )
+
+// SE1->( DbClearIndex() ) nao devo limpar os indices, indregua ja joga
+// o Indice temporario como ultimo
+
+	cNTX		:= CriaTrab( NIL , .F. )
+	cChave	:= "E1_FILIAL + E1_VEND1 + E1_PEDIDO + E1_NUM + DtoS( E1_EMISSAO )"
+	IndRegua( "SE1" , cNTX , cChave , , , "Indexando SE1" )
+   DbSetOrder(RetIndex("SE1") + 1)
+
+	DbSelectArea( "SE1" )
+	SE1->( DbSetOrder( 1 ) )
+	SE1->( DbSeek( xFilial( "SE1" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SE1->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Itens de Pedidos Faturados" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SE1->( Eof() ) .and. SE1->E1_FILIAL == xFilial( "SE1" ) .and. ;
+		SE1->E1_VEND1 <= mv_par04
+
+		If Empty( SE1->E1_VEND1 ) .or. SE1->E1_VEND1 < mv_par03 .or. SE1->E1_VEND1 > mv_par04 .or. ; 
+			!SC5->( DbSeek( xFilial( "SC5" ) + SE1->E1_PEDIDO ) ) .or. ;
+			SC5->C5_PALMTOP != "S"
+         IncProc("Itens de Pedidos Faturados")
+			SE1->( DbSkip() )
+			Loop
+		EndIf
+
+		cVendedor	:= SE1->E1_VEND1
+
+		cArqTOT		:= AllTrim( mv_par01 ) + "NOTAFI" + StrZero( Val( SE1->E1_VEND1 ) , 2 ) + ".TXT"
+		cArqTOT		:= FCreate( cArqTOT )
+
+		While !SE1->( Eof() ) .and. SE1->E1_FILIAL == xFilial( "SE1" ) .and. ;
+			SE1->E1_VEND1 == cVendedor
+
+         IncProc()
+
+			If Empty( SE1->E1_VEND1 ) .or. SE1->E1_VEND1 < mv_par03 .or. SE1->E1_VEND1 > mv_par04 .or. ; 
+				!SC5->( DbSeek( xFilial( "SC5" ) + SE1->E1_PEDIDO ) ) .or. SC5->C5_PALMTOP != "S"
+				SE1->( DbSkip() )
+				Loop
+			EndIf
+
+			SF2->( DbSeek( xFilial( "SF2" ) + SE1->E1_NUM + SE1->E1_PREFIXO +;
+			SE1->E1_CLIENTE + SE1->E1_LOJA ) )
+
+			cGravaTOT	:= ""
+			cGravaTOT	:= cGravaTOT + SE1->E1_PEDIDO
+			cGravaTOT	:= cGravaTOT + StrZero( Int( Val( SE1->E1_NUM ) ) , 06 )
+			cGravaTOT	:= cGravaTOT + StrZero( Day(   SE1->E1_EMISSAO ) , 2 ) +;
+												StrZero( Month( SE1->E1_EMISSAO ) , 2 ) +;
+												StrZero( Year(  SE1->E1_EMISSAO ) , 4 )
+			cGravaTOT	:= cGravaTOT + SE1->E1_CLIENTE + SE1->E1_LOJA
+			cGravaTOT	:= cGravaTOT + Left( SF2->F2_TRANSP , 4 )
+			cGravaTOT	:= cGravaTOT + "1"
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SE1->E1_VALOR * 100 ) , 8 )
+   		cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+			FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+			SE1->( DbSkip() )
+		EndDo
+
+		FClose( cArqTOT )
+
+	EndDo
+
+   DbSelectArea("SE1") // Alterei aqui procure sempre trabalhar desta forma
+   RetIndex("SE1")     // primeiro selecione a area e so apos execute os
+                       // direto na area seleciona
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Grupos - SX5 - Tabela 03                                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par16 == 1 )
+
+	cArqTOT		:= AllTrim( mv_par01 ) + "GRUPOS" + ".TXT"
+	cArqTOT		:= FCreate( cArqTOT )
+
+	SB1->( DbSetOrder( 4 ) )
+
+	DbSelectArea( "SX5" )
+	SX5->( DbSetOrder( 1 ) )
+	SX5->( DbSeek( xFilial( "SX5" ) + "03" ) )
+
+   ProcRegua( SX5->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Grupos" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SX5->( Eof() ) .and. SX5->X5_FILIAL == xFilial( "SX5" ) .and. ;
+		SX5->X5_TABELA == "03"
+
+		If SB1->( DbSeek( xFilial( "SB1" ) + Left( SX5->X5_CHAVE , 4 ) ) )
+
+			While !SB1->( Eof() ) .and. SB1->B1_FILIAL == xFilial( "SB1" ) .and. ;
+				SB1->B1_GRUPO == Left( SX5->X5_CHAVE , 4 )
+
+				If Upper( SB1->B1_TIPO ) $ "PA/MH/MR" .and. !SB1->B1_FLAGPRO $ "D"
+
+					cGravaTOT	:= ""
+					cGravaTOT	:= cGravaTOT + Left( SX5->X5_CHAVE , 4 )
+					cGravaTOT	:= cGravaTOT + Upper( Left( SX5->X5_DESCRI , 20 ) )
+  					cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+					FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+					Exit
+				EndIf
+
+				SB1->( DbSkip() )
+			EndDo	
+
+		EndIf
+
+		SX5->( DbSkip() )
+	EndDo
+
+	FClose( cArqTOT )
+
+EndIf
+
+/*
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Tabelas Especiais - SZ7                                      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+*DbSelectArea( "SA3" )
+*SA3->( DbSetOrder( 1 ) )
+*SA3->( DbSeek( xFilial( "SA3" ) ) )
+*
+*ProcRegua( SA3->( LastRec() ) )
+*
+*While !SA3->( Eof() ) .and. SA3->A3_FILIAL == xFilial( "SA3" )
+*
+*	IncProc()
+*
+*	cArqTOT		:= AllTrim( mv_par01 ) + "TABESP" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+*	cArqTOT		:= FCreate( cArqTOT )
+*
+*	SZ7->( DbSeek( xFilial( "SZ7" ) ) )
+*
+*	While !SZ7->( Eof() ) .and. SZ7->Z7_FILIAL == xFilial( "SZ7" )
+*
+*		cGravaTOT	:= ""
+*		cGravaTOT	:= cGravaTOT + SZ7->Z7_COND
+*		cGravaTOT	:= cGravaTOT + SZ7->Z7_CLIENTE + SZ7->Z7_LOJA
+*		cGravaTOT	:= cGravaTOT + SZ7->Z7_TABELA
+*	  	cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+*		FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+*
+*		SZ7->( DbSkip() )
+*	EndDo
+*
+*	SA3->( DbSkip() )
+*
+*	FClose( cArqTOT )
+*
+*EndDo
+
+*/
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cadastro de Promo‡Æo - SZ8                                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par17 == 1 )
+
+	cArqTOT		:= AllTrim( mv_par01 ) + "PROMOCAO" + ".TXT"
+	cArqTOT		:= FCreate( cArqTOT )
+
+	DbSelectArea( "SZ8" )
+	SZ8->( DbSeek( xFilial( "SZ8" ) ) )
+
+   ProcRegua( SZ8->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Promo‡„o" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SZ8->( Eof() ) .and. SZ8->Z8_FILIAL == xFilial( "SZ8" )
+
+      IncProc(OemToAnsi("Promo‡„o"))
+
+		If SZ8->Z8_VALID < dDataBase
+			SZ8->( DbSkip() )
+			Loop
+		EndIf
+
+		cGravaTOT	:= ""
+		cGravaTOT	:= cGravaTOT + SZ8->Z8_PRODUTO
+		cGravaTOT	:= cGravaTOT + StrZero( Day( SZ8->Z8_VALID ) , 2 ) +;
+											StrZero( Month( SZ8->Z8_VALID ) , 2 ) +;
+											StrZero( Year( SZ8->Z8_VALID ) , 4 )
+		If SZ8->Z8_TIPO == "P"
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ8->Z8_DESCONT * 100 ) , 5 )
+		Else
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ8->Z8_VALOR * 100 ) , 5 )
+		EndIf
+		cGravaTOT	:= cGravaTOT + SZ8->Z8_TIPO
+		cGravaTOT	:= cGravaTOT + StrZero( SZ8->Z8_QTDMIN , 5 )		
+		cGravaTOT	:= cGravaTOT + StrZero( SZ8->Z8_QTDMAX , 5 )
+		cGravaTOT	:= cGravaTOT + IIF( SZ8->Z8_TIPO == "V" , SZ8->Z8_CONDPAG , Space( Len( SZ8->Z8_CONDPAG ) ) )
+  		cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+		FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+		SZ8->( DbSkip() )
+	EndDo
+
+	FClose( cArqTOT )
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Tabela de Parƒmetros - SZ9                                               ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+If mv_par02 == 1 .or. ( mv_par02 == 3 .and. mv_par18 == 1 )
+
+	DbSelectArea( "SA3" )
+	SA3->( DbSetOrder( 1 ) )
+   SA3->( DbSeek( xFilial( "SA3" ) + mv_par03 , .t. ) )
+
+   ProcRegua( SA3->( LastRec() ) )
+
+   #IFNDEF WINDOWS
+      @ 24 , 00 Say Space( 80 ) Color "BG"
+      @ 24 , 00 Say PadC( "Parƒmetros" , 80 ) Color "GR+/BG"
+   #ENDIF
+
+	While !SA3->( Eof() ) .and. SA3->A3_FILIAL == xFilial( "SA3" ) .and. ;
+		SA3->A3_COD <= mv_par04
+
+      IncProc(OemToAnsi("Parƒmetros"))
+
+		cArqTOT		:= AllTrim( mv_par01 ) + "PARAME" + StrZero( Val( SA3->A3_COD ) , 2 ) + ".TXT"
+		cArqTOT		:= FCreate( cArqTOT )
+
+		SZ9->( DbSeek( xFilial( "SZ9" ) + SA3->A3_COD ) )
+
+		While !SZ9->( Eof() ) .and. SZ9->Z9_FILIAL == xFilial( "SZ9" ) .and. ;
+			SZ9->Z9_VEND == SA3->A3_COD
+
+			cGravaTOT	:= ""
+			cGravaTOT	:= cGravaTOT + StrZero( Val( SA3->A3_COD ) , 2 )
+			cGravaTOT	:= cGravaTOT + Left( SA3->A3_NOME , 40 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_MINPED * 100 ) , 6 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_QTULPED ) , 2 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_QTDIAPD ) , 2 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_TXDUPAT * 100 ) , 4 )
+			cGravaTOT	:= cGravaTOT + Left( SA3->A3_TEL , 14 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_DESCFOB * 100 ) , 4 )
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_PERCOMI * 100 ) , 4 )
+			cGravaTOT	:= cGravaTOT + SZ9->Z9_TABPAD
+			cGravaTOT	:= cGravaTOT + StrZero( Int( SZ9->Z9_MAXAUM * 100 ) , 4 )
+			cGravaTOT	:= cGravaTOT + SZ9->Z9_Albra
+		  	cGravaTOT	:= cGravaTOT + Chr(13) + Chr(10)
+			FWrite( cArqTOT , cGravaTOT , Len(cGravaTOT ) )
+
+			SZ9->( DbSkip() )
+		EndDo
+
+		SA3->( DbSkip() )
+
+		FClose( cArqTOT )
+
+	EndDo
+
+EndIf
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Delecao dos arquivos cujo tamanho seja igual a 0 (ZERO)                  ³
+//³ Conforme Sr. Fabio (Acacia), nao precisa ser gerado... ( 25/08/99 )      ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+aDiretorio	:= Directory( AllTrim( mv_par01 ) + "*.TXT", "D" )
+AEVAL( aDiretorio , { |aFiles| IIF( aFiles[ 2 ] <= 0 , FErase( AllTrim( mv_par01 ) + aFiles[ 1 ] ) , .T. ) } )
+
+
+dbSelectArea(cAliasAnt)
+
+#IFNDEF WINDOWS
+   RestScreen(3,0,24,79,cSavScr1)
+#ENDIF
+
+Return
+
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡Æo    ³ ChkData   ³ Autor ³ Wilson J. Santos     ³ Data ³ Ago/99   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡Æo ³ Checa se a £ltima data de inclusÆo/altera‡Æo do arquivo    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==> Function ChkData
+Static Function ChkData()
+	cCampo1		:= cBase + "_USERLGI"
+	cCampo2		:= cBase + "_USERLGA"
+
+	cUserLg		:= &(cCampo1)
+	cUsuarioI	:= IIF( !Empty( cUserLg   ) , Embaralha( cUserLg , 1 ) , "" )
+	cUsuarioI	:= IIF( !Empty( cUsuarioI ) , cUsuarioI , NIL )
+	dDataINC		:= IIF( !Empty( cUserLg   ) , Ctod( "01/01/96" ) + LOAD2IN4( SubStr( cUsuarioi , 16 ) ), CtoD( "  /  /  " ) )
+
+	cUserLG		:= &(cCampo2)
+	cUsuarioA	:= IIF( !Empty( cUserLg   ) , Embaralha( cUserLg , 1 ) , "" )
+	cUsuarioA	:= IIF( !Empty( cUsuarioA ) , cUsuarioA , NIL )
+	dDataALT		:= Iif( !Empty( cUserLg   ) , Ctod( "01/01/96" ) + LOAD2IN4( SubStr( cUsuarioA , 16 ) ) , CtoD( "  /  /  " ) )
+
+	dDataComp	:= IIF( !Empty( dDataALT ) , dDataALT , dDataINC )
+
+	If Date() == dDataComp //.or. Empty( dDataComp )
+		lOk	:= .T.
+	EndIf
+	
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==> 	__Return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 06/11/00
+
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡Æo    ³ ChkLCAB   ³ Autor ³ Wilson J. Santos     ³ Data ³ Ago/99   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡Æo ³ Checa limite de cr‚dito em aberto por cliente              ³±±
+±±³          ³ ( Pedidos + T¡tulos em Aberto )                            ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==> Function ChkLCAB
+Static Function ChkLCAB()
+
+	nLC		:= SA1->A1_LC
+	nSaldo	:= 0
+	lZerou	:= .F.
+
+
+	SE1->( DbSeek( xFilial( "SE1" ) + SA1->A1_COD + SA1->A1_LOJA ) )
+	While !SE1->( Eof() ) .and. SE1->E1_FILIAL == xFilial( "SE1" ) .and. ;
+		SE1->E1_CLIENTE == SA1->A1_COD .and. SE1->E1_LOJA == SA1->A1_LOJA
+		
+		nSaldo	:= nSaldo + SE1->E1_SALDO
+
+		If nSaldo > nLC
+			lZerou	:= .T.
+			Exit
+		EndIf
+
+		SE1->( DbSkip() )
+	EndDo
+
+	If lZerou .or. nSaldo > nLC
+		nLCAB	:= 0
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==> 		__Return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 06/11/00
+	Else
+		nLCAB	:= nLC - nSaldo
+// Substituido pelo assistente de conversao do AP5 IDE em 06/11/00 ==> 		__Return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 06/11/00
+	EndIf
+

@@ -1,0 +1,693 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWEAI.PRW</font><a name="FWEAI"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWEAI</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Esta classe tem como objetivo permitir a integração entre o &nbsp;Microsiga Protheus e quaisquer produtos que software utilizando &nbsp;TOTVS ESB como meio de integração.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>24/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWEAI:Activate">FWEAI:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWEAI:AddLayout">FWEAI:AddLayout</a></br>
+&nbsp;&nbsp;&nbsp;Método que adiciona uma transação.&nbsp;<br><br>
+<a href="#FWEAI:ClassName">FWEAI:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Método que retorna o nome da classe.&nbsp;<br><br>
+<a href="#FWEAI:Deactivate">FWEAI:Deactivate</a></br>
+&nbsp;&nbsp;&nbsp;Método que permite a desativacao da classe&nbsp;<br><br>
+<a href="#FWEAI:Delete">FWEAI:Delete</a></br>
+&nbsp;&nbsp;&nbsp;Método que deleta transação, só pode ser utilizado após a chamada do método Activate().&nbsp;<br><br>
+<a href="#FWEAI:GetDocBranch">FWEAI:GetDocBranch</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorna da filial utilizada.&nbsp;<br><br>
+<a href="#FWEAI:GetDocCompany">FWEAI:GetDocCompany</a></br>
+&nbsp;&nbsp;&nbsp;Método de retornA a empresa utilizada.&nbsp;<br><br>
+<a href="#FWEAI:GetDocIdentifier">FWEAI:GetDocIdentifier</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno da identificação da transação.&nbsp;<br><br>
+<a href="#FWEAI:GetFuncExec">FWEAI:GetFuncExec</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno da função a ser executada de um layout.&nbsp;<br><br>
+<a href="#FWEAI:GetLayouts">FWEAI:GetLayouts</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno dos layouts adicionados.&nbsp;<br><br>
+<a href="#FWEAI:GetResultSync">FWEAI:GetResultSync</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno do XML gerado após a execução da transação sincrona em caso de erro&nbsp;e sucesso na transação.&nbsp;<br><br>
+<a href="#FWEAI:GetTransactions">FWEAI:GetTransactions</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno do XML que será passado como parâmetro para a execução de um layout.&nbsp;<br><br>
+<a href="#FWEAI:GetUUID">FWEAI:GetUUID</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno do código UUID.&nbsp;<br><br>
+<a href="#FWEAI:GetXML">FWEAI:GetXML</a></br>
+&nbsp;&nbsp;&nbsp;Método de retorno do XML gerado após salvar a transação.&nbsp;<br><br>
+<a href="#FWEAI:New">FWEAI:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWEAI:Read">FWEAI:Read</a></br>
+&nbsp;&nbsp;&nbsp;Método que realiza a leitura de um registro da tabela de transacoes EAI, &nbsp;só pode ser utilizado após a chamada do método Activate().&nbsp;<br><br>
+<a href="#FWEAI:Save">FWEAI:Save</a></br>
+&nbsp;&nbsp;&nbsp;Método de persistência da transação, só pode ser utilizado após a chamada do método Activate().&nbsp;<br><br>
+<a href="#FWEAI:SetDocFederalID">FWEAI:SetDocFederalID</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuição do CNPJ/CPF/RUT do cliente proprietário da transação.&nbsp;<br><br>
+<a href="#FWEAI:SetDocName">FWEAI:SetDocName</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuição do nome do cliente proprietário da transação.&nbsp;<br><br>
+<a href="#FWEAI:SetDocType">FWEAI:SetDocType</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuição do tipo da transação.&nbsp;<br><br>
+<a href="#FWEAI:SetFuncCode">FWEAI:SetFuncCode</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuição da transação global.&nbsp;<br><br>
+<a href="#FWEAI:SetFuncDescription">FWEAI:SetFuncDescription</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuição da descrição da transação global.&nbsp;<br><br>
+<a href="#FWEAI:SetResultSync">FWEAI:SetResultSync</a></br>
+&nbsp;&nbsp;&nbsp;Método de atribuicao do XML gerado após a execução da transação sincrona&nbsp;<br><br>
+<a href="#FWEAI:Update">FWEAI:Update</a></br>
+&nbsp;&nbsp;&nbsp;Método que atualiza a transação, só pode ser utilizado após a chamada do método Activate().&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWEAI:Activate"></a>FWEAI:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:Activate()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:AddLayout"></a>FWEAI:AddLayout</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que adiciona uma transação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cIdentifier :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: "NULL"]</font><br>Identificação da transação.
+<tr valign=top><td Width=20><td Width=100><br>cVersion :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: "NULL"]</font><br>Versão da transação.
+<tr valign=top><td Width=20><td Width=100><br>cFunctionCode :<td><br>Tipo: CHARACTER<br>Função que será executada.
+<tr valign=top><td Width=20><td Width=100><br>cLayout :<td><br>Tipo: CHARACTER<br>XML da transação.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:AddLayout(&nbsp;"ID",&nbsp;"1.0",&nbsp;"u_teste",&nbsp;"<xml>000001</xml>"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:ClassName"></a>FWEAI:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que retorna o nome da classe.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>27/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:ClassName()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:Deactivate"></a>FWEAI:Deactivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que permite a desativacao da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:Deactivate()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:Delete"></a>FWEAI:Delete</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que deleta transação, só pode ser utilizado após a chamada do método Activate().&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/05/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Confirmação :<td><br>Tipo: CHARACTER<br>da deleção.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;lReturn&nbsp;:=&nbsp;oFWEAI:Delete()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetDocBranch"></a>FWEAI:GetDocBranch</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorna da filial utilizada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocBranch :<td><br>Tipo: CHARACTER<br>Filial utilizada.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cBranch&nbsp;:=&nbsp;oFWEAI:GetDocBranch()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetDocCompany"></a>FWEAI:GetDocCompany</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retornA a empresa utilizada.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocCompany :<td><br>Tipo: CHARACTER<br>Empresa utilizada.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cCompany&nbsp;:=&nbsp;oFWEAI:GetDocCompany()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetDocIdentifier"></a>FWEAI:GetDocIdentifier</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno da identificação da transação.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocIdentifier :<td><br>Tipo: CHARACTER<br>Identificador da transação. Só é atribuido valor após a utilização do método Save().
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cID&nbsp;:=&nbsp;oFWEAI:GetDocIdentifier()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetFuncExec"></a>FWEAI:GetFuncExec</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno da função a ser executada de um layout.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nIndice :<td><br>Tipo: NUMERIC<br>Posição do layout que deseja retornar a função.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Função :<td><br>Tipo: NUMERIC<br>a ser executada para o layout passado como parametro.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cFunction&nbsp;:=&nbsp;oFWEAI:GetFuncExec(&nbsp;2&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetLayouts"></a>FWEAI:GetLayouts</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno dos layouts adicionados.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Array :<td><br>Tipo: ARRAY<br>com todos os layouts adicionados.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;aLayouts&nbsp;:=&nbsp;oFWEAI:GetLayouts()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetResultSync"></a>FWEAI:GetResultSync</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno do XML gerado após a execução da transação sincrona em caso de erro&nbsp;e sucesso na transação.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>26/06/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML gerado após a execução da transação sincrona
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cXML&nbsp;:=&nbsp;oFWEAI:GetXMLResult()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetTransactions"></a>FWEAI:GetTransactions</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno do XML que será passado como parâmetro para a execução de um layout.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nIndice :<td><br>Tipo: NUMERIC<br>Posição do layout que deseja retornar o XML.
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>XML :<td><br>Tipo: VARIANT<br>que será passado como parâmetro para a execução de um layout.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cXML&nbsp;:=&nbsp;oFWEAI:GetTransactions(&nbsp;2&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetUUID"></a>FWEAI:GetUUID</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno do código UUID.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>06/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cUUID :<td><br>Tipo: CHARACTER<br>Código gerado da transação.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cUUID&nbsp;:=&nbsp;oFWEAI:GetUUID()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:GetXML"></a>FWEAI:GetXML</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de retorno do XML gerado após salvar a transação.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML gerado após salvar a transação.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cXML&nbsp;:=&nbsp;oFWEAI:GetXML()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:New"></a>FWEAI:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI&nbsp;:=&nbsp;FWEAI():New()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:Read"></a>FWEAI:Read</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que realiza a leitura de um registro da tabela de transacoes EAI, &nbsp;só pode ser utilizado após a chamada do método Activate().&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>26/06/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;lReturn&nbsp;:=&nbsp;oFWEAI:Read()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:Save"></a>FWEAI:Save</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de persistência da transação, só pode ser utilizado após a chamada do método Activate().&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Resposta :<td><br>Tipo: CHARACTER<br>do serviço, usada quando a transação for sincrona.
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;xResponse&nbsp;:=&nbsp;oFWEAI:Save()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetDocFederalID"></a>FWEAI:SetDocFederalID</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuição do CNPJ/CPF/RUT do cliente proprietário da transação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocFederalID :<td><br>Tipo: CHARACTER<br>CNPJ/CPF/RUT do cliente proprietário da transação.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:SetDocFederalID(&nbsp;"Id&nbsp;do&nbsp;cliente"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetDocName"></a>FWEAI:SetDocName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuição do nome do cliente proprietário da transação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocName :<td><br>Tipo: CHARACTER<br>Nome do cliente proprietário da transação.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:SetDocName(&nbsp;"Nome&nbsp;do&nbsp;cliente"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetDocType"></a>FWEAI:SetDocType</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuição do tipo da transação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cDocType :<td><br>Tipo: CHARACTER<br>Código do tipo da transação 1 (Sincrona) ou 2 (Assincrona).
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:SetDocType(&nbsp;"Tipo&nbsp;da&nbsp;transação"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetFuncCode"></a>FWEAI:SetFuncCode</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuição da transação global.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFuncCode :<td><br>Tipo: CHARACTER<br>Transação global.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>22/04/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:SetFuncCode(&nbsp;"Clientes"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetFuncDescription"></a>FWEAI:SetFuncDescription</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuição da descrição da transação global.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFuncDescription :<td><br>Tipo: CHARACTER<br>Descrição da transação global.
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Bruno Lopes Malafaia
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>24/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oFWEAI:SetFuncDescription(&nbsp;"Descrição&nbsp;da&nbsp;transação"&nbsp;)
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:SetResultSync"></a>FWEAI:SetResultSync</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de atribuicao do XML gerado após a execução da transação sincrona&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cXML :<td><br>Tipo: CHARACTER<br>XML gerado após a execução da transação sincrona
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>1.0
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>26/06/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;cXML&nbsp;:=&nbsp;oFWEAI:SetXMLResult()
+</table></br><hr></br>
+<b><font size=4><a name="FWEAI:Update"></a>FWEAI:Update</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método que atualiza a transação, só pode ser utilizado após a chamada do método Activate().&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Riera
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>P10 R1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>14/05/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Confirmação :<td><br>Tipo: CHARACTER<br>do update
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;lReturn&nbsp;:=&nbsp;oFWEAI:Update()
+</table></br><hr></br>

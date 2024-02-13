@@ -1,0 +1,230 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWControlPanel.PRW</font><a name="FWControlPanel"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWControlPanel</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Funcao cria um painel que permite manter a configuração de diversos itens&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>19/03/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>User&nbsp;Function&nbsp;TstPanel()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;nWidthTree&nbsp;:=&nbsp;80
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;bOk&nbsp;:=&nbsp;{||&nbsp;alert('ok')&nbsp;}
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;bCancel&nbsp;:=&nbsp;{||&nbsp;alert('cancel')&nbsp;}
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Local&nbsp;oConfig&nbsp;:=&nbsp;FWControlPanel():New(180,180,550,700,,'Exemplo&nbsp;FWControlPanel',nWidthTree,bOk,bCancel)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;//&nbsp;Cria&nbsp;primeira&nbsp;sequencia&nbsp;de&nbsp;Itens
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oPanel01&nbsp;:=&nbsp;oConfig:AddTree(&nbsp;'Painel&nbsp;001','addcontainer',&nbsp;&nbsp;)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;@30,10&nbsp;SAY&nbsp;oSay&nbsp;VAR&nbsp;"Clique&nbsp;no&nbsp;Header"&nbsp;OF&nbsp;oPanel01&nbsp;SIZE&nbsp;50,10&nbsp;PIXEL
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oCombo&nbsp;:=&nbsp;TComboBox():New(40,10,,{'Item','Item'},73,10,oPanel01,,,,,,.T.,,,.F.,,.F.,,,,)&nbsp;
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oConfig:EndTree()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;//&nbsp;Cria&nbsp;segunda&nbsp;sequencia&nbsp;de&nbsp;Itens
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oPanel02&nbsp;:=&nbsp;oConfig:AddTree(&nbsp;'Painel&nbsp;002','afastamento'&nbsp;)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oGroup2&nbsp;:=&nbsp;TGroup():New(0,0,100,0,'Objeto&nbsp;TGroup&nbsp;02',oPanel02,,,.T.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oGroup2:Align&nbsp;:=&nbsp;CONTROL_ALIGN_TOP
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;//&nbsp;Cria&nbsp;SubItens
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oPanel03&nbsp;:=&nbsp;oConfig:AddTreeItem(&nbsp;'Painel&nbsp;003',,{|opanel|&nbsp;alert('Entrou&nbsp;AddTreeItem:&nbsp;'+valtype(opanel))&nbsp;}&nbsp;)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oGroup3&nbsp;:=&nbsp;TGroup():New(0,0,100,0,'Objeto&nbsp;TGroup&nbsp;03',oPanel03,,,.T.)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oGroup3:Align&nbsp;:=&nbsp;CONTROL_ALIGN_TOP
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;oConfig:EndTree()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oConfig:Activate()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Return
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWControlPanel:Activate">FWControlPanel:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Ativa janela&nbsp;<br><br>
+<a href="#FWControlPanel:AddTree">FWControlPanel:AddTree</a></br>
+&nbsp;&nbsp;&nbsp;Adciona Tree Root&nbsp;<br><br>
+<a href="#FWControlPanel:AddTreeItem">FWControlPanel:AddTreeItem</a></br>
+&nbsp;&nbsp;&nbsp;Adciona Tree Item&nbsp;<br><br>
+<a href="#FWControlPanel:EndTree">FWControlPanel:EndTree</a></br>
+&nbsp;&nbsp;&nbsp;Termina Tree Node&nbsp;<br><br>
+<a href="#FWControlPanel:New">FWControlPanel:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da Classe&nbsp;<br><br>
+<a href="#FWControlPanel:Select">FWControlPanel:Select</a></br>
+&nbsp;&nbsp;&nbsp;Seleciona painel&nbsp;<br><br>
+<a href="#FWControlPanel:SelectByCapiton">FWControlPanel:SelectByCapiton</a></br>
+&nbsp;&nbsp;&nbsp;Seleciona um painel/tree baseado no caption e nao no sequencia&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWControlPanel:Activate"></a>FWControlPanel:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ativa janela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:AddTree"></a>FWControlPanel:AddTree</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adciona Tree Root&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:AddTreeItem"></a>FWControlPanel:AddTreeItem</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adciona Tree Item&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:EndTree"></a>FWControlPanel:EndTree</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Termina Tree Node&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:New"></a>FWControlPanel:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da Classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:Select"></a>FWControlPanel:Select</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seleciona painel&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ricardo Mansano
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>19/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWControlPanel:SelectByCapiton"></a>FWControlPanel:SelectByCapiton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seleciona um painel/tree baseado no caption e nao no sequencia&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cCaption :<td><br>Tipo: CHARACTER<br>- Texto a procurar
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/05/2009
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>AddTreeItem</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Adciona um item dentro da tree apos o Activate&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nType :<td><br>Tipo: NUMERIC<br>- Se 1 coloca como Root, se 2 coloca como filho do no atual
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>25/04/2009
+</table></br><hr></br>
+<b><font size=4>Function __FWControlPanel</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permitir a geração de patchs&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>

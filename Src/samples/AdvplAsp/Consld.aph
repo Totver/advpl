@@ -1,0 +1,42 @@
+<html>
+<head>
+<body background="TelaAp5.gif">
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="background-color: #808080" align="center"><font color="#FFFFFF" face="Haettenschweiler" size="5">Amazonia
+Celular S/A</font></p>
+<hr>
+<p align="center" style="line-height: 100%; word-spacing: 0; margin: 0"><font color="#008080" size="4" face="Haettenschweiler">Mapa de Recebimentos - Em: <%=DTOC(DATE())%></font></p>
+<hr>
+  
+<form action="ConSld01.aph" method="GET" name="FormConsld">
+  <p><strong>Tipo de Relatorio Consolidado:</strong></p>
+  <dl> 
+   <dd>    
+     <SELECT NAME="TpRelat"> 
+     <OPTION SELECTED>1 - Data + Estado + Loja + F.Pagto
+     <OPTION>2 - Estado + Loja + Data + F.Pagto 
+     <OPTION>3 - Estado + Data + Loja + F.Pagto
+     <OPTION>4 - Estado + Data + F.Pagto + Loja   
+     <OPTION>5 - F.Pagto + Estado + Loja + Data  
+     </SELECT>
+   </dd>
+  </dl>     
+                                 
+  <p><strong>Periodo da Consulta: </strong></p>
+  <dl>   
+    <dd>  
+      <table>
+        <tr>
+         <td align="left">Data Inicial&nbsp;&nbsp;&nbsp;&nbsp; 
+          <input type="text" size="10" maxlength="10" name="DataInicial" value="01/01/2001">
+         <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data Final&nbsp;&nbsp;&nbsp;&nbsp; 
+          <input type="text" size="10" maxlength="10" name="DataFinal"  value="01/01/2001">
+        </tr>
+      </table>
+    </dd>
+  </dl>
+  <p><input type="submit" value="Executar Consulta"> <input type="reset" value="Limpar dados"></p>
+</form>
+</body>
+</html>

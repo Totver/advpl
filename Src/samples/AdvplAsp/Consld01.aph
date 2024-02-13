@@ -1,0 +1,160 @@
+<html>
+
+<head>       
+<%= HTMLProcId(__nProcId) %>
+<meta http-equiv="Content-Language" content="pt-br">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Nova pagina 1</title>
+</head>
+
+<body background="TelaAp5.gif">
+
+<p>&nbsp;</p>
+    
+<%      
+FOR nI := 1 TO LEN(__aProcParms)
+  IF __aProcParms[nI,1] == "TpRelat"
+     nNivel := val(SUBSTR(__aProcParmS[nI,2],1,1))
+  ELSEIF __aProcParms[nI,1] == "DataInicial"
+     cDataInicial := __aProcParms[nI,2]
+  ELSEIF __aProcParms[nI,1] == "DataFinal"
+     cDataFinal := __aProcParms[nI,2]   
+  ENDIF   
+NEXT nI
+  DbUseArea("LOJA")
+  WHILE !EOF()
+     AADD(acLojasSigla,CDLOJA)
+     AADD(acLojasDescr,NMLOJA)
+     DBSKIP() 
+  ENDDO
+  DbUseArea("RECEBTO") 
+  DbsetOrder(1)
+  aEstadoSigla := {"AP","AM","MA","PA","RR"}
+  aEstadoDescr := {"Amapa","Amazonas","Maranhao","Para","Roraima"}
+  aFPagtoSigla := {"R$","CH","CD","CC","FI","CO","VA"}
+  aFPagtoDescr := {"Dinheiro","Cheque","Cartao de Debito","Cartao de Credito","Financiado","Corporativo","Funcionario"}
+  if nNivel == 1
+     aTit := {}     
+     cTit3 := ""
+     cTit4 := "Estado" 
+     DBSEEK(DTOS(dDtIni))
+     WHILE !EOF() .AND. CSD->DTREF >= dDtIni .AND. SCD->DTREF <= dDtIni
+        nPos := ASCAN(aTit,CSD->ESTADO)
+        IF nPos == 0
+           AADD(aTit,{CSD->ESTADO,CSD->RECCONTAS,CSD->RECVENDAS})
+        ELSE
+           aTit[nPos,2] += CSD->RECCONTAS
+           aTit[nPos,3] += CSD->RECVENDAS
+        ENDIF
+        DBSKIP()   
+     ENDDO 
+     FOR nI := 1 TO LEN(aTit)
+        nPos := ASCAN(aEstadoSigla,aTit[nI,1])
+        IF nPos > 0
+           aTit[nI,1] := aEstadoDescr[nPos]
+        ENDIF    
+     NEXT nI     
+  elseif nNivel == 2
+     aTit := {}     
+     cTit3 := "Estado: "+ALLTRIM(cEstado)
+     cTit4 := "Loja"  
+     DBSEEK(DTOS(dDtIni)+cEstado)
+     WHILE !EOF() .AND. CSD->DTREF >= dDtIni .AND. SCD->DTREF <= dDtIni .AND. ;
+                         CSD->ESTADO == cEstado
+        nPos := ASCAN(aTit,CSD->CDLOJA)
+        IF nPos == 0
+           AADD(aTit,{CSD->CDLOJA,CSD->RECCONTAS,CSD->RECVENDAS})
+        ELSE
+           aTit[nPos,2] += CSD->RECCONTAS
+           aTit[nPos,3] += CSD->RECVENDAS
+        ENDIF
+        DBSKIP()   
+     ENDDO
+     FOR nI := 1 TO LEN(aTit)
+        nPos := ASCAN(aLojasSigla,aTit[nI,1])
+        IF nPos > 0
+           aTit[nI,1] := aLojasDescr[nPos]
+        ENDIF    
+     NEXT nI
+  elseif nNivel == 3       
+     aTit := {} 
+     cTit3 := "Estado: "+ALLTRIM(cEstado)+" - Loja: "+ALLTRIM(cLoja)
+     cTit4 := "Forma de Pagamento"
+     DBSEEK(DTOS(dDtIni)+cEstado+cCdLoja)
+     WHILE !EOF() .AND. CSD->DTREF >= dDtIni .AND. SCD->DTREF <= dDtIni .AND. ;
+                         CSD->ESTADO == cEstado .AND. CSD->CDLOJA == cCdLoja
+        nPos := ASCAN(aTit,CSD->FPAGTO)
+        IF nPos == 0
+           AADD(aTit,{CSD->FPAGTO,CSD->RECCONTAS,CSD->RECVENDAS})
+        ELSE
+           aTit[nPos,2] += CSD->RECCONTAS
+           aTit[nPos,3] += CSD->RECVENDAS
+        ENDIF
+        DBSKIP()   
+     ENDDO                      
+     FOR nI := 1 TO LEN(aTit)
+        nPos := ASCAN(aFPagtoSigla,aTit[nI,1])
+        IF nPos > 0
+           aTit[nI,1] := aFPagtoDescr[nPos]
+        ENDIF    
+     NEXT nI     
+  endif    
+%>
+              
+<p>&nbsp;</p>
+<p style="background-color: #808080" align="center"><font color="#FFFFFF" face="Haettenschweiler" size="5">Amazonia
+Celular S/A</font></p>
+<hr>
+<p align="center" style="line-height: 100%; word-spacing: 0; margin: 0"><font color="#008080" size="4" face="Haettenschweiler">Resumo
+de Recebimentos</font></p>
+<p align="center" style="line-height: 100%; word-spacing: 0; margin: 0"><font color="#008080" size="4" face="Haettenschweiler">Periodo:
+<%=cDataInicial%> a <%=cDataFinal%></font></p>
+<p align="center" style="line-height: 100%; word-spacing: 0; margin: 0"><font color="#008080" size="4" face="Haettenschweiler"><%=cTit3%></font></p>
+<p align="center" style="line-height: 100%; word-spacing: 0; margin: 0"><font color="#008080" size="4" face="Haettenschweiler">Total por <%=cTit4%></font></p>
+<hr>
+<p align="center" style="line-height: 100%; margin-top: 0">&nbsp;</p>
+<table border="1" width="738">
+  <tr>
+    <td style="border-style: ridge; border-color: #008000" align="left" width="228">
+      <p align="left"><b><font face="Tahoma" size="4" color="#800000"><%=cTit4%></font></b></td>
+    <td style="border-style: ridge; border-color: #008000" align="right" width="162"><b><font face="Tahoma" size="4" color="#800000">Rec
+      Contas</font></b></td>
+    <td style="border-style: ridge; border-color: #008000" align="right" width="160"><b><font face="Tahoma" size="4" color="#800000">Rec
+      Vendas</font></b></td>
+    <td style="border-style: ridge; border-color: #008000" align="right" width="160"><b><font face="Tahoma" size="4" color="#800000">Total</font></b></td>
+  </tr>
+ 
+  <%               
+  nTotContas := nTotVendas := 0
+  FOR nI := 1 TO LEN(aTit)
+   %>
+    
+  <tr>
+    <td style="border-style: ridge; border-color: #008000" width="228" align="center"><font face="Tahoma" size="4"><a href="ConsSld1.Apl"><font color="#008080"><%=aTit[nI,1]%></font></a></font></td>
+    <td style="border-style: ridge; border-color: #008000" width="162"><font face="Tahoma" size="4" color="#008080"><%=TRANSFORM(aTit[nI,2],"9.999.999.999.999.99")%></font></td>
+    <td style="border-style: ridge; border-color: #008000" width="160"><font face="Tahoma" size="4" color="#008080"><%=TRANSFORM(aTit[nI,3],"9.999.999.999.999.99")%></font></td>
+    <td style="border-style: ridge; border-color: #008000" width="160"><font face="Tahoma" size="4" color="#008080"><%=TRANSFORM(aTit[nI,2]+aTit[nI,3],"9.999.999.999.999.99")%></font></td>
+  </tr>                         
+  
+  <%
+  nTotContas += aTit[nI,1]
+  nTotVendas += aTit[nI,2]
+  NEXT nI
+  %>
+
+  <tr>
+    <td style="border-style: ridge; border-color: #008000" width="228"><font face="Tahoma" size="4" color="#800000">TOTAL</font></td>
+    <td style="border-style: ridge; border-color: #008000" width="162"><%=TRANSFORM(nTotContas,"9.999.999.999.999.99")%></td>
+    <td style="border-style: ridge; border-color: #008000" width="160"><%=TRANSFORM(nTotVendas,"9.999.999.999.999.99")%></td>
+    <td style="border-style: ridge; border-color: #008000" width="160"><%=TRANSFORM(nTotContas+nTotVendas,"9.999.999.999.999.99")%></td>
+  </tr>
+</table>
+<p>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
+</body>
+
+</html>

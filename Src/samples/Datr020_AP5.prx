@@ -1,0 +1,1876 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 03/03/00
+
+User Function Datr020()        // incluido pelo assistente de conversao do AP5 IDE em 03/03/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("TAMANHO,TITULO,CDESC1,CDESC2,CDESC3,CSTRING")
+SetPrvt("CPERG,NLASTKEY,ARETURN,LEND,NSALTOLIN,BFATOR")
+SetPrvt("LI,M_PAG,WNREL,LAGLUTINA,LPAG,LIMITE")
+SetPrvt("CCONDFILTR,CABEC1,CABEC2,CBCONT,CBTXT,NOMEPROG")
+SetPrvt("NX,LFIRST,ACAMPOS,AANOMES,CINDTRAB,NINDEX")
+SetPrvt("NTOTVENDAS,NTOTESPACO,NTOTESTOQ,NTOTMRGBRUT,NTOTDESPESA,NGERVENDAS")
+SetPrvt("NGERESPACO,NGERESTOQ,NGERMRGBRUT,NGERDESPESA,NGERVDLIQ,NFATOR")
+SetPrvt("CDIFNATDEB,CCABTITULO,LLOJA,NF1,NF2,NF3")
+SetPrvt("CPICTURE,CPGPICTURE,CPICTPERCT,CPICTEST,CPICTM2,CPICTIP")
+SetPrvt("CPICTMRG,AMETROS,ADESPFIL,ADESPTIPO,AVENFIL,AESTFIL")
+SetPrvt("ACMVFIL,AVENGRP,AESTGRP,AM2GRP,AMRGBRTGRP,ADESPGRP")
+SetPrvt("ADESPTEST,ATOTAIS,ATIPOSORT,NTESTTOT,NTOTVENGRP,NTOTESTGRP")
+SetPrvt("NTOTM2GRP,NTOTMRGGRP,CSEEKSZ3,NQTDMETROS,NSCAN,ANATVAL")
+SetPrvt("NLOOP,CANOMES,CDTANOMES,NLOOP2,CSEEKSI2,CFILCCD")
+SetPrvt("NPOSFIL,CAGLUT,NPOSDESC,CDESC,NPOSFILTIPO,CFILCCC")
+SetPrvt("_CARQTRAB,NSCANVEN,NSCANCMV,NSCANEST,NTOTVEN,NTOTCMV")
+SetPrvt("NTOTEST,NTOTM2,NPARTEST,NPARTVEN,NPARTCMV,NPARTM2")
+SetPrvt("NIPV,NIPE,NMRGBRUTA,NMRGBRTTOT,NPARTMRG,NMRGBRTM2")
+SetPrvt("NSCANDESP,NDESPOPER,NDESPRATE,NDESPM2,NLUCROM2,CSORT")
+SetPrvt("CDESCGRUPO,LEXIBE,CPAGTIT,CANTFIL,NTOTLUCM2,NLIN")
+SetPrvt("NIND,CALIASANT,NRECANTSM0,NORDANT,CEMPRESA,CDESCFIL")
+SetPrvt("NGERLUCM2,NSCANMRG,NLOOP1,CINDEXKEY,CANOMESINI,CANOMESFIM")
+SetPrvt("CCOND,CCABESP,NANOMESINI,NANOMESFIM,CAMES,")
+
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ DATR020  ³ Autor ³ Sergio Silveira       ³ Data ³ 07/01/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio gerencial de estoque                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ DATR020(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ DADALTO                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+*/
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ ATENCAO !!! COMPILAR ESTE PROGRAMA COM AS OPCOES -X -DTOP !!! ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+tamanho   := "G"                                               
+titulo    := "Relatorio gerencial de estoque"                  
+cDesc1    := "Este programa ira imprimir a relacao do"         
+cDesc2    := "Relatorio gerencial de estoque"                  
+cDesc3    := ""                                                
+cString   := "SZ4"                                             
+cPerg     := "DTR020"                                          
+nLastKey  := 0                                                 
+aReturn   := { "Zebrado", 1,"Administracao", 1, 2, 1, "",1 }   
+lEnd      := .F.                                               
+
+nSaltoLin := 2 
+
+bFator := { |cGrupo| dbSelectArea("SZ7"), dbSetOrder( 1 ),;
+	If( dbSeek( xFilial( "SZ7" ) + cGrupo ), SZ7->Z7_FATOR1 / 100, .21 ) } 
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para Impressao do Cabecalho e Rodape    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+li		:= 80
+m_pag	:= 1
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas       ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Pergunte("DTR020",.F.)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros     ³
+//³ mv_par01    // Filial de                 ³
+//³ mv_par02    // Filial ate                ³
+//³ mv_par03    // Ano / Mes de              ³
+//³ mv_par04    // Ano / Mes ate             ³
+//³ mv_par05    // Grupo  de                 ³
+//³ mv_par06    // Grupo  ate                ³
+//³ mv_par07    // Aglutina Despesa ?        ³
+//³ mv_par08    // Itens por Pagina ou Linha ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Envia controle para a funcao SETPRINT    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+wnrel := "DATR020"
+wnrel := SetPrint(cString,wnrel,cPerg,@titulo,cDesc1,cDesc2,cDesc3,.F.,"",.F.,Tamanho)
+
+If nLastKey == 27
+	Return .T.
+Endif
+
+SetDefault(aReturn,cString)
+
+If nLastKey == 27
+	Return .T.
+Endif
+
+	// RptStatus({|lEnd| R010Imp(@lEnd,tamanho,titulo,wnRel,cString)},titulo)
+	RptStatus( { || DTR020Imp() }, titulo )	// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 	RptStatus( { || Execute(DTR020Imp) }, titulo )	
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ DTR020Imp³ Autor ³ Sergio Silveira       ³ Data ³ 07/01.99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Chamada do Relatorio                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ DATR020                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> Function DTR020Imp
+Static Function DTR020Imp()
+
+lAglutina := ( MV_PAR07 == 1 )                                 
+lPag      := ( MV_PAR08 == 1 )
+
+limite      := 220        
+cCondFiltr  := NIL       
+cabec1      := NIL       
+cabec2      := NIL       
+cbCont      := 0         
+cbTxt       := Space(10) 
+nomeprog    := "DATR020" 
+nX          := 0         
+lFirst      := NIL       
+aCampos     := {}        
+aAnoMes     := {}        
+cIndTrab    := ""        
+nIndex      := 0         
+								 
+nTotVendas  := 0         
+nTotEspaco  := 0 
+nTotEstoq   := 0         
+nTotMrgBrut := 0         
+nTotDespesa := 0         
+ 
+nGerVendas  := 0         
+nGerEspaco  := 0
+nGerEstoq   := 0                  
+nGerMrgBrut := 0         
+nGerDespesa := 0
+nGerVdLiq   := 0       
+nFator      := .21
+
+cDifNatDeb  := Space( Len( CriaVar( "I2_DEBITO" ) ) - Len( CriaVar( "ED_CODIGO" ) ) ) 				  
+cCabTitulo  := ""
+
+lLoja       := .F. 
+
+If !lPag 
+	Tamanho := "P" 
+	limite  := 80 
+EndIf
+
+nF1 := nF2 := nF3 := 10
+
+cCondFiltr := aReturn[7]
+If Empty(cCondFiltr)
+	cCondFiltr := ".T."
+EndIf
+
+dbSelectArea("SZ4")
+
+Set Filter to
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta os Cabecalhos                                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+//	cabec1  := "GRUPO  DESCRICAO                               VENDAS  PART.%  ESPACO M2  PART.%  ESTOQUE FINAL   PART.%        IPV        IPE  RECEITA BRUTA       DESPESA    RECEITA LIQ. M2"
+//	cabec2  := ""                                                                    
+
+cabec1  := " "
+cabec2  := " "
+
+//          0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901    
+//          0         1         2         3         4         5         6         7         8         9        10        11        12        13 		 14		  15			16
+//															                     99.999,999,999.999          99.999.999,99          99,999,999 99,999,999                                                       
+//                                                  99.999.999,99 99.999.999.999.999          99.999.999,99          99,999,999 99,999,999  9,999,999,999 9,999,999,999    99.999.999.999
+//          9999   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     999.999.999     999  9.999.999     999      9.999.999      999     99.999     99.999     99,999,999     9,999,999         9.999.999
+//          9999   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     999.999.999     999  9.999.999     999      9.999.999      999     99.999     99.999     99,999,999     9,999,999         9.999.999
+
+titulo  := "ANALISE DO DESEMPENHO LOJAS / GRUPOS"
+li      := 80
+lFirst  := .T.
+													
+dbSelectArea( "SZ4" )
+dbSetOrder( 1 ) 
+dbGoTop( )
+
+cPicture   := "@E 999,999,999.99"
+cPgPicture := "@E  9,999,999,999" 
+cPictPerct := "@E          999 %"
+cPictEst   := "@E     99,999,999"
+cPictM2    := "@E      9,999,999"
+cPictIp    := "@E         99,999"
+cPictMrg   := "@E    9,999,999 %"
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cria o indice de trabalho condicional ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+	DTR020Ind()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 	Execute(DTR020Ind)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Apura a quantidade de registros validos ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Count to nRegs 
+
+SetRegua( nRegs ) 
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Percorre a base para apurar o total de M2 por filial ³
+//³ e valor de venda e de estoque por filial             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+aMetros := {}
+				  
+dbSelectArea( "SZ4" ) 				  
+dbGoTop()
+
+aDespFil    := {}     
+aDespTipo   := {}     
+							 
+aVenFil     := {}     
+aEstFil     := {}     
+aCMVFil     := {}
+							 
+aVenGrp	   := {}     
+aEstGrp	   := {}     
+aM2Grp	   := {}     
+aMrgBrtGrp  := {}     
+aDespGrp    := {}     
+aDespTest   := {} 
+aTotais     := {}
+
+aTipoSort   := { { "A", "Dominante" }, {"B", "Competitivo" },; 
+						{ "C", "Definido"  }, {"D", "Basico" } }
+						
+nTestTot    := 0      
+
+nTotVenGrp  := 0   
+nTotEstGrp  := 0   
+nTotM2Grp   := 0   
+nTotMrgGrp  := 0   
+				  
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Faz o Total para todos os Reg de F4 que  ³
+//³	tem correspondencia no F3              ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+While !Eof() 
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Pesquisa o tamanho em M2 para este grupo ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   dbSelectArea("SZ3")
+	dbSetOrder( 1 ) 
+	
+	cSeekSZ3 := SZ4->Z4_FILIAL + SZ4->Z4_CLAS 
+	
+	dbSeek( cSeekSZ3 ) 
+	
+	If	!Eof() 
+	
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Pesquisa o grupo na tabela generica ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		nFator := Eval( bFator, SZ4->Z4_CLAS ) 
+	
+		nQtdMetros := SZ3->Z3_M2 	
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Totaliza o tamanho em M2 para esta filial³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nScan := AScan( aMetros, { |x| x[ 1 ] == SZ4->Z4_FILIAL } )
+		
+		If nScan == 0 
+			aAdd( aMetros, { SZ4->Z4_FILIAL, nQtdMetros } ) 
+		Else	
+			aMetros[ nScan, 2 ] := aMetros[ nScan, 2 ] + nQtdMetros
+		EndIf
+		
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Soma o total de vendas por filial ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		nScan := AScan( aVenFil, { |x| x[ 1 ] == SZ4->Z4_FILIAL } )
+	
+		If nScan == 0 
+			aAdd( aVenFil, { SZ4->Z4_FILIAL, SZ4->Z4_VENDAS } ) 
+		Else	
+			aVenFil[ nScan, 2 ] := aVenFil[ nScan, 2 ] + SZ4->Z4_VENDAS  
+		EndIf
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Soma o total de CMV por filial    ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		nScan := AScan( aCMVFil, { |x| x[ 1 ] == SZ4->Z4_FILIAL } )
+	
+		If nScan == 0 
+			aAdd( aCMVFil, { SZ4->Z4_FILIAL, SZ4->Z4_CMV } ) 
+		Else	
+			aCMVFil[ nScan, 2 ] := aCMVFil[ nScan, 2 ] + SZ4->Z4_CMV 
+		EndIf	
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Soma o total de estoque por filial ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		nScan := AScan( aEstFil, { |x| x[ 1 ] == SZ4->Z4_FILIAL } )
+	
+		If nScan == 0 
+			aAdd( aEstFil, { SZ4->Z4_FILIAL, SZ4->Z4_ESTOQUE / ( 1 - nFator) } ) 
+		Else	
+			aEstFil[ nScan, 2 ] := aEstFil[ nScan, 2 ] + SZ4->Z4_ESTOQUE / ;
+					( 1 - nFator ) 
+		EndIf
+			
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Totaliza o tamanho em M2 para este grupo ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+		nScan := AScan( aM2Grp, { |x| x[ 1 ] == SZ4->Z4_CLAS } )
+
+		If nScan == 0 
+			aAdd( aM2Grp, { SZ4->Z4_CLAS, nQtdMetros, SZ3->Z3_DESCRIC } )
+		Else	
+			aM2Grp[ nScan, 2 ] := aM2Grp[ nScan, 2 ] + nQtdMetros
+		EndIf
+		
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Soma o total de venda/estoque e margem de lucro por grupo  ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+		nScan := AScan( aVenGrp, { |x| x[ 1 ] == SZ4->Z4_CLAS } )
+
+		If nScan == 0 
+			aAdd( aVenGrp, { SZ4->Z4_CLAS, SZ4->Z4_VENDAS } ) 
+		Else	
+			aVenGrp[ nScan, 2 ] := aVenGrp[ nScan, 2 ] + SZ4->Z4_VENDAS
+		EndIf
+
+		nScan := AScan( aEstGrp, { |x| x[ 1 ] == SZ4->Z4_CLAS } )
+	
+		If nScan == 0 
+			aAdd( aEstGrp, { SZ4->Z4_CLAS, SZ4->Z4_ESTOQUE / ( 1 - nFator)} ) 
+		Else	
+			aEstGrp[ nScan, 2 ] := aEstGrp[ nScan, 2 ] + SZ4->Z4_ESTOQUE / ;
+					( 1 - nFator ) 
+		EndIf
+
+		nScan := AScan( aMrgBrtGrp, { |x| x[ 1 ] == SZ4->Z4_CLAS } )
+	
+		If nScan == 0 
+			aAdd( aMrgBrtGrp, { SZ4->Z4_CLAS, SZ4->Z4_VENDAS - ( SZ4->Z4_CMV;
+					+ SZ4->Z4_VENDAS * nFator ) } ) 
+		Else	
+			aMrgBrtGrp[ nScan, 2 ] := aMrgBrtGrp[ nScan, 2 ] + ;
+				(SZ4->Z4_VENDAS - ( SZ4->Z4_CMV + SZ4->Z4_VENDAS * nFator ) )
+		EndIf
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿		
+		//³ Quando for imprimir por Folha nao filtra a Filial e por isso ³ 
+		//³  acumula todas filiais do Z4, se for imprimir por linha      ³
+		//³  o Z4 ja esta filtrado pelo IndRegua e portanto so conta os  ³
+		//³  registros das filiais pedidas                               ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nGerVendas  := nGerVendas  + SZ4->Z4_VENDAS 
+		nGerEspaco  := nGerEspaco  + SZ3->Z3_M2
+		nGerEstoq  	:= nGerEstoq   + SZ4->Z4_ESTOQUE / ( 1 - nFator ) 	
+		nGerMrgBrut := nGerMrgBrut + ( SZ4->Z4_VENDAS - ( SZ4->Z4_CMV + ;
+					SZ4->Z4_VENDAS * nFator )	) 
+		nGerVdLiq   := nGerVdLiq   + SZ4->Z4_VENDAS * ( 1 - nFator ) 			
+					
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ A Despesa e apurada apos o For para Despesas         ³ 
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		// nGerDespesa := nGerDespesa + nDespRate 
+	EndIf
+	/*
+	*/
+	IncRegua() 
+	DbSelectArea( "SZ4" )
+	dbSkip() 
+	
+EndDo
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Apura as naturezas validas para despesas ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+aNatVal := {} 						  
+						  
+dbSelectArea("SED") 
+dbGoTop() 
+
+dbEval( { || If( ED_NATDESP == "S", AAdd( aNatVal,{ED_CODIGO,ED_DESCRIC,ED_AGLUTIY} ),) } )
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta o Array AnoMes ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+	DTR020Mes()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 	Execute(DTR020Mes)
+
+For nLoop := 1 To Len( aAnoMes ) 
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Necessario para converter o ano do campo Z4_MES usando ³
+	//³ SET EPOCH ( prevencao do BUG do milenio )              ³		
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+																	  
+	cAnoMes   := aAnoMes[ nLoop ]  									
+	cDtAnoMes := "01/" + Right( cAnoMes, 2 ) + "/" + Left( cAnoMes, 2 ) 
+	
+	cDtAnoMes := Left( DToS( CToD( cDtAnoMes ) ), 6 )
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Calcula o total de despesas por filial ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Pesquisa pela conta debito ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	dbSelectArea("SI2")
+	dbSetOrder( 4 ) 
+		
+	For nLoop2 := 1 To Len( aNatVal ) 
+	
+		cSeekSI2 := xFilial( "SI2" ) + aNatVal[ nLoop2, 1 ] + cDifNatDeb + cDtAnoMes
+		
+		dbSeek( cSeekSI2 ) 
+		
+		While !Eof() .And. cSeekSI2 == SI2->I2_FILIAL + SI2->I2_DEBITO + ;
+				Left( DToS( SI2->I2_DATA), 6 ) 
+		
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ O Centro de custo debito contem o codigo da filial ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			
+			cFilCCD := AllTrim( SI2->I2_CCD ) 										  
+
+			If !(cFilCCD >= AllTrim(mv_par01) .And. cFilCCD <= AllTrim(mv_par02))
+				dbSelectArea("SI2")
+				dbSkip()
+				Loop
+			EndIf 
+
+			nPosFil := aScan( aDespFil, { |x| x[1] == cFilCCD } )
+			
+			If nPosFil == 0 
+				AAdd( aDespFil, { cFilCCD, SI2->I2_VALOR } )
+			Else
+				aDespFil[ nPosFil, 2 ] := aDespFil[ nPosFil, 2 ] + SI2->I2_VALOR 
+			EndIf
+		
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Pesquisa pela filial e pelo tipo de despesa ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			If lAglutina 
+				
+				cAglut := If( Empty( aNatVal[ nLoop2, 3 ] ), aNatVal[ nLoop2, 1 ],;
+						aNatVal[ nLoop2, 3 ] )
+						
+				nPosDesc  := AScan( aNatVal, { |x| x[ 1 ] == cAglut } ) 		
+				
+				cDesc := ""
+				
+				If nPosDesc <> 0 
+					cDesc := aNatVal[ nPosDesc, 2 ] 
+				EndIf
+				
+				nPosFilTipo := AScan( aDespTipo, { |x| x[1] == cFilCCD .And. ;
+						x[2] == cAglut } ) 
+						
+				If nPosFilTipo == 0 
+					AAdd( aDespTipo, { cFilCCD, cAglut, cDesc, SI2->I2_VALOR } ) 
+				Else			
+					aDespTipo[ nPosFilTipo, 4 ] :=  aDespTipo[ nPosFilTipo, 4 ] + ;
+							SI2->I2_VALOR 
+				EndIf
+
+				//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				//³ Acumula total de despesas por grupo de despesa       ³
+				//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				nPosFilTipo := AScan( aDespTest, { |x| x[1] == cAglut } )
+	
+				If nPosFilTipo == 0
+					AAdd( aDespTest, { cAglut, cDesc, SI2->I2_VALOR } )
+				Else
+					aDespTest[ nPosFilTipo, 3] := aDespTest[ nPosFilTipo, 3] + ;
+						SI2->I2_VALOR
+				EndIf
+				nTestTot := nTestTot + SI2->I2_VALOR
+
+			Else	
+				
+				nPosFilTipo := AScan( aDespTipo, { |x| x[1] == cFilCCD .And. ;
+						x[2] == aNatVal[ nLoop2, 1 ] } ) 
+				
+				If nPosFilTipo == 0 
+					AAdd( aDespTipo, { cFilCCD, aNatVal[nLoop2,1], aNatVal[nLoop2,2], SI2->I2_VALOR  } ) 
+				Else			
+					aDespTipo[ nPosFilTipo, 4 ] :=  aDespTipo[ nPosFilTipo, 4 ] + ;
+							SI2->I2_VALOR 
+				EndIf
+		
+				nPosFilTipo := AScan( aDespTest, { |x| x[1] == aNatVal[nLoop2,1] } )
+
+				//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				//³ Acumula total de despesas por grupo de despesa       ³
+				//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				If nPosFilTipo == 0
+					AAdd( aDespTest, { aNatVal[nLoop2,1], aNatVal[nLoop2,2], SI2->I2_VALOR } )
+				Else
+					aDespTest[ nPosFilTipo, 3] := aDespTest[ nPosFilTipo, 3] + ;
+						SI2->I2_VALOR
+				EndIf
+
+				nTestTot := nTestTot + SI2->I2_VALOR
+
+			EndIf
+
+			dbSelectArea("SI2")
+			dbSkip() 
+			
+		EndDo
+	
+	Next nLoop2
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Pesquisa pela conta credito ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	dbSelectArea("SI2")
+	dbSetOrder( 5 ) 
+	
+	For nLoop2 := 1 To Len( aNatVal ) 
+	
+		cSeekSI2 := xFilial( "SI2" ) + aNatVal[ nLoop2, 1 ] + cDifNatDeb + cDtAnoMes
+		
+		dbSeek( cSeekSI2 ) 
+		
+		While !Eof() .And. cSeekSI2 == SI2->I2_FILIAL + SI2->I2_CREDITO + ;
+				Left( DToS( SI2->I2_DATA), 6 ) 
+		
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ O Centro de custo credito contem o codigo da filial ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			
+			cFilCCC := AllTrim( SI2->I2_CCC ) 										  
+			
+			If !( cFilCCC >= AllTrim(mv_par01) .And. cFilCCC <= AllTrim(mv_par02))
+				dbSelectArea("SI2")
+				dbSkip()
+				Loop
+			EndIf
+			
+			nPosFil := aScan( aDespFil, { |x| x[1] == cFilCCC } )
+			
+			If nPosFil == 0 
+				aAdd( aDespFil, { cFilCCC, SI2->I2_VALOR * -1 } )
+			Else
+				aDespFil[ nPosFil, 2 ] := aDespFil[ nPosFil, 2 ] - SI2->I2_VALOR 
+			EndIf
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Pesquisa pela filial e pelo tipo de despesa ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			
+			If lAglutina 
+			
+				cAglut   := If( Empty( aNatVal[ nLoop2, 3 ] ), aNatVal[ nLoop2, 1 ],;
+						aNatVal[ nLoop2, 3 ] )
+						
+				nPosDesc := AScan( aNatVal, { |x| x[1] == cAglut } ) 		
+				
+				cDesc := ""
+				
+				If nPosDesc <> 0 
+					cDesc := aNatVal[ nPosDesc, 2 ] 
+				EndIf
+				
+				nPosFilTipo := AScan( aDespTipo, { |x| x[1] == cFilCCC .And. ;
+						x[2] == cAglut } ) 
+				
+				If nPosFilTipo == 0
+					AAdd( aDespTipo, { cFilCCC, cAglut, cDesc, SI2->I2_VALOR * -1 } ) 
+				Else
+					aDespTipo[ nPosFilTipo, 4 ] :=  aDespTipo[ nPosFilTipo, 4 ] - ;
+							SI2->I2_VALOR 
+				EndIf
+
+				//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				//³ Acumula total de despesas por grupo de despesa       ³
+				//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				nPosFilTipo := AScan( aDespTest, { |x| x[1] == cAglut } )
+
+				If nPosFilTipo == 0
+					AAdd( aDespTest, { cAglut, cDesc, SI2->I2_VALOR * -1 } )
+				Else
+					aDespTest[ nPosFilTipo, 3] := aDespTest[ nPosFilTipo, 3] - ;
+							SI2->I2_VALOR
+				EndIf
+				nTestTot := nTestTot - SI2->I2_VALOR
+	
+			Else
+				
+				nPosFilTipo := AScan( aDespTipo, { |x| x[1] == cFilCCC .And. ;
+						x[2] == aNatVal[ nLoop2, 1 ] } ) 
+				
+				If nPosFilTipo == 0 
+					AAdd( aDespTipo, { cFilCCC, aNatVal[nLoop2,1], aNatVal[nLoop2,2], SI2->I2_VALOR * -1 } ) 
+				Else			
+					aDespTipo[ nPosFilTipo, 4 ] :=  aDespTipo[ nPosFilTipo, 4 ] - ;
+							SI2->I2_VALOR 
+				EndIf
+				
+				nPosFilTipo := AScan( aDespTest, { |x| x[1] == aNatVal[nLoop2,1] } )
+	
+				//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				//³ Acumula total de despesas por grupo de despesa       ³
+				//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				If nPosFilTipo == 0
+					AAdd( aDespTest, { aNatVal[nLoop2,1], aNatVal[nLoop2,2], SI2->I2_VALOR * -1 } )
+				Else
+					aDespTest[ nPosFilTipo, 3] := aDespTest[ nPosFilTipo, 3] - ;
+						SI2->I2_VALOR
+				EndIf
+				nTestTot := nTestTot - SI2->I2_VALOR
+			
+			EndIf
+			 
+			dbSelectArea("SI2")
+			dbSkip() 
+			
+		EndDo
+	
+	Next nLoop2
+
+Next nLoop 
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Atualiza o Geral de Despesa                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+nGerDespesa :=  nTestTot 
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Ordena o Array de tipo de despesas por filial + tipo despesa ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	 
+ASort( aDespTipo, , , { |x,y| ( y[1] + y[2] ) > ( x[1] + x[2] ) } )  
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta o arquivo de trabalho ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+dbSelectArea( "SZ4" ) 
+dbGoTop() 
+
+_cArqTrab := "" 
+
+ExecBlock( "DATR021", .T., .T. ) 
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Inicio da Impressao do arquivo.                              ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+// dbSelectArea("SZ4")
+// dbSetOrder( nIndex )
+dbSelectArea( "TRAB" ) 
+SetRegua(LastRec()) 
+dbGoTop()  
+
+li := 100
+
+While !Eof() 
+
+	
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Pesquisa a metragem na tabela de metragem por filial/grupo ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+	IF lEnd
+		@Prow()+1,001 PSAY "CANCELADO PELO OPERADOR"
+		Exit
+	Endif
+
+	dbSelectArea( "SZ3" ) 
+	dbSetOrder( 1 ) 
+   
+	If dbSeek( TRAB->TR_FILIAL + TRAB->TR_CLAS )
+	
+		nFator := Eval( bFator, TRAB->TR_CLAS ) 
+
+		If li > 59
+			cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+			
+			cCabTitulo := "LOJA.....: " + TRAB->TR_FILIAL
+			
+			If lPag
+					DTR020Cab()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 					Execute(DTR020Cab)
+			Else
+				@ li, 00 PSAY Replicate( "*", limite ) 
+				li := li + 4
+			EndIf
+		EndIf
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿	
+		//³ Posiciona os Contadores por Filial - Metros, Vendas,   ³
+		//³  CMV e Estoque                                         ³ 
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nScan     := AScan( aMetros, { |x| x[ 1 ] == TRAB->TR_FILIAL } )		
+		nScanVen  := AScan( aVenFil, { |x| x[ 1 ] == TRAB->TR_FILIAL } )		
+		nScanCMV  := AScan( aCMVFil, { |x| x[ 1 ] == TRAB->TR_FILIAL } )
+		nScanEst  := AScan( aEstFil, { |x| x[ 1 ] == TRAB->TR_FILIAL } )
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿	
+		//³ Totais de cada Filial - Vendas, CMV e Estoque ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nTotVen   := If( Empty( nScanVen  ), 0, aVenFil[ nScanVen, 2 ] )
+		nTotCMV   := If( Empty( nScanCMV  ), 0, aCMVFil[ nScanCMV, 2 ] )
+		nTotEst   := If( Empty( nScanEst  ), 0, aEstFil[ nScanEst, 2 ] )
+		nTotM2    := If( Empty( nScan     ), 0, aMetros[ nScan, 2 ] )
+		
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿	
+		//³ Porcentagem de cada Total ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nPartEst  := ( TRAB->TR_ESTOQUE / ( 1 - nFator ) ) / nTotEst
+		nPartVen  := TRAB->TR_VENDAS / nTotVen
+		nPartCMV  := TRAB->TR_CMV    / nTotCMV
+		// nPartM2   := SZ3->Z3_M2   / nTotM2
+		nPartM2   := TRAB->TR_M2     / nTotM2
+		
+		nIpv      := nPartVen / nPartM2
+		nIpe      := nPartEst / nPartM2
+		
+		nMrgBruta := TRAB->TR_VENDAS - ( TRAB->TR_CMV + TRAB->TR_VENDAS * nFator )
+		nMrgBrtTot:= nTotVen - ( nTotCMV + nTotVen * nFator )           
+		 
+		nPartMrg  := nMrgBruta / TRAB->TR_VENDAS 
+		
+		nMrgBrtM2 := nMrgBruta / SZ3->Z3_M2
+	
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Despesa por filial ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nScanDesp := AScan( aDespFil, { |x| x[ 1 ] == TRAB->TR_FILIAL } )
+		
+		If nScanDesp <> 0
+			nDespOper := aDespFil[ nScanDesp, 2 ]
+		Else
+			nDespOper := 0
+		EndIf
+		
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Rateia a despesa levando em consideracao a metragem da secao (grupo) ³
+		//³ em relacao a metragem total da filial                                ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		
+		nDespRate := ( nDespOper * nPartM2 )
+		
+		nDespM2   := nDespRate / SZ3->Z3_M2
+		
+		nLucroM2  := nMrgBrtM2 - nDespM2 
+		
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Impressao da Linha Detalhe.                                  ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		
+		cSort := If( Empty( AScan( aTipoSort, { |x| x[1] == SZ3->Z3_SORT } ) ),;
+		  "Indefinido", aTipoSort[ AScan( aTipoSort, { |x| x[1] == SZ3->Z3_SORT } ), 2 ] )
+		
+		cDescGrupo := AllTrim( SZ3->Z3_DESCRIC ) + " - " + cSort
+
+		// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿		
+		// ³ Imprime ocupando um pagina inteira ou por linha ³
+		// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		If lPag 		
+
+			li := li + nSaltoLin 
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo e descricao ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			@ li, 000 PSAY TRAB->TR_CLAS              Picture "!!!!"
+			@ li, 007 PSAY Left( cDescGrupo, 40 )
+               
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 1                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			
+			lExibe := !Empty( TRAB->TR_VENDAS ) 
+			
+        	@ li, 038 + nF1  PSAY TRAB->TR_VENDAS                  Picture cPicture  
+        	@ li, 053 + nF1  PSAY TRAB->TR_VENDAS * ( 1 - nFator ) Picture cPicture  
+			@ li, 072 + nF1  PSAY nPartVen * 100            Picture "@E 999" 
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 2                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			@ li, 080 + nF1  PSAY nMrgBruta                 Picture "@E 99,999,999"
+			@ li, 095 + nF1  PSAY nDespRate                 Picture "@E 9,999,999"
+			@ li, 114 + nF1  PSAY If( lExibe, Transform( nLucroM2, "@E 9,999,999" ), " ") 
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 3                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			@ li, 126 + nF1 + nF2 PSAY TRAB->TR_ESTOQUE / ( 1 - nFator ) Picture "@E 999,999,999"
+			@ li, 143 + nF1 + nF2 PSAY nPartEst * 100       Picture "@E 999" 
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 4                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			@ li, 152 + nF1 + nF2 PSAY SZ3->Z3_M2           Picture "@E 9,999,999"
+	      @ li, 167 + nF1 + nF2 PSAY nPartM2  * 100       Picture "@E 999"	
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 5                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			@ li, 171 + nF1 + nF2 + nF3 PSAY If( lExibe, TransForm( nIpv * 100, "@E 99,999" ), " ") 
+			@ li, 183 + nF1 + nF2 + nF3 PSAY If( lExibe, TransForm( nIpe * 100, "@E 99,999" ), " ") 
+
+		Else
+			
+			// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			// ³ Titulo da Pag. ³
+			// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			cPagTit	:= "A N A L I S E   P O R   G R U P O  /  F I L I A L"
+			@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+         cPagTit := "P E R I O D O  D E . . : " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                        " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+			li := li + 1
+			@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+
+			li := li + 2
+			@ li, 005 PSAY "Loja"
+			@ li, 010 PSAY TRAB->TR_FILIAL      Picture "!!!!"
+			@ li, 015 PSAY "- Grupo "
+			@ li, 023 PSAY TRAB->TR_CLAS        Picture "!!!!"
+			@ li, 028 PSAY AllTrim( cDescGrupo )
+
+			li := li + 4
+			
+			
+			@ li, 005 PSAY "0 - VENDA BRUTA EM R$.............................:"
+			@ li, 057 PSAY TRAB->TR_VENDAS       Picture cPgPicture
+			li := li + 3
+         @ li, 005 PSAY "1 - VENDA LIQUIDA EM R$ ( deduzidos impostos )....:"
+			@ li, 057 PSAY TRAB->TR_VENDAS * (1-nFator) Picture cPgPicture
+			li := li + 3
+			@ li, 005 PSAY "2 - RECEITA LIQUIDA EM R$.........................:"
+			@ li, 057 PSAY nMrgBruta		 Picture cPgPicture
+			li := li + 3 
+			@ li, 005 PSAY "3 - ESPACO OCUPADO EM M2..........................:"
+			@ li, 057 PSAY SZ3->Z3_M2		 Picture cPictM2
+			li := li + 3
+			@ li, 005 PSAY "4 - ESPACO OCUPADO SOBRE O TOTAL..................:"
+			@ li, 057 PSAY nPartM2 * 100 	 Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "5 - VENDAS SOBRE O TOTAL..........................:"
+			@ li, 057 PSAY nPartVen * 100 	 Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "6 - MARGEM........................................:"
+			@ li,0057 PSAY nPartMrg * 100	 Picture cPictMrg
+			li := li + 3 
+			@ li, 005 PSAY "7 - ESTOQUE FINAL DO MES..........................:"
+			@ li, 057 PSAY TRAB->TR_ESTOQUE / ( 1 - nFator )  Picture cPictEst
+			li := li + 3
+			@ li, 005 PSAY "8 - ESTOQUE SOBRE O TOTAL.........................:"
+			@ li, 057 PSAY nPartEst * 100    Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "9 - RECEITA LIQUIDA EM R$ POR M2..................:"
+			@ li, 057 PSAY  nMrgBrtM2	 	 Picture  cPgPicture
+			li := li + 3
+			@ li, 005 PSAY "10 - DESPESAS OPERACIONAIS EM R$ POR M2...........:"
+			@ li, 057 PSAY nDespM2			 Picture cPgPicture
+			li := li + 4
+			@ li, 005 PSAY "IPV - Indice de Produtividade em vendas...........:"
+			@ li, 057 PSAY nIpv * 100		Picture cPictIp
+			li := li + 1
+			@ li, 005 PSAY "(% da venda dividido pelo % do espaco)"
+			li := li + 2
+			@li, 005 PSAY "IPE - Indice de Produtividade do Estoque...........:"
+			@li, 057 PSAY nIpe * 100		Picture cPictIp
+			li := li + 1
+			@li, 005 PSAY "(% do estoque dividido pelo % do espaco)"
+			li := li + 4
+			@li, 005 PSAY "RENTABILIDADE POR M2...............................:"
+			@li, 057 PSAY nLucroM2          Picture cPgPicture
+			li := li + 1
+			@li, 005 PSAY "(margem bruta por m2 - despesa operacional por m2)"
+
+			// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			// ³ Forca o Salto de Pagina  ³
+			// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			li := 100
+		EndIf
+
+		dbSelectArea("TRAB")
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Estrutura de aTotais:                                        ³
+		//³ 1 - Codigo da filial                                         ³
+		//³ 2 - Vendas                                                   ³
+		//³ 3 - Metragem                                                 ³
+		//³ 4 - Estoque ( Valor )                                        ³
+		//³ 5 - Margem bruta                                             ³
+		//³ 6 - Despesa                                                  ³
+		//³ 7 - Venda liquida                                            ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		If !Empty( nScan := AScan( aTotais, { |x| x[1] == TRAB->TR_FILIAL } ) )
+			aTotais[ nScan, 2 ] := aTotais[ nScan, 2 ] + TRAB->TR_VENDAS
+			aTotais[ nScan, 3 ] := aTotais[ nScan, 3 ] + SZ3->Z3_M2
+			aTotais[ nScan, 4 ] := aTotais[ nScan, 4 ] + TRAB->TR_ESTOQUE / ( 1 - nFator )
+			aTotais[ nScan, 5 ] := aTotais[ nScan, 5 ] + nMrgBruta
+			aTotais[ nScan, 6 ] := aTotais[ nScan, 6 ] + nDespRate
+			aTotais[ nScan, 7 ] := aTotais[ nScan, 7 ] + TRAB->TR_VENDAS	* ;
+					( 1 - nFator ) 
+		Else
+			AAdd( aTotais, { TRAB->TR_FILIAL, TRAB->TR_VENDAS, SZ3->Z3_M2,;
+			TRAB->TR_ESTOQUE / ( 1 - nFator ), nMrgBruta, nDespRate, TRAB->TR_VENDAS * ;
+					( 1 - nFator ) } )	
+		EndIf					
+
+	EndIf
+	
+	cAntFil := TRAB->TR_FILIAL
+
+	dbSelectArea("TRAB")
+	dbSkip()
+	IncRegua()
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Pula os registros de SZ4 que estao sem correspondentes no SZ3    ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	dbSelectArea("SZ3")
+	While !dbSeek( TRAB->TR_FILIAL + TRAB->TR_CLAS )
+		dbSelectArea("TRAB")
+		dbSkip()
+		IncRegua()
+		If EOF()
+			Exit
+		EndIf
+		dbSelectArea("SZ3")
+	EndDo
+	dbSelectArea("TRAB")
+
+	If cAntFil <> TRAB->TR_FILIAL .Or. Eof()
+	
+		li := li + 1
+
+		If li > 59
+			cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+			If !lPag
+				@ li, 00 PSAY Replicate( "*", limite ) 
+				li := li + 3
+			EndIf
+		EndIf
+		
+		If !Empty( nScan := AScan( aTotais, { |x| x[1] == cAntFil } ) )
+      
+			nTotLucM2 := ( aTotais[nScan,5] / aTotais[nScan,3] ) - ;
+					       ( aTotais[nScan,6] / aTotais[nScan,3]	)
+
+			nIpv      := nPartVen / nPartM2
+			nIpe      := nPartEst / nPartM2
+
+			If lPag 
+	
+				@ li, 038 + nF1       PSAY Replicate( "-", 14 ) 
+				@ li, 053 + nF1       PSAY Replicate( "-", 14 ) 
+				@ li, 080 + nF1       PSAY Replicate( "-", 10 ) 
+				@ li, 095 + nF1       PSAY Replicate( "-", 09 ) 
+				@ li, 114 + nF1       PSAY Replicate( "-", 09 ) 
+				@ li, 125 + nF1 + nF2 PSAY Replicate( "-", 12 )
+				@ li, 152 + nF1 + nF2 PSAY Replicate( "-", 09 )
+			
+				li := li + 1  
+										 
+				@ li, 038 + nF1       PSAY aTotais[nScan, 2]  Picture cPicture                            
+				@ li, 053 + nF1       PSAY aTotais[nScan, 7]  Picture cPicture                            
+				@ li, 080 + nF1       PSAY aTotais[nScan, 5]  Picture "@E 99,999,999"                     
+				@ li, 095 + nF1       PSAY aTotais[nScan, 6]  Picture "@E 9,999,999"                      
+				@ li, 114 + nF1       PSAY nTotLucM2          Picture "@E 9,999,999"                      
+				@ li, 126 + nF1 + nF2 PSAY aTotais[nScan, 4]  Picture "@E 999,999,999"                    
+				@ li, 152 + nF1 + nF2 PSAY aTotais[nScan, 3]  Picture "@E 9,999,999"                      
+
+			Else
+	
+				// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				// ³ Calcula a Margem Bruta por Metro Quadrado e   ³
+				// ³  e a Despesa por Metro Quadrado               ³
+				// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				nMrgBrtM2 := aTotais[ nScan, 5 ] / aTotais[ nScan, 3 ]
+				nDespM2   := aTotais[ nScan, 6 ] / aTotais[ nScan, 3 ]
+
+				// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				// ³ Titulo da Pag. ³
+				// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				cPagTit	:= "A N A L I S E   D A   F I L I A L"
+				@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+            cPagTit := "P E R I O D O  D E . . : " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                          " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+				li := li + 1
+				@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+
+				li := li + 2
+				@ li, 005    PSAY "Total da loja: "
+				@ li, PCol() PSAY cAntFil   //  Picture "!!!!"
+
+				li := li + 4
+				
+				@ li, 005 PSAY "0 - VENDA BRUTA EM R$.............................:"
+				@ li, 057 PSAY aTotais[ nScan, 2 ] Picture cPgPicture
+				li := li + 3
+
+				@ li, 005 PSAY "1 - VENDA LIQUIDA EM R$ ( deduzidos impostos )....:"
+				@ li, 057 PSAY aTotais[ nScan, 7 ] Picture cPgPicture
+				li := li + 3
+				@ li, 005 PSAY "2 - RECEITA LIQUIDA EM R$.........................:"
+				@ li, 057 PSAY aTotais[ nScan, 5 ] Picture cPgPicture 
+				li := li + 3 									 
+				@ li, 005 PSAY "3 - ESPACO OCUPADO EM M2..........................:"
+				@ li, 057 PSAY aTotais[ nScan, 3 ] Picture cPictM2
+				li := li + 3
+				@ li, 005 PSAY "4 - ESTOQUE FINAL DO MES..........................:"
+				@ li, 057 PSAY aTotais[ nScan, 4 ] Picture cPictEst
+				li := li + 3
+				@ li, 005 PSAY "5 - RECEITA LIQUIDA EM R$ POR M2..................:"
+				@ li, 057 PSAY  nMrgBrtM2          Picture  cPgPicture
+				li := li + 3
+				@ li, 005 PSAY "6 - DESPESAS OPERACIONAIS EM R$ POR M2............:"
+				@ li, 057 PSAY nDespM2	           Picture cPgPicture
+				li := li + 4
+				@ li, 005 PSAY "RENTABILIDADE POR M2 .............................:"
+				@ li, 057 PSAY nTotLucM2           Picture cPgPicture 
+				li := li + 1
+				@ li, 005 PSAY "(margem bruta por m2 - despesa operacional por m2)"
+
+				// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				// ³ Forca o Salto de Pagina  ³
+				// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				li := 100
+			
+			EndIf
+
+		EndIf
+		
+		// @ li, 090 PSAY nTotMrgBrut / nTotEspaco  Picture "@E 99,999,999.99"
+		// @ li, 105 PSAY nTotDespesa / nTotEspaco  Picture "@E  9,999,999.99"
+		
+		nPosFil := AScan( aDespTipo, { |x| x[1] == cAntFil } )
+					  
+		If nPosFil <> 0
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Exibe as despesas para esta filial ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			
+			nLin := 100
+	
+			Cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+			@ li, 00 PSAY Replicate( "*", limite ) 
+			
+			li := li + 3 
+			@ li, 00 PSAY "RELACAO DE DESPESAS PARA A FILIAL : " + cAntFil
+			li := li + 1 
+			@ li, 00 PSAY "NATUREZA    DESCRICAO                                VALOR"
+			li := li + 1 
+			@ li, 00 PSAY "----------  ------------------------------  --------------"
+			//             XXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  999,999,999,99
+			li := li + 1
+		
+			nInd := nPosFil 
+			
+			While nInd <= Len( aDespTipo ) .And. aDespTipo[ nInd, 1 ] == cAntFil
+			
+				If li > 59
+				
+					cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+					@ li, 00 PSAY Replicate( "*", limite ) 
+					
+					li := li + 3  
+					@ li, 00 PSAY "RELACAO DE DESPESAS PARA A FILIAL : "+cAntFil + " - CONTINUACAO."
+					li := li + 1 
+					@ li, 00 PSAY "NATUREZA    DESCRICAO                                VALOR"
+					li := li + 1 
+					@ li, 00 PSAY "----------  ------------------------------  --------------"
+					//             XXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  999,999,999,99
+					li := li + 1
+					
+				EndIf
+				
+				li := li + nSaltoLin  
+				
+				@ li, 00 PSAY aDespTipo[ nInd, 2 ] 
+				@ li, 12 PSAY aDespTipo[ nInd, 3 ]
+				@ li, 44 PSAY aDespTipo[ nInd, 4 ] Picture "@E 999,999,999.99"  
+				
+				nInd  := nInd + 1 
+				
+			EndDo
+			
+			If !Empty( nScan := AScan( aDespFil, { |x| x[1] == cAntFil } ) )
+			
+				li := li + 1 												 
+				
+				@ li, 44 PSAY Replicate( "-", 14 ) 
+				
+				li := li + 1 
+				
+				@ li, 00 PSAY "TOTAL DESPESAS:" 
+				@ li, 44 PSAY aDespFil[ nScan, 2 ] Picture "@E 999,999,999.99"  
+			
+			EndIf
+
+		EndIf
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Forca o salto de pagina ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+  		li := 100
+
+	EndIf
+
+EndDo
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Imprime os totais por filial ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+li := 100
+
+lLoja := .t. 
+
+cAliasAnt := Alias()
+
+
+dbSelectArea( "SM0" ) 
+
+nRecAntSM0 := Recno()  
+nOrdAnt    := IndexOrd()
+
+cEmpresa   := SM0->M0_CODIGO
+
+For nLoop := 1 To Len( aTotais ) 
+
+	If li > 59
+		
+		cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)	
+		cCabTitulo := "TOTAL POR LOJA - GERAL : " 
+		
+		If lPag
+				DTR020Cab()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 				Execute(DTR020Cab)
+		Else
+			@ li, 00 PSAY Replicate( "*", limite ) 
+			li := li + 4
+		EndIf
+			
+	EndIf
+	
+   nPartM2   := aTotais[ nLoop, 3 ] / nGerEspaco 
+	nPartVen  := aTotais[ nLoop, 2 ] / nGerVendas
+	nPartEst  := aTotais[ nLoop, 4 ] / nGerEstoq 
+
+	nMrgBrtM2 := aTotais[ nLoop, 5 ] / nGerEspaco
+	nDespM2   := aTotais[ nLoop, 6 ] / nGerEspaco
+
+	nLucroM2  := nMrgBrtM2 - nDespM2
+	
+	nIpv      := nPartVen / nPartM2
+	nIpe      := nPartEst / nPartM2
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Grupo e descricao ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	dbSelectArea("SM0")
+	dbSeek( cEmpresa + aTotais[ nLoop, 1 ] ) 
+	
+	cDescFil := SM0->M0_FILIAL 
+
+	If lPag
+	
+	   @ li, 000 PSAY "LOJA : " + aTotais[ nLoop, 1 ] + " - " + cDescFil
+				
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Grupo 1                        ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		@ li, 038 + nF1  PSAY aTotais[ nLoop, 2 ]       Picture cPicture  
+		@ li, 053 + nF1  PSAY aTotais[ nLoop, 7 ]       Picture cPicture  
+		@ li, 072 + nF1  PSAY nPartVen * 100            Picture "@E 999" 
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Grupo 2                        ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+		@ li, 080 + nF1  PSAY aTotais[ nLoop, 5 ]       Picture "@E 99,999,999"
+		@ li, 095 + nF1  PSAY aTotais[ nLoop, 6 ]       Picture "@E 9,999,999"
+		@ li, 114 + nF1  PSAY ( aTotais[nLoop,5] / aTotais[nLoop,3] - ;
+					              aTotais[nLoop,6] / aTotais[nLoop,3] )  Picture "@E 9,999,999"
+   
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Grupo 3                        ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+		@ li, 126 + nF1 + nF2 PSAY aTotais[ nLoop, 4 ]  Picture "@E 999,999,999"
+		@ li, 143 + nF1 + nF2 PSAY nPartEst * 100       Picture "@E 999" 
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Grupo 4                        ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		
+		@ li, 152 + nF1 + nF2 PSAY aTotais[ nLoop, 3 ]  Picture "@E 9,999,999"
+		@ li, 167 + nF1 + nF2 PSAY nPartM2  * 100       Picture "@E 999"	
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Grupo 5                        ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+		// @ li, 171 + nF1 + nF2 + nF3 PSAY nIpv * 100     Picture "@E 99,999"
+		// @ li, 183 + nF1 + nF2 + nF3 PSAY nIpe * 100     Picture "@E 99,999"
+
+		li := li + nSaltoLin 
+	Else
+		// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		// ³ Titulo da Pag. ³
+		// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		cPagTit	:= "A N A L I S E   P O R   F I L I A L  /  G E R A L"
+		@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+      cPagTit := "P E R I O D O  D E . . : " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                        " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+		li := li + 1
+		@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+
+		li := li + 2
+		@ li, 000 PSAY "Loja : " + aTotais[ nLoop, 1 ] + " - " + cDescFil
+
+		li := li + 4
+		@ li, 005 PSAY "0 - VENDA BRUTA EM R$.............................:"
+		@ li, 057 PSAY aTotais[ nLoop, 2 ] Picture cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "1 - VENDA LIQUIDA EM R$ ( deduzidos impostos )....:"
+		@ li, 057 PSAY aTotais[ nLoop, 7 ] Picture cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "2 - RECEITA LIQUIDA EM R$.........................:"
+		@ li, 057 PSAY aTotais[ nLoop, 5 ] Picture cPgPicture
+		li := li + 3 
+		@ li, 005 PSAY "3 - ESPACO OCUPADO EM M2..........................:"
+		@ li, 057 PSAY aTotais[ nLoop, 3 ] Picture cPictM2
+		li := li + 3
+		@ li, 005 PSAY "4 - ESPACO OCUPADO SOBRE O TOTAL..................:"
+		@ li, 057 PSAY nPartM2 * 100       Picture cPictPerct
+		li := li + 3
+		@ li, 005 PSAY "5 - VENDAS SOBRE O TOTAL..........................:"
+		@ li, 057 PSAY nPartVen * 100      Picture cPictPerct
+		li := li + 3
+		@ li, 005 PSAY "6 - MARGEM........................................:"
+		@ li,0057 PSAY nPartMrg * 100	     Picture cPictPerct
+		li := li + 3 
+		@ li, 005 PSAY "7 - ESTOQUE FINAL DO MES..........................:"
+		@ li, 057 PSAY aTotais[ nLoop, 4 ] Picture cPictEst
+		li := li + 3
+		@ li, 005 PSAY "8 - ESTOQUE SOBRE O TOTAL.........................:"
+		@ li, 057 PSAY nPartEst * 100      Picture cPictPerct
+		li := li + 3
+		@ li, 005 PSAY "9 - RECEITA LIQUIDA EM R$ POR M2..................:"
+		@ li, 057 PSAY  nMrgBrtM2          Picture  cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "10 - DESPESAS OPERACIONAIS EM R$ POR M2...........:"
+		@ li, 057 PSAY nDespM2             Picture cPgPicture
+		li := li + 4
+		@ li, 005 PSAY "IPV - Indice de Produtividade em vendas...........:"
+		@ li, 057 PSAY nIpv * 100	        Picture cPictIp
+		li := li + 1
+		@ li, 005 PSAY "(% da venda dividido pelo % do espaco)"
+		li := li + 2
+		@ li, 005 PSAY "IPE - Indice de Produtividade do Estoque..........:"
+		@ li, 057 PSAY nIpe * 100          Picture cPictIp
+		li := li + 1
+		@ li, 005 PSAY "(% do estoque dividido pelo % do espaco)"
+		li := li + 4
+		@ li, 005 PSAY "RENTABILIDADE POR M2............. ................:"
+		@ li, 057 PSAY nLucroM2            Picture cPgPicture
+		li := li + 1
+		@ li, 005 PSAY "(margem bruta por m2 - despesa operacional por m2)"
+
+		// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		// ³ Forca o Salto de Pagina  ³
+		// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		li := 100
+	EndIf
+   
+Next nLoop
+
+nMrgBrtM2 :=  nGerMrgBrut / nGerEspaco
+nDespM2   :=  nGerDespesa / nGerEspaco
+nGerLucM2 := ( nGerMrgBrut / nGerEspaco ) - ( nGerDespesa / nGerEspaco )
+	
+If lPag
+  	DT020Tot() 
+EndIf
+
+
+DbSelectArea(cAliasAnt)
+
+lLoja := .F.
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Caso o usu rio tenha cancelado a impressÆo, ou o arq indexado esteja vazio³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+If !lEnd .And. nRegs > 0 
+	Cabec( titulo, cabec1, cabec2, nomeprog, tamanho, 15 )
+
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Imprime cada grupo      ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	cCabTitulo := "TOTAL POR GRUPO - GERAL : " 
+	
+	If lPag
+			DTR020Cab()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 			Execute(DTR020Cab)
+	Else
+	   @ li, 00 PSAY Replicate( "*", limite ) 
+	   li := li + 4	
+	EndIf
+	
+	ASort( aM2Grp, , , { |x,y| ( y[1]  > x[1] ) } ) 
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Ordena o Array aVenGrp ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	aSort( aVenGrp, , , { |x,y| y[1] > x[1] } ) 
+
+	For nLoop := 1 To Len(aVenGrp)
+	
+		nFator := Eval( bFator, aVenGrp[ nLoop, 1 ] )
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Posiciona a matriz de Venda e Estoque  para o grupo corrente ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nScanVen := AScan( aVenGrp,    { |x| x[ 1 ] == aM2Grp[nLoop,1] } ) 
+		nScanEst := AScan( aEstGrp,    { |x| x[ 1 ] == aM2Grp[nLoop,1] } ) 
+		nScanMrg := AScan( aMrgBrtGrp, { |x| x[ 1 ] == aM2Grp[nLoop,1] } )
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Porcentagem deste grupo sobre o total ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nPartVen   := aVenGrp[nScanVen,2]     / nGerVendas
+		nPartEst   := aEstGrp[nScanEst,2]     / nGerEstoq
+		nPartM2    := aM2Grp[nLoop,2]         / nGerEspaco
+		nPartMrg   := aMrgBrtGrp[nScanMrg,2]  / nGerVendas
+
+		nDespRate := ( nGerDespesa * nPartM2 )
+
+		nDespM2   := nDespRate / aM2Grp[nLoop,2]
+
+		nIpv      := nPartVen / nPartM2
+		nIpe      := nPartEst / nPartM2
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³ Lucro bruto por metro quadrado ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		
+		nMrgBrtM2 := aMrgBrtGrp[nScanMrg,2] / aM2Grp[nLoop,2]
+		nLucroM2  := nMrgBrtM2 - nDespM2
+
+		If li > 59
+			cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+			
+			cCabTitulo := "LOJA.....: " + TRAB->TR_FILIAL
+	
+			If lPag		
+					DTR020Cab()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 					Execute(DTR020Cab)
+			Else
+				@ li, 00 PSAY Replicate( "*", limite ) 
+				li := li + 4
+			EndIf
+		EndIf
+
+	
+		If lPag
+
+			li := li + nSaltoLin
+
+			@ li, 000 PSAY aM2Grp[nLoop,1]            Picture "!!!!"
+			@ li, 007 PSAY Left(aM2Grp[nLoop,3],30)
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 1                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+			@ li, 038 + nF1 PSAY aVenGrp[nScanVen,2] Picture cPicture
+			@ li, 053 + nF1 PSAY aVenGrp[nScanVen,2] * ( 1 - nFator ) Picture cPicture
+			@ li, 072 + nF1 PSAY nPartVen * 100  	  Picture "@E 999"
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 2                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+			@ li, 080 + nF1 PSAY aMrgBrtGrp[nScanMrg,2] Picture "@E 99,999,999"
+		  	@ li, 095 + nF1 PSAY nDespRate              Picture "@E 9,999,999"
+			@ li, 114 + nF1 PSAY nLucroM2               Picture "@E 9,999,999"
+			
+         //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 3                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+			@ li, 126 + nF1 + nF2 PSAY aEstGrp[nScanEst,2] Picture "@E 999,999,999"
+			@ li, 143 + nF1 + nF2 PSAY nPartEst * 100      Picture "@E 999" 
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 4                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+         
+			@ li, 152 + nF1 + nF2 PSAY aM2Grp[nLoop,2]     Picture "@E 9,999,999"             
+			@ li, 167 + nF1 + nF2 PSAY nPartM2  * 100      Picture "@E 999"                   
+
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³ Grupo 5                        ³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+			// @ li, 171 + nF1 + nF2 + nF3 PSAY nIpv * 100    Picture "@E 99,999"
+			// @ li, 183 + nF1 + nF2 + nF3 PSAY nIpe * 100    Picture "@E 99,999"
+		Else
+
+			// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			// ³ Titulo da Pag. ³
+			// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			cPagTit	:= "A N A L I S E   P O R   G R U P O  /  G E R A L"
+			@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+         cPagTit := "P E R I O D O   D E . . : " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                     " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+			li := li + 1
+			@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+
+			li := li + 2
+			@ li, 005      PSAY "Grupo: "
+			@ li, PCol()   PSAY aVenGrp[ nLoop,1 ]    Picture "!!!!"
+			@ li, PCol()+1 PSAY aM2Grp[nLoop,3]
+			li := li + 4
+
+			@ li, 005 PSAY "0 - VENDA BRUTA EM R$.............................:"
+			@ li, 057 PSAY aVenGrp[nScanVen,2]       Picture cPgPicture
+			li := li + 3
+			@ li, 005 PSAY "1 - VENDA LIQUIDA EM R$ ( deduzidos Impostos )....:"
+			@ li, 057 PSAY aVenGrp[nScanVen,2] * (1-nFator) Picture cPgPicture
+			li := li + 3
+			@ li, 005 PSAY "2 - RECEITA LIQUIDA EM R$.........................:"
+			@ li, 057 PSAY aMrgBrtGrp[nScanMrg,2]	  Picture cPgPicture
+			li := li + 3 
+			@ li, 005 PSAY "3 - ESPACO OCUPADO EM M2..........................:"
+			@ li, 057 PSAY aM2Grp[nLoop,2]           Picture cPictM2
+			li := li + 3
+			@ li, 005 PSAY "4 - ESPACO OCUPADO SOBRE O TOTAL..................:"
+			@ li, 057 PSAY nPartM2 * 100             Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "5 - VENDAS SOBRE O TOTAL..........................:"
+			@ li, 057 PSAY nPartVen * 100            Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "6 - MARGEM........................................:"
+			@ li,0057 PSAY nPartMrg * 100            Picture cPictPerct
+			li := li + 3 
+			@ li, 005 PSAY "7 - ESTOQUE FINAL DO MES..........................:"
+			@ li, 057 PSAY aEstGrp[nScanEst,2]       Picture cPictEst
+			li := li + 3
+			@ li, 005 PSAY "8 - ESTOQUE SOBRE O TOTAL.........................:"
+			@ li, 057 PSAY nPartEst * 100            Picture cPictPerct
+			li := li + 3
+			@ li, 005 PSAY "9 - RECEITA LIQUIDA EM R$ POR M2..................:"
+			@ li, 057 PSAY  nMrgBrtM2                Picture  cPgPicture
+			li := li + 3
+			@ li, 005 PSAY "10 - DESPESAS OPERACIONAIS EM R$ POR M2...........:"
+			@ li, 057 PSAY nDespM2                   Picture cPgPicture
+			li := li + 4
+			@ li, 005 PSAY "IPV - Indice de Produtividade em vendas...........:"
+			@ li, 057 PSAY nIpv * 100                Picture cPictIp
+			li := li + 1
+			@ li, 005 PSAY "(% da venda dividido pelo % do espaco)"
+			li := li + 2
+			@ li, 005 PSAY "IPE - Indice de Produtividade do Estoque..........:"
+			@ li, 057 PSAY nIpe * 100                Picture cPictIp
+			li := li + 1
+			@ li, 005 PSAY "(% do estoque dividido pelo % do espaco)"
+			li := li + 4
+			@ li, 005 PSAY "RENTABILIDADE POR M2 .............................:"
+			@ li, 057 PSAY nLucroM2                  Picture cPgPicture
+			li := li + 1
+			@ li, 005 PSAY "(margem bruta por m2 - despesa operacional por m2)"
+	
+			// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			// ³ Forca o Salto de Pagina  ³
+			// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			li := 100
+		
+		EndIf
+		
+	Next
+
+
+	li := li + 2 
+	
+	If li > 60 // 59 + a proxima linha
+		cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+
+		cCabTitulo := "Loja.....: " + TRAB->TR_FILIAL
+
+		If lPag		
+				DTR020Cab()// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> 				Execute(DTR020Cab)
+			li := li + 1 // corrige a primeira linha
+		Else
+			@ li, 00 PSAY Replicate( "*", limite ) 
+			li := li + 5  // corrige a primeira linha
+		EndIf
+	EndIf
+
+	li := li - 1
+	
+	
+	nMrgBrtM2 :=  nGerMrgBrut / nGerEspaco
+	nDespM2   :=  nGerDespesa / nGerEspaco
+	nGerLucM2 := ( nGerMrgBrut / nGerEspaco ) - ( nGerDespesa / nGerEspaco )
+
+	If lPag
+		DT020Tot()
+	Else
+	
+		// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		// ³ Titulo da Pag. ³
+		// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		cPagTit	:= "A N A L I S E  D O  T O T A L  G E R A L"
+		@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+      cPagTit := "P E R I O D O   D E . . : " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                  " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+		li := li + 1
+		@ li, (limite-Len(cPagTit))/2 PSAY cPagTit
+
+		li := li + 2
+		@ li, 005      PSAY "Filial: "+mv_par01+" ate "+mv_par02+" - Grupo "+mv_par05+" ate "+mv_par06
+
+		li := li + 4
+		
+		@ li, 005 PSAY "0 - VENDA BRUTA EM R$.............................:"
+		@ li, 057 PSAY nGerVendas  Picture cPgPicture
+		li := li + 3
+ 
+		@ li, 005 PSAY "1 - VENDA LIQUIDA EM R$ ( deduzidos impostos )....:"
+		@ li, 057 PSAY nGerVdLiq   Picture cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "2 - RECEITA LIQUIDA EM R$.........................:"
+		@ li, 057 PSAY nGerMrgBrut Picture cPgPicture
+		li := li + 3 
+		@ li, 005 PSAY "3 - ESPACO OCUPADO EM M2..........................:"
+		@ li, 057 PSAY nGerEspaco  Picture cPictM2
+		li := li + 3
+		@ li, 005 PSAY "4 - ESTOQUE FINAL DO MES..........................:"
+		@ li, 057 PSAY nGerEstoq   Picture cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "5 - RECEITA LIQUIDA EM R$ POR M2..................:"
+		@ li, 057 PSAY  nMrgBrtM2	Picture  cPgPicture
+		li := li + 3
+		@ li, 005 PSAY "6 - DESPESAS OPERACIONAIS EM R$ POR M2............:"
+		@ li, 057 PSAY nDespM2     Picture cPgPicture
+		li := li + 4
+		@ li, 005 PSAY "RENTABILIDADE POR M2..............................:"
+		@ li, 057 PSAY nGerLucM2   Picture cPgPicture
+		li := li + 1
+		@ li, 005 PSAY "(margem bruta por m2 - despesa operacional por m2)"
+	
+		// ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		// ³ Forca o Salto de Pagina  ³
+		// ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		li := 100
+
+	EndIf
+	
+	If lPag
+		Cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+		@ li, 00 PSAY Replicate( "*", limite ) 
+
+		li := li + 3 			
+		@ li, 00 PSAY "RELACAO DE DESPESAS - GERAL : "
+		li := li + 1 	
+      @ li, 00 PSAY "PERIODO..: DE " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+         " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+	
+		li := li + 2 
+		@ li, 00 PSAY "NATUREZA    DESCRICAO                                VALOR"
+		li := li + 1 
+		@ li, 00 PSAY "----------  ------------------------------  --------------"
+		li := li + 1
+
+		For nLoop1 := 1 To Len(aDespTest)
+
+			If li > 59 
+				cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+				@ li, 00 PSAY Replicate( "*", limite ) 
+			
+				li := li + 3
+				
+				@ li, 00 PSAY "RELACAO DE DESPESAS - GERAL : - CONTINUACAO."
+				li := li + 1 			
+            @ Li, 00 PSAY "PERIODO..: DE " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+                  " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+				li := li + 2 
+				@ li, 00 PSAY "NATUREZA    DESCRICAO                                VALOR"
+				li := li + 1 
+				@ li, 00 PSAY "----------  ------------------------------  --------------"
+				li := li + 1
+			EndIf
+				
+			li := li + nSaltoLin  
+			
+			@ li, 00 PSAY aDespTest[ nLoop1, 1 ] 
+			@ li, 12 PSAY aDespTest[ nLoop1, 2 ]
+			@ li, 44 PSAY aDespTest[ nLoop1, 3 ] Picture "@E 999,999,999.99"  
+			
+		Next				
+	
+		li := li + 2
+
+		If li > 59 
+			cabec(titulo,cabec1,cabec2,nomeprog,tamanho,15)
+	
+			@ li, 00 PSAY Replicate( "*", limite ) 
+			li := li + 3 
+			@ li, 00 PSAY "RELACAO DE DESPESAS - GERAL : - CONTINUACAO."
+			li := li + 1 
+			@ li, 00 PSAY "NATUREZA    DESCRICAO                                VALOR"
+			li := li + 2 // corrige a primeira linha
+		EndIf	
+
+		li := li - 1
+
+		@ li, 00 PSAY "                                            --------------"
+		li := li + 1
+		@ li, 00 PSAY " TOTAL GERAL:"
+		@ li, 44 PSAY nTestTot Picture "@E 999,999,999.99"  
+
+	EndIf
+
+	If li != 80
+ 		roda(cbCont,cbTxt,"M")
+	EndIf
+
+EndIf
+
+Set Device to Screen
+
+If aReturn[5] == 1
+  	Set Printer To
+  	dbCommitall()
+  	ourspool(wnrel)
+Endif
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Apaga Arquivos de trabalho                                   ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+dbSelectArea("SZ4")
+Set Filter to
+
+dbSetOrder( 1 )
+dbGoTop()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Apaga o arquivo temporario do TRAB ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+TRAB->( dbCloseArea() ) 
+FErase(_cArqTrab + ".DBF")
+FErase(_cArqTrab + OrdBagExt())
+
+MS_FLUSH()
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ DTR020Ind³ Autor ³ Sergio Silveira       ³ Data ³ 07/11/99 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Cria o indice de trabalho condicional                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ DTR020Ind                                                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ DATR020                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+		 
+// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> Function DTR020Ind
+Static Function DTR020Ind()
+
+DbSelectArea("SZ4")
+dbSetOrder( 1 ) 
+
+cIndTrab   := CriaTrab(Nil,.F.) 
+cIndexKey  := IndexKey() 
+			 
+cAnoMesIni := Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" )
+cAnoMesFim := Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" )
+
+cCond := ''
+cCond := cCond + 'Z4_FILIAL >= "' + mv_par01   + '" .And. Z4_FILIAL     <= "' + mv_par02 + '" .And. '
+cCond := cCond + 'Z4_MES    >= "' + cAnoMesIni + '" .And. Z4_MES <= "'    + cAnoMesFim + '" .And. '
+cCond := cCond + 'Z4_CLAS   >= "' + mv_par05   + '" .And. Z4_CLAS       <= "' + mv_par06 + '"'
+Set Filter To
+//nIndex := RetIndex( "SZ4" ) + 1 
+IndRegua( "SZ4", cIndTrab, cIndexKey, , cCond, "Gerando indice de trabalho..." ) 
+nIndex := RetIndex( "SZ4" ) + 1 	
+
+//dbSetOrder( nIndex )
+
+Return 
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ DTR020Cab³ Autor ³ Sergio Silveira       ³ Data ³ 07/01/98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Informacoes adicionais de cabecalho                        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ Nenhum                                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³ Nenhum                                                     ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ DATR020                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> Function DTR020Cab
+Static Function DTR020Cab()
+
+ 
+@ li, 00 PSAY Replicate( "*", limite )  
+Li := Li + 2 
+@ Li, 00 PSAY cCabTitulo 
+
+Li := Li + 1
+@ Li, 00 PSAY "PERIODO..: DE " + Stuff( StrZero( mv_par03, 4 ), 3, 0, "/" ) + ;
+         " ATE' " + Stuff( StrZero( mv_par04, 4 ), 3, 0, "/" ) 
+
+Li := Li + 1 			
+@ Li, 00 PSAY "FINANCEIRO - VALORES EM R$" 			
+Li := Li + 2
+
+cCabEsp    := "                                      "+Space(nF1)+"----------------------------------- FINANCEIRO --------------------------------------"+Space(nF2)+"  ------------------- ESTOQUE -----------------"+Space(nF3)+"  -- INDICADORES --"
+@ li, 00 PSAY cCabEsp
+li := li + 1 
+
+If lLoja 
+   cCabEsp := "LOJA                                  "+Space(nF1)+"   VENDA BRUTA  VENDA LIQUIDA  PART.%   REC. LIQUIDA       DESPESA         RECEITA/M2"+Space(nF2)+"           PCD   PART.%      ESPACO M2   PART.%"+Space(nF3)+"    IPV         IPE"
+Else
+	cCabEsp := "GRUPO  DESCRICAO                      "+Space(nF1)+"   VENDA BRUTA  VENDA LIQUIDA  PART.%   REC. LIQUIDA       DESPESA         RECEITA/M2"+Space(nF2)+"           PCD   PART.%      ESPACO M2   PART.%"+Space(nF3)+"    IPV         IPE"
+EndIf	
+
+@ li, 00 PSAY cCabEsp
+li := li + 1 
+cCabEsp    := "-----  ------------------------------ "+Space(nF1)+"-------------- --------------  ------  -------------  ------------  -----------------"+Space(nF2)+"  ------------  -------  -------------  -------"+Space(nF3)+"  -----       -----"
+@ li, 00 PSAY cCabEsp
+li := li + 1 
+
+Return
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ DTR020Mes³ Autor ³ Sergio Silveira       ³ Data ³ 08/01/98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Faz a montagem do Array aAnoMes conforme parametros        ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ DTR020Mes                                                  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ DATR020                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> Function DTR020Mes
+Static Function DTR020Mes()
+
+// nAnoMesIni := MV_PAR03
+// nAnoMesFim := MV_PAR04
+
+nAnoMesIni := MV_PAR09
+nAnoMesFim := MV_PAR10
+
+If nAnoMesIni < 5000
+	nAnoMesIni := nAnoMesIni + 10000			  
+EndIf
+
+If nAnoMesFim < 5000
+	nAnoMesFim := nAnoMesFim + 10000			  
+EndIf
+
+For nLoop := nAnoMesIni To nAnoMesFim  
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Se o mes for maior que 12, soma 87 para mudar ano e mes = 00 ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	
+	If Right( Str( nLoop, 4 ), 2 ) > "12" 
+		nLoop := nLoop + 87
+		Loop
+	EndIf
+			 
+	cAMes := Right( Str( nLoop, 5 ), 4 ) 					
+						
+	aAdd( aAnoMes, Stuff( cAMes, 3, 0, "/" ) ) 		 
+			 
+Next nLoop
+
+Return( .T. ) 
+
+//---------------//
+
+// Substituido pelo assistente de conversao do AP5 IDE em 03/03/00 ==> Function DT020Tot
+Static Function DT020Tot()
+
+nMrgBrtM2 :=  nGerMrgBrut / nGerEspaco
+nDespM2   :=  nGerDespesa / nGerEspaco
+nGerLucM2 := ( nGerMrgBrut / nGerEspaco ) - ( nGerDespesa / nGerEspaco )
+
+@ li, 038 + nF1 PSAY Replicate( "-", 14 ) 
+@ li, 053 + nF1 PSAY Replicate( "-", 14 ) 
+@ li, 080 + nF1 PSAY Replicate( "-", 10 ) 
+@ li, 095 + nF1 PSAY Replicate( "-", 09 ) 
+@ li, 114 + nF1 PSAY Replicate( "-", 09 ) 
+@ li, 125 + nF1 + nF2 PSAY Replicate( "-", 12 )
+@ li, 152 + nF1 + nF2 PSAY Replicate( "-", 09 )
+li := li + 1
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Imprime linha do total geral ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+@ li, 000 PSAY "TOTAL GERAL : "        
+
+@ li, 038 + nF1 PSAY  nGerVendas   Picture cPicture
+@ li, 053 + nF1 PSAY  nGerVdLiq    Picture cPicture
+@ li, 080 + nF1 PSAY  nGerMrgBrut  Picture "@E 99,999,999"
+@ li, 095 + nF1 PSAY  nGerDespesa  Picture "@E 9,999,999" 
+@ li, 114 + nF1 PSAY  nGerLucM2    Picture "@E 9,999,999" 
+@ li, 126 + nF1 + nF2 PSAY nGerEstoq    Picture "@E 999,999,999"
+@ li, 152 + nF1 + nF2 PSAY nGerEspaco   Picture "@E 9,999,999"
+
+Return

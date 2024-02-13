@@ -1,0 +1,315 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 18/09/00
+
+User Function Mtv001()        // incluido pelo assistente de conversao do AP5 IDE em 18/09/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("NOPT,CPERG,ACRA,TITULO,CDESC1,CDESC2")
+SetPrvt("CDESC3,NOMEPROG,ALINHA,NLASTKEY,CSAVSCR1,CSAVCUR1")
+SetPrvt("CSAVROW1,CSAVCOL1,CSAVCOR1,CSAVSCRCV,NOPCA,CARQUIVO")
+SetPrvt("CCONTAINI,CCONTAFIM,CRESULTA,CDESPESA,CCHAVE,CINDEX")
+SetPrvt("CFILTRO,NINDEX,NTOTSEL,LFILE,ACAMPOS,CTEMP")
+SetPrvt("NPROXREG,CCAMPO,")
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ MTV001     ³ Autor ³ Fernando Ramos        ³ Data ³ 01/04/97 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Geracao de arquivo TXT                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ Sigacon   Especifico MTV Brasil                              ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define variaveis                                                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+nOpt     := 3
+cPerg    := "MTV001"
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta tela de parametros para selecao                                     ³
+//³ MV_PAR01 Nome do Arquivo                                                  ³
+//³ MV_PAR02 Conta Inicial                                                    ³
+//³ MV_PAR03 Conta Final                                                      ³
+//³ MV_PAR04 Grupo Resultado                                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+Pergunte(cPerg,.f.)
+
+#IFDEF WINDOWS
+
+Pergunte(cPerg)
+@ 000,000 To 200,450 DIALOG oDlg TITLE OemToAnsi("Geracao de Arq.TXT Plano de Contas")
+@ 010,010 Say OemToAnsi("Este programa tem como objetivo gerar")
+@ 020,010 Say OemToAnsi("um arquivo TXT do Plano de Contas.   ")
+@ 006,195 BMPBUTTON TYPE 1 Action ConfirmOp()// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> @ 006,195 BMPBUTTON TYPE 1 Action Execute(ConfirmOp)
+@ 022,195 BMPBUTTON TYPE 2 Action AbortOp()// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> @ 022,195 BMPBUTTON TYPE 2 Action Execute(AbortOp)
+ACTIVATE DIALOG oDlg Centered
+
+#ELSE
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define Variaveis                                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+aCRA    := {"Confirma","Redigita","Abandona"}
+titulo  := "Geracao de Arquivo TXT Plano de Contas "
+cDesc1  := "Este programa ira gerar um arquivo TXT "
+cDesc2  := "com os dados do Plano de Contas.       "
+cDesc3  := ""
+nomeprog:= "MTV001"
+aLinha := { }
+nLastKey := 0
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Salva a Integridade dos dados de Entrada                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+cSavScr1 := SaveScreen(3,0,24,79)
+cSavCur1 := SetCursor(0)
+cSavRow1 := Row()
+cSavCol1 := Col()
+cSavCor1 := SetColor("bg+/b,,,")
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta Tela do Programa                                       ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+DispBegin()
+ScreenDraw("SMT999",3,0,0,0)
+@ 03,01 Say "Geracao de arquivo TXT Plano de Contas" Color "b/w"
+SetColor("w/n,,,,")
+@ 06,24 SAY PADC("Geracao de arquivo TXT Plano de Contas",30)
+SetColor("b/bg,,,")
+@ 11,07 Say "Este programa ira gerar um arquivo TXT "
+@ 12,07 Say "do Plano de Contas"
+@ 13,07 Say ""
+cSavScrCV := SaveScreen(21,0,21,79)
+DispEnd()
+
+While .T.
+   pergunte(cPerg)
+   
+   SetColor("n/w,,,,")
+   @ 21,05 Clear To 21,74
+   nOpcA:=menuh(aCRA,21,6,"b/w,w+/n,r/w","CRA","Quanto a gera‡Æo do arquivo? ",1)
+   
+   If LastKey() == 27 .Or. nLastKey == 27 .Or. nOpcA == 3
+      RestScreen(3,0,24,79,cSavScr1)
+      Return
+   Endif
+   
+   If nOpcA == 1
+      nOpt := 1
+      Exit
+   Endif
+   
+End
+
+If LastKey() == 27 .or. nLastKey == 27
+   RestScreen(3,0,24,79,cSavScr1)
+   Return
+Endif
+
+
+#ENDIF
+
+If nOpt == 1
+
+   cArquivo  := AllTrim(MV_PAR01)
+   cContaIni := MV_PAR02
+   cContaFim := MV_PAR03
+   cResulta  := MV_PAR04
+   cDespesa  := MV_PAR05
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Gera indice condicional                                                   ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   dbSelectArea("SI1")
+   dbSetOrder(1)
+   // utiliza mesma ordem que ERFIR08 ordem 5 - Fornecedor
+   cChave   := "I1_FILIAL+I1_CODIGO"
+   cIndex   := CriaTrab(NIL,.f.)
+   cFiltro  := "I1_CODIGO >= cContaIni .and. I1_CODIGO <= cContaFim"
+   IndRegua("SI1",cIndex,cChave,,cFiltro,"Selecionando Registros...")
+   nIndex := RetIndex( "SI1" )
+   nIndex := nIndex + 1
+   dbSelectArea("SI1")
+   dbSetIndex(cIndex)
+   dbSetOrder(nIndex)
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Verifica quantidade de registros selecionados                             ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   nTotSel := 0
+   dbGotop()
+
+   If ( Bof() ) .And. ( Eof() )
+		Help(" ",1,"RECNO")
+		Return
+    EndIf
+
+   While !Eof()
+      nTotSel := nTotSel + 1
+      dbSkip()
+   End
+   dbGotop()
+   
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Inicializa variaveis                                                      ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   
+   #IFDEF WINDOWS
+       Processa({|lEnd| MTV001A() })// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==>        Processa({|lEnd| Execute(MTV001A) })
+   #ELSE
+       MTV001A()   
+   #ENDIF
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Remove indice condicional criado especificamente                          ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   RetIndex("SI1")
+   Set Filter to
+   Ferase(cIndex+OrdBagExt())
+   dbSetOrder(1)
+   
+EndIf
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ ConfirmOp  ³ Autor ³ Fernando Ramos        ³ Data ³ 25/03/97 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Confirma e aceita os GETs                                    ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ MTV001                                                       ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> Function ConfirmOp
+Static Function ConfirmOp()
+
+Close(oDlg)
+nOpt:=1
+
+Return
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ AbortOp    ³ Autor ³ Fernando Ramos        ³ Data ³ 28/03/97 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Aborta os GETs                                               ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ MTV001                                                       ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> Function AbortOp
+Static Function AbortOp()
+
+Close(oDlg)
+nOpt:=3
+Return
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ MTV001A    ³ Autor ³ Fernando Ramos        ³ Data ³ 15/04/97 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ Processamento MTV001                                         ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ MTV001                                                       ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> Function MTV001A
+Static Function MTV001A()
+
+lFile := .f.
+If File(cArquivo)
+    Help(" ",1,"MTV001")
+    Return
+Else
+    aCampos := {{"TEXTO","C",200,0}}
+    cTemp   := CriaTrab(aCampos,.t.)    
+    dbUseArea(.t.,,cTemp,"TRB",.f.,)     
+EndIf
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Inicia processamento efetivo                                              ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dbSelectArea("SI1")
+dbGotop()
+ProcRegua(nTotSel)
+
+While !Eof()
+   IncProc()
+
+   dbSkip()
+   If !Eof()
+      nProxReg := Recno()
+   Else
+      nProxReg := 0
+   EndIf
+   dbSkip(-1)
+   
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Geracao do arquivo Texto                                                  ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   
+   cCampo := SI1->I1_CODIGO+Space(15)
+   cCampo := cCampo + iif(len(SI1->I1_DESC)>40,Subs(SI1->I1_DESC,1,40),SI1->I1_DESC+Space(40-Len(SI1->I1_DESC)))
+   
+   If Subs(SI1->I1_CODIGO,1,1)=="1"
+      cCampo := cCampo + "A"
+   ElseIf Subs(SI1->I1_CODIGO,1,1)=="2"      
+      cCampo := cCampo + "P"
+   ElseIf Subs(SI1->I1_CODIGO,1,1)== cResulta
+      cCampo := cCampo + "R"
+   ElseIf Subs(SI1->I1_CODIGO,1,1)== cDespesa
+      cCampo := cCampo + "D"
+   EndIf            
+   
+   // Sintetica ou Analitica
+   cCampo := cCampo + IIf(SI1->I1_CLASSE=="A","N","S")
+
+   // Condicao normal
+   cCampo := cCampo + SI1->I1_NORMAL
+
+   // Nivel
+   cCampo := cCampo + SI1->I1_NIVEL
+
+   dbSelectArea("TRB")
+   RecLock("TRB",.t.)
+   TRB->TEXTO := cCampo
+   MsUnlock()
+   
+   dbSelectArea("SI1")
+      
+   If nProxReg == 0
+      Exit
+   Else
+      dbGoto(nProxReg)
+   EndIf
+End
+
+dbSelectArea("TRB")
+If RecCount() != 0
+	
+   Copy to &cArquivo SDF 
+
+EndIf
+
+dbSelectArea("TRB")
+dbCloseArea()
+Ferase(cTemp+".DBF")
+
+Return

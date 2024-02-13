@@ -1,0 +1,649 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWSeek.PRW</font><a name="FWSeek"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWSeek</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto que permite a pesquisa de registros&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWSeek:Activate">FWSeek:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWSeek:Bar">FWSeek:Bar</a></br>
+&nbsp;&nbsp;&nbsp;Cria a barra ou botão de pesquisa no objeto proprietário&nbsp;<br><br>
+<a href="#FWSeek:ClassName">FWSeek:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWSEEK)&nbsp;<br><br>
+<a href="#FWSeek:DeActivate">FWSeek:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método destrutor da classe&nbsp;<br><br>
+<a href="#FWSeek:Details">FWSeek:Details</a></br>
+&nbsp;&nbsp;&nbsp;Exibe os detalhes da pesquisa&nbsp;<br><br>
+<a href="#FWSeek:Disable">FWSeek:Disable</a></br>
+&nbsp;&nbsp;&nbsp;Desabilita a utilização do Browse&nbsp;<br><br>
+<a href="#FWSeek:Enable">FWSeek:Enable</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do Browse&nbsp;<br><br>
+<a href="#FWSeek:GetAction">FWSeek:GetAction</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o Code-Block executado na ação do botão "Buscar"&nbsp;<br><br>
+<a href="#FWSeek:GetAlign">FWSeek:GetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWSeek:GetButton">FWSeek:GetButton</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;<br><br>
+<a href="#FWSeek:GetDetails">FWSeek:GetDetails</a></br>
+&nbsp;&nbsp;&nbsp;Retorna os campos utilizados nos detalhes da pesquisa&nbsp;<br><br>
+<a href="#FWSeek:GetOrder">FWSeek:GetOrder</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a ordem selecionada na pesquisa&nbsp;<br><br>
+<a href="#FWSeek:GetSeek">FWSeek:GetSeek</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o texto a ser pesquisado&nbsp;<br><br>
+<a href="#FWSeek:Hide">FWSeek:Hide</a></br>
+&nbsp;&nbsp;&nbsp;Torna o objeto da pesquisa invisível&nbsp;<br><br>
+<a href="#FWSeek:New">FWSeek:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWSeek:SeekBar">FWSeek:SeekBar</a></br>
+&nbsp;&nbsp;&nbsp;Exibe as opções de pesquisa&nbsp;<br><br>
+<a href="#FWSeek:SetAction">FWSeek:SetAction</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na ação do botão "Buscar"&nbsp;<br><br>
+<a href="#FWSeek:SetAlign">FWSeek:SetAlign</a></br>
+&nbsp;&nbsp;&nbsp;Indica o alinhamento do componente na janela&nbsp;<br><br>
+<a href="#FWSeek:SetButton">FWSeek:SetButton</a></br>
+&nbsp;&nbsp;&nbsp;Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;<br><br>
+<a href="#FWSeek:SetChange">FWSeek:SetChange</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na seleção da ordem na pesquisa&nbsp;<br><br>
+<a href="#FWSeek:SetOrder">FWSeek:SetOrder</a></br>
+&nbsp;&nbsp;&nbsp;Define as ordens e detalhes de cada ordem na pesquisa&nbsp;<br><br>
+<a href="#FWSeek:SetOwner">FWSeek:SetOwner</a></br>
+&nbsp;&nbsp;&nbsp;Indica o container para criação da pesquisa&nbsp;<br><br>
+<a href="#FWSeek:SetRecno">FWSeek:SetRecno</a></br>
+&nbsp;&nbsp;&nbsp;Indica a posição atual do registro na pesquisa&nbsp;<br><br>
+<a href="#FWSeek:SetSeek">FWSeek:SetSeek</a></br>
+&nbsp;&nbsp;&nbsp;Indica o texto a ser pesquisado&nbsp;<br><br>
+<a href="#FWSeek:Show">FWSeek:Show</a></br>
+&nbsp;&nbsp;&nbsp;Torna o objeto da pesquisa visível&nbsp;<br><br>
+<a href="#FWSeek:Visible">FWSeek:Visible</a></br>
+&nbsp;&nbsp;&nbsp;Retorna se o objeto da pesquisa está visível&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWSeek:Activate"></a>FWSeek:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Bar"></a>FWSeek:Bar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Cria a barra ou botão de pesquisa no objeto proprietário&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:ClassName"></a>FWSeek:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWSEEK)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:DeActivate"></a>FWSeek:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método destrutor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Details"></a>FWSeek:Details</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Exibe os detalhes da pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObject :<td><br>Tipo: OBJECT<br>   Objeto do tipo container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Disable"></a>FWSeek:Disable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Desabilita a utilização do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Enable"></a>FWSeek:Enable</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do Browse&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>09/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetAction"></a>FWSeek:GetAction</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o Code-Block executado na ação do botão "Buscar"&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAction :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Buscar"
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetAlign"></a>FWSeek:GetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o alinhamento do componente na janela&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC<br>Alinhamento do componente na janela
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetButton"></a>FWSeek:GetButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lButton :<td><br>Tipo: LOGICAL<br>Indica se exibe o objeto através de um botão
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetDetails"></a>FWSeek:GetDetails</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna os campos utilizados nos detalhes da pesquisa&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aDetails :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n,1] LookUp
+<tr><td Width=20><td Width=20><td>[n,2] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n,3] Tamanho
+<tr><td Width=20><td Width=20><td>[n,4] Decimal
+<tr><td Width=20><td Width=20><td>[n,5] Título do campo
+<tr><td Width=20><td Width=20><td>[n,6] Máscara
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetOrder"></a>FWSeek:GetOrder</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a ordem selecionada na pesquisa&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nOrder :<td><br>Tipo: NUMERIC<br>Ordem selecionada
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:GetSeek"></a>FWSeek:GetSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o texto a ser pesquisado&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cSeek :<td><br>Tipo: CHARACTER<br>Texto a ser pesquisado
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Hide"></a>FWSeek:Hide</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o objeto da pesquisa invisível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:New"></a>FWSeek:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SeekBar"></a>FWSeek:SeekBar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Exibe as opções de pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oObject :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>   Objeto do tipo container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetAction"></a>FWSeek:SetAction</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na ação do botão "Buscar"&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bAction :<td><br>Tipo: BLOCK<br>Code-Block executado na ação do botão "Buscar"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetAlign"></a>FWSeek:SetAlign</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o alinhamento do componente na janela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nAlign :<td><br>Tipo: NUMERIC<br>Alinhamento do componente na janela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetButton"></a>FWSeek:SetButton</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se deverá exibir o componente, no objeto proprietário, através de um botão.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetChange"></a>FWSeek:SetChange</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na seleção da ordem na pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bChange :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>Code-Block executado na seleção da ordem na pesquisa
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetOrder"></a>FWSeek:SetOrder</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Define as ordens e detalhes de cada ordem na pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aOrder :<td><br>Tipo: ARRAY<br> Estrutura do array
+<tr><td Width=20><td Width=20><td>[n,1] Título da pesquisa
+<tr><td Width=20><td Width=20><td>[n,2,n,1] LookUp
+<tr><td Width=20><td Width=20><td>[n,2,n,2] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n,2,n,3] Tamanho
+<tr><td Width=20><td Width=20><td>[n,2,n,4] Decimal
+<tr><td Width=20><td Width=20><td>[n,2,n,5] Título do campo
+<tr><td Width=20><td Width=20><td>[n,2,n,6] Máscara
+<tr><td Width=20><td Width=20><td>[n,3] Ordem da pesquisa
+<tr><td Width=20><td Width=20><td>[n,4] Exibe na pesquisa
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetOwner"></a>FWSeek:SetOwner</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o container para criação da pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto container
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetRecno"></a>FWSeek:SetRecno</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a posição atual do registro na pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nRecno :<td><br>Tipo: NUMERIC<br>Posição atual do registro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:SetSeek"></a>FWSeek:SetSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o texto a ser pesquisado&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cSeek :<td><br>Tipo: CHARACTER<br>Texto a ser pesquisado
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Show"></a>FWSeek:Show</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Torna o objeto da pesquisa visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWSeek:Visible"></a>FWSeek:Visible</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna se o objeto da pesquisa está visível&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>12/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lVisible :<td><br>Tipo: LOGICAL<br>Indica se o objeto da pesquisa está visível
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function MountSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Monta o texto a ser pesquisado nos detalhes&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>Estrutura :<td><br>Tipo: <br>do Array
+<tr><td Width=20><td><td>[n] Texto do campo
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>
+<b><font size=4>Function __FWSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permitir a geração de patchs&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>12/03/2009
+</table></br><hr></br>

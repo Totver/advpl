@@ -1,0 +1,556 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+#IFNDEF WINDOWS
+	#define PSAY SAY
+#ENDIF
+
+#define TAMANHO_CAB 62424
+
+User Function Or02()        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("CSAVCUR1,CSAVROW1,CSAVCOL1,CSAVCOR1,CSAVSCR1,CSAVSCR2")
+SetPrvt("WNREL,TAMANHO_CAB,TITULO,CDESC1,CDESC2,CDESC3")
+SetPrvt("NREGISTRO,CKEY,NINDEX,CINDEX,NTOTGER,CPERG")
+SetPrvt("ARETURN,NOMEPROG,NLASTKEY,NBEGIN,ALINHA,LI")
+SetPrvt("PAGINA,LIMITE,LRODAPE,CPICTQTD,NTOTQTD,NTOTVAL")
+SetPrvt("AICMS,APEDCLI,CDATE,CSTRING,TREGS,M_MULT")
+SetPrvt("P_ANT,P_ATU,P_CNT,M_SAV7,M_SAV20,CPEDIDO")
+SetPrvt("NHANDLE,CBUFFER,RODRIGO2,CHEADER,NPED,CMOEDA")
+SetPrvt("CHEADER2,LI_OCUP,")
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 31/07/00 ==> 	#define PSAY SAY
+        
+#ENDIF
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ Orcsolo  ³ Autor ³ Vasconcelos           ³ Data ³ 25.09.98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao de Orcamento                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ PRE-NOTA(void)                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Solotest                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define Variaveis                                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+cSavCur1:=''
+cSavRow1:=''
+cSavCol1:=''
+cSavCor1:=''
+cSavScr1:=''
+cSavScr2:=''
+wnrel:=''
+tamanho:="P"
+titulo:="EMISSAO DO ORCAMENTO"
+cDesc1:="Emiss„o do orcamento, de acordo com"
+cDesc2:="intervalo informado na op‡„o Parƒmetros."
+cDesc3:=" "
+nRegistro:= 0
+cKey:=' '
+nIndex:=' '
+cIndex:= ' '  && Variaveis para a criacao de Indices Temp.
+nTotGer:=0
+cPerg  :="MTRORC"
+aReturn := { "Zebrado", 1,"Administracao", 2, 2, 1, "",0 }
+nomeprog:="MATR730"
+nLastKey := 0
+nBegin:=0
+aLinha:={ }
+li:=109
+PAGINA:=1
+limite:=77
+lRodape:=.F.
+cPictQtd:=""
+nTotQtd:=0
+nTotVal:=0
+aIcms  :=0
+aPedCli:= {}
+cDate:=""
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Salva a Integridade dos dados de Entrada                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//cSavScr1 := SaveScreen(3,0,24,79)
+//cSavCur1 := SetCursor(0)
+//cSavRow1 := ROW()
+//cSavCol1 := COL()
+//cSavCor1 := SetColor("bg+/b,,,")
+wnrel    := "MATR730"
+cString  := "SCK"
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas                          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+pergunte("MTRORC",.F.)
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros			³
+//³ mv_par01              Do Orcamento                          ³
+//³ mv_par02              Ate o Orcamento                       ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+wnrel:=SetPrint(cString,wnrel,cPerg,@Titulo,cDesc1,cDesc2,cDesc3,.F.)
+
+#IFNDEF WINDOWS
+	If LastKey() == 27 .or. nLastKey == 286
+//           RestScreen(3,0,24,79,cSavScr1)
+	   Return
+	Endif
+#ENDIF
+
+SetDefault(aReturn,cString)
+
+#IFNDEF WINDOWS
+	If LastKey() == 27 .OR. nLastKey == 286
+//           RestScreen(3,0,24,79,cSavScr1)
+	   Return
+	Endif
+#ENDIF
+
+cIndex := CriaTrab(nil,.f.)
+dbSelectArea("SCJ")
+DbSetOrder(1)
+
+DbSeek(xFilial("SCJ")+mv_par01,.T.)
+
+tregs  := RecCount()
+m_mult := If(tregs>0,70/tregs,1)
+p_ant  := p_atu := 4
+p_cnt  := 0
+
+#IFDEF WINDOWS
+//        m_sav7 := Savescreen(23,0,24,79)
+//        m_sav20:= dcursor(3)
+#ENDIF
+
+While !Eof() .And. CJ_NUM <= mv_par02
+
+   cPedido := CJ_NUM
+
+   dbSelectArea("SCK")
+   dbSeek(xFilial("SCK")+cPedido)
+   cPictQtd := PESQPICTQT("CK_QTDVEN",10)
+   nRegistro:= RECNO()
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Monta tabela de pedidos do cliente p/ o cabe‡alho            ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   aPedCli:= {}
+   While !Eof() .And. CK_NUM == SCJ->CJ_NUM
+      IF !Empty(SCK->CK_PEDCLI) .and. Ascan(aPedCli,SCK->CK_PEDCLI) == 0
+         AAdd(aPedCli,SCK->CK_PEDCLI)
+      ENDIF
+      dbSkip()
+   Enddo
+   aSort(aPedCli)
+        
+   dbGoTo( nRegistro )
+   While !Eof() .And. CK_NUM == SCJ->CJ_NUM
+      IF (li > 57 .and. PAGINA > 1) .or. (li > 94 .and. PAGINA == 1)
+         li := 0
+//         IF li == 80
+//           li := 0
+//         ENDIF
+           IF PAGINA == 1
+           SETPRC(0,0)
+//Imprime o arquivo Cabeca.prn, com o TIMBRE da SOLOTEST em HP520
+              nHandle:=fopen("\SIGAADV\CAB_LAS.PRN",0)
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 31/07/00 ==>               #define TAMANHO_CAB 62424
+              cBuffer:=SPACE(TAMANHO_CAB)
+              Rodrigo2:=FREAD(nHandle,@cBuffer,TAMANHO_CAB)
+              FOR CONTADOR := 1 TO TAMANHO_CAB
+              		@ li,000 PSAY SUBSTR(cBuffer,CONTADOR,1)
+              NEXT
+              
+              FClose(nHandle)
+              @ li,001 PSAY CHR(027)+CHR(061)+CHR(027)+CHR(038)+CHR(108)+CHR(054)+CHR(068)+CHR(027)+CHR(040)+CHR(049)+CHR(048)+CHR(085)+CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(080)+CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(083)+CHR(027)+CHR(040)+CHR(115)+CHR(052)+CHR(048)+CHR(057)+CHR(057)+CHR(084)
+              Impcabec()
+           ELSE
+              li := li + 2
+              @ li,000 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+              @ li,020 PSAY "Continuacao da Proposta N*. " + scj->cj_num
+              @ li,060 PSAY "Pagina: " + STRZERO(pagina,2)
+              @ li,075 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+              li := li + 3
+           ENDIF
+
+// Incrementa variavel pagina
+         PAGINA := PAGINA + 1
+
+         lRodape := .T.
+      Endif
+      ImpItem()
+
+      IF li #1000
+         dbSkip()
+      ENDIF
+
+      li:=li+1
+   Enddo
+
+   IF lRodape .or. Eof() .or. !( CK_NUM == SCJ->CJ_NUM )
+      ImpRodape()
+      lRodape:=.F.
+   Endif
+   dbSelectArea("SCJ")
+   dbSkip()
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Movimentacao do Cursor da Barra de Gauge                     ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   p_cnt:=p_cnt+1
+   p_atu:=3+INT(p_cnt*m_mult)
+   IF p_atu != p_ant
+      p_ant:=p_atu
+    #IFDEF WINDOWS
+//      RestScreen(23,0,24,79,M_SAV7)
+//      RestScreen(23,P_ATU,24,P_ATU+3,M_SAV20)
+//      RestScreen(23,P_ATU,24,P_ATU+3)
+	#ENDIF
+   Endif
+Enddo
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Deleta Arquivo Temporario e Restaura os Indices Nativos.     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+dbSelectArea("SCJ")
+RetIndex("SCJ")
+Ferase(cIndex+OrdBagExt())
+dbSetOrder(1)
+
+dbSelectArea("SCK")
+Set Filter To
+dbSetOrder(1)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Restaura a Integridade dos dados                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+Set Device To Screen
+#IFDEF WINDOWS
+//        RestScreen(3,0,24,79,cSavScr1)
+	SetCursor(cSavCur1)
+#ENDIF
+
+If aReturn[5] == 1
+   Set Printer To
+   dbCommitAll()
+   OurSpool(wnrel)
+Endif
+li:=0
+
+//FT_PFLUSH()
+MS_FLUSH()
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> __return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 31/07/00
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpCabec ³ Autor ³ Vasconcelos           ³ Data ³ 25.09.98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao do Orcamento                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpCabec(void)                                             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Solotest                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function ImpCabec
+Static Function ImpCabec()
+   cHeader:=''
+   nPed:=''
+   cMoeda:=''
+   //          0         1         2         3         4         5         6         7         8         9         0         1         2         3
+   //          0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012
+*   cHeader := "It Codigo          Desc. do Material              TES UM   Quant.   Valor Unit. IPI ICM ISS Vl.Tot.C/IPI Entrega  Desc Loc.Qtd. Sld."
+   //          99 xxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 999 XX 99999.999 99,999,999.99 99 99  99 99,999,999.99 99/99/99 99.9 99 |     |   |
+   cHeader  := "             Preco  IPI"
+   cHeader2 := "It  Qt. Codigo Especificacao do Material                          Unitario % "
+   //          99  999 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    999,999.99  
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Posiciona registro no cliente do pedido                     ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+      dbSelectArea("SA1")
+      DBSeek(xFilial("SA1")+SCJ->CJ_CLIENTE)
+
+   //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   //³ Acha aliquota de ICMS                                       ³
+   //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+cDate := SCJ->CJ_EMISSAO
+   li:=li+1
+   @ li,040 PSAY "Sao Paulo, "
+   @ li,051 PSAY StrZero(Day(cDate),2)
+   @ li,054 PSAY " de "
+   @ li,059 PSAY LOWER(MESEXTENSO(cDate))
+   @ li,069 PSAY "de "
+   @ li,072 PSAY StrZero(Year(cDate),4)
+   @ li+2,002 PSAY "A"
+
+   @ li+3,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+   @ li+3,003 PSAY SA1->A1_NOME
+
+   IF .T. // SCJ->CJ_END == "S"
+   @ li+4,002 PSAY SA1->A1_END
+   @ li+5,002 PSAY SA1->A1_CEP  Picture "@R 99999-999"
+   @ li+5,014 PSAY SA1->A1_MUN + " - " + SA1->A1_EST
+   @ li+6,002 PSAY "Tel : "
+   @ li+6,010 PSAY SA1->A1_TEL  Picture "@R (x999)xx99-9999"
+   @ li+6,027 PSAY "Fax: " 
+// @ li+6,032 PSAY SCJ->CJ_FAX  Picture "@R (x999)xx99-9999"
+   ELSE
+   @ li+6,002  PSAY "Fax: " 
+   @ li+6,010 PSAY SCJ->CJ_FAX  Picture "@R (x999)xx99-9999"
+   ENDIF
+
+//   @ 15,003 PSAY "Tel : "
+//   @ 15,010 PSAY SA1->A1_TEL  Picture "@R (x999)xx99-9999"
+//   @ 15,27  PSAY "Fax: " 
+//   @ 15,032 PSAY SCJ->CJ_FAX  Picture "@R (x999)xx99-9999"
+   @ li+7,050 PSAY "N/Proposta N*.:  " + SCJ->CJ_NUM + "/"  +   StrZero(Year(cDate),4)
+
+@ li+8,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+@ li+8,003 PSAY "At.: " // + SCJ->CJ_CONTATO
+@ li+8,050 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+
+   IF .F. // ! EMPTY(SCJ->CJ_REFCLI)
+   @ li+10,002 PSAY "Vossa Referencia : " + SCJ->CJ_REFCLI
+   ELSE
+   @ li+10,002 PSAY " " 
+   ENDIF
+
+   @ li+13,002 PSAY "Prezado(s) Senhor(es) : "
+// @ li+15,008 PSAY AllTrim(subs(SCJ->CJ_FRASE,1,69))
+// @ li+16,002 PSAY AllTrim(subs(SCJ->CJ_FRASE,070,75))
+// @ li+17,002 PSAY AllTrim(subs(SCJ->CJ_FRASE,146,54))
+
+   @ li+17,055 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+   @ li+17,056 PSAY cHeader
+
+   @ li+18,001 PSAY cHeader2
+   @ li+18,078 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+
+//   li:=li+1
+   @ li+19,001 PSAY Replicate("-",limite)
+   li:=li+20
+   Return
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpItem  ³ Autor ³ Vasconcelos           ³ Data ³ 25.09.98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao do Orcamento                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpItem(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Solotest                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function ImpItem
+Static Function ImpItem()
+
+IF .T. // EMPTY(SCK->CK_NOME1)
+// @li,001 PSAY SCK->CK_ITEMSOL
+@li,005 PSAY SCK->CK_QTDVEN Picture "999"
+@li,010 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(051)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(083)+CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(053)+CHR(072)
+@li,015 PSAY SCK->CK_PRODUTO PICTURE "@R 9.999.999"
+@li,016 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(083)+CHR(027)+CHR(038)+CHR(107)+CHR(048)+CHR(083)
+@li,017 PSAY SCK->CK_DESCRI
+ELSE
+
+        DO CASE
+           CASE !EMPTY(SCK->CK_NOME1)      
+                li_ocup := li + 2
+           CASE !EMPTY(SCK->CK_NOME6)
+                li_ocup := li +1
+         OTHERWISE
+            li_ocup := li
+         ENDCASE
+         IF (li_ocup > 60 .AND. PAGINA>2) .OR. (li_ocup > 94 .AND. PAGINA==2)
+            li := 1000
+            DBSELECTAREA("SCK")
+            RETURN
+         ENDIF
+
+@li,001 PSAY SCK->CK_ITEMSOL
+@li,005 PSAY SCK->CK_QTDVEN Picture "999"
+
+@li,010 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(051)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(083)+CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(053)+CHR(072)
+@li,015 PSAY SCK->CK_PRODUTO PICTURE "@R 9.999.999"
+@li,016 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(083)+CHR(027)+CHR(038)+CHR(107)+CHR(048)+CHR(083)
+@li,017 PSAY SCK->CK_NOME1
+ENDIF
+
+IF .F. // !EMPTY(SCK->CK_NOME2)
+li:=li+1   
+@li,009 PSAY SCK->CK_NOME2
+ENDIF
+
+IF .F. // !EMPTY(SCK->CK_NOME3)
+li:=li+1   
+@li,009 PSAY SCK->CK_NOME3
+ENDIF
+
+IF .F. // !EMPTY(SCK->CK_NOME4)
+li:=li+1   
+@li,009 PSAY SCK->CK_NOME4
+ENDIF
+
+IF .F. // !EMPTY(SCK->CK_NOME5)
+li:=li+1   
+@li,009 PSAY SCK->CK_NOME5
+ENDIF
+
+IF .F. // !EMPTY(SCK->CK_NOME6)
+li:=li+1   
+@li,009 PSAY SCK->CK_NOME6
+ENDIF
+
+IF .T. // EMPTY(SCK->CK_MSGPRC)
+  IF .T. // EMPTY(SCK->CK_NOME2) .and. EMPTY(SCK->CK_NOME3) .and. EMPTY(SCK->CK_NOME4) .and. EMPTY(SCK->CK_NOME5) .and. EMPTY(SCK->CK_NOME6) 
+    @li,066 PSAY SCK->CK_PRCVEN   Picture "@E 999,999.99"
+
+    IF .T. // SCK->CK_TES == "501" .OR. SCK->CK_TES == "503" .OR. SCK->CK_TES == "505" .OR. SCK->CK_TES == "505" .OR. SCK->CK_TES == "509" .OR. SCK->CK_TES == "523" .OR. SCK->CK_TES == "525" .OR. SCK->CK_TES == "527" .OR. SCK->CK_TES == "529" .OR. SCK->CK_TES == "531" .OR. SCK->CK_TES == "533" .OR. SCK->CK_TES == "535" .OR. SCK->CK_TES == "537" .OR. SCK->CK_TES == "553" .OR. SCK->CK_TES == "555" .OR. SCK->CK_TES == "557"
+       dbSelectArea("SB1")
+       dbSetOrder(1)
+       dbSeek(xFilial()+SCK->CK_PRODUTO)
+       @li,077 PSAY SB1->B1_IPI  Picture "@E 99"
+    ELSE
+       @li,078 PSAY "-"
+    ENDIF
+
+   ELSE
+     @li,065 PSAY SCK->CK_PRCVEN   Picture "@E 999,999.99"
+
+    IF SCK->CK_TES == "501" .OR. SCK->CK_TES == "503" .OR. SCK->CK_TES == "505" .OR. SCK->CK_TES == "505" .OR. SCK->CK_TES == "509" .OR. SCK->CK_TES == "523" .OR. SCK->CK_TES == "525" .OR. SCK->CK_TES == "527" .OR. SCK->CK_TES == "529" .OR. SCK->CK_TES == "531" .OR. SCK->CK_TES == "533" .OR. SCK->CK_TES == "535" .OR. SCK->CK_TES == "537" .OR. SCK->CK_TES == "553" .OR. SCK->CK_TES == "555" .OR. SCK->CK_TES == "557"
+       dbSelectArea("SB1")
+       dbSetOrder(1)
+       dbSeek(xFilial()+SCK->CK_PRODUTO)
+       @li,076 PSAY SB1->B1_IPI  Picture "@E 99"
+    ELSE
+       @li,077 PSAY "-"
+    ENDIF
+
+  ENDIF
+ELSE
+  @li,067 PSAY SCK->CK_MSGPRC
+ENDIF
+
+dbSelectArea("SCK")
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³ ImpRodape³ Autor ³ Vasconcelos           ³ Data ³ 25.09.98 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Emissao do Orcamento                                       ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe e ³ ImpRoadpe(void)                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Solotest                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+// Substituido pelo assistente de conversao do AP5 IDE em 31/07/00 ==> Function ImpRodape
+Static Function ImpRodape()
+
+//Verifica se cabe o Rodape nessa pagina
+//IF li>47
+IF li>49
+  li := 0
+  li := li + 2
+@ li,005 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+  @ li, 020 PSAY "Continuacao da Proposta N*. " + scj->cj_num
+  @ li, 060 PSAY "Pagina: " + STRZERO(pagina,2)
+@ li,070 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+  li := li + 2
+ENDIF
+     
+   li:=li+1
+@ li,020 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+@ li,029 PSAY "NOSSAS CONDICOES DE FORNECIMENTO"
+      li:=li+1
+@ li,024 PSAY "--------------------------------"
+@ li,070 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+
+      li:=li+1
+
+   IF .F. // !EMPTY(SCJ->CJ_PE)
+   @ li,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(083)
+   @ li,004 PSAY "PRAZO DE ENTREGA : " + SCJ->CJ_PE
+     li:=li+1
+   @ li,022 PSAY SCJ->CJ_PE2
+        li:=li+1
+   ELSE
+   @ li,003 PSAY " " 
+   ENDIF
+
+   @ li,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(049)+CHR(083)
+   @ li,004 PSAY "LOCAL DE ENTREGA : "  // + SCJ->CJ_LOCALEN
+     li:=li+1
+
+   @ li,003 PSAY "PAGAMENTO        : " // + AllTrim(subs(SCJ->CJ_CPAG1,1,15))+" "+SCJ->CJ_CPAG
+      li:=li+1
+   @ li,003 PSAY "VALIDADE         : "  // + SCJ->CJ_VALIDAD
+      li:=li+2
+   @ li,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)+CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(083)
+     li:=li+1
+
+   IF .F. // !EMPTY(SCJ->CJ_OBS)
+   @ li,001 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(050)+CHR(066)
+   @ li,003 PSAY "Obs.: "   
+   @ li,007 PSAY CHR(027)+CHR(040)+CHR(115)+CHR(048)+CHR(066)
+   @ li,009 PSAY AllTrim(SCJ->CJ_OBS)
+     li:=li+1
+   @ li,008 PSAY AllTrim(SCJ->CJ_OBS2)
+     li:=li+1
+   ELSE
+   @ li,003 PSAY " " 
+   ENDIF
+
+// @ li,002 PSAY SUBS(SCJ->CJ_ATENDE,0,3)
+
+// Mensagem no fim do Orcamento - para utilizar, mudar o numero de linhas da verificacao se o rodape cabe na pagina
+//   @ li,010 PSAY "'OS AMIGOS DA SOLOTEST APROVEITAM A OPORTUNIDADE"
+//     li:=li+1
+//   @ li,010 PSAY "PARA DESEJAR-LHES UM FELIZ NATAL E UM PROSPERO 2000'"
+//   @ li,005 PSAY "OBS. Alguns de nossos produtos poderao ter a incidencia de"
+//     li:=li+1
+//   @ li,005 PSAY "    IPI de ate' 15%, pois ainda nao foi definido se neste"
+//     li:=li+1
+//   @ li,005 PSAY "    ano sera reeditada a norma que mantinha o IPI suspenso."
+
+
+
+//RO   If li > 60
+//RO     li:=li+2
+//RO   ENDIF
+
+//RO   @ 66,000 PSAY "   "
+li:=li+1
+@ li,000 PSAY CHR(027)+CHR(038)+CHR(108)+CHR(048)+CHR(072)
+li := 80
+
+Return

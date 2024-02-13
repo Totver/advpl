@@ -1,0 +1,393 @@
+<html><font size=3 face=calibri><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:calibri; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 02/07/2009</table><hr></br>
+<font size=1>Programa: FWFilterAsk.PRW</font><a name="FWFilterAsk"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWFilterAsk</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto que permite montar filtros através de perguntas ao usuário&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>08/04/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWFilterAsk:Activate">FWFilterAsk:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWFilterAsk:AddAsk">FWFilterAsk:AddAsk</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona uma pergunta para o filtro&nbsp;<br><br>
+<a href="#FWFilterAsk:ClassName">FWFilterAsk:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWFILTERASK)&nbsp;<br><br>
+<a href="#FWFilterAsk:DeActivate">FWFilterAsk:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método destrutor da classe&nbsp;<br><br>
+<a href="#FWFilterAsk:GetAnswer">FWFilterAsk:GetAnswer</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a resposta de uma determinada pergunta&nbsp;<br><br>
+<a href="#FWFilterAsk:GetExpression">FWFilterAsk:GetExpression</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a expressão do filtro&nbsp;<br><br>
+<a href="#FWFilterAsk:GetProfileID">FWFilterAsk:GetProfileID</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o identificador do filtro com pergunta utilizada na gravação &nbsp;das configurações no profile do usuário. Deve ser utilizado quando &nbsp;existir mais de um filtro com pergunta para a rotina.&nbsp;<br><br>
+<a href="#FWFilterAsk:LoadProfile">FWFilterAsk:LoadProfile</a></br>
+&nbsp;&nbsp;&nbsp;Carrega as respostas do usuário salvas no profile&nbsp;<br><br>
+<a href="#FWFilterAsk:New">FWFilterAsk:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWFilterAsk:SaveProfile">FWFilterAsk:SaveProfile</a></br>
+&nbsp;&nbsp;&nbsp;Salva as respostas do usuário no profile&nbsp;<br><br>
+<a href="#FWFilterAsk:SetAnswer">FWFilterAsk:SetAnswer</a></br>
+&nbsp;&nbsp;&nbsp;Atualiza a resposta de uma determinada pergunta&nbsp;<br><br>
+<a href="#FWFilterAsk:SetExpression">FWFilterAsk:SetExpression</a></br>
+&nbsp;&nbsp;&nbsp;Indica a expressão do filtro que será substituida pelas respostas do &nbsp;usuário. Para que os valores sejam localizados e substituidos, os &nbsp;identificadores deverão estar entre percentes ("%"). &nbsp;<br><br>
+<a href="#FWFilterAsk:SetIDProfile">FWFilterAsk:SetIDProfile</a></br>
+&nbsp;&nbsp;&nbsp;Define o identificador do filtro utilizado na gravação das configurações&nbsp;no profile do usuário. Deve ser utilizado quando existir mais de um&nbsp;filtro na rotina.&nbsp;<br><br>
+<a href="#FWFilterAsk:SetNoView">FWFilterAsk:SetNoView</a></br>
+&nbsp;&nbsp;&nbsp;Indica que não será exibida a tela de perguntas para o usuário&nbsp;<br><br>
+<a href="#FWFilterAsk:SetProfile">FWFilterAsk:SetProfile</a></br>
+&nbsp;&nbsp;&nbsp;Indica se a resposta deverá ser gravada no profile do usuário&nbsp;<br><br>
+<a href="#FWFilterAsk:UpdateExpression">FWFilterAsk:UpdateExpression</a></br>
+&nbsp;&nbsp;&nbsp;Atualiza a expressão do filtro de acordo com as respostas do usuário.&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWFilterAsk:Activate"></a>FWFilterAsk:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lHasNext :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .F.]</font><br>Indica que o texto do botão Confirmar será Avançar
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:AddAsk"></a>FWFilterAsk:AddAsk</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona uma pergunta para o filtro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>     Identificador
+<tr valign=top><td Width=20><td Width=100><br>cAsk :<td><br>Tipo: CHARACTER<br>    Título da pergunta
+<tr valign=top><td Width=20><td Width=100><br>cType :<td><br>Tipo: CHARACTER<br>   Tipo de dados do campo de resposta
+<tr valign=top><td Width=20><td Width=100><br>cSize :<td><br>Tipo: CHARACTER<br>   Tamanho do campo de resposta
+<tr valign=top><td Width=20><td Width=100><br>cDecimal :<td><br>Tipo: CHARACTER<br>Decimal do campo de resposta
+<tr valign=top><td Width=20><td Width=100><br>cPicture :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Máscara do campo de resposta
+<tr valign=top><td Width=20><td Width=100><br>aOptions :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Indica os itens que serão disponibilizados na lista de opções (Combo)
+<tr valign=top><td Width=20><td Width=100><br>cLookUp :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br> Indica a consulta padrão a ser executada (F3)
+<tr valign=top><td Width=20><td Width=100><br>bValid :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>  Indica o Code-Block de validação do campo
+<tr valign=top><td Width=20><td Width=100><br>xAnswer :<td><br>Tipo: VARIANT - <font color=blue>[Optional]</font><br> Resposta para a pergunta
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:ClassName"></a>FWFilterAsk:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWFILTERASK)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:DeActivate"></a>FWFilterAsk:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método destrutor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:GetAnswer"></a>FWFilterAsk:GetAnswer</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a resposta de uma determinada pergunta&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>    Identificador da pergunta
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>xAnswer :<td><br>Tipo: VARIANT<br>Resposta para a pergunta
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:GetExpression"></a>FWFilterAsk:GetExpression</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a expressão do filtro&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cExpression :<td><br>Tipo: CHARACTER<br>Expressão do filtro (Ex.: A1_FILIAL >= '01' .AND. A1_FILIAL <= '02')
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:GetProfileID"></a>FWFilterAsk:GetProfileID</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o identificador do filtro com pergunta utilizada na gravação &nbsp;das configurações no profile do usuário. Deve ser utilizado quando &nbsp;existir mais de um filtro com pergunta para a rotina.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>29/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProfileID :<td><br>Tipo: CHARACTER<br>Identificador do filtro
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:LoadProfile"></a>FWFilterAsk:LoadProfile</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Carrega as respostas do usuário salvas no profile&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:New"></a>FWFilterAsk:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto FWFilterAsk
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SaveProfile"></a>FWFilterAsk:SaveProfile</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Salva as respostas do usuário no profile&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SetAnswer"></a>FWFilterAsk:SetAnswer</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atualiza a resposta de uma determinada pergunta&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cID :<td><br>Tipo: CHARACTER<br>    Identificador da pergunta
+<tr valign=top><td Width=20><td Width=100><br>xAnswer :<td><br>Tipo: VARIANT<br>Resposta para a pergunta
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SetExpression"></a>FWFilterAsk:SetExpression</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a expressão do filtro que será substituida pelas respostas do &nbsp;usuário. Para que os valores sejam localizados e substituidos, os &nbsp;identificadores deverão estar entre percentes ("%"). &nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cExpression :<td><br>Tipo: CHARACTER<br>Expressão do filtro
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>&nbsp;A1_FILIAL&nbsp;>=&nbsp;%ID_1%&nbsp;.AND.&nbsp;A1_FILIAL&nbsp;<=&nbsp;%ID_2%
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SetIDProfile"></a>FWFilterAsk:SetIDProfile</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>Define&nbsp;o&nbsp;identificador&nbsp;do&nbsp;filtro&nbsp;utilizado&nbsp;na&nbsp;gravação&nbsp;das&nbsp;configurações&nbsp;no&nbsp;profile&nbsp;do&nbsp;usuário.&nbsp;Deve&nbsp;ser&nbsp;utilizado&nbsp;quando&nbsp;existir&nbsp;mais&nbsp;de&nbsp;um&nbsp;filtro&nbsp;na&nbsp;rotina.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProfileID :<td><br>Tipo: CHARACTER<br>Identificador do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>29/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SetNoView"></a>FWFilterAsk:SetNoView</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica que não será exibida a tela de perguntas para o usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lNoView :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que não será exibida a tela de perguntas
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:SetProfile"></a>FWFilterAsk:SetProfile</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se a resposta deverá ser gravada no profile do usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lProfile :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica se a resposta deverá ser gravada no profile do usuário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWFilterAsk:UpdateExpression"></a>FWFilterAsk:UpdateExpression</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atualiza a expressão do filtro de acordo com as respostas do usuário.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>08/04/2009
+</table></br><hr></br>

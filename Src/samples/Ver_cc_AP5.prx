@@ -1,0 +1,28 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 18/09/00
+
+User Function Ver_cc()        // incluido pelo assistente de conversao do AP5 IDE em 18/09/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("_ALIAS,RET,P0,P1,ACOLS,")
+
+_ALIAS:=ALIAS()
+ret:=.t.
+P0:=ASCAN(aheader,{|x| ALLTRIM(x[2]) == "I2_CCC"})
+P1:=ASCAN(aheader,{|x| ALLTRIM(x[2]) == "I2_CREDITO"})
+dbselectar("SZ1")
+DBSETORDER(1)
+DBSEEK(XFILIAL()+ACOLS[N,P1]+ACOLS[N,P0])
+IF !FOUND() .AND. SUBS(ACOLS[N,P1],1,1) $ "3|4" //DESPESAS E RECEITA
+        HELP(" ",1,"NOCCONTA")
+        ACOLS[N,P0]:=SPACE(9)
+Endif        
+DBSELECTAR(_alias)
+// Substituido pelo assistente de conversao do AP5 IDE em 18/09/00 ==> __return(ACOLS[N,P0])
+Return(ACOLS[N,P0])        // incluido pelo assistente de conversao do AP5 IDE em 18/09/00
+

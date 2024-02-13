@@ -1,0 +1,526 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 12/09/00
+#INCLUDE "topconn.ch"
+#IFNDEF WINDOWS
+	#DEFINE PSAY SAY
+#ENDIF
+
+User Function com999()        // incluido pelo assistente de conversao do AP5 IDE em 12/09/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("TITULO,CDESC1,CDESC2,CDESC3,TAMANHO,LIMITE")
+SetPrvt("CSTRING,ARETURN,NOMEPROG,ALINHA,NLASTKEY,CPERG")
+SetPrvt("NVALTOT,NQUANT1,NUNI1,NTOT1,NQUANT2,NUNI2")
+SetPrvt("NTOT2,TQUANT2,TUNI2,TTOT2,TQUANT1,TUNI1")
+SetPrvt("VNOTAENT,TTOT1,CSAVSCR1,CSAVCUR1,CSAVROW1,CSAVCOL1")
+SetPrvt("CSAVCOR1,CBTXT,CBCONT,LI,M_PAG,WNREL")
+SetPrvt("CABEC2,CABEC1,NTIPO,CFILIAL,CQUERY,CARQ")
+SetPrvt("CSAV7,VNF,VNFSAI,VPRODUTO,VEMISSAO,VQUANT")
+SetPrvt("VTOTAL,VPCVEND,VCLIENTE,VDESC,VNCLI,VFORNEC")
+SetPrvt("VDTPED,VPEDIDO,VQUANT2,VTOTAL2,VPCCOM,VNFOR")
+SetPrvt("VPEDI,_SALIAS,AREGS,I,J,")
+
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 12/09/00 ==> #INCLUDE "topconn.ch"
+
+#IFNDEF WINDOWS
+// Movido para o inicio do arquivo pelo assistente de conversao do AP5 IDE em 12/09/00 ==> 	#DEFINE PSAY SAY
+#ENDIF
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³          ³ Autor ³ Ana Claudia           ³ Data ³ 05.04.00 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³OBS       ³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³                                                            ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ TBA                                                        ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Define Variaveis                                             ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+titulo   :="Custo Venda x Compra"
+cDesc1   :="Este programa ira emitir o relatorio de Custo  "
+cDesc2   :="de acordo com os produtos comprados para venda"
+cDesc3   :=""
+tamanho  :="G"
+limite   := 132
+cString  :="SF2"
+aReturn  := { "Zebrado", 1,"Administracao", 2, 2, 1, "",1 }
+nomeprog :="COM002"
+aLinha   := { }
+nLastKey := 0
+cPerg    :="COM002"
+nValtot  := 0
+nquant1  :=0
+nuni1    :=0
+ntot1    :=0
+nquant2  :=0
+nuni2    :=0
+ntot2    :=0
+tquant2  :=0
+tuni2    :=0
+ttot2    :=0
+tquant1  :=0
+tuni1    :=0
+VNOTAENT :=SPACE(6)
+ttot1    :=0
+
+//ValidPerg()  // Cria Parametros
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Salva a Integridade dos dados de Entrada                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+/*/
+cSavScr1 := SaveScreen(3,0,24,79)
+cSavCur1 := SetCursor(0)
+cSavRow1 := ROW()
+cSavCol1 := COL()
+cSavCor1 := SetColor("bg+/b,,,")
+/*/
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para Impressao do Cabecalho e Rodape    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+cbtxt    := SPACE(10)
+cbcont   := 0
+li       := 80
+m_pag    := 1
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Verifica as perguntas selecionadas                           ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+pergunte("COM002",.F.)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Variaveis utilizadas para parametros                        ³
+//³ mv_par01            // Da Emissao                           ³
+//³ mv_par02            // ate Emissao                          ³
+//³ mv_par03            // Do Cliente                           ³
+//³ mv_par04            // ate o Cliente                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Envia controle para a funcao SETPRINT                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+wnrel := "COM002"  //Nome Default do relatorio em Disco
+wnrel := SetPrint(cString,wnrel,cPerg,@titulo,cDesc1,cDesc2,cDesc3,.F.,"")
+
+If LastKey() == 27 .Or. nLastKey == 27
+  // RestScreen(3,0,24,79,cSavScr1)
+   Return
+Endif
+
+SetDefault(aReturn,cString)
+
+If LastKey() == 27 .OR. nLastKey == 27
+//   RestScreen(3,0,24,79,cSavScr1)
+   Return
+Endif
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Definicao dos cabecalhos                                     ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+titulo := "RELATORIO DE CUSTO VENDA X COMPRA"
+cabec2 := "Nf Sai  Emissao Produto                                        Quant.  Vl. Unit.         Total Cod.Cli Cliente                     Nf.Ent  Dt.NF  Cod.For Fornecedor                  Quant.  Vl. Unit.         Total Pedido"       
+	 //999999 99/99/99 999999999999999 999999999999999999999999999 999999,99 999.999,99 99.999.999,99  999999 99999999999999999999999999  999999 99/99/99 999999 999999999999999999999999 999999,99 999.999,99 99.999.999,99 999999
+	 //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2
+	 //1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+cabec1 := "                                                                            D  A  D  O  S     D  E     V  E  N  D  A  S                                 D  A  D  O  S     D  E     C  O  M  P  R  A  S                "
+nTipo  :=IIF(aReturn[4]==1,15,18)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Monta Regua                                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+RptStatus({|| Imprime() })// Substituido pelo assistente de conversao do AP5 IDE em 12/09/00 ==> RptStatus({|| Execute(Imprime) })
+
+Return
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Impressao do Relatorio                                       ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+// Substituido pelo assistente de conversao do AP5 IDE em 12/09/00 ==> Function Imprime
+Static Function Imprime()
+
+dbSelectArea("SD2")
+CFILIAL:=XFILIAL("SD2")
+dbsetorder(3) 
+
+CQUERY := "SELECT * FROM "+retsqlname("SD2")+"  WHERE "
+CQUERY := CQUERY + " D2_EMISSAO >= '" + Dtos(MV_PAR01) + "'"
+CQUERY := CQUERY + " AND D2_EMISSAO <= '" + Dtos(MV_PAR02) + "'" 
+CQUERY := CQUERY + " AND D2_DOC >= '" + MV_PAR03 + "'"     
+CQUERY := CQUERY + " AND D2_DOC <= '" + MV_PAR04 + "'"
+CQUERY := CQUERY + " AND D_E_L_E_T_ <> '*' "
+
+TCQUERY CQUERY NEW ALIAS "TP1"
+
+cArq := CRIATRAB(Nil,.F.)
+
+Copy To &cArq 
+
+DbUsearea(.T.,, cArq, "Tmp", .F.)
+
+DbSelectArea("Tp1")
+
+While MsgYesNo("Confirma copia de cada registro")
+	DbSelectArea("Tmp")
+	RecLock("Tmp", .T.)
+	For nIndice := 1 To FCount()
+		FieldPut(nIndice, Tp1->(FieldGet(nIndice)))
+	Next
+	DbSelectArea("Tp1")
+	DbSkip()
+Enddo
+
+@ 200,1 TO 400,600 DIALOG oDlg7 TITLE "Utilizaç¦o de Queries SQL - TP1"
+
+@ 6,5 TO 93,150 BROWSE "TP1" FIELDS { { "D2_DOC"    , "Documento" },;
+												   { "D2_EMISSAO", "Emissao" } }
+
+@ 10,155 SAY "- Disponibiliza para o RDMake todo o poder das Queries"
+@ 20,155 SAY "- O resultado da query fica disponivel em uma WorkArea"
+@ 30,155 SAY "  onde poderao ser executados:"
+@ 40,155 SAY "  -dbGoTop(), dbSkip(), Eof(), etc."
+@ 50,155 SAY "- IMPORTANTE: Uma Query e sempre Read-Only"
+@ 70,180 BUTTON "_Ok" SIZE 40,15 ACTION Close(oDlg7)
+ACTIVATE DIALOG oDlg7 CENTERED
+
+DbSelectArea("Tmp")
+
+@ 200,1 TO 400,600 DIALOG oDlg7 TITLE "Utilizaç¦o de Queries SQL - TMP"
+
+@ 6,5 TO 93,150 BROWSE "Tmp" FIELDS { { "D2_DOC"    , "Documento" },;
+                                      { "D2_EMISSAO", "Emissao" } }
+
+
+@ 10,155 SAY "- Disponibiliza para o RDMake todo o poder das Queries"
+@ 20,155 SAY "- O resultado da query fica disponivel em uma WorkArea"
+@ 30,155 SAY "  onde poderao ser executados:"
+@ 40,155 SAY "  -dbGoTop(), dbSkip(), Eof(), etc."
+@ 50,155 SAY "- IMPORTANTE: Uma Query e sempre Read-Only"
+@ 70,180 BUTTON "_Ok" SIZE 40,15 ACTION Close(oDlg7)
+ACTIVATE DIALOG oDlg7 CENTERED
+
+@ 200,1 TO 400,600 DIALOG oDlg7 TITLE "Utilizaç¦o de Queries SQL - TMPSD2"
+
+@ 6,5 TO 93,150 BROWSE "Tmp" FIELDS { { "D2_DOC"    , "Documento" },;
+  									  			    { "D2_EMISSAO", "Emissao" } }
+
+
+@ 10,155 SAY "- Disponibiliza para o RDMake todo o poder das Queries"
+@ 20,155 SAY "- O resultado da query fica disponivel em uma WorkArea"
+@ 30,155 SAY "  onde poderao ser executados:"
+@ 40,155 SAY "  -dbGoTop(), dbSkip(), Eof(), etc."
+@ 50,155 SAY "- IMPORTANTE: Uma Query e sempre Read-Only"
+@ 70,180 BUTTON "_Ok" SIZE 40,15 ACTION Close(oDlg7)
+ACTIVATE DIALOG oDlg7 CENTERED
+
+DBCLOSEAREA()
+
+dbSelectArea("TP1")
+DBGOTOP()
+
+// cSav7    :=SaveScreen(23,0,24,79)
+
+setRegua(reccount())
+
+WHILE !EOF()
+
+      IncRegua() //Incrementa a posicao da regua de relatorios
+      
+      IF li>59
+   	     cabec(titulo,cabec1,cabec2,nomeprog,tamanho,nTipo)
+      ENDIF
+ 
+      IF LastKey()==286
+          @PROW()+1,0 PSAY "***** CANCELADO PELO OPERADOR *****"
+	      EXIT
+      ENDIF
+
+      vnf      := d2_doc
+      vnfsai   := d2_doc
+      vproduto := d2_cod
+      vemissao := d2_emissao
+      vquant   := d2_quant
+      vtotal   := d2_total
+      vpcvend  := d2_prcven
+      vcliente := d2_cliente
+
+      dbSelectArea("SB1")
+      CFILIAL:=XFILIAL("SB1")
+      dbsetorder(1)
+      DBSEEK(CFILIAL+vproduto)
+      
+      VDESC := " "
+      
+      IF FOUND()
+	     VDESC := SUBSTR(SB1->B1_DESC,1,28)
+      ENDIF
+
+      dbSelectArea("SA1")
+      CFILIAL:=XFILIAL("SA1")
+      dbsetorder(1)
+      DBSEEK(CFILIAL+vcliente)
+      
+      Vncli:= " "
+      
+      IF FOUND()
+	      Vncli := SUBSTR(SA1->A1_nome,1,26)
+      ENDIF
+
+      VFORNEC := " "
+      VDTPED  := SPACE(8)
+      VPEDIDO := SPACE(6)
+      VQUANT2 := 0
+      VTOTAL2 := 0
+      VPCCOM  := 0
+      VNFOR:= " "
+      VNOTAENT:=SPACE(6)
+      VPEDI:=SPACE(6)
+
+      dbSelectArea("SC7")
+      CFILIAL:=XFILIAL("SC7")
+      dbsetorder(4)
+      DBGOTOP()
+      DBSEEK(CFILIAL+vproduto)
+
+      IF FOUND()
+
+	      WHILE !EOF() .AND. SC7->C7_PRODUTO == VPRODUTO
+          
+//	          IF SC7->C7_NFSAIDA == VNFSAI
+
+		         VFORNEC := SC7->C7_FORNECE
+		         VDTPED  := SC7->C7_EMISSAO
+		         VPEDIDO := SC7->C7_NUM
+	    	     VQUANT2 := SC7->C7_QUANT
+		         VTOTAL2 := SC7->C7_TOTAL
+		         VPCCOM  := SC7->C7_PRECO 
+		  
+		         dbSelectArea("SA2")
+		         CFILIAL:=XFILIAL("SA2")
+		         dbsetorder(1)
+		         DBSEEK(CFILIAL+VFORNEC)
+      
+		         VNFOR := " "
+      
+		         IF FOUND()
+		            VNFOR := SUBSTR(SA2->A2_NOME,1,24)
+		         ENDIF
+
+		         EXIT
+
+//	          ENDIF
+	          SKIP
+    	  ENDDO
+	 
+	      if vpedido <> SPACE(6)
+
+	         dbSelectArea("SD1")
+	         CFILIAL:=XFILIAL("SD1")
+	         dbsetorder(1)
+		     DBGOTOP()
+
+  	         VNOTAENT:=SPACE(6)
+		   
+	         while !eof()
+	      
+		          if sd1->d1_pedido==vpedido .and. sd1->d1_cod==vproduto
+		             VFORNEC := SD1->D1_FORNECE
+		             VDTPED  := SD1->D1_EMISSAO
+		             VNOTAENT:= SD1->D1_DOC
+		             VQUANT2 := SD1->D1_QUANT
+		             VTOTAL2 := SD1->D1_TOTAL
+		             VPCCOM  := SD1->D1_VUNIT 
+		             vpedido := sd1->d1_pedido
+		             EXIT
+		          endif
+		          skip
+	         enddo
+  	      else
+	 
+	         dbSelectArea("SC6")
+	         CFILIAL:=XFILIAL("SC6") 
+  	         dbsetorder(4)
+	         DBGOTOP()
+
+	         dBSEEK(CFILIAL+VNFSAI)
+
+	         while !eof()
+		        if sc6->c6_NOTA==VNFSAI .and. sc6->c6_produto==vproduto
+		           VTOTAL2 := SC6->C6_VALOR // SC6->C6_CVENDA
+		           EXIT
+		        endif
+		        skip
+	         enddo
+
+  	      endif
+
+      ELSE
+	     
+	      dbSelectArea("SC6")
+	      CFILIAL:=XFILIAL("SC6")
+	      dbsetorder(4)
+	      DBGOTOP()
+ 
+	      DBSEEK(CFILIAL+VNFSAI)
+
+	      while !eof()
+
+	          if sc6->c6_NOTA==VNFSAI .and. sc6->c6_produto==vproduto
+	          	VTOTAL2 := SC6->C6_VALOR // SC6->C6_CVENDA
+	        	EXIT
+	          endif
+	          skip
+	      Enddo
+
+      endif
+
+      @ li,01  PSAY vnfsai
+      @ li,08  PSAY vemissao 
+      @ LI,17  PSAY vproduto
+      @ LI,33  PSAY vdesc
+      @ LI,61  PSAY vquant picture "@E 999999.99" 
+      @ LI,71  PSAY vpcvend picture "@E 999,999.99"
+      @ LI,82  PSAY vtotal picture "@E 99,999,999.99" 
+      @ LI,97  PSAY vcliente
+      @ LI,104 PSAY vncli
+      @ LI,132 PSAY vnotaent 
+      @ LI,139 PSAY vdtped 
+      @ LI,148 PSAY vfornec
+      @ LI,155 PSAY vnfor
+      @ LI,180 PSAY vquant2 picture "@E 999999.99" 
+      @ LI,190 PSAY Vpccom picture "@E 999,999.99" 
+      @ LI,201 PSAY vtotal2 picture "@E 99,999,999.99" 
+      @ LI,215 PSAY vpedido
+      
+      li:=li+1
+      
+      nquant1:=nquant1+vquant
+      nuni1  :=nuni1+vpcvend
+      ntot1  :=ntot1+vtotal
+      nquant2:=nquant2+vquant2
+      nuni2  :=nuni2+vpccom
+      ntot2  :=ntot2+vtotal2
+
+      dbSelectArea("TP1")
+      
+      SKIP
+	     
+      if vnf<>d2_doc
+
+	     li:=li+1
+    	 @ li,01  PSAY " TOTAL" 
+	     @ LI,61  PSAY nquant1 picture "@E 999999.99" 
+	     @ LI,71  PSAY nuni1 picture "@E 999,999.99"
+	     @ LI,82  PSAY ntot1 picture "@E 99,999,999.99" 
+	     @ LI,180 PSAY nquant2 picture "@E 999999.99" 
+	     @ LI,190 PSAY nuni2 picture "@E 999,999.99" 
+	     @ LI,201 PSAY ntot2 picture "@E 99,999,999.99" 
+      
+	     tquant1:=tquant1+nquant1
+	     tuni1  :=tuni1+nuni1
+	     ttot1  :=ttot1+ntot1
+		 tquant2:=tquant2+nquant2
+		 tuni2  :=tuni2+nuni2
+		 ttot2  :=ttot2+ntot2
+	 	 nquant1:=0
+		 nuni1  :=0
+		 ntot1  :=0
+		 nquant2:=0
+		 nuni2  :=0
+		 ntot2  :=0
+	
+		 li:=li+2
+
+      ENDIF
+
+ENDDO
+
+li:=li+2
+		
+@ li,01  PSAY " TOTAL GERAL" 
+@ LI,61  PSAY tquant1 picture "@E 999999.99" 
+@ LI,71  PSAY tuni1 picture "@E 999,999.99"
+@ LI,82  PSAY ttot1 picture "@E 99,999,999.99" 
+@ LI,180 PSAY tquant2 picture "@E 999999.99" 
+@ LI,190 PSAY tuni2 picture "@E 999,999.99" 
+@ LI,201 PSAY ttot2 picture "@E 99,999,999.99" 
+
+IF li != 80
+   roda(cbcont,cbtxt,tamanho)
+EndIF
+
+
+Set Device To Screen
+//RestScreen(3,0,24,79,cSavScr1)
+//SetCursor(cSavCur1)
+//*Set Filter To
+
+DBCLOSEAREA("TP1")
+
+
+If aReturn[5] == 1
+	Set Printer To
+	dbcommitAll()
+	ourspool(wnrel)
+Endif
+
+MS_FLUSH() 
+
+Return
+
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Cria Parametros no Arquivo                                   ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+// Substituido pelo assistente de conversao do AP5 IDE em 12/09/00 ==> Function ValidPerg
+Static Function ValidPerg()
+
+_sAlias := Alias()
+dbSelectArea("SX1")
+dbSetOrder(1)
+cPerg   := PADR(cPerg,6)
+aRegs   :={}
+
+// Grupo/Ordem/Pergunta/Variavel/Tipo/Tamanho/Decimal/Presel/GSC/Valid/Var01/Def01/Cnt01/Var02/Def02/Cnt02/Var03/Def03/Cnt03/Var04/Def04/Cnt04/Var05/Def05/Cnt05
+AADD(aRegs,{cPerg,"01","Da Emissao         ?","mv_ch1","D",8,0,0,"G","","mv_par01","","","","","","","","","","","","","","",""})
+AADD(aRegs,{cPerg,"02","At‚ a Emissao      ?","mv_ch2","D",8,0,0,"G","","mv_par02","","","","","","","","","","","","","","",""})
+AADD(aRegs,{cPerg,"03","No. Nota de        ?","mv_ch3","C",6,0,0,"G","","mv_par03","","","","","","","","","","","","","","",""})
+AADD(aRegs,{cPerg,"04","No. Nota ate       ?","mv_ch4","C",6,0,0,"G","","mv_par04","","","","","","","","","","","","","","",""})
+
+For i:=1 to Len(aRegs)
+    If !dbSeek(cPerg+aRegs[i,2])
+	RecLock("SX1",.T.)
+	For j:=1 to FCount()
+	    If j <= Len(aRegs[i])
+		FieldPut(j,aRegs[i,j])
+	    Endif
+	Next
+	MsUnlock()
+    Endif
+Next
+
+dbSelectArea(_sAlias)
+
+Return
+

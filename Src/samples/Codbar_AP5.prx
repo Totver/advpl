@@ -1,0 +1,145 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 01/08/00
+
+User Function Codbar()        // incluido pelo assistente de conversao do AP5 IDE em 01/08/00
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Declaracao de variaveis utilizadas no programa atraves da funcao    ³
+//³ SetPrvt, que criara somente as variaveis definidas pelo usuario,    ³
+//³ identificando as variaveis publicas do sistema utilizadas no codigo ³
+//³ Incluido pelo assistente de conversao do AP5 IDE                    ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+SetPrvt("TITULO,CDESC,WNREL,AORD,ARETURN,CSTRING")
+SetPrvt("CPERG,NTAMANHO,NLASTKEY,NLIN,LEND,AROTOP")
+SetPrvt("LIMPRT,LIMITE,CBCONT,NQUANTITEM,CDESCRI,NLIMITE")
+SetPrvt("NQUANT,NOMEPROG,NTIPO,CQTD,CBTXT,OPR")
+
+/*/
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÉÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍ»±±
+±±ºPrograma  ³  CODBAR  º Autor ³ SANDRO                 º Data ³ 01/09/99º±±
+±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍ¹±±
+±±ºDescri‡„o ³ EmissÆo de C¢digos de Barras em Impressora Laser / DeskJet º±±
+±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
+±±ºObservacao: Somente para Default Windows e SIGAWIN                     º±±
+±±ºA linha digitável (banner) está disponível apenas nos padrões EAN-8,   º±±
+±±ºEAN-13, UPCA e SUP5. Para isso, os codigos devem possuir apenas númerosº±±
+±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+/*/
+
+#IFDEF WINDOWS
+Titulo	:= OemToAnsi("ORDENS PRODUCAO")
+cDesc	:= OemToAnsi("Este programa ira imprimir a Rela‡„o das Ordens de Produ‡„o")
+
+wnrel	 := "OPSIS"
+aOrd     := {"Por Numero"}
+aReturn  := { "Zebrado", 1,"Administracao", 2, 2, 1, "",1 }
+cString  := "SC2"
+cPerg	 := "OPSIS"
+nTamanho := "P"
+nLastKey := 0
+nLin     := 0
+lEnd	 := .F.
+aRotOP	 := {}
+lImpRt	 := .F.  // Flag para impressao do Roteiro de Operacao
+limite	 := 80
+
+// wnrel := SetPrint(cString,wnrel,cPerg,@Titulo,cDesc,"","",.F.,aOrd,.F.,"P")
+// SetDefault(aReturn,cString)
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Configura impressora com comandos PCL (Driver)          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+// @nLin,000 PSAY aValImp(Limite)
+
+
+// RptStatus( {|| Imprime() }, Titulo )// Substituido pelo assistente de conversao do AP5 IDE em 01/08/00 ==> RptStatus( {|| Execute(Imprime) }, Titulo )
+// Substituido pelo assistente de conversao do AP5 IDE em 01/08/00 ==> __Return()
+Return()        // incluido pelo assistente de conversao do AP5 IDE em 01/08/00
+
+// Substituido pelo assistente de conversao do AP5 IDE em 01/08/00 ==> Function Imprime
+// Static Function Imprime()
+
+CbCont	   := ""
+nQuantItem := 0
+cDescri    := ""
+nlimite    := 80
+nQuant	   := 1
+nomeprog   := "OPSIS"
+nTipo	   := 18
+cQtd	   := ""
+
+cbtxt	 := SPACE(10)
+cbcont	 := 0
+
+
+oPr := ReturnPrtObj()
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡…o    ³MSBAR       ³ Autor ³ ALEX SANDRO VALARIO ³ Data ³  06/99   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Imprime codigo de barras                                   ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ 01 cTypeBar String com o tipo do codigo de barras          ³±± 
+±±³          ³ 	           "EAN13","EAN8","UPCA" ,"SUP5"   ,"CODE128"     ³±±
+±±³          ³ 		   "INT25","MAT25,"IND25","CODABAR" ,"CODE3_9"    ³±±
+±±³          ³ 02 nRow	   Numero da Linha em centimentros                ³±±
+±±³          ³ 03 nCol	   Numero da coluna em centimentros	          ³±±
+±±³          ³ 04 cCode	   String com o conteudo do codigo                ³±±
+±±³          ³ 05 oPr	   Objeto Printer                                 ³±±
+±±³          ³ 06 lcheck   Se calcula o digito de controle                ³±±
+±±³          ³ 07 Cor 	   Numero  da Cor, utilize a "common.ch"          ³±±
+±±³          ³ 08 lHort	   Se imprime na Horizontal                       ³±±
+±±³          ³ 09 nWidth   Numero do Tamanho da barra em centimetros      ³±±
+±±³          ³ 10 nHeigth  Numero da Altura da barra em milimetros        ³±±
+±±³          ³ 11 lBanner  Se imprime o linha em baixo do codigo          ³±±
+±±³          ³ 12 cFont	   String com o tipo de fonte                     ³±±
+±±³          ³ 13 cMode	   String com o modo do codigo de barras CODE128  ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ ImpressÆo de etiquetas c¢digo de Barras para HP e Laser    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
+
+
+	MSBAR("EAN13"  , 3, 3,"123456789012",oPr,NIL,NIL,NIL,NIL,NIL,.T.,NIL,NIL)
+/*
+	MSBAR("EAN13"  , 2   , 08 ,"123456789012",oPr,NIL,NIL,NIL,NIL,NIL,.T.,NIL,NIL)
+	MSBAR("EAN8"   , 5   ,  8 ,"1234567"     ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("EAN8"   , 19  ,  1 ,"1234567"     ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("UPCA"   , 15  ,  1 ,"07000002198" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("UPCA"   , 15  ,  6 ,"07000002198" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("EAN13"  , 20  , 13 ,"123456789012",oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("EAN13"  , 16  , 13 ,"123456789012",oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+ 	MSBAR("SUP5"   , 12  ,  1 ,"100441"      ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("SUP5"   , 12  ,  3 ,"100441"      ,oPr,NIL,NIL,.F.,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("CODE128",  1  ,  1 ,"123456789011010" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("CODE128",  3  ,  1 ,"12345678901" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,"A")
+ 	MSBAR("CODE128",  5  ,  1 ,"12345678901" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,"B")
+	MSBAR("CODE3_9",  7.5,  1 ,"12345678901" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("CODABAR",  8  ,  7 ,"A12-34T"     ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("CODE128", 10  , 11 ,"12345678901" ,oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("CODE3_9", 17  ,  9 ,"123456789012",oPr,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL)
+	MSBAR("INT25"  , 21  ,  3 ,"123456789012",oPr,,,.t.)
+ 	MSBAR("MAT25"  , 23  ,  3 ,"123456789012",oPr,,,.t.)
+	MSBAR("IND25"  , 23  , 15 ,"123456789012",oPr,,,.t.)
+	*/
+
+Set device to Screen
+
+If aReturn[5] == 1
+   Set Printer TO
+   dbCommitall()
+   OurSpool(wnrel)
+Endif
+
+MS_FLUSH()
+
+Return
+#ENDIF

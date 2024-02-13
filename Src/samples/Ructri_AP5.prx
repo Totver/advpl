@@ -1,0 +1,235 @@
+#include "rwmake.ch"        // incluido pelo assistente de conversao do AP5 IDE em 10/10/00
+
+User Function Ructri()        // incluido pelo assistente de conversao do AP5 IDE em 10/10/00
+
+//зддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд©
+//Ё Declaracao de variaveis utilizadas no programa atraves da funcao    Ё
+//Ё SetPrvt, que criara somente as variaveis definidas pelo usuario,    Ё
+//Ё identificando as variaveis publicas do sistema utilizadas no codigo Ё
+//Ё Incluido pelo assistente de conversao do AP5 IDE                    Ё
+//юддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды
+
+SetPrvt("_SELECT,_NOPCAO,NVLRPARC")
+SetPrvt("NLASTKEY,NHDLENT,CARQENT,NLIDOS,NTAMARQ,XBUFFER")
+SetPrvt("_CFILIAL,_CCGCCLI,_CSERIE,_CDOC,_CEST,_CTIPOCLI")
+SetPrvt("_CCODCLI,_CLOJA,")
+
+/*/
+╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠
+╠зддддддддддддбдддддддддддбдддддддбдддддддддддддддддддддддбддддддбддддддддддд©╠
+╠Ё PROGRAMA   Ё RUCTRI    Ё AUTOR Ё Cesar Monteiro        Ё DATA Ё 18/12/98  Ё╠
+╠цддддддддддддедддддддддддадддддддадддддддддддддддддддддддаддддддаддддддддддд╢╠
+╠Ё Fun┤ao     Ё Integracao Sistran com SIGA (SF2/SD2)                        Ё╠
+╠цддддддддддддедддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд╢╠
+╠Ё Uso        Ё Generico - Rios Unidos                                       Ё╠
+╠юддддддддддддадддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды╠
+╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠╠
+/*/
+
+//зддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд©
+//Ё Salva o ambiente atual                                                    Ё
+//юддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды
+_Select  := Select()
+
+//зддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд©
+//Ё Define variaveis                                                          Ё
+//юддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды
+_nOpcao  := 0
+nVlrParc := 0
+nLastKey := 0
+nHdlEnt  := 0
+cArqEnt  := ""
+
+//зддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд©
+//Ё Desenha a tela de pano de fundo                                           Ё
+//юддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды
+
+#IFDEF WINDOWS
+       Pergunte("RUCTRI",.F.)
+       @ 96,42 TO 323,505 DIALOG oDlg5 TITLE "Integracao SISTRAN com Siga Advanced"
+       @ 8,10 TO 84,222
+       @ 91,139 BMPBUTTON TYPE 5 ACTION Pergunte("RUCTRI",.T.)
+       @ 91,168 BMPBUTTON TYPE 1 ACTION OkProc()// Substituido pelo assistente de conversao do AP5 IDE em 10/10/00 ==>        @ 91,168 BMPBUTTON TYPE 1 ACTION Execute(OkProc)
+       @ 91,196 BMPBUTTON TYPE 2 ACTION Close(oDlg5)
+       @ 23,14 SAY "Integracao SISTRAN com Siga Advanced"
+       @ 33,14 SAY " "
+       @ 43,14 SAY "Este programa tem o objetivo de Importar e Atualizar os Cadastros de"
+       @ 53,14 SAY "Notas Fiscais de Saida Conforme Arquivo de Conhecimentos de Frete."
+       ACTIVATE DIALOG oDlg5
+       Close(oDlg5)
+       return
+
+// Substituido pelo assistente de conversao do AP5 IDE em 10/10/00 ==>        Function OkProc
+Static Function OkProc()
+                Close(oDlg5)
+       Processa( {|| RunProc() } )// Substituido pelo assistente de conversao do AP5 IDE em 10/10/00 ==>        Processa( {|| Execute(RunProc) } )
+       Return
+
+// Substituido pelo assistente de conversao do AP5 IDE em 10/10/00 ==>        Function RunProc
+Static Function RunProc()
+
+#ENDIF
+
+//здддддддддддддддддддддддддддддддддддддддд©
+//Ё Abre arquivo de Conhecimentos de Frete Ё
+//юдддддддддддддддддддддддддддддддддддддддды
+cArqEnt:= ALLTRIM(mv_par01)
+nHdlEnt:= FOPEN(cArqEnt,0)
+
+//зддддддддддддддддддддддддддддд©
+//Ё L┬ arquivo de Conhecimentos Ё
+//юддддддддддддддддддддддддддддды
+nLidos:=0
+FSEEK(nHdlEnt,0,0)
+nTamArq:= FSEEK(nHdlEnt,0,2)
+FSEEK(nHdlEnt,0,0)
+ProcRegua((nTamArq/268))
+
+Do While nLidos < nTamArq
+   //зддддддддддддддддддддддддддддддддддддд©
+   //Ё L┬ os valores do arquivo de Entrada Ё
+   //юддддддддддддддддддддддддддддддддддддды
+
+   xBuffer:= Space(268)
+   FREAD(nHdlEnt,@xBuffer,268)
+   Incproc()
+
+   _cFilial  := "  "
+   _cCgcCli  := Subs(xBuffer,124,14)
+   _cSerie   := "U"+Subs(xBuffer,001,2)
+   _cDoc     := Subs(xBuffer,004,06)
+   _cEst     := " "
+   _cTipocli := " "
+
+   If Empty(_cCgcCli) .Or. Empty(_cSerie) .Or. Empty(_cDoc)
+      nLidos := nLidos + 268
+      Loop
+   Endif
+
+   DbSelectArea("SA1")     // Cadastro de Clientes
+   DbSetOrder(3)
+   DbSeek(xFilial("SA1")+_cCgcCli)
+   If Found()
+      _cCodcli  := SA1->A1_COD
+      _cLoja    := SA1->A1_LOJA
+      _cEst     := SA1->A1_EST
+      _cTipocli := SA1->A1_TIPO
+   Else
+      nLidos := nLidos + 268
+      Loop
+   Endif
+
+   //здддддддддддддддддддддддддддддддддддддддддддд©
+   //Ё Trata se o Registro Pertence a Esta Filial Ё
+   //юдддддддддддддддддддддддддддддддддддддддддддды
+
+   Dbselectarea("SX5")
+   If Dbseek(xFilial("SX5")+"99"+Subs(xBuffer,263,4))
+      _cFilial:= ALLTRIM(X5_DESCRI)
+   Else
+      nLidos := nLidos + 268
+      Loop
+   Endif
+
+   //зддддддддддддддддддддддддддддддддддддд©
+   //Ё Atualiza o Cabecalho da NF de Saida Ё
+   //юддддддддддддддддддддддддддддддддддддды
+
+   DbSelectArea("SF2")
+   DbSetOrder(1)
+   If !dbSeek(_cFilial+_cDoc+_cSerie+_cCodCli+_cLoja)
+      RecLock("SF2",.T.)
+   Else
+      nLidos := nLidos + 268
+      Loop
+   Endif
+   
+   SF2->F2_FILIAL := _cFilial
+   SF2->F2_DOC    := Subs(xBuffer,004,6)
+   SF2->F2_SERIE  := "U"+ALLTRIM(Subs(xBuffer,001,3))
+   SF2->F2_CLIENTE:= _cCodcli
+   SF2->F2_LOJA   := _cLoja
+   SF2->F2_EMISSAO:= Ctod(Subs(xBuffer,010,02)+"/"+Subs(xBuffer,012,02)+"/"+Subs(xBuffer,014,02))
+   SF2->F2_TIPO   := "N"
+   SF2->F2_ESPECIE:= "CTR" // Subs(xBuffer,019,03)
+   SF2->F2_EST    := _cEst
+   SF2->F2_TIPOCLI:= _cTipocli
+   SF2->F2_VALBRUT:= VAL(Subs(xBuffer,156,14))/100
+   SF2->F2_VALMERC:= VAL(Subs(xBuffer,156,14))/100
+   SF2->F2_VALICM := VAL(Subs(xBuffer,188,14))/100
+   SF2->F2_BASEICM:= VAL(Subs(xBuffer,170,14))/100
+   SF2->F2_VALISS := VAL(Subs(xBuffer,220,14))/100
+   SF2->F2_BASEISS:= VAL(Subs(xBuffer,202,14))/100
+   SF2->F2_RULOCAL:= Subs(xBuffer,263,04)
+   Msunlock()
+
+   //зддддддддддддддддддддддддддддддддддддддддддд©
+   //Ё Atualiza cadastro de itens da NF de saida Ё
+   //юддддддддддддддддддддддддддддддддддддддддддды
+   DbSelectArea("SD2")
+   RecLock("SD2",.T.)
+   SD2->D2_FILIAL := _cFilial
+   SD2->D2_COD    := "901"
+   SD2->D2_UM     := "UN"
+   SD2->D2_QUANT  := 1
+   SD2->D2_PRCVEN := VAL(Subs(xBuffer,156,14))/100
+   SD2->D2_TOTAL  := VAL(Subs(xBuffer,156,14))/100
+   SD2->D2_VALICM := VAL(Subs(xBuffer,188,14))/100
+   SD2->D2_PICM   := VAL(Subs(xBuffer,184,04))/100
+   SD2->D2_BASEICM:= VAL(Subs(xBuffer,170,14))/100
+
+   If VAL(Subs(xBuffer,188,14))/100  != 0
+      SD2->D2_TES := "502"
+   ElseIf VAL(Subs(xBuffer,220,14))/100  != 0
+      SD2->D2_TES := "503"
+   Else
+      SD2->D2_TES := "501"
+   Endif
+
+   SD2->D2_CF     := IF(_cEST=="SP","562","662")  //Subs(xBuffer,016,03)
+   SD2->D2_CLIENTE:= _cCodcli
+   SD2->D2_LOJA   := _cLoja
+   SD2->D2_LOCAL  := "01"
+   SD2->D2_DOC    := Subs(xBuffer,004,06)
+   SD2->D2_EMISSAO:= Ctod(Subs(xBuffer,010,02)+"/"+Subs(xBuffer,012,02)+"/"+Subs(xBuffer,014,02))
+   SD2->D2_GRUPO  := "9"
+   SD2->D2_TP     := "PA"
+   SD2->D2_SERIE  := "U"+ALLTRIM(Subs(xBuffer,001,3))
+   SD2->D2_NUMSEQ := PROXNUM()
+   SD2->D2_EST    := _cEST
+   SD2->D2_TIPO   := "N"
+   SD2->D2_ITEM   := "01"
+
+   //зддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд©
+   //Ё Campos Especificos Para Utilizacao nos Livros Fiscais em Disquete Ё
+   //юддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддды
+
+   SD2->D2_RUDTNFC := Ctod(Subs(xBuffer,234,02)+"/"+Subs(xBuffer,236,02)+"/"+Subs(xBuffer,238,02))
+   SD2->D2_RUNRNFC := Subs(xBuffer,240,06)
+   SD2->D2_RUCFOC  := Subs(xBuffer,246,03)
+   SD2->D2_RUVLNFC := VAL(Subs(xBuffer,249,14))/100
+
+   If Subs(xBuffer,124,14) == Subs(xBuffer,022,14)    //Se Devedor = Remetente
+      SD2->D2_RUCGCC  := Subs(xBuffer,056,14)        //Preencher c/ Destinatario
+      SD2->D2_RUIECLI := Subs(xBuffer,070,18)
+      SD2->D2_RUUFCLI := Subs(xBuffer,088,02)
+   ElseIf Subs(xBuffer,124,14) == Subs(xBuffer,056,14) //Se Devedor = Destinatario
+       SD2->D2_RUCGCC  := Subs(xBuffer,022,14)        //Preencher c/ Remetente
+       SD2->D2_RUIECLI := Subs(xBuffer,036,18)
+       SD2->D2_RUUFCLI := Subs(xBuffer,054,02)
+   ElseIf Subs(xBuffer,124,14) == Subs(xBuffer,090,14) //Se Devedor = Consignatario
+       SD2->D2_RUCGCC  := Subs(xBuffer,022,14)        //Preencher c/ Remetente
+       SD2->D2_RUIECLI := Subs(xBuffer,036,18)
+       SD2->D2_RUUFCLI := Subs(xBuffer,054,02)
+   Endif
+   MsUnlock()
+
+   nLidos := nLidos + 268
+Enddo
+
+//зддддддддддддддддддддддддд©
+//Ё Fecha os Arquivos ASCII Ё
+//юддддддддддддддддддддддддды
+FCLOSE(nHdlEnt)
+
+Return
