@@ -1,0 +1,2747 @@
+#INCLUDE "TOTVS.CH"
+#INCLUDE "FISA061.CH"
+
+#DEFINE _PULA_LINHA CHR(13)+CHR(10)
+
+Static	MV_FCITR	:=	GetNewPar("MV_FCITR","'1151','1152','1408','1409','2151','2152','2408','2409'")
+Static	MV_FCIVE	:=	GetNewPar("MV_FCIVE","'6107','6101','6103','6105','6109','6111','6113','6116','6118','6122','6124','6125','6401','6402','6403','6404'")
+Static	MV_FCICL	:=	GetNewPar("MV_FCICL","'100','110','120','170','190','200','210','220','270','290','300','310','320','370','390'")
+Static  MV_FCIALIQ	:=	GetNewPar("MV_FCIALIQ","4")
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} FISA061
+
+Funcao de geracao e importacao do arquivo magnetico da FCI
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+User Function FISA061(nAcao)
+Local	aWizard		:=	{}
+Local	aLisFil		:=	{}
+Local	lMultFil	:=	.F.
+Local	cFilDe		:=	""
+Local	cFilAte		:=	""
+Private	oObjClass
+
+//Monta perguntas iniciais da rotina
+If x061IniRot( @aWizard , @lMultFil , @aLisFil , @cFilDe , @cFilAte )
+    
+	x061ShowProg( aWizard , lMultFil , aLisFil , cFilDe , cFilAte, nAcao )
+	
+Endif
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061ShowProg
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061ShowProg( aWizard , lMultFil , aLisFil , cFilDe , cFilAte, nAcao )
+Local	aInfCust			:=	{}
+Local	bProcess			:=	{}
+Local	cMsg,cMsg2,cMsg3	:=	""
+Local	oProcess
+Local	cTxtIntro	:=	"Rotina responsável pela geração e importação do Arquivo da FCI." + CRLF +;
+						"Para executar o processamento do período selecionado, clique no botão abaixo e aguarde a conclusão do processo." +CRLF+CRLF+;
+						"Log de Processos: Log de todos os processos executados desta rotina" +CRLF+;
+						"Gera Txt: Função responsável pela geração do Arquivo Texto." + CRLF +;
+						"Importação: Função responsável pela importação dos códigos retornados pela Sefaz." + CRLF +;
+						"Relatório: Função responsável pela impressão do relatório de conferência."
+
+
+If nAcao == 1	//-- Geração
+	x061Txt	( Nil , aWizard , @cMsg2 , lMultFil , aLisFil , cFilDe , cFilAte )
+ElseIf nAcao == 2	//-- Importação
+	x061Load	( Nil , aWizard , @cMsg3 , lMultFil , aLisFil , cFilDe , cFilAte )
+Else
+	Aadd(	aInfCust,	{ "Gera Txt",	{ |oCenterPanel| x061Txt	( oCenterPanel , aWizard , @cMsg2 , lMultFil , aLisFil , cFilDe , cFilAte ) },	"PROCESSA",		{ {} , {} } } )
+	Aadd(	aInfCust,	{ "Importacao",	{ |oCenterPanel| x061Load	( oCenterPanel , aWizard , @cMsg3 , lMultFil , aLisFil , cFilDe , cFilAte ) },				"PROCESSA",		{ {} , {} } } )
+	Aadd(	aInfCust,	{ "Relatorio",	{ |oCenterPanel| x061Report ( oCenterPanel , aWizard , lMultFil , aLisFil , cFilDe , cFilAte ) },						"RELATORIO",	{ {} , {} } } )
+	
+	bProcess :=	{ |oSelf| x061Processa( aWizard , lMultFil , aLisFil , cFilDe , cFilAte , @cMsg , oProcess , oSelf ) }
+	
+	oProcess :=	tNewProcess():New( "FISA061" , "FCI" , bProcess , cTxtIntro , Nil , aInfCust , , , , , .T. )
+	
+	If !Empty(cMsg)
+		oProcess:SaveLog(OemToAnsi(cMsg))
+		cMsg	:=	""
+	Endif
+	
+	If !Empty(cMsg2)
+		oProcess:SaveLog(OemToAnsi(cMsg2))
+		cMsg2	:=	""
+	Endif
+	
+	If !Empty(cMsg3)
+		oProcess:SaveLog(OemToAnsi(cMsg3))
+		cMsg3	:=	""
+	Endif
+EndIf
+	
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Load
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Load( oCenterPanel , aWizard , cMsg3 , lMultFil , aLisFil , cFilDe , cFilAte )
+Local	dDataDe		:=	SToD(aWizard[1][1])
+Local	dDataAte	:=	SToD(aWizard[1][2])
+Local	cMesCalc	:=	StrZero( Month(dDataAte) , 2 )
+Local	cAnoCalc	:=	x061RetYear( Alltrim(Str(Year(dDataAte))) , cMesCalc )
+
+If MsgYesNo("Esta função irá importar arquivo magnético da FCI retornado pela Sefaz "+;
+			"após transmissão pelo Contribuinte. Os códigos retornados serão importados para utilização em "+;
+			Mes(SToD ( cAnoCalc + cMesCalc + "01" ) ) + " de "+Alltrim( cAnoCalc )+". "+;
+			"Esteja certo de que o arquivo que está sendo importado é o correto. Deseja continuar?","Atenção")
+
+	Processa({||x061Load2Tab( oCenterPanel , aWizard , @cMsg3 , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc )}, "Importação","Preparando ambiente para Importação..." )
+
+Endif
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Load2Tab
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Load2Tab( oCenterPanel , aWizard , cMsg3 , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc )
+Local	aWiz2Tab	:=	x061Wiz2File(2)
+Local	cReg		:=	""
+Local	cFileRet	:=	""
+Local	cFilePath	:=	""
+Local	cStartPath	:=	Nil
+Local	nHandle		:=	0
+
+If Len(aWiz2Tab) > 0
+	
+	//------------------------------------------------------
+	// Verifica existencia do arquivo no diretorio informado
+	//------------------------------------------------------
+	If File(cFileRet := Alltrim(aWiz2Tab[1][1]) )
+	
+		If MsgYesNo("Importando arquivo texto: "+cFileRet+CRLF+CRLF+;
+					"Os códigos deste arquivo serão utilizados em "+Mes(SToD ( cAnoCalc + cMesCalc + "01" ) ) +;
+					" de "+Alltrim( cAnoCalc )+". Confirme abaixo se deseja continuar!","Atenção!")
+	    
+			//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+			//³Leitura do arquivo texto	³
+			//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+			If xFunGetDir( 3 , cFileRet , , @cStartPath , @nHandle , .T. , @cFilePath )
+			    
+				//------------------------------------------------------
+				// Seleciona indice da tabela CFD, para importar os codigos
+				//------------------------------------------------------
+				CFD->(DbSetOrder(2))		//-> CFD_FILIAL+CFD_COD+CFD_PERCAL+CFD_PERVEN
+		
+				FSeek( nHandle , 0 , 0 )
+				FT_FUse( cStartPath+cFilePath )
+				FT_FGoTop()
+				
+				While !( FT_FEof() )
+				    
+					//Leitura da linha do arquivo
+					cReg	:=	FT_FReadLn()
+					
+					//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+					//³Quando estiver lendo os registros 5020, faco a importacao dos codigos da FCI	³
+					//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+					If Substr(cReg,1,4) == "5020"
+						
+						If x061ImpCod( cReg , cMesCalc , cAnoCalc )
+							MsgInfo(STR0011)	//"Importação realizada com sucesso!"
+							cMsg3	:=	"Importação realizada com sucesso; Período para utilização dos códigos FCI: "+ cMesCalc + "/" + cAnoCalc
+						Else
+							MsgInfo(STR0012)	//"Não foram encontrados códigos para importação!"
+							cMsg3	:=	"Não foram encontrados códigos para importação; Período para utilização dos códigos FCI: "+ cMesCalc + "/" + cAnoCalc
+						Endif
+						
+						//Posso abandonar while, pois os registros 5020 sao gerados em sequencia
+						Exit
+					Endif
+				
+					FT_FSkip()
+				End
+				
+				//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+				//³Libera Handle do arquivo	³
+				//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+				xFunGetDir(2,,,,nHandle)
+			
+			Endif
+		Endif
+	Else
+		MsgInfo(STR0013,STR0014)	//"Arquivo não encontrado" ### "Erro!"
+	Endif
+Endif
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Txt
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Txt( oCenterPanel , aWizard , cMsg2 , lMultFil , aLisFil , cFilDe , cFilAte )
+Local	cProdDe		:=	aWizard[1][3]
+Local	cProdAte	:=	aWizard[1][4]
+Local	dDataDe		:=	SToD(aWizard[1][1])
+Local	dDataAte	:=	SToD(aWizard[1][2])
+Local	cVersao		:=	aWizard[1][6]
+
+If MsgYesNo("Esta função irá gerar o arquivo magnético da FCI baseado nas informações processada na tabela CFD - Ficha de Conteúdo de Importação."+CRLF+CRLF+;
+			"Confirme abaixo o período base em que as informações serão processadas e, se necessário, ajuste os parâmetros da rotina."+CRLF+CRLF+;
+			"Período: "+Mes(dDataDe)+ " de "+Alltrim(Str(Year(dDataDe)))+CRLF+CRLF+;
+			"Deseja continuar?","Atenção")
+
+	Processa({||x61Reg2Txt( oCenterPanel , cProdDe , cProdAte , dDataDe , dDataAte , cVersao , @cMsg2 , lMultFil , aLisFil , cFilDe , cFilAte )}, "Gera Txt","Preparando ambiente para Geração..." )
+	
+Endif
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg2Txt
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x61Reg2Txt( oCenterPanel , cProdDe , cProdAte , dDataDe , dDataAte , cVersao , cMsg2 , lMultFil , aLisFil , cFilDe , cFilAte )
+Local	aWiz2Txt	:=	x061Wiz2File(1)
+Local	aReg5020	:=	{}
+Local	aAreaSM0	:=	SM0->(GetArea())
+Local	cAlsQryFD	:=	""
+Local	cArq		:=	Nil
+Local	cStartPath	:=	Nil
+Local	cPerCal		:=	""
+Local	cPerApu		:=	""
+Local	nHandle		:=	0
+Local	nTotFLin	:=	0
+Local	nTotRg5020	:=	0
+Local	nFilial		:=	0
+Local	cFile		:=	Iif( Len(aWiz2Txt) > 0 , Alltrim(aWiz2Txt[1][1])+Alltrim(aWiz2Txt[1][2]) , Nil )
+Local	bWhileSM0	:=	{||!SM0->(Eof ()) .And. ((!lMultFil .And. cEmpAnt==SM0->M0_CODIGO .And. FWGETCODFILIAL<=cFilAte) .Or. (lMultFil .And. Len(aLisFil)>0 .And. cEmpAnt==SM0->M0_CODIGO))}
+
+//----------------------
+//Periodos
+//----------------------
+cPerCal	:=	StrZero(Month(dDataAte),2) + Alltrim(Str(Year(dDataAte)))
+cPerApu	:=	StrZero(Month(dDataDe),2) + Alltrim(Str(Year(dDataDe)))
+
+//----------------------
+// Criacao do arquivo
+//----------------------
+If cFile <> Nil .And. xFunGetDir( 1 , , @cArq , @cStartPath , @nHandle )
+
+	DbSelectArea("SM0")
+	SM0->(DbGoTop ())
+	SM0->(DbSeek (cEmpAnt+cFilDe,.T.))
+	
+	//----------------------
+	//Bloco de execucao, processamento de Filiais
+	//----------------------
+	Do While Eval(bWhileSM0)
+		
+		cFilAnt := FWGETCODFILIAL
+	
+		If Len(aLisFil)>0 .And. cFilAnt <= cFilAte
+	       nFilial := Ascan(aLisFil,{|x|x[2]==cFilAnt})
+		   If nFilial==0 .Or. !(aLisFil[nFilial,1])  //Filial não marcada, vai para proxima
+				SM0->( dbSkip() ) 
+				Loop
+			EndIf
+		Else
+			If lMultFil  //Somente faz skip se a opcao de selecionar filiais estiver como Sim.
+				 SM0->(dbSkip())
+				 Loop
+			EndIf		
+		EndIf
+    
+		//--------------------------------------------------------------------
+		// Parametros para executar query:
+		//   [1] - "Txt" 	->	Indica que a chamada da query eh para geracao do txt
+		//   [2] - cPercal	->	Periodo de Calculo
+		//   [3] - cProdDe	->	Produto De
+		//   [4] - cProdAte	->	Produto Ate
+		//--------------------------------------------------------------------
+		If x061GetQry( @cAlsQryFD , { "Txt" , cPerCal , cProdDe , cProdAte } , , "CFD" )
+		
+			x61Reg5020( cAlsQryFD , @aReg5020 , @nTotRg5020 )
+			
+		Endif
+		
+		SM0->(dbSkip())
+	End
+	
+	//Restauro a area do SM0
+	RestArea(aAreaSM0)
+	cFilAnt := FWGETCODFILIAL
+	
+	//---------------------------------------------------------------------------------------
+	// Chamada das funcoes que vao gerar e gravar os blocos no arquivo texto
+	//---------------------------------------------------------------------------------------
+	x061Bloco0( nHandle , {,,,cVersao} , @nTotFLin )					//-> Bloco 0: Abertura do Arquivo
+	x061Bloco5( nHandle , aReg5020 , nTotRg5020 , @nTotFLin )			//-> Bloco 5: Dados da Mercadoria
+	x061Bloco9( nHandle , nTotRg5020 , nTotFLin )						//-> Bloco 9: Totalizacao de Registros
+	
+	//---------------------------------------------------------------------------------------
+	// Liberacao de handle e copia do arquivo para o diretorio destino
+	//---------------------------------------------------------------------------------------
+	If xFunGetDir( 2 , , , , nHandle )
+		
+		If xFunGetDir( 3 , cFile , cArq , cStartPath )
+			
+			MsgInfo(STR0006)	//"Arquivo gerado com sucesso!"
+			cMsg2	:=	"Arquivo Texto gerado; Período Apurado: "+cPerApu+"; Arquivo: " + Alltrim(aWiz2Txt[1][2])
+		
+		Endif
+	Endif
+	
+Endif
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Wiz2File
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Wiz2File( nTipo )
+Local	aFirstTxt	:=	{}
+Local	aGetParam	:=	{}
+Local	aWiz2File	:=	{}
+Local	cNameWiz	:=	Iif( nTipo==1 , "FSA061AT"+FWGETCODFILIAL , "FSA061AI"+FWGETCODFILIAL )
+Local	cTxtEvent	:=	Iif( nTipo==1 , "Geração" , "Importação")
+
+//---------------------------------------------------------------------------------------
+// Montagem da wizard para as opcoes de Gera Txt (opcao 1) ou Importacao (opcao 2)
+//---------------------------------------------------------------------------------------
+
+aAdd (aFirstTxt, "Rotina de "+cTxtEvent+" do Arquivo Magnético da FCI.")
+aAdd (aFirstTxt, "")	
+aAdd (aFirstTxt, "Preencha corretamente os campos abaixo para "+cTxtEvent+" do arquivo.")
+aAdd (aFirstTxt, "Informações necessárias para a "+cTxtEvent+" do Arquivo Magnético da FCI.")
+
+aAdd (aGetParam, {})
+aAdd (aGetParam[1], "Preencha corretamente as informações solicitadas.")
+aAdd (aGetParam[1], "Parâmetros para "+cTxtEvent)
+aAdd (aGetParam[1], {})
+
+If nTipo == 1
+	
+	aAdd (aGetParam[1][3], {1,"Diretório do Arquivo Destino",,,,,,})
+	aAdd (aGetParam[1][3], {2,,Replicate("X",50),1,,,,50})
+	
+	aAdd (aGetParam[1][3], {0,"",,,,,,})
+	aAdd (aGetParam[1][3], {0,"",,,,,,})
+	
+	aAdd (aGetParam[1][3], {1,"Nome do Arquivo Destino",,,,,,})
+	aAdd (aGetParam[1][3], {2,,Replicate("X",30),1,,,,30})
+
+Else
+
+	aAdd(aGetParam[1][3],	{1,"Arquivo de retorno:",,,,,,})
+	aAdd(aGetParam[1][3],	{2,,Replicate("X",250),1,,,,250,,.T.})
+
+Endif
+	
+If xMagWizard (aFirstTxt, aGetParam, cNameWiz)
+	xMagLeWiz(cNameWiz,@aWiz2File,.T.)
+Endif
+
+Return aWiz2File
+
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Processa
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Processa( aWizard , lMultFil , aLisFil , cFilDe , cFilAte , cMsg , oProcess , oSelf )
+
+//Caracter
+Local	cCodProd	:=	""
+Local	cOrdProd	:=	""
+Local	cAlsQry		:=	""
+Local	cNumLote	:=	""
+Local	cLoteCtl	:=	""
+Local	cFilOp		:=	""
+Local	cProdDe		:=	aWizard[1][3]
+Local	cProdAte	:=	aWizard[1][4]
+
+//Data
+Local	dEmissao	:=	Nil
+Local	dDataDe		:=	SToD(aWizard[1][1])
+Local	dDataAte	:=	SToD(aWizard[1][2])
+
+//Numerico
+Local	nVlParIm	:=	0
+Local	nSaiIntEs	:=	0
+Local	nCountReg	:=	0
+Local	nPos		:=	0
+Local	nFilial		:=	0
+
+//Logico
+Local	lGravouCFD	:=	.F.
+Local	lF1FilOri	:=	SF1->(FieldPos("F1_FILORIG"))> 0 .And. SF1->(FieldPos("F1_CLIORI"))> 0 .And. SF1->(FieldPos("F1_LOJAORI"))> 0
+
+//Array
+Local	aRetCkMov	:=	{}
+Local	aInfFPrd	:=	{}
+Local	aAreaSM0	:=	SM0->(GetArea ())
+
+//Bloco de codigo
+Local	bWhileSM0	:=	{||!SM0->(Eof ()) .And. ((!lMultFil .And. cEmpAnt==SM0->M0_CODIGO .And. FWGETCODFILIAL<=cFilAte) .Or. (lMultFil .And. Len(aLisFil)>0 .And. cEmpAnt==SM0->M0_CODIGO))}
+
+//Dependente de variaveis definidas anteriormente
+Local	cMes		:=	Alltrim( StrZero( Month( dDataDe ) , 2 ) )
+Local	cAno		:=	Alltrim( Str( Year ( dDataDe ) ) )
+
+
+
+If MsgYesNo("Esta função irá Processar o Conteúdo de Importação dos valores praticados no último Período de Apuração."+CRLF+CRLF+;
+			"Período que será apurado: "+Mes( dDataDe ) +" de "+cAno+"."+CRLF+CRLF+;
+			"Verifique no Log de Processos se este período já foi apurado. Caso clique em continuar, os dados já processados serão apagados."+CRLF+CRLF+;
+			"Deseja continuar?","Atenção")
+    
+	oSelf:IncRegua1( "Preparando ambiente" )
+	//------------------------------------------------------------------------------------------------------------
+	//
+	//
+	//												Bloco de Reprocessamento
+	//
+	//
+	//------------------------------------------------------------------------------------------------------------
+	DbSelectArea("SM0")
+	SM0->(DbGoTop ())
+	SM0->(DbSeek (cEmpAnt+cFilDe,.T.))
+	
+	//Bloco de execucao, processamento de Filiais
+	Do While Eval(bWhileSM0)
+		
+		cFilAnt := FWGETCODFILIAL
+	
+		If Len(aLisFil)>0 .And. cFilAnt <= cFilAte
+	       nFilial := Ascan(aLisFil,{|x|x[2]==cFilAnt})
+		   If nFilial==0 .Or. !(aLisFil[nFilial,1])  //Filial não marcada, vai para proxima
+				SM0->( dbSkip() ) 
+				Loop
+			EndIf
+		Else
+			If lMultFil  //Somente faz skip se a opcao de selecionar filiais estiver como Sim.
+				 SM0->(dbSkip())
+				 Loop
+			EndIf		
+		EndIf
+		
+		//oSelf:IncRegua1( "Verificando processamentos da Filial: "+Alltrim(SM0->M0_FILIAL))
+		
+		//---------------------------------------------------------------
+		//	x061ChkMov ()
+		//---------------------------------------------------------------
+		// Verifico se ja existe processamento neste periodo
+		//
+		// Retorna array com duas informacoes:
+		//    [1] -> Processa / Reprocessa = Sim
+		//    [2] -> Indica reprocessamento para gerar Log
+		//---------------------------------------------------------------
+		x061ChkMov( cMes , cAno )
+		
+		SM0->(dbSkip()) 
+	End
+	
+	//------------------------------------------------------------------------------------------------------------
+	//
+	//
+	//												Apuracao do Periodo
+	//
+	//
+	//------------------------------------------------------------------------------------------------------------
+	
+	//Volta ao inicio do SIGAMAT e ira processar com base nas filiais selecionadas
+	SM0->(DbGoTop ())
+	SM0->(DbSeek (cEmpAnt+cFilDe, .T.))
+	
+	//Bloco de execucao, processamento de Filiais
+	Do While Eval(bWhileSM0)
+		
+		cFilAnt 	:= 	FWGETCODFILIAL
+		
+		If Len(aLisFil)>0 .And. cFilAnt <= cFilAte
+	       nFilial := Ascan(aLisFil,{|x|x[2]==cFilAnt})
+		   If nFilial==0 .Or. !(aLisFil[nFilial,1])  //Filial não marcada, vai para proxima
+				SM0->( dbSkip() ) 
+				Loop
+			EndIf
+		Else
+			If lMultFil  //Somente faz skip se a opção de selecionar filiais estiver como Sim.
+				 SM0->(dbSkip())
+				 Loop
+			EndIf		
+		EndIf
+	
+		//---------------------------------------------------------------
+		//
+		// Executa query procurando por movimentacao de saida enquadrada
+		// nas Regras da FCI (Contador para Regua)
+		//
+		//---------------------------------------------------------------
+		If x061GetQry( @cAlsQry , { DToS(dDataDe) , DToS(dDataAte) , cProdDe , cProdAte } , nCountReg , "APU" )
+		
+			While !(cAlsQry)->(Eof())
+				nCountReg	+=	(cAlsQry)->COUNTREG
+				(cAlsQry)->(DbSkip())
+			End
+		
+			oSelf:SetRegua1( nCountReg )
+			
+			If Select(cAlsQry) <> 0
+				(cAlsQry)->(DbCloseArea())
+			Endif
+		Endif
+		
+		//---------------------------------------------------------------
+		//
+		// Executa query procurando por movimentacao de saida enquadrada
+		// nas Regras da FCI
+		//
+		//---------------------------------------------------------------
+		If x061GetQry( @cAlsQry , { DToS(dDataDe) , DToS(dDataAte) , cProdDe , cProdAte } , , "APU" )
+		
+			
+		
+		   	While !(cAlsQry)->(Eof())
+			
+				oSelf:IncRegua1( "Calculando Produto: "+Alltrim((cAlsQry)->NOME_MERCADORIA) + " para a Filial: "+Alltrim(SM0->M0_FILIAL))
+			
+				//------------------------------------------------------
+				// Informacoes utilizadas no processamento por item
+				//------------------------------------------------------
+				cCodProd	:=	(cAlsQry)->CODIGO_PRODUTO
+				dEmissao	:=	SToD((cAlsQry)->EMISSAO)
+				cNumLote	:=	(cAlsQry)->NUMLOTE
+				cLoteCtl	:=	(cAlsQry)->LOTECTL
+				
+			    //------------------------------------------------------
+				// Calcula valor da parcela importada
+				//------------------------------------------------------
+				If ( nVlParIm	:=	x061WhlD3( cCodProd , dEmissao , @cOrdProd , cNumLote , cLoteCtl , lF1FilOri , , @cFilOp ) ) <> Nil
+				
+					//------------------------------------------------------
+					// Calcula valor das saidas interestaduais
+					//------------------------------------------------------
+					nSaiIntEs	:=	(cAlsQry)->( VALBRUT / QUANT )
+				
+					//------------------------------------------------------
+					// Adiciono os valores para aInfFPrd -> array utilizado 
+					// na gravacao da tabela CFD
+					//------------------------------------------------------
+					If ( nPos := aScan( aInfFPrd, { |x| x[1]+x[2]+x[3]+x[7] == xFilial("SB1")+cCodProd+cOrdProd+cFilOp } ) ) == 0
+				
+						aAdd( aInfFPrd	,	{	xFilial("SB1"),;			//-> Filial
+												cCodProd,;					//-> Codigo do produto
+												cOrdProd,;					//-> Ordem de producao
+												nVlParIm,;					//-> Valor da Parcela de Importacao
+												nSaiIntEs,;					//-> Valor de Saida Interestadual
+												1,;							//-> Quantidade usada para ponderacao
+												cFilOp } )					//-> Filial da Op
+												
+					Else
+						aInfFPrd[nPos][4]	+=	nVlParIm					//-> Valor da Parcela de Importacao
+						aInfFPrd[nPos][5]	+=	nSaiIntEs					//-> Valor de Saida Interestadual
+						aInfFPrd[nPos][6]	+=	1							//-> Valor de Saida Interestadual
+					Endif
+				
+				Endif
+				
+			(cAlsQry)->(DbSkip())
+			End
+			
+			If Select(cAlsQry) <> 0
+				(cAlsQry)->(DbCloseArea())
+			Endif
+			
+		Endif
+		SM0->(dbSkip())
+	End
+	
+	//-----------------------------------------------------------------------------------------
+	//									Begin Transaction
+	//-----------------------------------------------------------------------------------------
+	//Este comando define que as operacoes seguintes, delimitadas pelo comando END TRANSACTION, 
+	//devem ser processadas como uma transacao, ou seja, como um bloco unico e indivisivel. 
+	//Durante uma recuperacao de falha, todas as operacoes de manipulacao de dados realizadas 
+	//serao integralmente desfeitas, alem de prover isolamento entre acessos concorrentes 
+	//na mesma massa de dados. 
+	//-----------------------------------------------------------------------------------------
+	Begin Transaction
+	
+	x061OrdArr( aInfFPrd , cMes , cAno , @lGravouCFD)
+	
+	End Transaction
+		
+	//------------------------------------------------------
+	// Mensagem que sera gravada no log de processamentos
+	// Registro da tabela SXU vinculado ao codigo da rotina
+	//------------------------------------------------------
+	If lGravouCFD
+		cMsg	:=	"Registros Processados; Período Apurado: "+StrZero(Val(cMes),2) + "/" + cAno
+		MsgInfo("Registros processados com sucesso!")
+	Else
+		cMsg	:=	"Não foram encontrados registros para o Período: "+StrZero(Val(cMes),2) + "/" + cAno
+		MsgAlert(STR0041)	//"Não foram encontrados registros para os parametros informados!"
+	Endif
+	
+Endif
+
+//Restauro a area do SM0
+RestArea(aAreaSM0)
+cFilAnt := FWGETCODFILIAL
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061OrdArr
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061OrdArr( aInfFPrd , cMes , cAno , lGravouCFD )
+Local	nCI			:=	0
+Local	cChave		:=	""
+Local	nVlParIm	:=	0
+Local	nSaiIntEs	:=	0
+Local	nX			:=	0
+Local	nY			:=	0
+Local	aArr2Tab	:=	{}
+
+//------------------------------
+//  Ordena o array
+//------------------------------
+aSort( aInfFPrd , , , { |x,y| x[1]+x[2]+x[3] < y[1]+y[2]+x[3]  } )
+//------------------------------
+//  Indico finalizacao do array
+//------------------------------
+aAdd( aInfFPrd, { "FINALIZA" , "FINALIZA" } )
+
+//-----------------------------------------------------------------------------------------------------------------
+// Laco no array aInfFPrd -> este array possui o detalhe de cada linha retornada na query das vendas, quebrando 
+//  por Produto (Media Pond.) ou Produto+Lote+SubLote (Rastro).
+//
+// A chave que foi utilizada na funcao x061Processa eh Filial+Produto+OP, portanto essa chave nao ira se repetir 
+//  na tabela CFD, porem podemos ter mais de um registro por Filial+Produto, que devera gerar apenas um 5020 no arquivo texto.
+//
+// O laco eh utilizado para calcular uma media dos valores apurados em cada linha do array, dessa forma poderei informar
+//  os valores unitarios e o Conteudo de importacao com maior precisao.
+//-----------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// cChave recebe conteudo do primeiro elemento, para que nao fure o fluxo
+//-----------------------------------------------------------------------------
+cChave	:=	aInfFPrd[1][1]+aInfFPrd[1][2]
+
+For nX := 1 To Len( aInfFPrd )
+
+	//-------------------------------------------------------------------------------------------
+	// Verifico se ainda estou processando a mesma chave Filial+Produto, pois ainda que repetir
+	//  esta chave na tabela CFD, os valores deverao ser os mesmos na impressao do txt
+	//-------------------------------------------------------------------------------------------
+	If aInfFPrd[nX][1]+aInfFPrd[nX][2] <> cChave
+	    
+	    //---------------------------------------------------------------------------------------------------
+		// Se estiver tratando de outra chave Filial+Produto, faco o calculo para os valores unitarios
+		//  utilizando as variaveis totalizadoras nVlParIm para Parcela Importada e nSaiIntEs para Saidas
+		//  interestaduais. Divido as variaveis por nY, que eh um contador de ponderacao
+		//---------------------------------------------------------------------------------------------------
+		nVlParIm	:=	nVlParIm / nY
+		nSaiIntEs	:=	nSaiIntEs / nY
+		nCI			:=	Round( ( nVlParIm / nSaiIntEs ) * 100 , 2 )
+			
+	    //---------------------------------------------------------------------------------------------------
+		// Com os valores unitarios e o Conteudo de Importacao em maos, utilizo o array aArr2Tab que
+		//  guardou as linhas que serao geradas na tabela CFD e junto com os valores gravo as informacoes
+		//  na tabela da FCI
+		//---------------------------------------------------------------------------------------------------
+	    lGravouCFD	:=	x061GrvCFD( aArr2Tab , cMes , cAno , nVlParIm , nSaiIntEs , nCI )
+	    
+		//-----------------------------------------------------------------------------
+		// Reseto as variaveis para inicializar calculo de outra chave Filial+Produto
+		//-----------------------------------------------------------------------------
+		nVlParIm	:=	0
+		nSaiIntEs	:=	0
+		nCI			:=	0
+		nY			:=	0
+		aArr2Tab	:=	{}
+		
+	Endif
+	
+	If aInfFPrd[nX][1] <> "FINALIZA"
+	
+		nVlParIm	+=	aInfFPrd[nX][4]
+		nSaiIntEs	+=	aInfFPrd[nX][5]
+		nY			+=	aInfFPrd[nX][6]
+		
+		aAdd( aArr2Tab, {	aInfFPrd[nX][1],;
+							aInfFPrd[nX][2],;
+							aInfFPrd[nX][3]	,;
+							aInfFPrd[nX][7]}	)
+							
+		
+		cChave	:=	aInfFPrd[nX][1]+aInfFPrd[nX][2]
+	Endif
+	
+Next nX
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061GrvCFD
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061GrvCFD( aArr2Tab , cMes , cAno , nVlParIm , nSaiIntEs , nCI )
+Local	nCIHist		:=	0
+Local	nX			:=	0
+Local	cCdFCIHist	:=	""
+Local	cAnoCalc	:=	""
+Local	cPerVen		:=	""
+Local	lHerdaCod	:=	.F.
+Local	lAchouCFD	:=	.F.
+Local	lRet		:=	.F.
+
+//-------------------------------------------------------------
+//  Caso esteja processando Dezembro, atualizo ano posterior
+//-------------------------------------------------------------
+cAnoCalc	:=	x061RetYear( cAno , cMes )
+cPerVen	:=	StrZero(Val(cMes),2)+cAno
+
+//-------------------------------------------------------------
+//  Verifico se este produto ja foi processado em outro periodo
+//-------------------------------------------------------------
+If CFD->( MsSeek ( aArr2Tab[1][1] + aArr2Tab[1][2] ) )
+	
+	While !CFD->(Eof()) .And. aArr2Tab[1][2] == CFD->CFD_COD
+		
+		//-------------------------------------------------------------
+		//  Procuro o ultimo periodo anterior (ou atual) em que 
+		//  o produto foi processado
+		//  A tabela neste momento esta ordenada por Produto+PeriodoCalculo
+		//  Enquanto o periodo do processamento for maior que o registro posicinado,
+		//  continuo procurando por novos registros.
+		//-------------------------------------------------------------
+		If cPerVen >= CFD->CFD_PERCAL
+			nCIHist		:=	CFD->CFD_CONIMP
+			cCdFCIHist	:=	CFD->CFD_FCICOD
+			lAchouCFD	:=	.T.
+		Endif
+		
+		CFD->(DbSkip())
+	End
+Endif
+
+//----------------------------------------------------------------------------------------
+//  Verifico se devo herdar o codigo da FCI processada no periodo anterior
+//  Essa regra se aplica quando a variacao do Conteudo de Importacao nao supera 5%
+//  entre os periodos
+//----------------------------------------------------------------------------------------		
+If lAchouCFD
+	If nCI > nCIHist
+		If nCI - nCIHist <= 5
+			lHerdaCod	:=	.T.
+		Endif
+	Elseif nCI < nCIHist
+		If nCIHist - nCI <= 5
+			lHerdaCod	:=	.T.
+		Endif
+	Elseif nCI == nCIHist
+		lHerdaCod	:=	.T.
+	Endif
+Endif
+
+For nX := 1 To Len( aArr2Tab )
+	
+	//------------------------------
+	//  Gravacao da tabela CFD
+	//------------------------------
+	RecLock("CFD",.T.)
+	CFD->CFD_FILIAL	:=	aArr2Tab[nX][1]
+	CFD->CFD_PERCAL	:=	StrZero(Val(cMes)+1,2) + cAnoCalc
+	CFD->CFD_PERVEN	:=	StrZero(Val(cMes),2) + cAno
+	CFD->CFD_COD	:=	aArr2Tab[nX][2]
+	CFD->CFD_OP		:=	aArr2Tab[nX][3]
+	CFD->CFD_FILOP	:=	aArr2Tab[nX][4]
+	CFD->CFD_VPARIM	:=	nVlParIm
+	CFD->CFD_VSAIIE	:=	nSaiIntEs
+	CFD->CFD_CONIMP	:=	nCI
+	CFD->CFD_FCICOD	:=	Iif( lHerdaCod , cCdFCIHist , "" )
+	MsUnLock()
+	
+	lRet	:=	.T.
+	
+Next nX
+
+Return lRet
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061WhlD3
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061WhlD3( cCodProd , dDtEmis , cOrdProd  , cNumLote , cLoteCtl , lF1FilOri , cFilOrig , cFilOp )
+Local	aArea		:=	GetArea()
+Local	aParQry		:=	{}
+Local	nMpBsIcms	:=	0
+Local	nMpBsIcms2	:=	0
+Local	nPR0_Quant	:=	0
+Local	cAlsQryPR0	:=	""
+Local	cAlsQryRE1	:=	""
+Local	cAlsQryD1	:=	""
+Local	cPR0_Data	:=	""
+Local	cPR0_Op		:=	""
+Local	cPR0_Cod	:=	""
+Local	cPR0_Fil	:=	""
+Local	cNumLoteRE1	:=	""
+Local	cLoteCtlRE1	:=	""
+Default	cFilOrig	:=	Nil
+Default	cFilOp		:=	""
+
+//-------------------------------------------------------------------------------
+// Pesquiso uma OP de Produto (Producao PR0)
+// Se o retorno for Nil, significa que se trata de uma MP e posso buscar
+// a entrada deste produto (SD1) e usar para calculo da parcela de importacao
+//
+// Se encontrar OP deste produto, significa que se trata de uma producao da
+// empresa. Neste Caso devo usar a funcao de forma recursiva, sempre consultando
+// novamente pelos itens RE1 para compor a base de calculo.
+//-------------------------------------------------------------------------------
+aParQry	:=	{ cCodProd , DToS(dDtEmis), cNumLote, cLoteCtl , cFilOrig }
+
+If x061GetQry( @cAlsQryPR0 , aParQry , , "PRD" )
+
+	cPR0_Fil	:=	(cAlsQryPR0)->D3_FILIAL
+	cPR0_Data	:=	(cAlsQryPR0)->D3_EMISSAO
+	cPR0_Op		:=	(cAlsQryPR0)->D3_OP
+	cPR0_Cod	:=	(cAlsQryPR0)->D3_COD
+	nPR0_Quant	:=	(cAlsQryPR0)->D3_QUANT
+    
+	//----------------------------------------------------------------
+	//  Procuro pelos produtos utilizados na producao retornada acima
+	//  Retornar os registros RE1 vinculados a OP do PR0
+	//----------------------------------------------------------------
+	If x061GetQry( @cAlsQryRE1 , { cPR0_Data , cPR0_Op , cFilOrig } , , "MPR")
+            
+    	While !(cAlsQryRE1)->(Eof())
+    		
+    		//----------------------------------------------------------------------------------------
+			// 							Para ambiente com Rastreabilidade !
+			// Se a producao utilizou controle de lote, devo pesquisar os lotes utilizados pelas MP's
+			//  fazendo uma consulta na tabela SD5, utilizando a OP da producao e o Lote da producao
+			//----------------------------------------------------------------------------------------
+    		If !Empty(cNumLote+cLoteCtl)
+    		
+    			x061LoteRE1( cPR0_Op , (cAlsQryRE1)->D3_COD , cPR0_Data , @cNumLoteRE1 , @cLoteCtlRE1 , cFilOrig )
+    			
+    		Endif
+            
+			//-----------------------------------------------------------------
+			// Antes de buscar a NF da MP, eh feita uma chamada recursiva desta 
+			// funcao, afim de apurar se a potencial MP nao eh, na verdade, um
+			// produto intermediario. Se for o caso, o valor utilizado na ponderacao
+			// eh exatamente o retorno desta funcao
+			//-----------------------------------------------------------------
+			(cAlsQryRE1)-> (;
+							nMpBsIcms2 := x061WhlD3( D3_COD , SToD(D3_EMISSAO) , D3_OP , cNumLoteRE1 , cLoteCtlRE1 , lF1FilOri , cFilOrig );
+							)
+
+			//-----------------------------------------------------
+			//Ponderando base do ICMS com a quantidade de MP usada
+			//-----------------------------------------------------
+			nMpBsIcms += nMpBsIcms2*(cAlsQryRE1)->D3_QUANT
+
+			(cAlsQryRE1)->(DbSkip())
+		End
+		
+		//-----------------------
+		// Fecha area da Query
+		//-----------------------
+		If Select(cAlsQryRE1) > 0
+			(cAlsQryRE1)->(DbCloseArea())
+		Endif
+        
+        //----------------------------------------------------------------------------------
+		// Calculo para a parcela de importacao unitaria (Base Total / Quantidade produzida)
+		//----------------------------------------------------------------------------------
+		nMpBsIcms /= nPR0_Quant
+		
+	EndIf
+	
+	//----------------------
+	// Fecha area da Query
+	//----------------------
+	If Select(cAlsQryPR0) > 0
+		(cAlsQryPR0)->(DbCloseArea())
+	Endif
+
+Else
+	
+	//-----------------------------------------------------------------------------
+	// Abaixo uma pesquisa eh feita para  buscar a NF de entrada
+	// Retorna a quantidade de entrada e a base de calculo de ICMS
+	//   ou
+	// Identificador que se trata de um produto transferido entre filiais
+	//-----------------------------------------------------------------------------
+	aParQry	:=	{ cCodProd , DToS(dDtEmis) , cNumLote , cLoteCtl , lF1FilOri , cFilOrig }
+	
+	If x061GetQry( @cAlsQryD1 , aParQry , , "ENT")
+	    
+	    //-------------------------------------
+		//Indica uma transferencia de filiais
+		//-------------------------------------
+		If lF1FilOri .And. !Empty( (cAlsQryD1)->( F1_FILORIG+F1_CLIORI+F1_LOJAORI ) )
+			
+			nMpBsIcms	:=	x61ChkTFil( cAlsQryD1 , @cPR0_Op , @cPR0_Fil)
+		
+		//-------------------------------------
+		// Calcula Base Unitaria
+		//-------------------------------------
+		Elseif (cAlsQryD1)->D1_CLASFIS $ MV_FCICL
+	
+			nMpBsIcms	:=	Round( (cAlsQryD1)->( D1_BASEICM / D1_QUANT ) , 2 )
+		Endif
+		
+	Endif
+	
+	//---------------------------
+	//  Fecha area da Query SD1
+	//---------------------------
+	If Select(cAlsQryD1) > 0
+		(cAlsQryD1)->(DbCloseArea())
+	Endif
+				
+	//------------------------------------
+	//    Fecha area da Query
+	//------------------------------------
+	If Select(cAlsQryPR0) > 0
+		(cAlsQryPR0)->(DbCloseArea())
+	Endif
+	
+Endif
+
+cOrdProd	:=	cPR0_Op
+cFilOp		:=	cPR0_Fil
+
+RestArea(aArea)
+Return nMpBsIcms
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061ChkMov
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061ChkMov( cMes , cAno )
+Local	cPeriod		:=	""
+Local	aAreaCFD	:=	CFD->(GetArea())	
+
+//-------------------------------------------------------------
+//  Caso esteja processando Dezembro, atualizo ano posterior
+//-------------------------------------------------------------
+If cMes == "12"
+	cAno	:=	Str(Val(cAno)+1)
+Endif
+
+//-------------------------------------------------------------
+//  Componho conteudo do periodo
+//-------------------------------------------------------------
+cPeriod	:=	StrZero(Val(cMes)+1,2) + cAno
+
+CFD->(DbSetOrder(1)) //->CFD_FILIAL+CFD_PERCAL+CFD_PERVEN+CFD_COD
+
+//-------------------------------------------------------------
+//  Verifico se ja existe processamento no periodo e pergunto se
+//  deseja reprocessar
+//-------------------------------------------------------------
+If CFD->(MsSeek(xFilial("CFD") + cPeriod ) )
+
+	//----------------------------------
+	//  Deleto registros do periodo
+	//----------------------------------
+	While !CFD->(Eof()) .And. CFD->(CFD_FILIAL+CFD_PERCAL) == xFilial("CFD")+cPeriod
+		RecLock("CFD",.F.)
+		CFD->(DbDelete())
+		MsUnLock()
+		CFD->(DbSkip())
+	End
+
+Endif
+
+RestArea(aAreaCFD)
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Wizard
+
+Funcao que monta wizard para preenchimento das informacoes que serao
+utilizadas no processamento do arquivo da FCI
+
+@param	nTipo	-> 	Tipo da operacao para montagem da wizard.
+					A opcao 1 cria wizard de geracao do arquivo
+					A opcao 2 cria wizard de importacao do arquivo
+		lButton	->	Indica que a funcao foi chamada a partir da
+ 	   				opcao do menu da rotina
+ 	   
+@return	aWizard	->	Array com conteudo preenchido na wizard
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061Wizard()
+Local	aFirstTxt	:=	{}
+Local	aGetParam	:=	{}
+Local	aWizard		:=	{}
+Local	cNameWiz	:=	"FSA061NW"+FWGETCODFILIAL
+
+
+aAdd (aFirstTxt, "Rotina de Processamento do Arquivo Magnético da FCI.")
+aAdd (aFirstTxt, "")	
+aAdd (aFirstTxt, "Preencha corretamente as perguntas para processamento da rotina.")
+aAdd (aFirstTxt, "Informações necessárias para o processamento do Arquivo Magnético da FCI.")
+
+
+aAdd (aGetParam, {})
+aAdd (aGetParam[1], "Preencha corretamente as informações solicitadas.")
+aAdd (aGetParam[1], "Parâmetros para Processamento")
+aAdd (aGetParam[1], {})
+
+aAdd (aGetParam[1][3], {1,"Data de",,,,,,})
+aAdd (aGetParam[1][3], {2,,,3,,,,})
+
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+
+aAdd (aGetParam[1][3], {1,"Data Até",,,,,,})
+aAdd (aGetParam[1][3], {2,,,3,,,,})
+
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+
+aAdd (aGetParam[1][3], {1,"Produto De",,,,,,})
+aAdd (aGetParam[1][3], {2,,Replicate("X",TamSX3("B1_COD")[1]),1,,,,,,,"SB1"})
+
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+
+aAdd (aGetParam[1][3], {1,"Produto Até",,,,,,})
+aAdd (aGetParam[1][3], {2,,Replicate("X",TamSX3("B1_COD")[1]),1,,,,,,,"SB1"})
+
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+
+aAdd (aGetParam[1][3], {1,"Seleciona Filiais?",,,,,,})
+aAdd (aGetParam[1][3], {3,,,,,{"1 - Sim" , "2 - Não"},,})
+
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+aAdd (aGetParam[1][3], {0,"",,,,,,})
+
+aAdd (aGetParam[1][3], {1,"Versão",,,,,,})
+aAdd (aGetParam[1][3], {2,,Replicate("X",4),1,,,,4})
+
+
+If xMagWizard (aFirstTxt, aGetParam, cNameWiz)
+	xMagLeWiz(cNameWiz,@aWizard,.T.)
+Endif
+
+Return aWizard
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061GetQry
+
+Funcao que executa query da rotina, conforme necessidade do layout do
+Arquivo da FCI.
+
+@param  cAlsQry		-> 	Variavel que retorna alias da query
+ 	   	aParam		->	Parametros do processamento
+ 	   	nCountReg	->	Contagem de registros para regua
+ 	   	cQuery		->	Tipo de processamento que foi selecionado
+
+@return	lRet	->	Query retornou registros
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061GetQry(cAlsQry,aParam,nCountReg,cQuery)
+Local	cSelect		:=	""
+Local	cFrom		:=	""
+Local	cWhere		:=	""
+Local	cGroup		:=	""
+Local	cOrder		:=	""
+Local	lRet		:=	.F.
+Local	lCount		:=	nCountReg <> Nil
+Default	nCountReg	:=	0
+
+	
+//------------------------------------------------------------------------
+
+//				MOVIMENTACOES DE SAIDA DO PERIODO (APURACAO)
+
+//------------------------------------------------------------------------
+
+//Consulta por registros de saida para processamento da apuracao
+
+//------------------------------------------------------------------------
+
+If cQuery == "APU"
+
+	//----------------------------------------------------------
+	//						SELECT
+	//----------------------------------------------------------
+	//Tabelas: 	SB1 - Cadastro do Produto
+	//			SD2 - Item Documento de Saida
+	//----------------------------------------------------------
+	If lCount
+		cSelect	+=	"%COUNT(*) COUNTREG, "
+		cSelect	+=	"SD2.D2_COD, "
+		cSelect	+=	"SD2.D2_NUMLOTE, "
+		cSelect	+=	"SD2.D2_LOTECTL%"
+	Else
+		cSelect	+=	"%SD2.D2_COD CODIGO_PRODUTO, "
+		cSelect	+=	"SD2.D2_NUMLOTE NUMLOTE, "
+		cSelect	+=	"SD2.D2_LOTECTL LOTECTL, "
+		cSelect	+=	"MIN(SD2.D2_EMISSAO) EMISSAO, "
+		cSelect	+=	"SUM(SD2.D2_VALBRUT) VALBRUT, " 
+		cSelect	+=	"SUM(SD2.D2_QUANT) QUANT, "
+		cSelect	+=	"SB1.B1_DESC NOME_MERCADORIA%"
+	Endif
+    
+	//----------------------------------------------------------
+	//						FROM
+	//----------------------------------------------------------
+	//Tabelas: 	SD2 - Item Documento de Saida
+	//			SB1 - Cadastro do Produto (Join)
+	//----------------------------------------------------------
+	cFrom	+=	"%"+RetSqlName("SD2")+" SD2 "
+	
+	//----> Join com SB1
+	cFrom	+=	"JOIN "+RetSqlName("SB1")+" SB1 ON B1_FILIAL = '"+xFilial("SB1")+"' AND D2_COD = B1_COD AND SB1.D_E_L_E_T_ = ''%"
+	
+	//----------------------------------------------------------
+	//						WHERE
+	//----------------------------------------------------------
+	//Tabelas: 	SD2 - Item Documento de Saida
+	//----------------------------------------------------------			
+	cWhere	+=	"%SD2.D2_FILIAL	=	'"+xFilial("SD2")+"' AND "
+	cWhere	+=	"SD2.D2_EMISSAO	>=	'"+aParam[1]+"' AND "
+	cWhere	+=	"SD2.D2_EMISSAO	<=	'"+aParam[2]+"' AND "
+	cWhere	+=	"SD2.D2_COD	>=	'"+aParam[3]+"' AND "
+	cWhere	+=	"SD2.D2_COD	<=	'"+aParam[4]+"' AND "
+	cWhere	+=	"SD2.D2_PICM IN ( "+ MV_FCIALIQ +" ) AND "
+	cWhere	+=	"SD2.D2_CLASFIS IN ( " + MV_FCICL + " ) AND "
+	cWhere	+=	"SD2.D2_CF IN ( " + MV_FCIVE + " ) AND "
+	cWhere	+=	"SD2.D_E_L_E_T_ = '' "
+	
+	//----------------------------------------------------------
+	//						GROUP BY
+	//----------------------------------------------------------
+	//Tabelas: 	SD2 - Item Documento de Saida
+	//			SB1 - Cadastro do Produto
+	//----------------------------------------------------------
+	//Chave do Grupo: Produto , Descricao
+	//----------------------------------------------------------
+	If lCount
+		cGroup	+=	"GROUP BY SD2.D2_COD, SD2.D2_NUMLOTE, SD2.D2_LOTECTL "
+	Else
+		cGroup	+=	"GROUP BY SD2.D2_COD, SD2.D2_NUMLOTE, SD2.D2_LOTECTL, SB1.B1_DESC "
+	Endif
+	
+	//----------------------------------------------------------
+	//						ORDER BY
+	//----------------------------------------------------------
+	//Tabelas: 	SD2 - Item Documento de Saida
+	//----------------------------------------------------------
+	//Ordeno por codigo de produto
+	//----------------------------------------------------------
+	If !lCount
+		cOrder	+=	"ORDER BY SD2.D2_COD%"
+	Else
+		cOrder	+=	"%"
+	Endif
+
+
+
+//------------------------------------------------------------------------
+
+//				ULTIMA PRODUCAO DO PRODUTO ACABADO
+
+//------------------------------------------------------------------------
+
+//Retorna uma chave com a ultima Producao e OP
+
+//------------------------------------------------------------------------
+
+Elseif cQuery == "PRD"
+
+	//cSelect	+=	"%MAX(SD3.D3_EMISSAO+SD3.D3_OP+SD3.D3_COD) CHAVE_D3%"
+	
+	cSelect	+=	"%SD3.D3_FILIAL, "
+	cSelect	+=	"SD3.D3_EMISSAO, "
+	cSelect	+=	"SD3.D3_OP, "
+	cSelect	+=	"SD3.D3_COD, "
+	cSelect	+=	"SD3.D3_QUANT%"
+	
+	cFrom	+=	"%"+RetSqlName("SD3")+" SD3%"
+	
+	//aParam[5] = cFilOrig
+	cWhere	+=	"%SD3.D3_FILIAL	= '"+ Iif(aParam[5] <> Nil, aParam[5] , xFilial("SD3") ) +"' AND "
+	cWhere	+=	"SD3.D3_COD = '"+aParam[1]+"' AND "
+	cWhere	+=	"SD3.D3_CF IN ('PR0') AND "
+	cWhere	+=	"SD3.D3_EMISSAO <= '"+aParam[2]+"' AND "
+	cWhere	+=	"SD3.D3_ESTORNO = ' ' AND "
+	cWhere	+=	"SD3.D_E_L_E_T_ = ' ' "
+	
+	cOrder	+=	"ORDER BY SD3.D3_EMISSAO DESC%"
+
+
+
+//------------------------------------------------------------------------
+
+//				PESQUISA DE MATERIAS PRIMAS POR OP
+
+//------------------------------------------------------------------------
+
+//Retorna as materias primas de uma OP
+
+//------------------------------------------------------------------------
+
+Elseif cQuery == "MPR"
+    
+	cSelect	+=	"%SD3.D3_COD, " 
+	cSelect	+=	"SD3.D3_EMISSAO, "
+	cSelect	+=	"SD3.D3_QUANT, "
+	cSelect	+=	"SD3.D3_NUMLOTE, "
+	cSelect	+=	"SD3.D3_LOTECTL, "
+	cSelect	+=	"SD3.D3_OP%"
+	
+	cFrom	+=	"%"+RetSqlName("SD3")+" SD3%"
+	
+	//aParam[3] = cFilOrig
+	cWhere	+=	"%SD3.D3_FILIAL	= '"+ Iif(aParam[3] <> Nil, aParam[3] , xFilial("SD3") ) +"' AND "
+	cWhere	+=	"SD3.D3_CF = 'RE1' AND "
+	cWhere	+=	"SD3.D3_EMISSAO = '"+aParam[1]+"' AND "   //-> emisao da op PR0
+	cWhere	+=	"SD3.D3_OP = '"+aParam[2]+"' AND "			//-> codigo da op PR0
+	cWhere	+=	"SD3.D3_ESTORNO = ' ' AND "
+	cWhere	+=	"SD3.D_E_L_E_T_ = ' '%"
+
+
+//------------------------------------------------------------------------
+
+//				BUSCA O DOCUMENTO DE ENTRADA DA MATERIA PRIMA
+
+//------------------------------------------------------------------------
+
+//Utilizada para calculo da parcela de importacao
+
+//------------------------------------------------------------------------
+	
+Elseif cQuery == "ENT"
+
+    cSelect	+=	"%SD1.D1_BASEICM, " 
+	cSelect	+=	"SD1.D1_QUANT, "
+	cSelect	+=	"SD1.D1_EMISSAO, "
+	cSelect	+=	"SD1.D1_COD, "
+	cSelect	+=	"SD1.D1_CLASFIS"
+	
+	//FieldPos F1_FILORIG ( campo para transferencia de filial )
+	If aParam[5]
+		cSelect	+=	", SF1.F1_FILORIG, "                                            //ATENCAO..MV_FCICFTR
+		cSelect	+=	"SF1.F1_DOC, "                                                  ////ATENCAO..MV_FCICFTR
+		cSelect	+=	"SF1.F1_SERIE, "                                                ////ATENCAO..MV_FCICFTR
+		cSelect	+=	"SF1.F1_CLIORI, "
+		cSelect	+=	"SF1.F1_LOJAORI"
+	Endif
+	
+	cSelect	+=	"%"
+	
+	
+	cFrom	+=	"%"+RetSqlName("SD1")+" SD1 "
+	
+	//----> JOIN SF1
+	cFrom	+=	"JOIN "+RetSqlName("SF1")+" SF1 ON SF1.F1_FILIAL = '"+ Iif(aParam[6] <> Nil, aParam[6] , xFilial("SF1") ) +"' AND "
+	cFrom	+=	"SF1.F1_DOC = SD1.D1_DOC AND SF1.F1_SERIE = SD1.D1_SERIE AND "
+	cFrom	+=	"SF1.F1_FORNECE = SD1.D1_FORNECE AND SF1.F1_LOJA = SD1.D1_LOJA%" 
+	
+	//aParam[6] = cFilOrig
+	cWhere	+=	"%SD1.D1_FILIAL	= '"+ Iif(aParam[6] <> Nil, aParam[6] , xFilial("SD1") ) +"' AND "
+	cWhere	+=	"SD1.D1_COD = '"+aParam[1]+"' AND "
+	cWhere	+=	"SD1.D1_EMISSAO <= '"+aParam[2]+"' AND "
+	cWhere	+=	"SD1.D1_NUMLOTE = '"+aParam[3]+"' AND "
+	cWhere	+=	"SD1.D1_LOTECTL = '"+aParam[4]+"' AND "
+	cWhere	+=	"( SD1.D1_CLASFIS IN (" + MV_FCICL + ") OR SD1.D1_CF IN ("+ MV_FCITR +") ) AND "                                  //ATENCAO..MV_FCICFTR
+	cWhere	+=	"SD1.D_E_L_E_T_ = ' ' "                                           //ATENCAO..MV_FCICFTR
+	
+	cOrder	+=	"ORDER BY SD1.D1_EMISSAO DESC%"
+
+
+//------------------------------------------------------------------------
+
+//				CONSULTA REGISTROS DE FCI POR PERIODO
+
+//------------------------------------------------------------------------
+
+//Retornar espelho do arquivo magnetico - registros 5020
+
+//------------------------------------------------------------------------
+Elseif cQuery == "CFD"
+
+	//----------------------------------------------------------
+	//						SELECT
+	//----------------------------------------------------------
+	//Tabelas: 	SB1 - Cadastro do Produto
+	//			CFD - Ficha de Conteudo de Importacao
+	//----------------------------------------------------------
+	cSelect	+=	"%SB1.B1_DESC, " 
+	cSelect	+=	"SB1.B1_POSIPI, "
+	cSelect	+=	"SB1.B1_COD, "
+	cSelect	+=	"SB1.B1_UM, "
+	cSelect	+=	"CFD.CFD_FILIAL, "
+	cSelect	+=	"CFD.CFD_OP, "
+	cSelect	+=	"CFD.CFD_FILOP, "
+	cSelect	+=	"CFD.CFD_VSAIIE, "
+	cSelect	+=	"CFD.CFD_VPARIM, "
+	cSelect	+=	"CFD.CFD_PERCAL, "
+	cSelect	+=	"CFD.CFD_CONIMP"
+	
+	//----------------------------------------------------------
+	// Verificao da primeira posicao do array aParam
+	// Define o filtro a partir da rotina de Origem (relatorio ou txt)
+	//----------------------------------------------------------
+	If aParam[1] == "Report"
+		cSelect	+=	", SD31.D3_CF MP_CF, SD31.D3_COD MP_COD, SB12.B1_DESC MP_DESC, SB12.B1_POSIPI MP_NCM, "
+		cSelect	+=	"SD31.D3_QUANT MP_QUANT, SD31.D3_CUSTO1 MP_PRECO, SD3.D3_NUMLOTE NUMLOTE, SD3.D3_LOTECTL LOTECTL%"
+	Else
+		cSelect	+=	"%"
+	Endif
+	
+	//----------------------------------------------------------
+	//						FROM
+	//----------------------------------------------------------
+	//Tabelas: 	CFD - Ficha de Conteudo de Importacao
+	//----------------------------------------------------------
+	cFrom	+=	"%"+RetSqlName("CFD")+" CFD "
+	
+	//----> Join com SB1
+	cFrom	+=	"JOIN "+RetSqlName("SB1")+" SB1 ON SB1.B1_FILIAL = '"+xFilial("SB1")+"' AND CFD.CFD_COD = SB1.B1_COD AND SB1.D_E_L_E_T_ = ''"
+	
+	//----------------------------------------------------------
+	// Verificao da primeira posicao do array aParam
+	// Define o filtro a partir da rotina de Origem (relatorio ou txt)
+	//----------------------------------------------------------
+	If aParam[1] == "Report"
+		//----> Join com SD3
+		cFrom	+=	" JOIN "+RetSqlName("SD3")+" SD3 ON SD3.D3_FILIAL = CFD.CFD_FILOP AND CFD.CFD_OP = SD3.D3_OP AND CFD.CFD_COD = SD3.D3_COD AND SD3.D_E_L_E_T_ = '' "
+		//----> Left Join com SD3 - Materias Primas
+		cFrom	+=	"LEFT JOIN "+RetSqlName("SD3")+" SD31 ON SD31.D3_FILIAL = SD3.D3_FILIAL AND SD3.D3_OP = SD31.D3_OP AND SD31.D3_CF = 'RE1'AND SD31.D_E_L_E_T_ = '' "
+		//----> Join com SB1 - Cadastro da Materia Prima
+		cFrom	+=	"JOIN "+RetSqlName("SB1")+" SB12 ON SB12.B1_FILIAL = '"+xFilial("SB1")+"' AND SD31.D3_COD = SB12.B1_COD AND SB12.D_E_L_E_T_ = ''%"
+	Else
+		cFrom	+=	"%"
+	Endif
+	
+	//----------------------------------------------------------
+	//						WHERE
+	//----------------------------------------------------------
+	//Tabelas: 	CFD - Ficha de Conteudo de Importacao
+	//----------------------------------------------------------
+	cWhere	+=	"%CFD.CFD_FILIAL = '"+xFilial("CFD")+"' AND "
+	cWhere	+=	"CFD.CFD_PERCAL = '"+aParam[2]+"' AND "
+	
+	//----------------------------------------------------------
+	// Verificao da primeira posicao do array aParam
+	// Define o filtro a partir da rotina de Origem (relatorio ou txt)
+	//----------------------------------------------------------
+	If aParam[1] == "Txt"
+	    
+		//----------------------------------------------------------
+		// Faco a verificacao do campo CFD_FCICOD apenas na geracao do arquivo magnetico
+		//----------------------------------------------------------
+		cWhere	+=	"CFD.CFD_FCICOD = ' ' AND "
+	
+	Endif
+	
+	cWhere	+=	"CFD_COD >= '"+aParam[3]+"' AND CFD_COD <= '"+aParam[4]+"' AND "
+	cWhere	+=	"CFD.D_E_L_E_T_ = '' "
+	
+	If aParam[1] == "Report"
+		cOrder	+=	"ORDER BY CFD.CFD_FILIAL, SB1.B1_COD, CFD.CFD_OP%"
+	Else
+		cWhere	+=	"%"
+	Endif
+
+Elseif cQuery == "LMP"
+
+	cSelect	+=	"%SD5.D5_NUMLOTE, SD5.D5_LOTECTL%"
+	
+	cFrom	+=	"%"+RetSqlName("SD5")+" SD5%"
+	
+	cWhere	+=	"%SD5.D5_FILIAL = '" + aParam[1] + "' AND "
+	cWhere	+=	"SD5.D5_PRODUTO = '" + aParam[3] + "' AND "
+	cWhere	+=	"SD5.D5_OP = '" + aParam[2] + "' AND "
+	cWhere	+=	"SD5.D5_DATA = '" + aParam[4] + "' AND "
+	cWhere	+=	"SD5.D5_ESTORNO = ' ' AND "
+	cWhere	+=	"SD5.D_E_L_E_T_ = ' '%"
+	
+Endif
+
+//-----------------------
+//Execucao da query
+//-----------------------
+If (TcSrvType ()<>"AS/400")
+	
+	cAlsQry	:=	GetNextAlias()
+	
+	BeginSql Alias cAlsQry
+	
+		SELECT 
+			%Exp:cSelect%
+	
+		FROM 
+			%Exp:cFrom%
+	
+		WHERE 
+			%Exp:cWhere+cGroup+cOrder%
+
+	EndSql
+Endif
+
+//Retorno .T. se a query retornar registros
+(cAlsQry)->(DbGoTop())
+If !(cAlsQry)->(Eof())
+	lRet	:=	.T.
+	
+	//Retorno quantidade de registros
+	If lCount
+		nCountReg	+=	(cAlsQry)->COUNTREG
+	Endif
+	
+Endif
+
+Return lRet
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Bloco0
+
+Bloco 0: Identificacao do Contribuinte
+
+@param	nHandle		->	Acesso ao arquivo de trabalho
+		aParam		->	Parametros de identificacao da rotina
+		nTotFLin	->	Total de registros do arquivo
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061Bloco0(nHandle,aParam,nTotFLin)
+
+x61Reg0000(nHandle,aParam)	//-> Registro 0000: Identificacao do Contribuinte
+x61Reg0001(nHandle)			//-> Registro 0001: Identificacao do inicio do Bloco
+x61Reg0010(nHandle)			//-> Registro 0010: Informacoes do estabelecimento/Contribuinte informante
+x61Reg0990(nHandle)			//-> Registro 0990: Finalizacao do Bloco 0
+
+//Apenas uma ocorrencia por registro neste bloco
+nTotFLin	+=	4
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Bloco5
+
+Bloco 5: Dados da Mercadoria
+
+@param	nHandle		->	Acesso ao arquivo de trabalho
+		cAlsQry		->	Alias da query para geracao do registro 5020
+		nTotRg5020	->	Total de registros 5020
+		nTotFLin	->	Total de registros do arquivo
+		nCountReg	->	Contagem de registros para regua
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061Bloco5( nHandle , aReg5020 , nTotRg5020 , nTotFLin )
+
+x61Reg5001( nHandle )										//-> Registro 5001: Inicio do bloco de produtos e mercadorias
+x061GrvReg( aReg5020 , nHandle )
+x61Reg5990( nHandle , nTotRg5020+2 )						//-> Registro 5990: Finalizacao do Bloco 5
+
+//Uma ocorrencia para os registros 5001 e 5990 + total de registros 5020
+nTotFLin	+=	2+nTotRg5020
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Bloco9
+
+Bloco 9: Totalizacao de Registros
+
+@param	nHandle		->	Acesso ao arquivo de trabalho
+		nTotRg5020	->	Total de registros 5020
+		nTotFLin	->	Total de registros do arquivo
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061Bloco9(nHandle,nTotRg5020,nTotFLin)
+
+x61Reg9001(nHandle)				//-> Registro 9001: Identificacao do inicio do Bloco
+x61Reg9900(nHandle,nTotRg5020)	//-> Registro 9900: Totalizadores de Registros Anteriores
+x61Reg9990(nHandle)				//-> Registro 9990: Encerramento do Bloco 9
+
+//Uma ocorrencia para os registros 9001 e 9990 + 3 ocorrencias do registro 9900 + o registro 9999
+nTotFLin	+=	6
+
+x61Reg9999(nHandle,nTotFLin)	//-> Registro 9999: Encerramento do Arquivo
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg0000
+
+Registro 0000: Identificacao do Contribuinte
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+		aParam	->	Parametros de identificacao da rotina
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg0000(nHandle,aParam)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], chr(239)+chr(187)+chr(191) + "0000")
+aAdd (aReg[nPos], xMagConType(xMagChkID(SM0->M0_CGC)))
+aAdd (aReg[nPos], SM0->M0_NOMECOM)
+aAdd (aReg[nPos], aParam[4])
+//aAdd (aReg[nPos], Nil /*Preenchido no retorno*/)
+//aAdd (aReg[nPos], Nil /*Preenchido no retorno*/)
+//aAdd (aReg[nPos], Nil /*Preenchido no retorno*/)
+//aAdd (aReg[nPos], Nil /*Preenchido no retorno*/)
+//aAdd (aReg[nPos], Nil /*Preenchido no retorno*/)
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg0001
+
+Registro 0001: Identificacao do inicio do Bloco
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg0001(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "0001")
+aAdd (aReg[nPos], EncodeUtf8("Texto em caracteres UTF-8: (dígrafo BR)'ção',(dígrafo espanhol-enhe)'ñ',(trema)'Ü',(ordinais)'ªº',(ligamento s+z alemão)'ß'."))
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg0010
+
+Registro 0010: Informacoes do estabelecimento/Contribuinte informante
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg0010(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "0010")
+aAdd (aReg[nPos], xMagConType(xMagChkID(SM0->M0_CGC)))
+aAdd (aReg[nPos], SM0->M0_NOMECOM)
+aAdd (aReg[nPos], xMagConType(xMagChkID(SM0->M0_INSC,.F.,.F.)))
+aAdd (aReg[nPos], xMagConType(SM0->M0_ENDENT))
+aAdd (aReg[nPos], xMagConType(SM0->M0_CEPENT))
+aAdd (aReg[nPos], xMagConType(SM0->M0_CIDENT))
+aAdd (aReg[nPos], SM0->M0_ESTENT)
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg0990
+
+Registro 0990: Finalizacao do Bloco 0
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg0990(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "0990")
+aAdd (aReg[nPos], "4")
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg5001
+
+Registro 5001: Inicio do bloco de produtos e mercadorias
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg5001(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "5001")
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg5990
+
+Registro 5001: Inicio do bloco de produtos e mercadorias
+
+@param	nHandle		->	Acesso ao arquivo de trabalho
+		nTotRgBl5	->	Total de registros do blOco 5
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg5990(nHandle,nTotRgBl5)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "5990")
+aAdd (aReg[nPos], Alltrim(Str(nTotRgBl5)))
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg9001
+
+Registro 9001: Identificacao do inicio do Bloco
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg9001(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "9001")
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg9900
+
+Registro 9900: Totalizadores de Registros Anteriores
+
+@param	nHandle		->	Acesso ao arquivo de trabalho
+		nTotRg5020	->	Total de registros 5020
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg9900(nHandle,nTotRg5020)
+Local	aReg	:=	{}
+Local	aRegs	:=	{"0000","0010","5020"}
+Local	nPos	:=	0
+Local	nX		:=	0
+Local	nTotReg	:=	0
+
+For nX := 1 To 3
+
+	nTotReg	:=	Iif(nX == 3, nTotRg5020, 1)
+	
+	aAdd(aReg, {})
+	nPos	:=	Len(aReg)
+	aAdd (aReg[nPos], "9900")
+	aAdd (aReg[nPos], aRegs[nX])
+	aAdd (aReg[nPos], Alltrim(Str(nTotReg)))
+Next nX
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg9990
+
+Registro 9990: Encerramento do Bloco 9
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg9990(nHandle)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "9990")
+aAdd (aReg[nPos], "5")
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg9999
+
+Registro 9999: Encerramento do Arquivo
+
+@param	nHandle	->	Acesso ao arquivo de trabalho
+		nTotFLin->	Total de linhas geradas no arquivo texto
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x61Reg9999(nHandle,nTotFLin)
+Local	aReg	:=	{}
+Local	nPos	:=	0
+
+aAdd(aReg, {})
+nPos	:=	Len(aReg)
+aAdd (aReg[nPos], "9999")
+aAdd (aReg[nPos], Alltrim(Str(nTotFLin)))
+
+x061GrvReg(aReg,nHandle)
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061GrvReg
+
+Funcao que grava o registro no arquivo de trabalho
+
+@param	aReg	->	Array com os registros que serao gravados
+		nHandle	->	Acesso ao arquivo de trabalho
+
+@return
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061GrvReg(aReg,nHandle)
+Local	cSepar	:=	"|"
+Local	cReg	:=	""
+Local	nX		:=	0
+Local	nY		:=	0
+
+//Composicao da linha inteira do registro
+For nX := 1 To Len(aReg)
+
+	//cReg	:=	cSepar
+
+	For nY := 1 To Len(aReg[nX])
+	
+		cReg	+=	x061RetCmp(aReg[nX][nY],2)
+		
+		If !(nY == Len(aReg[nX]))
+			cReg	+=	 cSepar
+		Endif	
+		
+	Next nY
+	
+	//Controle de linhas
+	cReg	:=	AllTrim(cReg)+_PULA_LINHA
+	
+	//Gravo no arquivo
+	FWrite (	nHandle,;	//-> nHandle
+				cReg,;		//-> cBuffer
+				Len(cReg))	//-> nQtdBytes
+				
+	cReg	:=	""
+	
+Next nX
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RetCmp
+
+Funcao que formata string para gravacao
+
+@param	xContent	->	Conteudo que sera formatado
+		nDec		->	Decimais
+		lSepDate	->	Indica se ira utilizar barra separadora
+						do campo tipo data
+
+@return	xStr	Conteudo formatado
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061RetCmp(xContent,nDec,lSepDate)
+Local	xStr
+Default	lSepDate	:=	.F.
+
+//Para conteudo Nulo, retorno campo em branco
+If xContent == Nil
+	xStr	:=	""
+//Para conteudo numerico, utilizo as casas decimais
+Elseif (ValType (xContent)=="N")
+	If xContent == 0
+		xStr	:=	"0"
+	Else
+		xStr	:=	AllTrim (StrTran (Str (xContent,,nDec), ".", ","))
+	EndIf
+//Para conteudo caracter, utilizo apenas Alltrim	
+ElseIf (ValType (xContent)=="C")
+	xStr	:=	AllTrim (xContent)
+//Para conteudo data, converto para o format dd/mm/aaaa ou ddmmaaaa
+ElseIf (ValType (xContent)=="D")
+	If !lSepDate
+		xStr	:=	StrZero (Day(xContent),2)+StrZero(Month(xContent),2)+StrZero(Year(xContent),4)
+	Else
+		xStr	:=	StrZero (Day(xContent),2)+"/"+StrZero(Month(xContent),2)+"/"+StrZero(Year(xContent),4)
+	Endif	
+Else
+	xStr	:=	""
+EndIf
+
+Return(xStr)
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061IniRot
+
+Monta as perguntas de inicializacao da rotina
+
+@return	lReturn	->	Continua processamento da rotina
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061IniRot( aWizard , lMultFil , aLisFil , cFilDe , cFilAte )
+Local	lRet	:=	.F.
+
+If !xGetSrvEnv() == "DBF"
+
+	If AliasInDic("CFD")
+
+		If Len( aWizard	:=	x061Wizard() ) > 0
+		
+			lRet	:=	.T.
+		
+			//------------------------------------------------------
+			// Abertua de tabelas utilizadas no processamento
+			//------------------------------------------------------
+			DbSelectArea("SD3")
+			SD3->(DbSetOrder(1))	//D3_FILIAL+D3_OP+D3_COD+D3_LOCAL
+			DbSelectArea("SD1")
+			SD1->(DbSetOrder(7))	//D1_FILIAL+D1_COD+D1_LOCAL+DTOS(D1_DTDIGIT)+D1_NUMSEQ
+			DbSelectArea("CFD")
+			CFD->(DbSetOrder(2))	//CFD_FILIAL+CFD_COD+CFD_PERCAL+CFD_PERVEN
+			DbSelectArea("SF2")
+			SF2->(DbSetOrder(1))	//F2_FILIAL+F2_DOC+F2_SERIE+F2_CLIENTE+F2_LOJA+F2_FORMUL+F2_TIPO
+			DbSelectArea("SD2")
+			SD2->(DbSetOrder(3))	//D2_FILIAL+D2_DOC+D2_SERIE+D2_CLIENTE+D2_LOJA+D2_COD+D2_ITEM
+			
+			//------------------------------------------------------
+			// Selecao de filiais
+			//------------------------------------------------------
+			lMultFil	:=	Substr( aWizard[1][5] , 1 , 1 ) $ "1"
+			
+			//------------------------------------------------------------------------------------------------------------
+			//
+			//
+			//								Selecao de filiais que serao processadas na rotina
+			//
+			//
+			//------------------------------------------------------------------------------------------------------------
+			If lMultFil
+			
+				aLisFil		:=	MatFilCalc(.T.)
+				
+				If !Empty(aLisFil)
+					cFilDe	:=	PadR("",FWGETTAMFILIAL)
+					cFilAte	:=	Repl("Z",FWGETTAMFILIAL)
+				Else
+					MsgAlert(OemToAnsi("Nenhuma filial foi selecionada para o processamento. Sera considerada a filial corrente"	))//"Nenhuma filial foi selecionada para o processamento. Sera considerada a filial corrente"	
+					
+					//Para considerar a filial corrente, preciso alem de atribuir o cFilAnt, preciso forcar a
+					//opcao .F. na variavel que indica opcao de Multi Filiais
+					lMultFil	:=	.F.
+					cFilDe		:=	cFilAnt
+					cFilAte		:=	cFilAnt
+				EndIf
+			Else
+				cFilDe	:=	cFilAnt
+				cFilAte	:=	cFilAnt
+			EndIf
+		Endif
+	Else
+		MsgInfo("Tabela CFD não encontrada no Dicionário de Dados. Executar compatibilizador do módulo!","Aviso!")
+	Endif
+Else
+	MsgInfo("Rotina não disponível para Ambiente DBF!","Aviso!")
+Endif
+
+Return lRet
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061ImpCod
+
+Realiza a importacao dos codigos de FCI para a tabela SD2
+
+@param	cReg	->	Registro que sera lido
+		cAlsImp	->	Alias da query dos documentos que terao
+					codigos importados para tabela SD2
+
+@return	lRecCod	-> Houve registro importado
+
+@author Luccas Curcio
+@since 26/03/2013
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+Static Function x061ImpCod( cReg , cMesCalc , cAnoCalc )
+Local	cCmp04		:=	""
+Local	cFilProd	:=	""
+Local	cCodProd	:=	""
+Local	cCodFCI		:=	""
+Local	cDescProd	:=	""
+Local	cPerCalc	:=	cMesCalc+cAnoCalc
+Local	lRecCod		:=	.F.
+Local	bWhileFTL	:=	{||!(FT_FEof()) .And. Substr((cReg := FT_FReadLn()),1,4) == "5020"}
+
+IncProc("Importando Códigos da FCI...")
+
+//-----------------------------------------------------------------------------------------
+//									Begin Transaction
+//-----------------------------------------------------------------------------------------
+//Este comando define que as operacoes seguintes, delimitadas pelo comando END TRANSACTION, 
+//devem ser processadas como uma transacao, ou seja, como um bloco unico e indivisivel. 
+//Durante uma recuperacao de falha, todas as operacoes de manipulacao de dados realizadas 
+//serao integralmente desfeitas, alem de prover isolamento entre acessos concorrentes 
+//na mesma massa de dados. 
+//-----------------------------------------------------------------------------------------
+Begin Transaction
+
+//--------------------------------------------------------
+// Bloco de codigo para verificacao do registro 5020
+//--------------------------------------------------------
+While Eval(bWhileFTL)
+	
+	//--------------------------------------------------------
+	// xMagLeReg -> Realiza leitura de determinado campo dentro de um arquivo e retorna
+	//    o conteudo do campo, conforme parametros enviados
+	//--------------------------------------------------------
+	cCmp04		:=	xMagLeReg( cReg , 4 , , .T. )
+	cCodFCI		:=	xMagLeReg( cReg , 10 , , .T. )
+	cDescProd	:=	xMagLeReg( cReg , 2 , , .T. )
+	
+	//--------------------------------------------------------------------------------------------------
+	// Composicao do Codigo do produto e do codigo da filial
+	// Preciso desta validacao porque no arquivo texto o campo do codigo do produto eh composto 
+	//  por Produto+Filial. Desta forma, preciso separar os codigos para efetuar o Seek na tabela CFD
+	//--------------------------------------------------------------------------------------------------
+	cCodProd	:=	Substr( cCmp04 + Space(Len(SB1->B1_COD)), 1 , TamSX3("B1_COD")[1] )
+	cFilProd	:=	xFilial("CFD")
+	
+	If CFD->( MsSeek( xFilial("CFD") + cCodProd + cPerCalc ) ) .And. Empty( CFD->CFD_FCICOD )
+	
+		While !CFD->(Eof()) .And. CFD->( CFD_FILIAL + CFD_COD + CFD_PERCAL ) == cFilProd + cCodProd + cPerCalc
+		
+			RecLock("CFD",.F.)
+			CFD->CFD_FCICOD	:=	cCodFCI
+			MsUnLock()
+			
+			CFD->(DbSkip())
+		End
+		
+		//--------------------------------------------------------
+		// Flag para indicar que houve registro gravado
+		//--------------------------------------------------------
+		lRecCod	:=	.T.
+	
+	Endif
+	
+	FT_FSkip()
+End
+
+End Transaction
+
+Return lRecCod
+
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61ChkTFil
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x61ChkTFil( cAlsQryD1 , cOrdProd , cFilOp )
+Local	nMpBsIcms2	:=	0
+
+//------------------------------------------------------
+// Pesquisa a nota fiscal de saida na Filial de origem da
+//  transferencia efeutada
+//------------------------------------------------------
+If SF2->( MsSeek ( (cAlsQryD1)->F1_FILORIG+(cAlsQryD1)->F1_DOC+(cAlsQryD1)->F1_SERIE+(cAlsQryD1)->F1_CLIORI+(cAlsQryD1)->F1_LOJAORI ) )
+	
+	//------------------------------------------------------
+	// Pesquisa o item da nota fiscal de saida (mesmo item
+	//  que esta sendo processado na origem da chamada desta
+	//  funcao
+	//------------------------------------------------------
+	If SD2->( MsSeek ( (cAlsQryD1)->F1_FILORIG+(cAlsQryD1)->F1_DOC+(cAlsQryD1)->F1_SERIE+(cAlsQryD1)->F1_CLIORI+(cAlsQryD1)->F1_LOJAORI+(cAlsQryD1)->D1_COD ) )
+		
+		//------------------------------------------------------
+		// Chamada recursiva da funcao x061WhlD3 para procurar
+		//  a producao deste produto (ou uma outra transferencia)
+		//------------------------------------------------------
+		nMpBsIcms2	:=	x061WhlD3( SD2->D2_COD , SD2->D2_EMISSAO , @cOrdProd , SD2->D2_NUMLOTE , SD2->D2_LOTECTL , .T. , (cAlsQryD1)->F1_FILORIG , @cFilOp )
+		
+	Endif
+
+Endif
+
+
+Return nMpBsIcms2
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RetYear
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061RetYear( cAno , cMes )
+Local	cNwYear	:=	""
+//-------------------------------------------------------------
+//  Caso esteja processando Dezembro, atualizo ano posterior
+//-------------------------------------------------------------
+If cMes == "12"
+	cNwYear	:=	Str(Val(cAno)+1)
+Else
+	cNwYear	:=	cAno
+Endif
+
+Return cNwYear
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x61Reg5020
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x61Reg5020( cAlsQryFD , aReg5020 , nTotRg5020 )
+Local	nPos	:=	0
+
+ProcRegua( (cAlsQryFD)->(RecCount()) )
+			
+//---------------------------------------------------------------------------------------
+// Laco na query procurando pelos produtos que serao gerados no arquivo texto
+// Os registros serao adicionados ao array aReg5020, com a chave Filial+Produto
+//---------------------------------------------------------------------------------------
+While !(cAlsQryFD)->(Eof())
+
+	IncProc("Processando Produto: "+Alltrim( (cAlsQryFD)->B1_DESC) )	//"Gerando: ###"
+
+	If ( nPos := aScan( aReg5020, { |x| x[4] == (cAlsQryFD)->(B1_COD+CFD_FILIAL) } ) ) == 0
+	
+		aAdd(aReg5020, {})
+		nPos	:=	Len(aReg5020)
+		aAdd (aReg5020[nPos], "5020")
+		aAdd (aReg5020[nPos], (cAlsQryFD)->B1_DESC)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->B1_POSIPI)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->(B1_COD+CFD_FILIAL) )
+		aAdd (aReg5020[nPos], Nil /*CODIGO_GTIN*/)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->B1_UM)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->CFD_VSAIIE)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->CFD_VPARIM)
+		aAdd (aReg5020[nPos], (cAlsQryFD)->CFD_CONIMP)
+		
+		nTotRg5020	+=	1
+	Endif
+	
+	(cAlsQryFD)->(DbSkip())
+End
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061LoteRE1
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061LoteRE1( cPR0_Op , cCodProd , cPR0_Data , cNumLoteRE1 , cLoteCtlRE1 , cFilOrig )
+Local	cFilSD5		:=	Iif( cFilOrig <> Nil , cFilOrig , xFilial("SD5") )
+Local	cAlsQryD5	:=	""
+
+If x061GetQry( @cAlsQryD5 , { cFilSD5 , cPR0_Op , cCodProd , cPR0_Data } , , "LMP" )
+
+	cNumLoteRE1	:=	(cAlsQryD5)->D5_NUMLOTE
+	cLoteCtlRE1	:=	(cAlsQryD5)->D5_LOTECTL
+	
+Endif
+
+//------------------------------------
+//    Fecha area da Query
+//------------------------------------
+If Select(cAlsQryD5) > 0
+	(cAlsQryD5)->(DbCloseArea())
+Endif
+
+Return
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061Report
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061Report( oCenterPanel , aWizard , lMultFil , aLisFil , cFilDe , cFilAte )
+Local	aDevice		:=	{}
+Local	aParam		:=	{}
+Local	cAliasQry	:=  ""
+Local	cTitulo		:= "FCI"
+Local	cSession	:= GetPrinterSession()
+Local	cDevice		:= GetProfString( cSession, "PRINTTYPE", "SPOOL", .T. )
+Local	cProdDe		:=	aWizard[1][3]
+Local	cProdAte	:=	aWizard[1][4]
+Local	nPrintType	:= 0
+Local	nLocal		:= 0
+Local	nFlags		:= PD_ISTOTVSPRINTER+PD_DISABLEORIENTATION+PD_DISABLEPAPERSIZE+PD_DISABLEPREVIEW
+Local	oSetup		:= Nil
+Local	dDataDe		:=	SToD(aWizard[1][1])
+Local	dDataAte	:=	SToD(aWizard[1][2])
+Local	cMesCalc	:=	StrZero( Month(dDataAte)+1 , 2 )
+Local	cAnoCalc	:=	x061RetYear( Alltrim(Str(Year(dDataAte))) , cMesCalc )
+Private oPrint	    := FWMSPrinter():New( cTitulo, IMP_SPOOL , .F., , .T., , oSetup )
+
+AADD(aDevice,"DISCO") 
+AADD(aDevice,"SPOOL") 
+AADD(aDevice,"EMAIL") 
+AADD(aDevice,"EXCEL") 
+AADD(aDevice,"HTML" ) 
+AADD(aDevice,"PDF"  )
+
+nPrintType := aScan(aDevice,{|x| x == cDevice }) 
+nLocal     := If(GetProfString(cSession,"LOCAL","SERVER",.T.)=="SERVER",1,2 )
+
+oSetup := FWPrintSetup():New(nFlags, "FCI")
+oSetup:SetUserParms( {|| MsgInfo("Parâmetros já definidos!") } ) 
+oSetup:SetPropert(PD_PRINTTYPE   , nPrintType)
+oSetup:SetPropert(PD_ORIENTATION , 2) 
+oSetup:SetPropert(PD_DESTINATION , nLocal)
+oSetup:SetPropert(PD_MARGIN      , {60,60,60,60})
+oSetup:SetPropert(PD_PAPERSIZE   , 2)
+	
+// --------------------------------------------------------------------------------------------
+// Confirmando a tela de Configuracao eu inicio a Impressao do Relatorio
+// --------------------------------------------------------------------------------------------
+If oSetup:Activate() == PD_OK                		 			
+		
+	
+    x061RepFont( cAliasQry , oSetup , dDataDe , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc , cProdDe , cProdAte ) // Inicializa o relatorio mesmo que a query nao retorne nada, pois ainda preciso imprimir as paginas sem movimento			
+Else
+	MsgInfo( "Relatório Cancelado pelo Usuário" ) //"RELATÓRIO CANCELADO PELO USUARIO."
+EndIf
+
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RepFont
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061RepFont( cAliasQry , oSetup , dDataDe , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc , cProdDe , cProdAte )
+
+Private cTitulo     := "FCI" //"LISTA DE CÓDIGOS DE EMITENTES"
+Private oCourN08	:= TFont():New("Courier New",08,08,,.F.,,,,.T.,.F.)
+Private oCourN10	:= TFont():New("Courier New",10,10,,.F.,,,,.T.,.F.)
+Private oArial08	:= TFont():New("Arial",06,06,,.F.,,,,.T.,.F.)
+Private oArial10	:= TFont():New("Arial",08,08,,.F.,,,,.T.,.F.)
+Private oArial10N	:= TFont():New("Arial",08,08,,.T.,,,,.T.,.F.)
+Private oArial14N	:= TFont():New("Arial",11,11,,.T.,,,,.T.,.F.)
+Private oArial12N	:= TFont():New("Arial",09,09,,.T.,,,,.T.,.F.)
+Private oArial08N	:= TFont():New("Arial",06,06,,.T.,,,,.T.,.F.)
+Private nLin        := 60
+
+MsgRun("GERANDO RELATÓRIO, AGUARDE." ,"",{|| CursorWait(), x061RepPrin( cAliasQry , oSetup , dDataDe , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc , cProdDe , cProdAte ) ,CursorArrow()}) //"GERANDO RELATÓRIO, AGUARDE."
+
+Return
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RepPrin
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061RepPrin( cAliasQry , oSetup , dDataDe , lMultFil , aLisFil , cFilDe , cFilAte , cMesCalc , cAnoCalc , cProdDe , cProdAte )
+Local	cChave  		:= ""
+Local	bWhileSM0	:=	{||!SM0->(Eof ()) .And. ((!lMultFil .And. cEmpAnt==SM0->M0_CODIGO .And. FWGETCODFILIAL<=cFilAte) .Or. (lMultFil .And. Len(aLisFil)>0 .And. cEmpAnt==SM0->M0_CODIGO))}
+Local	aAreaSM0	:=	SM0->(GetArea())
+Local	aProdCab	:=	{}
+Local	aProdItens	:=	{}
+Local	nPos		:=	0
+Local	nPosIt		:=	0
+Local	nX			:=	0
+Local	nY			:=	0
+Local	lProcessing	:=	.F.
+Private nPag		:= 0
+Private lAbortPrint	:=.F.	
+
+// ----------------------------------------------
+// Inicializacao do objeto grafico
+// ----------------------------------------------
+oPrint:lServer := oSetup:GetProperty(PD_DESTINATION)==AMB_SERVER
+oPrint:SetResolution(75)
+oPrint:SetLandscape() 
+oPrint:SetPaperSize(DMPAPER_A4)
+oPrint:SetMargin(60,60,60,60)
+                      
+//Formato da impressao -> Retrato
+oPrint:SetLandscape()
+
+// ----------------------------------------------
+// Define saida de impressão
+// ----------------------------------------------
+If oSetup:GetProperty(PD_PRINTTYPE) == IMP_SPOOL
+	oPrint:nDevice := IMP_SPOOL
+	// ----------------------------------------------
+	// Salva impressora selecionada
+	// ----------------------------------------------
+	WriteProfString(GetPrinterSession(),"DEFAULT", oSetup:aOptions[PD_VALUETYPE], .T.) 
+	oPrint:cPrinter := oSetup:aOptions[PD_VALUETYPE]
+ElseIf oSetup:GetProperty(PD_PRINTTYPE) == IMP_PDF
+	oPrint:nDevice := IMP_PDF
+	// ----------------------------------------------
+	// Define para salvar o PDF
+	// ----------------------------------------------
+	oPrint:cPathPDF := oSetup:aOptions[PD_VALUETYPE]
+Endif
+
+DbSelectArea("SM0")
+SM0->(DbGoTop ())
+SM0->(DbSeek (cEmpAnt+cFilDe,.T.))
+
+//----------------------
+//Bloco de execucao, processamento de Filiais
+//----------------------
+Do While Eval(bWhileSM0)
+	
+	cFilAnt := FWGETCODFILIAL
+
+	If Len(aLisFil)>0 .And. cFilAnt <= cFilAte
+       nFilial := Ascan(aLisFil,{|x|x[2]==cFilAnt})
+	   If nFilial==0 .Or. !(aLisFil[nFilial,1])  //Filial não marcada, vai para proxima
+			SM0->( dbSkip() ) 
+			Loop
+		EndIf
+	Else
+		If lMultFil  //Somente faz skip se a opcao de selecionar filiais estiver como Sim.
+			 SM0->(dbSkip())
+			 Loop
+		EndIf		
+	EndIf
+
+	aParam	:=	{ 	"Report",;
+					cMesCalc+cAnoCalc ,;
+					cProdDe,;
+					cProdAte }
+		   
+	x061GetQry( @cAliasQry , aParam , , "CFD" )
+	
+	While !(cAliasQry)->(Eof())
+	    
+	    // --------------------------------------------------------------------------------------
+		// Este flag indica se estou gravando registros de algum produto
+		//  Se nao estiver gravando no array, preciso pular a linha da query, porem
+		//  se estiver adicionando no array, ja terei pulado a linha e estarei posicionado
+		//  no proximo registro de cabecalho
+		// --------------------------------------------------------------------------------------
+		lProcessing	:=	.F.
+	
+		cChave	:=	(cAliasQry)->(CFD_FILIAL+B1_COD+CFD_OP+CFD_FILOP)
+	
+		If ( nPos := aScan( aProdCab, { |x| x[1]+x[2]+x[3]+x[4] == (cAliasQry)->(CFD_FILIAL+B1_COD+CFD_OP+CFD_FILOP) } ) ) == 0
+		    
+			// --------------------------------------------------------------------------------------
+			// Criacao do cabecalho do produto acabado vendido
+			// Toda vez que uma nova posicao foi incluida no cabecalho, devera ser alterado
+			//  o For de nY abaixo, pois a estrutura do array eh cabecalho (1 - 11) e as demais
+			//  dimensoes sao os itens (materias primas)
+			// --------------------------------------------------------------------------------------
+			aAdd(aProdCab, {})
+			nPos	:=	Len(aProdCab)
+			aAdd (aProdCab[nPos], (cAliasQry)->CFD_FILIAL)
+			aAdd (aProdCab[nPos], (cAliasQry)->B1_COD)
+			aAdd (aProdCab[nPos], (cAliasQry)->CFD_OP)
+			aAdd (aProdCab[nPos], (cAliasQry)->CFD_FILOP)
+			aAdd (aProdCab[nPos], (cAliasQry)->B1_DESC)
+			aAdd (aProdCab[nPos], (cAliasQry)->CFD_CONIMP)
+			aAdd (aProdCab[nPos], (cAliasQry)->B1_POSIPI)
+			aAdd (aProdCab[nPos], (cAliasQry)->CFD_PERCAL)
+			aAdd (aProdCab[nPos], (cAliasQry)->NUMLOTE)
+			aAdd (aProdCab[nPos], (cAliasQry)->LOTECTL)
+
+			While (cAliasQry)->(CFD_FILIAL+B1_COD+CFD_OP+CFD_FILOP) == cChave
+			
+				lProcessing	:=	.T.
+			
+				aAdd(aProdCab[nPos], {})
+				nPosIt	:=	Len(aProdCab[nPos])
+				aAdd (aProdCab[nPos][nPosIt], Alltrim( (cAliasQry)->MP_COD ) )
+				aAdd (aProdCab[nPos][nPosIt], Alltrim( (cAliasQry)->MP_DESC ) )
+				aAdd (aProdCab[nPos][nPosIt], Alltrim( Transform( (cAliasQry)->MP_QUANT , X3Picture("D3_QUANT") ) ) )
+				aAdd (aProdCab[nPos][nPosIt], Alltrim( Transform( (cAliasQry)->(MP_PRECO / MP_QUANT) , X3Picture("D3_CUSTO1") ) ) )
+				aAdd (aProdCab[nPos][nPosIt], Transform( (cAliasQry)->MP_NCM , "@R 99.99.9999" ) )
+			
+				(cAliasQry)->(DbSkip())
+			End
+		
+		Endif
+		
+		If lProcessing
+			Loop
+		Else
+			(cAliasQry)->(DbSkip())
+		Endif
+	End
+	
+	(cAliasQry)->(DBCloseArea())
+	
+	SM0->(dbSkip())
+End
+
+	
+// ----------------------------------------------
+// Valida se no período informado houve movimentacoes,
+// se nao houve, imprime pagina com a mensagem:
+// "NAO HOUVE MOVIMENTO"
+// ----------------------------------------------
+If Len( aProdCab ) <= 0	
+	
+	x061RepLay( .T. , @nPag , , , , dDataDe )
+	
+	oPrint:Say( 330,310,"Não existem Dados a serem exibidos.",oArial14N) //"Não existem Dados a serem exibidos."
+				
+	oPrint:EndPage() 
+	oPrint:Preview()
+	
+	Return
+Endif
+
+For nX := 1 To Len( aProdCab )
+	
+	// ----------------------------------------------
+	// Cria cabecalho e pagina
+	// ----------------------------------------------
+	x061RepLay( , @nPag , .T. , , aProdCab[nX] , dDataDe )
+	nLin := 150
+	
+	For nY := 11 To Len( aProdCab[nX] )
+		// ----------------------------------------------
+		// Impressao dos itens
+		// ----------------------------------------------
+		oPrint:SayAlign(nLin, 023 , aProdCab[nX][nY][1]	,oArial08,100,100,,0)
+		
+		oPrint:SayAlign(nLin, 123 ,	 aProdCab[nX][nY][2]	,oArial08,400,400,,0)
+		
+		oPrint:SayAlign(nLin, 553 ,	 aProdCab[nX][nY][3]	,oArial08,100,100,,0)
+		
+		oPrint:SayAlign(nLin, 618 ,	 aProdCab[nX][nY][4] 	,oArial08,100,100,,0)
+		
+		oPrint:SayAlign(nLin, 732 ,	 aProdCab[nX][nY][5]	,oArial08,100,100,,0)
+			
+		nLin += 10
+		
+		If nLin > 500 				
+			nLin := 150
+			x061RepLay( , @nPag , , , aProdCab[nX] , dDataDe )
+		EndIf
+		
+		If Interrupcao(@lAbortPrint)
+			Exit
+		Endif
+		
+	Next nY				 			      			
+				
+	/*If nLin > 500 				
+		nLin := 150
+		x061RepLay( , @nPag , , , aProdCab[nX] , dDataDe )
+	EndIf*/
+	
+	If Interrupcao(@lAbortPrint)
+		Exit
+	Endif
+			
+Next nX
+	
+// ----------------------------------------------
+// Finaliza Pagina e abre o Preview
+// ----------------------------------------------
+RestArea(aAreaSM0)
+cFilAnt := FWGETCODFILIAL
+oPrint:EndPage()         
+oPrint:Preview() 
+		                                                                                                                                                                   
+Return(.T.)  
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RepLay
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061RepLay( lNoReg, nPag, lCriaPag, lInicFeix , aProdCab , dDataDe )
+Default nPag		:=	1   
+Default lCriaPag	:=	.T.
+Default lInicFeix	:=	.F.
+Default	lNoReg		:=	.F.
+
+// ----------------------------------------------
+// Verifica se deve criar uma nova pagina
+// ----------------------------------------------
+If lCriaPag
+	
+	// ----------------------------------------------
+	// Inicializa a Pagina
+	// ----------------------------------------------
+	nLin := 210
+   	oPrint:StartPage()    	   	
+   	   	
+	// ----------------------------------------------
+	// Monto o Layout solicitado
+	// ----------------------------------------------
+   	x061RepStruc( lNoReg , aProdCab , dDataDe )
+		
+	// ----------------------------------------------
+	// Verifica se vai somar mais um na pagina ou vai utilizar a numeracao
+	// contida no parametro do relatorio
+	// ----------------------------------------------
+	If !lInicFeix
+	  	nPag += 1
+	Else
+		nPag := nPagIni
+	EndIf
+		
+	// ----------------------------------------------
+	// Realiza a impressao da numeracao da pagina
+	// ----------------------------------------------
+	oPrint:Say( 100,50,Transform(StrZero(nPag,6),"@R 999.999"),oArial08)
+Else	
+	// ----------------------------------------------
+	// Finaliza a Pagina Corrente
+	// ----------------------------------------------
+   	oPrint:EndPage()   
+EndIf
+
+Return 
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} x061RepStruc
+
+
+@author Luccas Curcio 
+@since 13/05/2013
+@version 11.0
+
+/*/
+
+//-------------------------------------------------------------------
+Static Function x061RepStruc( lNoReg , aProdCab , dDataDe )
+Local	cMes		:=	""
+Local	cCod		:=	Iif ( !lNoReg , Alltrim( aProdCab[2] ) , "" )
+Local	cDesc		:=	Iif ( !lNoReg , Alltrim( aProdCab[5] ) , "" )
+Local	cNcm		:=	Iif ( !lNoReg , Transform( aProdCab[7] , "@R 99.99.9999" ) , "" )
+Local	cCI			:=	Iif ( !lNoReg , Alltrim( Transform( aProdCab[6] , "@E 999.99" ) ) , "" )
+Local	cNumLote	:=	Iif ( !lNoReg .And. !Empty( aProdCab[9] ) , Alltrim( aProdCab[9] ) , "" )
+Local	cSubLote	:=	Iif ( !lNoReg .And. !Empty( aProdCab[10] ), Alltrim( aProdCab[10] ) , "" )
+Default	lNoReg	:=	.F.
+
+// ----------------------------------------------
+// Busca o nome do mes por extenso
+// ----------------------------------------------
+cMes := MesExtenso( SubStr( DToS( dDataDe ) , 5 , 2 ) )                                                         
+		
+oPrint:Box( 010 , 020 , 580 , 825 , "-2" )  
+	
+oPrint:Box( 010 , 020 , 040 , 825 , "-2" )  
+oPrint:Say( 030 , 021 , "FICHA DE CONTEUDO DE IMPORTACAO" ,	oArial08N )	//"FICHA DE CONTEUDO DE IMPORTACAO"
+
+oPrint:Box( 040 , 020 , 120,825,"-2")
+
+oPrint:Say( 055 , 021 , "Descrição do Produto:" , 			oArial08N )	//"Codigo do Produto"
+oPrint:Say( 055 , 100 , cDesc	,	oArial08 )
+
+oPrint:Say( 075 , 021 , "Codigo do Produto:" ,				oArial08N )	//"Descrição do Produto"
+oPrint:Say( 075 , 100 , cCod ,		oArial08 )
+
+oPrint:Say( 100 , 021 ,"Folha:",							oArial08N )//"FOLHA:"
+
+oPrint:Say( 055 , 341 , "Conteúdo de Importação: " ,		oArial08N )	//"Conteúdo de Importação: "
+oPrint:Say( 055 , 440 , cCI	,		oArial08 )
+        	                                            
+oPrint:Say( 075 , 341 , "N.C.M.:" ,							oArial08N )	//"N.C.M."
+oPrint:Say( 075 , 375 , cNcm ,		oArial08 )
+    
+oPrint:Say( 100 , 341 , "Período de Apuração:" ,			oArial08N ) //"Período"
+oPrint:Say( 100 , 430 , cMes+"/"+SubStr(DToS(dDataDe),1,4), oArial08 )
+
+If !Empty( cNumLote )
+	oPrint:Say( 055 , 661 , "Lote: " ,						oArial08N )	//"Lote: "
+	oPrint:Say( 055 , 750 , cNumLote ,	oArial08 )
+Endif
+
+If !Empty( cSubLote )        	                                            
+	oPrint:Say( 075 , 661 , "Sub-Lote: " ,					oArial08N )	//"Sub-Lote:"
+	oPrint:Say( 075 , 750 , cSubLote ,	oArial08 )
+Endif
+	                                            
+oPrint:Box( 120 , 020 , 140 , 825 , "-2" )
+oPrint:Box( 120 , 020 , 140 , 730 , "-2" )
+oPrint:Box( 120 , 020 , 140 , 615 , "-2" )
+oPrint:Box( 120 , 020 , 140 , 550 , "-2" )
+oPrint:Box( 120 , 020 , 140 , 120 , "-2" )
+
+oPrint:Say( 133 , 23,  "Codigo MP",			oArial08N)
+oPrint:Say( 133 , 123, "Descrição MP",		oArial08N)
+oPrint:Say( 133 , 553, "Quantidade",		oArial08N)
+oPrint:Say( 133 , 618, "Valor Unitário",	oArial08N)
+oPrint:Say( 133 , 733, "NCM",				oArial08N)
+
+If !lNoReg
+	oPrint:Box( 140 , 020 , 580 , 825 , "-2" )
+	oPrint:Box( 140 , 020 , 580 , 730 , "-2" )
+	oPrint:Box( 140 , 020 , 580 , 615 , "-2" )
+	oPrint:Box( 140 , 020 , 580 , 550 , "-2" )
+	oPrint:Box( 140 , 020 , 580 , 120 , "-2" )
+EndIf                               
+
+Return()
