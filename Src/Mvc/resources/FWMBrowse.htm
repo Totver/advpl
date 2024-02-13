@@ -1,0 +1,1000 @@
+<html><font size=3 face="Verdana"><style>A{COLOR: #5A6175; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none; font-weight: bold;}A:Hover{TEXT-DECORATION: underline; font-weight: bold;};table{color:#000; background-color:#fff; font-size:16px; font-family:Verdana; }</style></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4><b>TOTVS S/A</b> - ProtheusDOC<td bgcolor=#32394D align=right><font color=#ffffff size=2>Geração: 03/02/2012</table><hr></br>
+<font size=1>Programa: FWMBrowse.PRW</font><a name="FWMBrowse"></a></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Classe FWMBrowse</font></b></table></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Fornece um objeto do tipo grid, botões laterais e detalhes das colunas baseado no dicionário de dados&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Índice de Métodos</table><br>
+<a href="#FWMBrowse:Activate">FWMBrowse:Activate</a></br>
+&nbsp;&nbsp;&nbsp;Método de ativação da classe&nbsp;<br><br>
+<a href="#FWMBrowse:AfterExecute">FWMBrowse:AfterExecute</a></br>
+&nbsp;&nbsp;&nbsp;Atualiza o limite superior e inferior da tabela, restaura o arquivo de empresas e destrava o lock do registro&nbsp;<br><br>
+<a href="#FWMBrowse:BeforeExecute">FWMBrowse:BeforeExecute</a></br>
+&nbsp;&nbsp;&nbsp;Verifica as permissões de acesso do usuário, se o registro pode sofrer &nbsp;manutenções e pergunta a filial de inclusão para o registro&nbsp;<br><br>
+<a href="#FWMBrowse:BrwGetFil">FWMBrowse:BrwGetFil</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a descrição de uma filial&nbsp;<br><br>
+<a href="#FWMBrowse:ChangeTopBot">FWMBrowse:ChangeTopBot</a></br>
+&nbsp;&nbsp;&nbsp;Atualiza o limite superior e inferior da tabela para apresentação das informações no Browse.&nbsp;<br><br>
+<a href="#FWMBrowse:CheckPerm">FWMBrowse:CheckPerm</a></br>
+&nbsp;&nbsp;&nbsp;Avalia se o usuário tem permissão para utilizar a rotina&nbsp;<br><br>
+<a href="#FWMBrowse:ClassName">FWMBrowse:ClassName</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o nome da classe (FWMBROWSE)&nbsp;<br><br>
+<a href="#FWMBrowse:ColumnsFields">FWMBrowse:ColumnsFields</a></br>
+&nbsp;&nbsp;&nbsp;Adiciona as colunas que não foram configuradas para serem apresentadas por padrão no Browse, &nbsp;com base nas informações fornecidas através do método SetFields.&nbsp;<br><br>
+<a href="#FWMBrowse:DeActivate">FWMBrowse:DeActivate</a></br>
+&nbsp;&nbsp;&nbsp;Método de destruição da classe&nbsp;<br><br>
+<a href="#FWMBrowse:ExecuteMDef">FWMBrowse:ExecuteMDef</a></br>
+&nbsp;&nbsp;&nbsp;Executa a ação do clique no menu funcional&nbsp;<br><br>
+<a href="#FWMBrowse:GetCBox">FWMBrowse:GetCBox</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o conteúdo de um campo que possui opções de dados (X3_CBOX), de acordo com as informações atuais.&nbsp;<br><br>
+<a href="#FWMBrowse:GetSizeCBox">FWMBrowse:GetSizeCBox</a></br>
+&nbsp;&nbsp;&nbsp;Retorna a largura da coluna para o campo que possui opções de dados (X3_CBOX)&nbsp;<br><br>
+<a href="#FWMBrowse:GetTimer">FWMBrowse:GetTimer</a></br>
+&nbsp;&nbsp;&nbsp;Retorna o objeto TIMER&nbsp;<br><br>
+<a href="#FWMBrowse:LoadColumns">FWMBrowse:LoadColumns</a></br>
+&nbsp;&nbsp;&nbsp;Retorna as colunas padrão no Browse. &nbsp;Obs.: Para arquivo temporário serão considerados os campos definidos no método SetFields()&nbsp;<br><br>
+<a href="#FWMBrowse:LoadFils">FWMBrowse:LoadFils</a></br>
+&nbsp;&nbsp;&nbsp;Retorna as filiais disponíveis para o usuário&nbsp;<br><br>
+<a href="#FWMBrowse:New">FWMBrowse:New</a></br>
+&nbsp;&nbsp;&nbsp;Método construtor da classe&nbsp;<br><br>
+<a href="#FWMBrowse:Seek">FWMBrowse:Seek</a></br>
+&nbsp;&nbsp;&nbsp;Executa a pesquisa de dados na tabela&nbsp;<br><br>
+<a href="#FWMBrowse:SeekChange">FWMBrowse:SeekChange</a></br>
+&nbsp;&nbsp;&nbsp;Realiza tratamentos na mudança da ordem na pesquisa&nbsp;<br><br>
+<a href="#FWMBrowse:SetAmbiente">FWMBrowse:SetAmbiente</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetBotFun">FWMBrowse:SetBotFun</a></br>
+&nbsp;&nbsp;&nbsp;Indica o limite inferior das informações no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetChgAll">FWMBrowse:SetChgAll</a></br>
+&nbsp;&nbsp;&nbsp;Indica se o usuário tem permissão para alterar registros de outras filiais&nbsp;<br><br>
+<a href="#FWMBrowse:SetExecuteDef">FWMBrowse:SetExecuteDef</a></br>
+&nbsp;&nbsp;&nbsp;Indica a opção do Browse a ser executada no duplo clique no item&nbsp;<br><br>
+<a href="#FWMBrowse:SetFields">FWMBrowse:SetFields</a></br>
+&nbsp;&nbsp;&nbsp;Indica os campos que serão adicionados as colunas do Browse.&nbsp;Obs.: Para arquivo temporário, todos os campos informados serão utilizados como coluna e&nbsp;no caso de tabela de dados os campos informados serão adicionados as colunas padrão do Browse.&<br><br>
+<a href="#FWMBrowse:SetFilial">FWMBrowse:SetFilial</a></br>
+&nbsp;&nbsp;&nbsp;Indica as filiais que deverão ser consideradas na apresentação do Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetIniWindow">FWMBrowse:SetIniWindow</a></br>
+&nbsp;&nbsp;&nbsp;Indica o Code-Block executado na inicialização da janela do Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetOnlyFields">FWMBrowse:SetOnlyFields</a></br>
+&nbsp;&nbsp;&nbsp;Seta quais campos da tabelas serao apresentados no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetSeeAll">FWMBrowse:SetSeeAll</a></br>
+&nbsp;&nbsp;&nbsp;Indica se o usuário tem permissão para visualizar registros de outras filiais&nbsp;<br><br>
+<a href="#FWMBrowse:SetSeek">FWMBrowse:SetSeek</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da pesquisa de registros no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetTimer">FWMBrowse:SetTimer</a></br>
+&nbsp;&nbsp;&nbsp;Indica o tempo de atualização da janela do Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetTopFun">FWMBrowse:SetTopFun</a></br>
+&nbsp;&nbsp;&nbsp;Indica o limite superior das informações no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetUseCaseFilter">FWMBrowse:SetUseCaseFilter</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do filtro rapido no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetUseFilter">FWMBrowse:SetUseFilter</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização do filtro no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetWalkThru">FWMBrowse:SetWalkThru</a></br>
+&nbsp;&nbsp;&nbsp;Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;<br><br>
+<a href="#FWMBrowse:SetX3Tela">FWMBrowse:SetX3Tela</a></br>
+&nbsp;&nbsp;&nbsp;Permite adicionar uma regra para apresentação dos campos no Browse&nbsp;Obs.: O conteúdo da string deve conter o caracter "|" que permite separar os indentificadores utilizados na regra de validação.&nbsp;<br><br>
+
+<br><table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Métodos</table></br>
+<b><font size=4><a name="FWMBrowse:Activate"></a>FWMBrowse:Activate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de ativação da classe&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oOwner :<td><br>Tipo: OBJECT - <font color=blue>[Optional - Default: ::GetOwner()]</font><br>Objeto proprietário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:AfterExecute"></a>FWMBrowse:AfterExecute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atualiza o limite superior e inferior da tabela, restaura o arquivo de empresas e destrava o lock do registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFunction :<td><br>Tipo: CHARACTER<br>Nome da função definida para o botão
+<tr valign=top><td Width=20><td Width=100><br>nOption :<td><br>Tipo: NUMERIC<br>Tipo de operação (1=Visualizar,2=Visualizar,3=Incluir,4=Alterae,5=Excluir,6=Alterar sem inclusão de novas linhas,7=Cópia e 8=Impressão da regra de negócios)
+<tr valign=top><td Width=20><td Width=100><br>nVerify :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Posição a ser validada no acesso de usuário
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:BeforeExecute"></a>FWMBrowse:BeforeExecute</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Verifica as permissões de acesso do usuário, se o registro pode sofrer &nbsp;manutenções e pergunta a filial de inclusão para o registro&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFunction :<td><br>Tipo: CHARACTER<br>Nome da função definida para o botão
+<tr valign=top><td Width=20><td Width=100><br>nOption :<td><br>Tipo: NUMERIC<br>Tipo de operação (1=Visualizar,2=Visualizar,3=Incluir,4=Alterae,5=Excluir,6=Alterar sem inclusão de novas linhas,7=Cópia e 8=Impressão da regra de negócios)
+<tr valign=top><td Width=20><td Width=100><br>nVerify :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Posição a ser validada no acesso de usuário
+<tr valign=top><td Width=20><td Width=100><br>cTitle :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Título da janela
+<tr valign=top><td Width=20><td Width=100><br>nRealOpc :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: nOption]</font><br>Ordem selecionada do botão
+<tr valign=top><td Width=20><td Width=100><br>nRotina :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: nRealOpc]</font><br>Indica o item do aRotina que está sendo acessado
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:BrwGetFil"></a>FWMBrowse:BrwGetFil</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a descrição de uma filial&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFil :<td><br>Tipo: CHARACTER<br>Código da filial
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cLasFil :<td><br>Tipo: CHARACTER<br>Descrição da filial (Ex: 01 - Matriz)
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:ChangeTopBot"></a>FWMBrowse:ChangeTopBot</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Atualiza o limite superior e inferior da tabela para apresentação das informações no Browse.&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:CheckPerm"></a>FWMBrowse:CheckPerm</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Avalia se o usuário tem permissão para utilizar a rotina&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cFunction :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Nome da função definida para o botão
+<tr valign=top><td Width=20><td Width=100><br>nOption :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Tipo de operação (1=Visualizar,2=Visualizar,3=Incluir,4=Alterae,5=Excluir,6=Alterar sem inclusão de novas linhas,7=Cópia e 8=Impressão da regra de negócios)
+<tr valign=top><td Width=20><td Width=100><br>nVerify :<td><br>Tipo: NUMERIC - <font color=blue>[Optional - Default: 0]</font><br>Posição a ser validada no acesso de usuário
+<tr valign=top><td Width=20><td Width=100><br>lShowHelp :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Mostra para o usuário o help de sem permisao caso nao tenha
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:ClassName"></a>FWMBrowse:ClassName</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o nome da classe (FWMBROWSE)&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cClassName :<td><br>Tipo: CHARACTER<br>Nome da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:ColumnsFields"></a>FWMBrowse:ColumnsFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Adiciona as colunas que não foram configuradas para serem apresentadas por padrão no Browse, &nbsp;com base nas informações fornecidas através do método SetFields.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aColumns :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n][01] Título da coluna
+<tr><td Width=20><td Width=20><td>[n][02] Code-Block de carga dos dados
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n][04] Máscara
+<tr><td Width=20><td Width=20><td>[n][05] Alinhamento (0=Centralizado, 1=Esquerda ou 2=Direita)
+<tr><td Width=20><td Width=20><td>[n][06] Tamanho
+<tr><td Width=20><td Width=20><td>[n][07] Decimal
+<tr><td Width=20><td Width=20><td>[n][08] Indica se permite a edição
+<tr><td Width=20><td Width=20><td>[n][09] Code-Block de validação da coluna após a edição
+<tr><td Width=20><td Width=20><td>[n][10] Indica se exibe imagem
+<tr><td Width=20><td Width=20><td>[n][11] Code-Block de execução do duplo clique
+<tr><td Width=20><td Width=20><td>[n][12] Variável a ser utilizada na edição (ReadVar)
+<tr><td Width=20><td Width=20><td>[n][13] Code-Block de execução do clique no header
+<tr><td Width=20><td Width=20><td>[n][14] Indica se a coluna está deletada
+<tr><td Width=20><td Width=20><td>[n][15] Indica se a coluna será exibida nos detalhes do Browse
+<tr><td Width=20><td Width=20><td>[n][16] Opções de carga dos dados (Ex: 1=Sim, 2=Não)
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:DeActivate"></a>FWMBrowse:DeActivate</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método de destruição da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:ExecuteMDef"></a>FWMBrowse:ExecuteMDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa a ação do clique no menu funcional&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:GetCBox"></a>FWMBrowse:GetCBox</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o conteúdo de um campo que possui opções de dados (X3_CBOX), de acordo com as informações atuais.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nPosSx3 :<td><br>Tipo: NUMERIC<br>Posição do campo no array de dicionário de dados
+<tr valign=top><td Width=20><td Width=100><br>cCampo :<td><br>Tipo: CHARACTER<br>Campo que contém as opções
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cConteud :<td><br>Tipo: CHARACTER<br>Conteúdo do campo que possui opções de dados
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:GetSizeCBox"></a>FWMBrowse:GetSizeCBox</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna a largura da coluna para o campo que possui opções de dados (X3_CBOX)&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nPosSx3 :<td><br>Tipo: NUMERIC<br>Posição do campo no array de dicionário de dados
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nSize :<td><br>Tipo: NUMERIC<br>Largura da coluna para campo que possui opções de dados
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:GetTimer"></a>FWMBrowse:GetTimer</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna o objeto TIMER&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>25/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oTimer :<td><br>Tipo: OBJECT<br>Objeto TIMER
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:LoadColumns"></a>FWMBrowse:LoadColumns</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna as colunas padrão no Browse. &nbsp;Obs.: Para arquivo temporário serão considerados os campos definidos no método SetFields()&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cProfFields :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Strind contendo os campos da MBrowse antiga
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aColumns :<td><br>Tipo: ARRAY<br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n][01] Título da coluna
+<tr><td Width=20><td Width=20><td>[n][02] Code-Block de carga dos dados
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n][04] Máscara
+<tr><td Width=20><td Width=20><td>[n][05] Alinhamento (0=Centralizado, 1=Esquerda ou 2=Direita)
+<tr><td Width=20><td Width=20><td>[n][06] Tamanho
+<tr><td Width=20><td Width=20><td>[n][07] Decimal
+<tr><td Width=20><td Width=20><td>[n][08] Indica se permite a edição
+<tr><td Width=20><td Width=20><td>[n][09] Code-Block de validação da coluna após a edição
+<tr><td Width=20><td Width=20><td>[n][10] Indica se exibe imagem
+<tr><td Width=20><td Width=20><td>[n][11] Code-Block de execução do duplo clique
+<tr><td Width=20><td Width=20><td>[n][12] Variável a ser utilizada na edição (ReadVar)
+<tr><td Width=20><td Width=20><td>[n][13] Code-Block de execução do clique no header
+<tr><td Width=20><td Width=20><td>[n][14] Indica se a coluna está deletada
+<tr><td Width=20><td Width=20><td>[n][15] Indica se a coluna será exibida nos detalhes do Browse
+<tr><td Width=20><td Width=20><td>[n][16] Opções de carga dos dados (Ex: 1=Sim, 2=Não)
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:LoadFils"></a>FWMBrowse:LoadFils</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Retorna as filiais disponíveis para o usuário&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER<br>Alias da tabela a ser avaliada
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFilial :<td><br>Tipo: ARRAY<br>Filiais disponíveis para o usuário
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:New"></a>FWMBrowse:New</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Método construtor da classe&nbsp;
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSelf :<td><br>Tipo: OBJECT<br>Objeto da classe
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:Seek"></a>FWMBrowse:Seek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Executa a pesquisa de dados na tabela&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oSeek :<td><br>Tipo: OBJECT<br>Objeto FWSEEK
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table>
+<b>Retorno:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nLine :<td><br>Tipo: NUMERIC<br>Indica o registro que foi localizado a informação
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SeekChange"></a>FWMBrowse:SeekChange</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Realiza tratamentos na mudança da ordem na pesquisa&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oComboSeek :<td><br>Tipo: OBJECT - <font color=blue>[Optional]</font><br>Objeto TComboBox com a lista de opções de pesquisa
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetAmbiente"></a>FWMBrowse:SetAmbiente</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lAmbiente :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que será disponibilizado a opção Ambiente
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Rodrigo Antonio
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>18/05/2010
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetBotFun"></a>FWMBrowse:SetBotFun</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o limite inferior das informações no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cBotFun :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Limite inferior. Ex.: "02"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetChgAll"></a>FWMBrowse:SetChgAll</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se o usuário tem permissão para alterar registros de outras filiais&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lChgAll :<td><br>Tipo: LOGICAL - <font color=blue>[Optional]</font><br>Indica que o usuário tem permissão para alterar registros de outras filiais
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetExecuteDef"></a>FWMBrowse:SetExecuteDef</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica a opção do Browse a ser executada no duplo clique no item&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>nExecuteDef :<td><br>Tipo: NUMERIC - <font color=blue>[Optional]</font><br>Indica a opção do Browse a ser executada no duplo clique no item
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetFields"></a>FWMBrowse:SetFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica os campos que serão adicionados as colunas do Browse.&nbsp;Obs.: Para arquivo temporário, todos os campos informados serão utilizados como coluna e&nbsp;no caso de tabela de dados os campos informados serão adicionados as colunas padrão do Browse.&
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Estrutura do array
+<tr><td Width=20><td Width=20><td>TABELA DE DADOS
+<tr><td Width=20><td Width=20><td>[n][01] Título da coluna
+<tr><td Width=20><td Width=20><td>[n][02] Code-Block de carga dos dados
+<tr><td Width=20><td Width=20><td>[n][03] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n][04] Máscara
+<tr><td Width=20><td Width=20><td>[n][05] Alinhamento (0=Centralizado, 1=Esquerda ou 2=Direita)
+<tr><td Width=20><td Width=20><td>[n][06] Tamanho
+<tr><td Width=20><td Width=20><td>[n][07] Decimal
+<tr><td Width=20><td Width=20><td>[n][08] Indica se permite a edição
+<tr><td Width=20><td Width=20><td>[n][09] Code-Block de validação da coluna após a edição
+<tr><td Width=20><td Width=20><td>[n][10] Indica se exibe imagem
+<tr><td Width=20><td Width=20><td>[n][11] Code-Block de execução do duplo clique
+<tr><td Width=20><td Width=20><td>[n][12] Variável a ser utilizada na edição (ReadVar)
+<tr><td Width=20><td Width=20><td>[n][13] Code-Block de execução do clique no header
+<tr><td Width=20><td Width=20><td>[n][14] Indica se a coluna está deletada
+<tr><td Width=20><td Width=20><td>[n][15] Indica se a coluna será exibida nos detalhes do Browse
+<tr><td Width=20><td Width=20><td>[n][16] Opções de carga dos dados (Ex: 1=Sim, 2=Não)
+<tr><td Width=20><td Width=20><td>TABELA TEMPORÁRIA
+<tr><td Width=20><td Width=20><td>[n][01] Descrição do campo
+<tr><td Width=20><td Width=20><td>[n][02] Nome do campo
+<tr><td Width=20><td Width=20><td>[n][03] Tipo
+<tr><td Width=20><td Width=20><td>[n][04] Tamanho
+<tr><td Width=20><td Width=20><td>[n][05] Decimal
+<tr><td Width=20><td Width=20><td>[n][06] Picture
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetFilial"></a>FWMBrowse:SetFilial</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica as filiais que deverão ser consideradas na apresentação do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFils :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n]Filial
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetIniWindow"></a>FWMBrowse:SetIniWindow</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o Code-Block executado na inicialização da janela do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bIniWindow :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>Code-Block executado na inicialização da janela do Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetOnlyFields"></a>FWMBrowse:SetOnlyFields</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Seta quais campos da tabelas serao apresentados no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>aFields :<td><br>Tipo: ARRAY<br>Array com os nomes dos campos a serem apresentados
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Ernani Forastieri
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>18/10/2010
+<tr><td Width=20><td Width=20><td>
+</table>
+<b>Exemplo:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oBrowse&nbsp;:=&nbsp;FWMBrowse():New()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oBrowse:SetAlias('SA1')
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oBrowse:SetOnlyFields(&nbsp;{&nbsp;'A1_COD',&nbsp;'A1_LOJA',&nbsp;'A1_NOME'&nbsp;}&nbsp;)
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i>oBrowse:Activate()
+<tr><td Width=20><td><td><font face="courier new" color=navy size=2><i><br>
+</table>
+<b>Observação:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>
+<tr><td Width=20><td Width=20><td>Os campos que constam no array têm que estar configurados para exibição no Browse (X3_BROWSE=="S")
+<tr><td Width=20><td Width=20><td>
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetSeeAll"></a>FWMBrowse:SetSeeAll</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica se o usuário tem permissão para visualizar registros de outras filiais&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSeeAll :<td><br>Tipo: LOGICAL - <font color=blue>[Optional]</font><br>Indica que o usuário tem permissão para visualizar registros de outras filiais
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetSeek"></a>FWMBrowse:SetSeek</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da pesquisa de registros no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lSeek :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que será disponibiliza a opçãoo de pesquisa no Browse
+<tr valign=top><td Width=20><td Width=100><br>aSeek :<td><br>Tipo: ARRAY - <font color=blue>[Optional - Default: {}]</font><br>Estrutura do array
+<tr><td Width=20><td Width=20><td>[n,1] Título da pesquisa
+<tr><td Width=20><td Width=20><td>[n,2,1] LookUp
+<tr><td Width=20><td Width=20><td>[n,2,2] Tipo de dados
+<tr><td Width=20><td Width=20><td>[n,2,3] Tamanho
+<tr><td Width=20><td Width=20><td>[n,2,4] Decimal
+<tr><td Width=20><td Width=20><td>[n,2,5] Título do campo
+<tr><td Width=20><td Width=20><td>[n,2,6] Máscara
+<tr><td Width=20><td Width=20><td>[n,3] Ordem da pesquisa
+<tr><td Width=20><td Width=20><td>[n,4] Exibe na pesquisa
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetTimer"></a>FWMBrowse:SetTimer</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o tempo de atualização da janela do Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>bTimerAction :<td><br>Tipo: BLOCK - <font color=blue>[Optional]</font><br>Code-Block executado na atualização da janela do Browse
+<tr valign=top><td Width=20><td Width=100><br>nInterval :<td><br>Tipo: NUMERIC - <font color=blue>[Optional]</font><br>Intervalo de atualização da janela
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetTopFun"></a>FWMBrowse:SetTopFun</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Indica o limite superior das informações no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTopFun :<td><br>Tipo: CHARACTER - <font color=blue>[Optional]</font><br>Limite superior. Ex.: "01"
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetUseCaseFilter"></a>FWMBrowse:SetUseCaseFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do filtro rapido no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lFilter :<td><br>Tipo: LOGICAL<br>Indica que será disponibiliza a opção de filtro no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetUseFilter"></a>FWMBrowse:SetUseFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização do filtro no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lFilter :<td><br>Tipo: LOGICAL<br>Indica que será disponibiliza a opção de filtro no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetWalkThru"></a>FWMBrowse:SetWalkThru</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Habilita a utilização da funcionalidade Walk-Thru no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>lWalkThru :<td><br>Tipo: LOGICAL - <font color=blue>[Optional - Default: .T.]</font><br>Indica que será disponibilizado a opção Walk-Thru
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4><a name="FWMBrowse:SetX3Tela"></a>FWMBrowse:SetX3Tela</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Permite adicionar uma regra para apresentação dos campos no Browse&nbsp;Obs.: O conteúdo da string deve conter o caracter "|" que permite separar os indentificadores utilizados na regra de validação.&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cTela :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: ""]</font><br>Indica a regra para apresentação dos campos no Browse
+</table>
+<b>Autor:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 border-top=1 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td Width=20><td>17/03/2009
+</table></br><hr></br>
+<table width=100% border=0 cellpadding=1 cellspacing=0><td bgcolor=#32394D><font color=#ffffff size=4>Funções</font></b></table></br>
+<b><font size=4>Function FWStartFilter</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Atualiza os campos que serão disponibilizado para a seleção do filtro no Browse&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>cAlias :<td><br>Tipo: CHARACTER - <font color=blue>[Optional - Default: oBrowse:Alias()]</font><br>Alias da tabela de referencia
+<tr><td Width=20><td><td>
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4>Function MBrFilialCfg</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permite a seleção das filiais apresentadas no Browse, através da opção "Configurar".&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oPanel :<td><br>Tipo: OBJECT<br> Objeto container para apresentação das opções
+<tr valign=top><td Width=20><td Width=100><br>oBrowse :<td><br>Tipo: OBJECT<br>Objeto Browse
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4>Function MBrSaveFilCfg</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Permite salvar a configuração das filiais apresentadas no Browse, através da opção "Configurar".&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>oBrowse :<td><br>Tipo: OBJECT<br>Objeto Browse
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
+<b><font size=4>Function _FWMBPictVar</font></b></br></br>
+<b>Descrição:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Retorna o conteúdo da máscara dinâmica&nbsp;
+</table>
+<b>Parâmetros:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td Width=20><td Width=100><br>xRet :<td><br>Tipo: VARIANT<br>Máscara
+</table>
+<b>Autor:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>Eduardo Souza
+</table>
+<b>Release:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>10.1.1.4
+<tr><td Width=20><td><td>@protect
+</table>
+<b>Data:</b>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td Width=20><td><td>17/03/2009
+</table></br><hr></br>
